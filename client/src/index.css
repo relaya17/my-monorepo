@@ -781,3 +781,58 @@ a:hover {
     margin-bottom: var(--spacing-sm);
   }
 }
+
+/* ===== Mobile Fixes - Force Background and Navbar ===== */
+@media (max-width: 900px) {
+  body, body::before {
+    background-image: url('/images/background.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+    min-height: 100vh !important;
+    opacity: 1 !important;
+    display: block !important;
+    visibility: visible !important;
+  }
+  
+  .navbar, .navbar-responsive, #navigation {
+    display: flex !important;
+    z-index: 1001 !important;
+    position: fixed !important;
+    width: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: #f9fafb !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+    min-height: 60px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  .navbar-toggler, [aria-controls="basic-navbar-nav"] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 1002 !important;
+  }
+  
+  .navbar-brand {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  .navbar .container, .navbar-responsive .container, #navigation .container {
+    display: flex !important;
+    width: 100% !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-direction: row !important;
+    padding: 0 1rem !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
