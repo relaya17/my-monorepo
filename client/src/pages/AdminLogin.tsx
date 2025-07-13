@@ -53,7 +53,7 @@ const AdminLogin: React.FC = () => {
         <div className="card-body p-5" style={{ direction: 'rtl', textAlign: 'right' }}>
           <div className="text-center mb-4">
             <i className="fas fa-user-shield fa-3x mb-3" style={{ color: '#6b7280' }}></i>
-            <h2 className="card-title" style={{ color: '#fff' }}>
+            <h2 className="card-title" style={{ color: '#2c3e50' }}>
               כניסת מנהל
             </h2>
             <p className="text-muted">הזן פרטי התחברות</p>

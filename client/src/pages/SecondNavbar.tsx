@@ -64,10 +64,12 @@ const NavigationBar: React.FC = () => {
         boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
         backgroundColor: '#f9fafb',
         borderBottom: '1px solid #e5e7eb',
-        minHeight: '60px'
+        minHeight: '60px',
+        display: 'flex',
+        width: '100%'
       }}
     >
-      <Container fluid className="px-3">
+      <Container fluid className="px-3" style={{ display: 'flex', width: '100%', alignItems: 'center' }}>
         <Navbar.Brand href="/" className="fw-bold d-flex align-items-center">
           <i className="fas fa-building me-2" aria-hidden="true" style={{ color: '#6b7280' }}></i>
           <span 
@@ -87,8 +89,13 @@ const NavigationBar: React.FC = () => {
         <Navbar.Toggle 
           aria-controls="basic-navbar-nav" 
           aria-label="פרוס תפריט ניווט"
-          className="border-0"
-          style={{ border: 'none', padding: '0.25rem 0.5rem' }}
+          className="border-0 navbar-toggler"
+          style={{ 
+            border: 'none', 
+            padding: '0.25rem 0.5rem',
+            display: 'block',
+            background: 'transparent'
+          }}
         />
         
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between">
@@ -232,9 +239,51 @@ const NavigationBar: React.FC = () => {
       
       {/* CSS מותאם אישית לנגישות ורספונסיביות */}
       <style>{`
+        /* הבטחת תצוגת הנאבבר בכל המסכים */
+        .navbar-responsive {
+          display: flex !important;
+          width: 100% !important;
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          z-index: 1000 !important;
+          background-color: #f9fafb !important;
+        }
+        
+        .navbar-responsive .container {
+          display: flex !important;
+          width: 100% !important;
+          align-items: center !important;
+          justify-content: space-between !important;
+        }
+        
         @media (max-width: 768px) {
           .navbar-responsive {
             padding: 0.5rem 0;
+            display: flex !important;
+            flex-direction: row;
+          }
+          
+          .navbar-responsive .container {
+            flex-direction: row !important;
+            justify-content: space-between !important;
+          }
+          
+          .navbar-responsive .navbar-collapse {
+            display: none !important;
+          }
+          
+          .navbar-responsive .navbar-collapse.show {
+            display: block !important;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
           }
           
           .brand-text {
@@ -272,6 +321,14 @@ const NavigationBar: React.FC = () => {
         @media (max-width: 576px) {
           .navbar-responsive {
             padding: 0.25rem 0;
+            display: flex !important;
+            flex-direction: row;
+          }
+          
+          .navbar-responsive .container {
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            padding: 0 0.5rem;
           }
           
           .brand-text {
@@ -284,6 +341,26 @@ const NavigationBar: React.FC = () => {
           
           .nav-link {
             padding: 0.5rem 0.75rem !important;
+          }
+          
+          /* הבטחת תצוגת כפתור ההמבורגר */
+          .navbar-toggler {
+            display: block !important;
+            border: none !important;
+            padding: 0.25rem 0.5rem !important;
+            background-color: transparent !important;
+            margin-right: auto;
+          }
+          
+          .navbar-toggler:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+          }
+          
+          /* הבטחת תצוגת הברנד */
+          .navbar-brand {
+            margin-right: 0 !important;
+            margin-left: auto !important;
           }
         }
         

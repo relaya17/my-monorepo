@@ -89,6 +89,11 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-image: url('/images/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.6;
@@ -191,6 +196,47 @@ h1 {
   background-color: var(--info-color);
   border-color: var(--info-color);
   color: white;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+  display: flex !important;
+  width: 100% !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1000 !important;
+}
+
+.navbar-toggler {
+  display: block !important;
+  border: none !important;
+  padding: 0.25rem 0.5rem !important;
+  background-color: transparent !important;
+}
+
+.navbar-toggler:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .navbar .navbar-collapse {
+    display: none !important;
+  }
+  
+  .navbar .navbar-collapse.show {
+    display: block !important;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+  }
 }
 
 /* ===== Cards ===== */
