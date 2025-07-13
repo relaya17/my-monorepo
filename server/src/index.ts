@@ -22,6 +22,10 @@ if (!fs.existsSync(uploadsDir)) {
 // שרת קבצים סטטי
 app.use('/uploads', express.static(uploadsDir));
 
+// שרת קבצים סטטי ל-React app
+const clientPath = path.join(__dirname, '../../client/dist');
+app.use(express.static(clientPath));
+
 // לאפשר בקשות מ-CORS
 app.use(cors({
     origin: ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176', 'http://localhost:5177'],
@@ -38,6 +42,11 @@ app.get('/', (req: any, res: any) => {
 
 // API routes
 app.use('/api', routes);
+
+// Fallback route - serve React app for all other routes
+app.get('*', (req, res) => {
+    res.sendFile(path.join(clientPath, 'index.html'));
+});
 
 console.log('Starting server...');
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/payments_db')

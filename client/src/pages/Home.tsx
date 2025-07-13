@@ -7,7 +7,7 @@ const Home: React.FC = () => {
     <div
       className="container-fluid d-flex flex-column justify-content-center align-items-center"
       style={{
-        backgroundImage: 'url("/images/background.png")',
+        backgroundImage: 'url("/images/bg.png")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
