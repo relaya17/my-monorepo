@@ -87,6 +87,32 @@
   box-sizing: border-box;
 }
 
+/* Force background image loading */
+body {
+  background-image: url('/images/background.png') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  min-height: 100vh !important;
+}
+
+/* Ensure image is loaded */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+  opacity: 0.8;
+}
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-image: url('/images/background.png') !important;
@@ -102,6 +128,17 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
+  position: relative;
+}
+
+/* Global background fallback */
+html {
+  background-image: url('/images/background.png') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  min-height: 100vh;
 }
 
 /* Fallback background */
@@ -794,6 +831,42 @@ a:hover {
     opacity: 1 !important;
     display: block !important;
     visibility: visible !important;
+    position: relative !important;
+  }
+  
+  /* Fallback background for mobile */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -2;
+    opacity: 0.8;
+  }
+  
+  /* Additional mobile background fixes */
+  #root {
+    background-image: url('/images/background.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+    min-height: 100vh !important;
+  }
+  
+  .App {
+    background-image: url('/images/background.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+    min-height: 100vh !important;
   }
   
   .navbar, .navbar-responsive, #navigation {
