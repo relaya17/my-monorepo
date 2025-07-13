@@ -1,0 +1,172 @@
+{
+  "name": "my-monorepo-app",
+  "version": "2.0.0",
+  "description": "פרויקט ניהול דיירים ותשלומים מתקדם עם אבטחה וניטור",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"pnpm run dev-server\" \"pnpm run dev-client\"",
+    "dev-client": "cd client && pnpm run dev",
+    "dev-server": "cd server && pnpm run dev",
+    "build": "pnpm run build-server && pnpm run build-client",
+    "build-client": "cd client && pnpm run build",
+    "build-server": "cd server && pnpm run build",
+    "start": "pnpm run start-server & pnpm run start-client",
+    "start-client": "cd client && pnpm run preview",
+    "start-server": "cd server && pnpm start",
+    "clean": "pnpm run clean-client && pnpm run clean-server",
+    "clean-client": "cd client && rm -rf dist node_modules",
+    "clean-server": "cd server && rm -rf dist node_modules",
+    "clean:all": "pnpm run clean && rm -rf pnpm-lock.yaml",
+    "install:all": "pnpm install && cd client && pnpm install && cd ../server && pnpm install",
+    "test": "pnpm run test-client && pnpm run test-server",
+    "test-client": "cd client && pnpm test",
+    "test-server": "cd server && pnpm test",
+    "lint": "pnpm run lint-client && pnpm run lint-server",
+    "lint-client": "cd client && pnpm run lint",
+    "lint-server": "cd server && pnpm run lint",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "security:audit": "pnpm audit && cd client && pnpm audit && cd ../server && pnpm audit",
+    "security:fix": "pnpm audit --fix && cd client && pnpm audit --fix && cd ../server && pnpm audit --fix",
+    "health:check": "curl http://localhost:3008/api/health",
+    "performance:test": "artillery run performance-tests.yml",
+    "backup:create": "node scripts/backup.js create",
+    "backup:restore": "node scripts/backup.js restore",
+    "backup:list": "node scripts/backup.js list",
+    "backup:cleanup": "node scripts/backup.js cleanup",
+    "monitor:start": "node scripts/monitor.js start",
+    "monitor:check": "node scripts/monitor.js check",
+    "monitor:stats": "node scripts/monitor.js stats",
+    "monitor:logs": "node scripts/monitor.js logs",
+    "logs:view": "tail -f logs/monitoring.log",
+    "logs:clear": "rm -rf logs/*.log",
+    "docs:generate": "typedoc --out docs src/**/*.ts",
+    "docs:serve": "npx http-server docs -p 8080",
+    "automation:full": "node scripts/automation.js full",
+    "automation:quick": "node scripts/automation.js quick",
+    "automation:install": "node scripts/automation.js install",
+    "automation:test": "node scripts/automation.js test",
+    "automation:build": "node scripts/automation.js build",
+    "automation:backup": "node scripts/automation.js backup",
+    "automation:health": "node scripts/automation.js health",
+    "automation:docker": "node scripts/automation.js docker",
+    "automation:cleanup": "node scripts/automation.js cleanup",
+    "automation:status": "node scripts/automation.js status",
+    "automation:all": "pnpm run lint && pnpm run test && pnpm run build && pnpm run backup:create",
+    "automation:deploy": "pnpm run automation:all && echo 'Ready for deployment'"
+  },
+  "keywords": [
+    "react",
+    "nodejs",
+    "typescript",
+    "mongodb",
+    "express",
+    "payment-system",
+    "property-management",
+    "security",
+    "monitoring",
+    "docker",
+    "hebrew",
+    "rtl"
+  ],
+  "author": "AI Assistant",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "concurrently": "^8.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.0",
+    "typedoc": "^0.25.0",
+    "artillery": "^2.0.0",
+    "http-server": "^14.0.0",
+    "@types/express": "^4.17.17",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/jsonwebtoken": "^9.0.0",
+    "@types/cors": "^2.8.13",
+    "@types/helmet": "^4.0.0",
+    "@types/multer": "^1.4.7",
+    "@types/compression": "^1.7.2",
+    "@types/morgan": "^1.9.4",
+    "@types/uuid": "^9.0.0",
+    "@types/lodash": "^4.14.195",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "nodemon": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/my-monorepo-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/my-monorepo-app/issues"
+  },
+  "homepage": "https://github.com/your-username/my-monorepo-app#readme",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "config": {
+    "port": {
+      "client": 5174,
+      "server": 3008
+    },
+    "database": {
+      "name": "payments_db",
+      "collections": [
+        "users",
+        "payments",
+        "admins",
+        "receipts",
+        "logs"
+      ]
+    },
+    "security": {
+      "rateLimit": {
+        "windowMs": 900000,
+        "maxRequests": 100,
+        "loginMaxAttempts": 5
+      },
+      "jwt": {
+        "expiresIn": "24h",
+        "refreshExpiresIn": "7d"
+      }
+    },
+    "monitoring": {
+      "enabled": true,
+      "logLevel": "info",
+      "performanceThreshold": 1000,
+      "memoryThreshold": 500
+    }
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "mongoose": "^8.0.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.0",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "express-rate-limit": "^7.0.0",
+    "multer": "^2.0.1",
+    "cloudinary": "^1.40.0",
+    "pdf-lib": "^1.17.1",
+    "dotenv": "^16.0.0",
+    "compression": "^1.7.4",
+    "morgan": "^1.10.0",
+    "winston": "^3.10.0",
+    "express-validator": "^7.0.0",
+    "crypto": "^1.0.1",
+    "uuid": "^9.0.0",
+    "moment": "^2.29.4",
+    "lodash": "^4.17.21"
+  }
+}
