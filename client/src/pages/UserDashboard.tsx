@@ -33,7 +33,7 @@ const UserDashboard: React.FC = () => {
   };
 
   return (
-    <div className="container-fluid p-4" style={{ backgroundColor: '#f8f9fa', minHeight: '100vh', direction: 'rtl' }}>
+    <div className="container-fluid p-4" style={{ backgroundColor: '#f8f9fa', direction: 'rtl' }}>
       <NavigationBar />
       <div className="row">
         <div className="col-12 d-flex justify-content-between align-items-center mb-5">

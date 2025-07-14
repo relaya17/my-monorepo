@@ -88,7 +88,7 @@ const NewResidentApproval: React.FC = () => {
   const validateId = (id: string) => /^[0-9]{9}$/.test(id);
 
   return (
-    <div className="container mt-5" style={{ paddingTop: '80px', backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
+    <div className="container mt-5" style={{ paddingTop: '80px', backgroundColor: '#f8f9fa' }}>
       <div className="row justify-content-center">
         <div className="col-md-8">
           <div className="card" style={{ backgroundColor: 'white', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>

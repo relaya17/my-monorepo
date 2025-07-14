@@ -223,8 +223,7 @@ const CommunityWall: React.FC = () => {
 
   return (
     <div className="community-wall-container" style={{ 
-      minHeight: '100vh', 
-              background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)',
+      background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)',
       paddingTop: '80px',
       direction: 'rtl'
     }}>

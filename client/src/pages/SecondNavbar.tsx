@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +14,7 @@ interface NavItem {
 const NavigationBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const activeMenu = useSelector((state: RootState) => state.secondNavbar.activeMenu);
+  const [expanded, setExpanded] = useState(false);
   
   // בדיקה אם המשתמש מחובר
   const isLoggedIn = localStorage.getItem('userToken') || localStorage.getItem('adminToken');
@@ -55,6 +56,7 @@ const NavigationBar: React.FC = () => {
       dir="rtl"
       id="navigation"
       className="navbar-responsive"
+      expanded={expanded}
       style={{ 
         position: 'fixed', 
         top: 0, 
@@ -96,6 +98,7 @@ const NavigationBar: React.FC = () => {
             display: 'block',
             background: 'transparent'
           }}
+          onClick={() => setExpanded(!expanded)}
         />
         
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between">
@@ -105,6 +108,7 @@ const NavigationBar: React.FC = () => {
               className="nav-link d-flex align-items-center" 
               aria-label="דף הבית" 
               style={{ color: '#6b7280', padding: '0.5rem 1rem' }}
+              onClick={() => setExpanded(false)}
             >
               <i className="fas fa-home me-1" aria-hidden="true"></i>
               <span className="nav-text">דף הבית</span>
@@ -130,6 +134,7 @@ const NavigationBar: React.FC = () => {
                     className="dropdown-item d-block w-100" 
                     aria-label={item.label}
                     style={{ padding: '0.5rem 1rem', textDecoration: 'none' }}
+                    onClick={() => setExpanded(false)}
                   >
                     {item.label}
                   </NavLink>
@@ -157,6 +162,7 @@ const NavigationBar: React.FC = () => {
                     className="dropdown-item d-block w-100" 
                     aria-label={item.label}
                     style={{ padding: '0.5rem 1rem', textDecoration: 'none' }}
+                    onClick={() => setExpanded(false)}
                   >
                     {item.label}
                   </NavLink>
@@ -184,6 +190,7 @@ const NavigationBar: React.FC = () => {
                     className="dropdown-item d-block w-100" 
                     aria-label={item.label}
                     style={{ padding: '0.5rem 1rem', textDecoration: 'none' }}
+                    onClick={() => setExpanded(false)}
                   >
                     {item.label}
                   </NavLink>
@@ -196,6 +203,7 @@ const NavigationBar: React.FC = () => {
               className="nav-link d-flex align-items-center" 
               aria-label="לוח מודעות" 
               style={{ color: '#6b7280', padding: '0.5rem 1rem' }}
+              onClick={() => setExpanded(false)}
             >
               <i className="fas fa-clipboard me-1" aria-hidden="true"></i>
               <span className="nav-text">לוח מודעות</span>
@@ -206,6 +214,7 @@ const NavigationBar: React.FC = () => {
               className="nav-link d-flex align-items-center" 
               aria-label="הצבעות דיירים" 
               style={{ color: '#6b7280', padding: '0.5rem 1rem' }}
+              onClick={() => setExpanded(false)}
             >
               <i className="fas fa-vote-yea me-1" aria-hidden="true"></i>
               <span className="nav-text">הצבעות דיירים</span>
@@ -216,6 +225,7 @@ const NavigationBar: React.FC = () => {
               className="nav-link d-flex align-items-center" 
               aria-label="הגדרות מנהל" 
               style={{ color: '#6b7280', padding: '0.5rem 1rem' }}
+              onClick={() => setExpanded(false)}
             >
               <i className="fas fa-cog me-1" aria-hidden="true"></i>
               <span className="nav-text">הגדרות מנהל</span>
@@ -259,31 +269,18 @@ const NavigationBar: React.FC = () => {
         }
         
         @media (max-width: 768px) {
-          .navbar-responsive {
-            padding: 0.5rem 0;
-            display: flex !important;
-            flex-direction: row;
-          }
-          
-          .navbar-responsive .container {
-            flex-direction: row !important;
-            justify-content: space-between !important;
-          }
-          
-          .navbar-responsive .navbar-collapse {
-            display: none !important;
-          }
-          
+          .navbar-responsive .navbar-collapse,
           .navbar-responsive .navbar-collapse.show {
-            display: block !important;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background-color: #f9fafb;
-            border-top: 1px solid #e5e7eb;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 1001;
+            max-height: 80vh !important;
+            overflow-y: auto !important;
+            min-height: unset !important;
+            height: auto !important;
+            position: absolute !important;
+            top: 100% !important;
+            left: 0 !important;
+            right: 0 !important;
+            background: #f9fafb !important;
+            z-index: 1001 !important;
           }
           
           .brand-text {

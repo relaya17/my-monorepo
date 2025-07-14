@@ -97,7 +97,6 @@ const ReceiptPage: React.FC = () => {
   return (
     <div className="container-fluid d-flex justify-content-center align-items-center" 
          style={{ 
-           minHeight: '100vh', 
            background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)',
            direction: 'rtl'
          }}>

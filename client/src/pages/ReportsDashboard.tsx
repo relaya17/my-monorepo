@@ -102,7 +102,7 @@ const ReportsDashboard: React.FC = () => {
   };
 
   return (
-    <div style={{ paddingTop: '80px', minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
+    <div style={{ paddingTop: '80px', backgroundColor: '#f8f9fa' }}>
       <NavigationBar />
       <Container fluid className="mt-4 px-3">
         <Row>
