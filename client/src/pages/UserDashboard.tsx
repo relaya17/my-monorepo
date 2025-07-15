@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ROUTES from '../routs/routes';
-import NavigationBar from './SecondNavbar';
+// import NavigationBar from './SecondNavbar';
 
 const UserDashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const UserDashboard: React.FC = () => {
 
   return (
     <div className="container-fluid p-4" style={{ backgroundColor: '#f8f9fa', direction: 'rtl' }}>
-      <NavigationBar />
+      {/* <NavigationBar /> הוסר */}
       <div className="row">
         <div className="col-12 d-flex justify-content-between align-items-center mb-5">
           <div></div>

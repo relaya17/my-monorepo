@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ROUTES from '../routs/routes';
-import NavigationBar from './SecondNavbar';
+// import NavigationBar from './SecondNavbar';
 import AINotifications from '../components/AINotifications';
 
 const AdminDashboard: React.FC = () => {
@@ -31,7 +31,7 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <div className="admin-dashboard" style={{ backgroundColor: '#f8f9fa', minHeight: '100vh', direction: 'rtl', paddingTop: '80px' }}>
-      <NavigationBar />
+      {/* <NavigationBar /> הוסר */}
       <div className="container-fluid p-3 p-md-4">
         <div className="row">
           <div className="col-12 d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 mb-md-5">

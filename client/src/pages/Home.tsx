@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ROUTES from '../routs/routes';
+import './Home.css';
 
 const Home: React.FC = () => {
   return (

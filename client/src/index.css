@@ -99,7 +99,6 @@ body {
   padding: 0;
   position: relative;
   width: 100%;
-  overflow-x: hidden;
 }
 
 body::before {
@@ -109,14 +108,16 @@ body::before {
 html {
   background-color: var(--bg-primary);
   min-height: 100vh;
-  scroll-behavior: smooth;
   width: 100%;
-  overflow-x: hidden;
+}
+
+html, body, #root, .App {
+  overscroll-behavior: none;
+  scroll-behavior: auto !important;
 }
 
 html, body {
   width: 100%;
-  overflow-x: hidden;
 }
 
 .navbar, .navbar-responsive, .navbar .container, .navbar-responsive .container, .home-bg, .home-overlay {
@@ -142,7 +143,7 @@ body::before {
 }
 
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; הוסר כדי למנוע קפיצות */
 }
 
 #root {
@@ -159,7 +160,7 @@ html {
 
 main {
   flex: 1;
-  padding-top: 80px;
+  padding-top: 0;
 }
 
 /* ===== Typography ===== */
@@ -242,11 +243,8 @@ h1 {
 .navbar, .navbar-responsive {
   display: flex;
   width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
+  position: static;
+  z-index: 1;
   background-color: #374151;
   border-bottom: 2px solid #1f2937;
   min-height: 60px;
@@ -838,11 +836,11 @@ body, html, .home-bg {
 }
 @media (max-width: 768px) {
   .home-content { max-width: 600px; }
-  .home-bg { padding-top: 90px; }
+  .home-bg { padding-top: 0 !important; }
 }
 @media (max-width: 576px) {
   .home-content { max-width: 98vw; }
-  .home-bg { padding-top: 90px; }
+  .home-bg { padding-top: 0 !important; }
 }
 
 .home-title {
@@ -871,7 +869,7 @@ body, html, .home-bg {
     text-shadow: 0 1px 4px #fff;
   }
   .home-btn { font-size: 1.1rem; padding: 12px 16px; }
-  .home-bg { padding-top: 90px; background-attachment: scroll !important; }
+  .home-bg { padding-top: 0 !important; background-attachment: scroll !important; }
   .home-bg > .d-flex { margin-top: 24px; }
 }
 @media (max-width: 576px) {
@@ -884,6 +882,6 @@ body, html, .home-bg {
     text-shadow: 0 1px 4px #fff;
   }
   .home-btn { font-size: 1rem; padding: 10px 10px; }
-  .home-bg { padding-top: 90px; background-attachment: scroll !important; }
+  .home-bg { padding-top: 0 !important; background-attachment: scroll !important; }
   .home-bg > .d-flex { margin-top: 16px; }
 }

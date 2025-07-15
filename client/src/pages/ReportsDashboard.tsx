@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container, Row, Col, Card, Table } from 'react-bootstrap';
-import NavigationBar from './SecondNavbar';
 import { Bar, Pie } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -103,7 +102,6 @@ const ReportsDashboard: React.FC = () => {
 
   return (
     <div style={{ paddingTop: '80px', backgroundColor: '#f8f9fa' }}>
-      <NavigationBar />
       <Container fluid className="mt-4 px-3">
         <Row>
           <Col>

@@ -24,14 +24,14 @@ const initialState: ForRentState = {
       address: "רחוב דוגמה 1, תל אביב",
       price: 5000,
       description: "דירה 2 חדרים, קרובה לחוף הים",
-      image: "apartment1.jpg",
+      image: "aparment.png",
     },
     {
       id: 2,
       address: "רחוב דוגמה 2, ירושלים",
       price: 7000,
       description: "דירה 3 חדרים, מרכז העיר",
-      image: "apartment2.jpg",
+      image: "aparment.png",
     },
     // הוספת דירות נוספות כאן...
   ],

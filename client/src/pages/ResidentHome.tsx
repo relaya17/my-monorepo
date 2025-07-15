@@ -1,6 +1,7 @@
 import React from 'react';
 import NavigationBar from './SecondNavbar';
 import { useNavigate } from "react-router-dom";
+import Footer from '../components/Footer';
 
 const ResidentHome: React.FC = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const ResidentHome: React.FC = () => {
         דלג לפעולות מהירות
       </a>
       
-      <NavigationBar />
+      {/* <NavigationBar /> הוסר */}
       
       <div className="container py-4" id="main-content">
         {/* כותרת ראשית */}
@@ -279,6 +280,7 @@ const ResidentHome: React.FC = () => {
           </p>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

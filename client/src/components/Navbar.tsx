@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark fixed-top" style={{ backgroundColor: '#374151', borderBottom: '2px solid #1f2937', boxShadow: '0 2px 10px rgba(0,0,0,0.3)' }}>
+    <nav className="navbar navbar-expand-lg navbar-dark" style={{ background: 'rgba(55,65,81,0.7)', borderBottom: '2px solid #1f2937', boxShadow: '0 2px 10px rgba(0,0,0,0.3)' }}>
       <div className="container">
         <Link className="navbar-brand" to="/" onClick={handleCloseNavbar} style={{ color: '#ffffff' }}>
           <i className="fas fa-building me-2" style={{ color: '#ffffff' }}></i>
