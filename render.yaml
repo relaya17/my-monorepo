@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: client
+    env: node
+    buildCommand: pnpm install && pnpm run build
+    startCommand: pnpm run preview
+    repo: https://github.com/relaya17/my-monorepo
+    branch: main
+    rootDir: client
+    buildFilter:
+      paths:
+        - client/**
+
+  - type: web
+    name: api
+    env: node
+    buildCommand: pnpm install
+    startCommand: pnpm run start
+    repo: https://github.com/relaya17/my-monorepo
+    branch: main
+    rootDir: server
+    buildFilter:
+      paths:
+        - server/**
