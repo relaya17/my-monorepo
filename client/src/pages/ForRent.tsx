@@ -39,32 +39,32 @@ const ForRent: React.FC = () => {
 
   return (
     <div className="forrent-container">
-  <h1 className="page-title">Apartments for Rent</h1>
-  <div className="page-subtitle">כל הדירות להשכרה במצפה נוף</div>
-  
-  <div className="cards-grid">
-    {apartments.map((apartment) => (
-      <Card className="apartment-card" key={apartment.id}>
-        <Card.Body>
-          <Card.Title>{apartment.address}</Card.Title>
-          <Card.Text>
-            {apartment.description}
-            <br />
-            <strong>{apartment.price.toLocaleString()} ש"ח</strong>
-          </Card.Text>
-          <Button variant="primary" className="details-btn">
-            צפה בפרטים
-          </Button>
-        </Card.Body>
-      </Card>
-    ))}
-  </div>
-
-  <footer className="page-footer">
-    כל הדירות להשכרה במצפה נוף
-  </footer>
-</div>
-
+      <h1 className="page-title">Apartments for Rent</h1>
+      <div className="page-subtitle">כל הדירות להשכרה במצפה נוף</div>
+      <div className="cards-grid">
+        {apartments.map((apartment) => (
+          <Card className="apartment-card" key={apartment.id}>
+            <Card.Img
+              variant="top"
+              src={apartment.image && apartment.image.trim() !== "" ? apartment.image : process.env.PUBLIC_URL + "/images/image.png"}
+              alt="תמונה של הדירה"
+              className="image-img"
+            />
+            <Card.Body>
+              <Card.Title>{apartment.address}</Card.Title>
+              <Card.Text>
+                {apartment.description}
+                <br />
+                <strong>{apartment.price.toLocaleString()} ש"ח</strong>
+              </Card.Text>
+              <Button variant="primary" className="details-btn">
+                צפה בפרטים
+              </Button>
+            </Card.Body>
+          </Card>
+        ))}
+      </div>
+    </div>
   );
 };
 

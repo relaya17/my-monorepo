@@ -24,16 +24,15 @@ const initialState: ForRentState = {
       address: "רחוב דוגמה 1, תל אביב",
       price: 5000,
       description: "דירה 2 חדרים, קרובה לחוף הים",
-      image: "aparment.png",
+      image: "apartment.png", // תיקון שם הקובץ
     },
     {
       id: 2,
       address: "רחוב דוגמה 2, ירושלים",
       price: 7000,
       description: "דירה 3 חדרים, מרכז העיר",
-      image: "aparment.png",
+      image: "apartment.png", // תיקון שם הקובץ
     },
-    // הוספת דירות נוספות כאן...
   ],
   loading: false,
   error: null,
@@ -84,6 +83,10 @@ const forRentSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    resetState: (state) => {
+      state.loading = false;
+      state.error = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -114,5 +117,11 @@ const forRentSlice = createSlice({
   },
 });
 
-export const { addApartment, removeApartment, clearError } = forRentSlice.actions;
+export const {
+  addApartment,
+  removeApartment,
+  clearError,
+  resetState
+} = forRentSlice.actions;
+
 export default forRentSlice.reducer;

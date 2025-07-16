@@ -1,6 +1,7 @@
 .forsale-container {
   text-align: center;
   padding: 2rem;
+  background: none;
 }
 
 .cards-grid {
@@ -12,13 +13,50 @@
 }
 
 .apartment-card {
-  width: 300px;
-  border-radius: 1rem;
-  overflow: hidden;
+  border: 1.5px solid #1976d2;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+  margin: 1rem;
+  background: #fff;
+  transition: box-shadow 0.2s;
+}
+.apartment-card:hover {
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.18);
 }
 
-.apartment-card img {
-  height: 200px;
-  object-fit: cover;
+.apartment-card img, .apartment-img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+  border-radius: 10px;
+  max-width: 90%;
+  max-height: 180px;
+  object-fit: contain;
+  background: #f7f7f7;
   width: 100%;
+}
+
+.apartment-card .card-title {
+  color: #222;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  background: none;
+}
+
+.details-btn {
+  background-color: #1976d2 !important;
+  border: none !important;
+  color: #fff !important;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  transition: background 0.2s;
+}
+.details-btn:hover {
+  background-color: #125ea2 !important;
 }
