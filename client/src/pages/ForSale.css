@@ -1,0 +1,24 @@
+.forsale-container {
+  text-align: center;
+  padding: 2rem;
+}
+
+.cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.apartment-card {
+  width: 300px;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.apartment-card img {
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
+}

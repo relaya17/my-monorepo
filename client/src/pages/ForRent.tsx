@@ -38,27 +38,33 @@ const ForRent: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>דירות להשכרה</h1>
-      <div className="d-flex flex-wrap">
-        {apartments.map((apartment) => (
-          <Card style={{ width: "18rem", margin: "1rem" }} key={apartment.id}>
-            <Card.Img variant="top" src={apartment.image} />
-            <Card.Body>
-              <Card.Title>{apartment.address}</Card.Title>
-              <Card.Text>
-                {apartment.description}
-                <br />
-                <strong>{apartment.price.toLocaleString()} ש"ח</strong>
-              </Card.Text>
-              <Button variant="danger" onClick={() => handleRemove(apartment.id)}>
-                הסר דירה
-              </Button>
-            </Card.Body>
-          </Card>
-        ))}
-      </div>
-    </div>
+    <div className="forrent-container">
+  <h1 className="page-title">Apartments for Rent</h1>
+  <div className="page-subtitle">כל הדירות להשכרה במצפה נוף</div>
+  
+  <div className="cards-grid">
+    {apartments.map((apartment) => (
+      <Card className="apartment-card" key={apartment.id}>
+        <Card.Body>
+          <Card.Title>{apartment.address}</Card.Title>
+          <Card.Text>
+            {apartment.description}
+            <br />
+            <strong>{apartment.price.toLocaleString()} ש"ח</strong>
+          </Card.Text>
+          <Button variant="primary" className="details-btn">
+            צפה בפרטים
+          </Button>
+        </Card.Body>
+      </Card>
+    ))}
+  </div>
+
+  <footer className="page-footer">
+    כל הדירות להשכרה במצפה נוף
+  </footer>
+</div>
+
   );
 };
 

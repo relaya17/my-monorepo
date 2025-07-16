@@ -3,7 +3,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-image: url('../../public/images/aparment.png'); /* ודא שהתמונה קיימת */
+  background-image: url('/images/aparment.png'); /* ודא שהתמונה קיימת */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -40,6 +40,26 @@
   color: #333;
 }
 
+.page-header {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+  letter-spacing: 0.5px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.page-subtitle {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #444;
+  margin-bottom: 1.5rem;
+  font-family: 'Heebo', 'Arial', sans-serif;
+}
+
 /* קבוצה של כפתורים */
 .button-group {
   display: flex;
@@ -67,4 +87,153 @@
 /* פוטר תמיד למטה */
 footer {
   margin-top: auto;
+}
+
+/* עיצוב כללי לכרטיסים בדפי דירות להשכרה/מכירה */
+.apartment-card {
+  border: 1.5px solid #1976d2;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+  margin: 1rem;
+  transition: box-shadow 0.2s;
+}
+.apartment-card:hover {
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.18);
+}
+
+.cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin: 2rem 0 1.5rem 0;
+  color: #1976d2;
+  letter-spacing: 1px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.details-btn {
+  background-color: #1976d2 !important;
+  border: none !important;
+  color: #fff !important;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  transition: background 0.2s;
+}
+.details-btn:hover {
+  background-color: #125ea2 !important;
+}
+
+.forrent-container, .forsale-container {
+  background-image: none;
+  background-size: initial;
+  background-position: initial;
+  min-height: 100vh;
+  padding-bottom: 2rem;
+}
+
+.page-footer {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #222;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.5px;
+  font-family: 'Heebo', 'Arial', sans-serif;
+}
+
+.apartment-card .card-img-top {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+  border-radius: 10px;
+  max-width: 90%;
+  max-height: 180px;
+  object-fit: contain;
+  background: #f7f7f7;
+}
+
+.apartment-card .card-title {
+  /* הסרתי רקע תמונה */
+  color: #222;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  background: none;
+}
+.apartment-card .card-title::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  border-radius: 8px;
+  z-index: 0;
+}
+.apartment-card .card-title span, .apartment-card .card-title {
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.apartment-img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+  border-radius: 10px;
+  max-width: 90%;
+  max-height: 180px;
+  object-fit: contain;
+  background: #f7f7f7;
+}
+
+@media (max-width: 700px) {
+  .cards-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .apartment-card {
+    width: 95% !important;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+  }
+  .apartment-card .card-img-top {
+    max-height: 100px;
+    margin-top: 0.5rem;
+  }
+  .apartment-card .card-title {
+    font-size: 1rem;
+  }
+  .apartment-card .card-text {
+    font-size: 0.95rem;
+  }
+  .details-btn {
+    font-size: 0.95rem;
+    padding: 0.4rem 0.8rem;
+  }
+  .page-title {
+    font-size: 1.6rem;
+  }
+  .page-header {
+    font-size: 1.1rem;
+  }
+  .apartment-img {
+    max-height: 100px;
+    margin-top: 0.5rem;
+  }
 }

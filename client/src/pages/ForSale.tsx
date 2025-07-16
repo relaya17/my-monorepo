@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../redux/store";
 import { removeApartment, fetchApartments } from "../redux/slice/forSaleSlice";
 import { Card, Button } from "react-bootstrap";
+import "./ForSale.css"; // לוודא שהקובץ קיים
 
 const ForSale: React.FC = () => {
   const { apartments, loading, error } = useSelector((state: RootState) => state.forSale);
@@ -38,12 +39,18 @@ const ForSale: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>דירות למכירה</h1>
-      <div className="d-flex flex-wrap">
+    <div className="forsale-container">
+      <h1 className="page-title">Apartments for Sale</h1>
+      <div className="page-subtitle">כל הדירות למכירה במצפה נוף</div>
+      <div className="cards-grid">
         {apartments.map((apartment) => (
-          <Card style={{ width: "18rem", margin: "1rem" }} key={apartment.id}>
-            <Card.Img variant="top" src={apartment.image} />
+          <Card className="apartment-card" key={apartment.id}>
+            <Card.Img
+              variant="top"
+              src={apartment.image && apartment.image.trim() !== "" ? apartment.image : process.env.PUBLIC_URL + "/images/image.png"}
+              alt="תמונה של הדירה"
+              className="apartment-img"
+            />
             <Card.Body>
               <Card.Title>{apartment.address}</Card.Title>
               <Card.Text>
@@ -51,8 +58,8 @@ const ForSale: React.FC = () => {
                 <br />
                 <strong>{apartment.price.toLocaleString()} ש"ח</strong>
               </Card.Text>
-              <Button variant="danger" onClick={() => handleRemove(apartment.id)}>
-                הסר דירה
+              <Button variant="primary" className="details-btn">
+                צפה בפרטים
               </Button>
             </Card.Body>
           </Card>
