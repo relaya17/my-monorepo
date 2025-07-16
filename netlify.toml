@@ -1,5 +1,4 @@
 [build]
-base = "my-monorepo-app"
 command = "pnpm install && pnpm --filter ./client... run build"
 publish = "my-monorepo-app/client/dist"
 
