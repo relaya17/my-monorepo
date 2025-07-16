@@ -63,7 +63,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/payments_db
     })
     .catch(err => console.error('MongoDB connection error:', err));
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Server is running on http://0.0.0.0:${port}`);
     console.log('Server started successfully!');
 });
