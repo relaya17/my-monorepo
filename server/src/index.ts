@@ -9,7 +9,7 @@ import Admin from './models/adminModel';
 import bcrypt from 'bcryptjs';
 
 const app = express();
-const port = 3008;
+const port = Number(process.env.PORT) || 3008;
 app.use(cors());
 
 dotenv.config();
