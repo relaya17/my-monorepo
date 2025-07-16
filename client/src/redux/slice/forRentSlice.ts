@@ -43,7 +43,7 @@ const initialState: ForRentState = {
 export const fetchRentApartments = createAsyncThunk(
   'forRent/fetchRentApartments',
   async () => {
-    const response = await fetch('http://localhost:3008/api/apartments/for-rent');
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/apartments/for-rent`);
     if (!response.ok) {
       throw new Error('Failed to fetch apartments for rent');
     }
@@ -55,7 +55,7 @@ export const fetchRentApartments = createAsyncThunk(
 export const addRentApartmentAsync = createAsyncThunk(
   'forRent/addRentApartmentAsync',
   async (apartment: Omit<Apartment, 'id'>) => {
-    const response = await fetch('http://localhost:3008/api/apartments/for-rent', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/apartments/for-rent`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

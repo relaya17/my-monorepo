@@ -48,7 +48,7 @@ const AINotifications: React.FC = () => {
   const fetchNotifications = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:3008/api/ai-notifications/smart-notifications');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/ai-notifications/smart-notifications`);
       if (response.ok) {
         const data = await response.json();
         setNotifications(data.notifications || []);
@@ -62,7 +62,7 @@ const AINotifications: React.FC = () => {
 
   const fetchAlerts = async () => {
     try {
-      const response = await fetch('http://localhost:3008/api/ai-notifications/realtime-alerts');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/ai-notifications/realtime-alerts`);
       if (response.ok) {
         const data = await response.json();
         setAlerts(data.alerts || []);

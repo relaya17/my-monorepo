@@ -14,7 +14,7 @@ const AdminLogin: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3008/api/admin/login', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

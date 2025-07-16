@@ -43,7 +43,7 @@ const initialState: ForSaleState = {
 export const fetchApartments = createAsyncThunk(
   'forSale/fetchApartments',
   async () => {
-    const response = await fetch('http://localhost:3008/api/apartments/for-sale');
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/apartments/for-sale`);
     if (!response.ok) {
       throw new Error('Failed to fetch apartments');
     }
@@ -55,7 +55,7 @@ export const fetchApartments = createAsyncThunk(
 export const addApartmentAsync = createAsyncThunk(
   'forSale/addApartmentAsync',
   async (apartment: Omit<Apartment, 'id'>) => {
-    const response = await fetch('http://localhost:3008/api/apartments/for-sale', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/apartments/for-sale`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

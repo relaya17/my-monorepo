@@ -37,7 +37,7 @@ export const fetchQuestions = createAsyncThunk<Question[]>(
 export const vote = createAsyncThunk(
   'voting/vote',
   async ({ questionId, optionIndex }: { questionId: string; optionIndex: number }) => {
-    await axios.post('http://localhost:3008/api/vote', { questionId, optionIndex });
+    await axios.post(`${import.meta.env.VITE_API_URL}/vote`, { questionId, optionIndex });
   }
 );
 

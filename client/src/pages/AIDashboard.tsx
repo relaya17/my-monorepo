@@ -48,9 +48,9 @@ const AIDashboard: React.FC = () => {
       setLoading(true);
       
       const [financialRes, behaviorRes, recommendationsRes] = await Promise.all([
-        fetch('http://localhost:3008/api/ai-analytics/financial-analysis'),
-        fetch('http://localhost:3008/api/ai-analytics/user-behavior-analysis'),
-        fetch('http://localhost:3008/api/ai-analytics/ai-recommendations')
+        fetch(`${import.meta.env.VITE_API_URL}/ai-analytics/financial-analysis`),
+        fetch(`${import.meta.env.VITE_API_URL}/ai-analytics/user-behavior-analysis`),
+        fetch(`${import.meta.env.VITE_API_URL}/ai-analytics/ai-recommendations`)
       ]);
 
       if (financialRes.ok) {

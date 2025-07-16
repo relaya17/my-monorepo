@@ -17,6 +17,9 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
 }
 
 /* תוכן בתוך הרקע המטושטש */
@@ -30,6 +33,9 @@
   max-width: 600px;
   width: 100%;
   box-shadow: none;
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
 }
 
 /* כותרת ראשית */

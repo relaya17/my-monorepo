@@ -31,7 +31,7 @@ const ReceiptPage: React.FC = () => {
     
     setIsDownloading(true);
     try {
-      const response = await fetch('http://localhost:3008/api/payments/generate-receipt', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/payments/generate-receipt`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

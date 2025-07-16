@@ -11,7 +11,7 @@ const ApiTest = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    axios.get('http://localhost:3008/api/some-endpoint')
+    axios.get(`${import.meta.env.VITE_API_URL}/some-endpoint`)
       .then(response => {
         setData(response.data);
         setError(null);

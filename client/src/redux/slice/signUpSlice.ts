@@ -17,7 +17,7 @@ export const signUpUser = createAsyncThunk(
   'signUp/signUpUser',
   async (formData: { name: string; email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await fetch('http://localhost:3008/api/signup', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

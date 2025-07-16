@@ -21,7 +21,7 @@ const UserLogin: React.FC = () => {
     try {
       const requestBody = JSON.stringify({ email: cleanEmail, password: cleanPassword });
       
-      const response = await fetch('http://localhost:3008/api/login', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

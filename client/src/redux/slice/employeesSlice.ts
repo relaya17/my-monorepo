@@ -24,7 +24,7 @@ const initialState: EmployeesState = {
 export const fetchEmployees = createAsyncThunk(
   'employees/fetchEmployees',
   async () => {
-    const response = await fetch('http://localhost:3008/api/employees');
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/employees`);
     if (!response.ok) {
       throw new Error('Failed to fetch employees');
     }
@@ -36,7 +36,7 @@ export const fetchEmployees = createAsyncThunk(
 export const addEmployeeAsync = createAsyncThunk(
   'employees/addEmployeeAsync',
   async (employee: Omit<Employee, 'id'>) => {
-    const response = await fetch('http://localhost:3008/api/employees', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/employees`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

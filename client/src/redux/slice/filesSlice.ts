@@ -27,7 +27,7 @@ const initialState: FilesState = {
 export const fetchFiles = createAsyncThunk(
   'files/fetchFiles',
   async () => {
-    const response = await fetch('http://localhost:3008/api/files');
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/files`);
     if (!response.ok) {
       throw new Error('Failed to fetch files');
     }
@@ -42,7 +42,7 @@ export const uploadFile = createAsyncThunk(
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch('http://localhost:3008/api/files/upload', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/files/upload`, {
       method: 'POST',
       body: formData,
     });

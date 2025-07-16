@@ -1,7 +1,6 @@
 [build]
-command = "pnpm install && pnpm --filter ./client... run build"
-publish = "client/dist"
-
+command = "cd client && pnpm install && pnpm run build"
+publish = "dist"  # ← שים לב לשינוי כאן
 
 [[redirects]]
   from = "/images/*"

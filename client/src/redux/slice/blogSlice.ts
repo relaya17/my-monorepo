@@ -31,7 +31,7 @@ const initialState: BlogState = {
 export const fetchPosts = createAsyncThunk(
   'blog/fetchPosts',
   async () => {
-    const response = await fetch('http://localhost:3008/api/blog/posts');
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/blog/posts`);
     if (!response.ok) {
       throw new Error('Failed to fetch posts');
     }
@@ -43,7 +43,7 @@ export const fetchPosts = createAsyncThunk(
 export const addPostAsync = createAsyncThunk(
   'blog/addPostAsync',
   async (post: { content: string; author: string }) => {
-    const response = await fetch('http://localhost:3008/api/blog/posts', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/blog/posts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
