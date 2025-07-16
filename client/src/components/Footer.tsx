@@ -5,7 +5,7 @@ const Footer: React.FC = () => {
   console.log('Footer rendered');
   return (
     <footer className="bg-dark text-light py-4">
-      <div style={{fontSize: '2rem', color: 'red', textAlign: 'center'}}>אני פוטר</div>
+      {/* <div style={{fontSize: '2rem', color: 'red', textAlign: 'center'}}>אני פוטר</div> */}
       <div className="container-fluid text-center">
         <div className="mb-2">
           <Link to="/" className="text-light me-3">דף הבית</Link>

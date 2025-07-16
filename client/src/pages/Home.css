@@ -1,23 +1,70 @@
-.home-bg {
-  background-image: url('/images/aparment.png');
+/* רקע מלא על כל הדף */
+.home-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image: url('../../public/images/aparment.png'); /* ודא שהתמונה קיימת */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  overflow-x: hidden; /* מונע סרגל צדדי */
+}
+
+/* שכבת טשטוש שמכסה את כל הרקע */
+.home-overlay {
+  flex: 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.home-content {
-  background: rgba(255, 255, 255, 0.85);
   padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
 }
 
+/* תוכן בתוך הרקע המטושטש */
+.home-content {
+  /* ביטול רקע לבן/שקוף וטשטוש */
+  background: none;
+  backdrop-filter: none;
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: none;
+}
+
+/* כותרת ראשית */
 .home-title {
-  color: #222;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
   font-weight: bold;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.08);
-} 
+  color: #333;
+}
+
+/* קבוצה של כפתורים */
+.button-group {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* כפתורים */
+.home-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 0.6rem;
+  transition: background-color 0.3s ease;
+  font-weight: 500;
+  min-width: 160px;
+}
+
+.home-btn:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+/* פוטר תמיד למטה */
+footer {
+  margin-top: auto;
+}
