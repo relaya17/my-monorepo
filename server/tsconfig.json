@@ -11,26 +11,14 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "declaration": false,
-    "declarationMap": false,
-    "sourceMap": false,
-    "removeComments": false,
-    "noImplicitAny": false,
-    "noImplicitReturns": false,
-    "noFallthroughCasesInSwitch": false,
     "moduleResolution": "node",
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["*"],
-      "@/types/*": ["types/*"],
       "@/controllers/*": ["controllers/*"],
       "@/models/*": ["models/*"],
-      "@/routes/*": ["routes/*"],
-      "@/middleware/*": ["middleware/*"],
-      "@/utils/*": ["utils/*"]
+      "@/routes/*": ["routes/*"]
     }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
-  

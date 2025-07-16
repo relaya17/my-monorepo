@@ -16,14 +16,14 @@ let apartmentsForSale: Apartment[] = [
         address: 'רחוב דוגמה 1, תל אביב',
         price: 1500000,
         description: 'דירה 3 חדרים, קרובה למרכז העיר',
-        image: 'apartment1.jpg',
+        image: 'aparment.png',
     },
     {
         id: 2,
         address: 'רחוב דוגמה 2, ירושלים',
         price: 2000000,
         description: 'דירה 4 חדרים, עם נוף לים',
-        image: 'apartment2.jpg',
+        image: 'aparment.png',
     },
 ];
 
@@ -33,14 +33,14 @@ let apartmentsForRent: Apartment[] = [
         address: 'רחוב דוגמה 1, תל אביב',
         price: 5000,
         description: 'דירה 2 חדרים, קרובה לחוף הים',
-        image: 'apartment1.jpg',
+        image: 'aparment.png',
     },
     {
         id: 2,
         address: 'רחוב דוגמה 2, ירושלים',
         price: 7000,
         description: 'דירה 3 חדרים, מרכז העיר',
-        image: 'apartment2.jpg',
+        image: 'aparment.png',
     },
 ];
 

@@ -10,6 +10,7 @@ import bcrypt from 'bcryptjs';
 
 const app = express();
 const port = 3008;
+app.use(cors());
 
 dotenv.config();
 
