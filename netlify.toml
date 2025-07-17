@@ -2,7 +2,7 @@
 command = "pnpm install && pnpm run build"
 publish = "client/dist"
 
-[plugins]
+[[plugins]]
   package = "@netlify/plugin-pnpm"
 
 [[redirects]]
