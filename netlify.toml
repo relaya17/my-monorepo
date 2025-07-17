@@ -2,8 +2,6 @@
 command = "pnpm install && pnpm run build"
 publish = "client/dist"
 
-[[plugins]]
-  package = "@netlify/plugin-pnpm"
 
 [[redirects]]
   from = "/images/*"
