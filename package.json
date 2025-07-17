@@ -10,7 +10,7 @@
         "install:all": "pnpm install --recursive",
         "dev": "pnpm -r run dev",
         "build": "pnpm -r run build",
-        "start": "pnpm -r run start",
+        "start": "pnpm --filter server run start",
         "lint": "pnpm -r run lint",
         "format": "pnpm -r run format",
         "type-check": "pnpm -r run type-check",
