@@ -678,10 +678,7 @@ a:hover {
     --shadow-medium: rgba(0, 0, 0, 0.4);
     --shadow-dark: rgba(0, 0, 0, 0.5);
   }
-  /* .card {
-  background-image: none !important;
-  background-color: var(--bg-card) !important;
-} */
+ 
 
 .card img {
   width: 100%;
