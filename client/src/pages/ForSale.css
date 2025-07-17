@@ -17,7 +17,7 @@
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
   margin: 1rem;
-  background: #fff;
+  background: url('../assets/apartment2.png') center/cover no-repeat;
   transition: box-shadow 0.2s;
 }
 .apartment-card:hover {

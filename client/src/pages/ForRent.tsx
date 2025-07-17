@@ -1,5 +1,5 @@
 // src/pages/ForRent.tsx
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../redux/store";
 import { removeApartment, fetchRentApartments } from "../redux/slice/forRentSlice";
@@ -9,6 +9,7 @@ import "./ForRent.css";
 const ForRent: React.FC = () => {
   const { apartments, loading, error } = useSelector((state: RootState) => state.forRent);
   const dispatch = useDispatch<AppDispatch>();
+  const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   useEffect(() => {
     dispatch(fetchRentApartments());
@@ -43,29 +44,50 @@ const ForRent: React.FC = () => {
       <h1 className="page-title">Apartments for Rent</h1>
       <div className="page-subtitle">כל הדירות להשכרה במצפה נוף</div>
       <div className="cards-grid">
-        {apartments.map((apartment) => (
-          <Card className="apartment-card" key={apartment.id}>
-            {apartment.image && apartment.image.trim() !== "" ? (
-              <Card.Img
-                variant="top"
-                src={apartment.image}
-                alt="תמונה של הדירה"
-                className="apartment-img"
-              />
-            ) : null}
-            <Card.Body>
-              <Card.Title>{apartment.address}</Card.Title>
-              <Card.Text>
-                {apartment.description}
-                <br />
-                <strong>{apartment.price.toLocaleString()} ש"ח</strong>
-              </Card.Text>
-              <Button variant="primary" className="details-btn">
+        {apartments.map((apartment) => {
+          const hasImage = apartment.image && apartment.image.trim() !== "";
+          return (
+            <div
+              className={`apartment-card${hoveredId === apartment.id ? ' flipped' : ''}`}
+              key={apartment.id}
+              onMouseEnter={() => setHoveredId(apartment.id)}
+              onMouseLeave={() => setHoveredId(null)}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
+            >
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <div className="apartment-card-inner">
+                  <div className="apartment-card-front">
+                    <div className="card-overlay"></div>
+                    <div style={{ position: 'relative', zIndex: 3, width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                      <div className="card-body">
+                        <div className="card-text-bg">
+                          <div className="card-title">{apartment.address}</div>
+                          <div className="card-text">
+                            {apartment.description}
+                            <br />
+                            <strong>{apartment.price.toLocaleString()} ש"ח</strong>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="apartment-card-back">
+                    {hasImage && (
+                      <img
+                        src={apartment.image.startsWith('/') ? apartment.image : `/images/${apartment.image}`}
+                        alt="תמונה של הדירה"
+                        className="apartment-img-hover"
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+              <Button variant="primary" className="details-btn" style={{ margin: '1rem', width: '90%', alignSelf: 'center' }}>
                 צפה בפרטים
               </Button>
-            </Card.Body>
-          </Card>
-        ))}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

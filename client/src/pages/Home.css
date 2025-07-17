@@ -3,7 +3,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-image: url('/images/aparment.png'); /* ודא שהתמונה קיימת */
+  background-image: url('../assets/apartment.png'); /* ודא שהתמונה קיימת */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
