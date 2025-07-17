@@ -22,7 +22,7 @@ const initialState: UserDetailsState = {
 export const fetchUserDetails = createAsyncThunk(
   "userDetails/fetchUserDetails",
   async (userId: number) => {
-    const response = await axios.get(`/api/users/${userId}`);
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/${userId}`);
     return response.data;
   }
 );

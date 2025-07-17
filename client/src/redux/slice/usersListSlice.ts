@@ -20,7 +20,7 @@ const initialState: UsersListState = {
 };
 
 export const fetchUsers = createAsyncThunk("usersList/fetchUsers", async () => {
-  const response = await axios.get("/api/users");
+  const response = await axios.get(`${import.meta.env.VITE_API_URL}/users`);
   return response.data;
 });
 

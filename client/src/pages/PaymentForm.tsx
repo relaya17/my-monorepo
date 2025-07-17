@@ -22,7 +22,7 @@ const PaymentForm: React.FC = () => {
 
     try {
       // שליחת הבקשה ל-API
-      const response = await fetch('http://localhost:3002/api/payments', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/payments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

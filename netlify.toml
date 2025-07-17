@@ -1,13 +1,14 @@
 [build]
 command = "cd client && pnpm install && pnpm run build"
-publish = "dist"  # ← שים לב לשינוי כאן
+publish = "client/dist"
+
+# Redirects
+[[redirects]]
+from = "/images/*"
+to = "/images/:splat"
+status = 200
 
 [[redirects]]
-  from = "/images/*"
-  to = "/images/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+from = "/*"
+to = "/index.html"
+status = 200

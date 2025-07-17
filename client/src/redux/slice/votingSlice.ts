@@ -27,7 +27,7 @@ const initialState: VotingState = {
 export const fetchQuestions = createAsyncThunk<Question[]>(
   'questions/fetchQuestions',
   async () => {
-    const response = await fetch('https://example.com/api/questions');
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/questions`);
     const data: Question[] = await response.json();
     return data;
   }

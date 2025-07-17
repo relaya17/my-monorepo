@@ -22,7 +22,7 @@ const PaymentPage: React.FC = () => {
     // שליחת נתוני התשלום לשרת
     const payment = { payer, amount, cardNumber, expiryDate, cvv };
     try {
-      const response = await fetch('http://localhost:3002/api/payments', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/payments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payment),
