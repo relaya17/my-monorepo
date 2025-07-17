@@ -1,7 +1,6 @@
 [build]
-  base = "my-monorepo-app/client"
-  command = "pnpm install && pnpm run build"
-  publish = "dist"
+  command = "cd client && pnpm install && pnpm run build"
+  publish = "client/dist"
 
 # Redirects נשארים כמו שהם
 [[redirects]]
