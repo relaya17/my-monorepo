@@ -54,6 +54,7 @@ app.get('*', (req, res) => {
 });
 
 console.log('Starting server...');
+console.log("MONGO_URI is:", process.env.MONGO_URI);
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/payments_db')
     .then(async () => {
         console.log('Connected to MongoDB');
