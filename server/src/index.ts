@@ -2,11 +2,15 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import routes from './routes';
+import routes from './routes/index.js';
 import fs from 'fs';
 import path from 'path';
-import Admin from './models/adminModel';
+import Admin from './models/adminModel.js';
 import bcrypt from 'bcryptjs';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = Number(process.env.PORT) || 3008;

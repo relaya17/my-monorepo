@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
-import Payment from '../models/paymentModel';
-import { generateReceipt } from '../receipt';
+import Payment from '../models/paymentModel.js';
+import { generateReceipt } from '../receipt.js';
 
 const router: Router = Router();
 

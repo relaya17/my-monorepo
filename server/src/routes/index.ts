@@ -1,19 +1,19 @@
 import { Router } from 'express';
 
 // ייבוא כל הנתיבים
-import paymentRoutes from './paymentsRouter';
-import voteRoutes from './voteRoutes';
-import healthRoute from './healthRoute';
-import userRoutes from './userRoutes';
-import residentRoutes from './residentRoutes';
-import blogRoutes from './blogRouter';
-import fileRoutes from './fileRouter';
-import apartmentRoutes from './apartmentsRouter';
-import signUpRoute from './signUpRoute';
-import loginRoute from './loginRoute';
-import adminLoginRoute from './adminLoginRoute';
-import aiAnalyticsRoute from './aiAnalyticsRoute';
-import aiNotificationsRoute from './aiNotificationsRoute';
+import paymentRoutes from './paymentsRouter.js';
+import voteRoutes from './voteRoutes.js';
+import healthRoute from './healthRoute.js';
+import userRoutes from './userRoutes.js';
+import residentRoutes from './residentRoutes.js';
+import blogRoutes from './blogRouter.js';
+import fileRoutes from './fileRouter.js';
+import apartmentRoutes from './apartmentsRouter.js';
+import signUpRoute from './signUpRoute.js';
+import loginRoute from './loginRoute.js';
+import adminLoginRoute from './adminLoginRoute.js';
+import aiAnalyticsRoute from './aiAnalyticsRoute.js';
+import aiNotificationsRoute from './aiNotificationsRoute.js';
 
 const router = Router();
 

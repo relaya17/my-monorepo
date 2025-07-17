@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import Payment from '../models/paymentModel';
-import User from '../models/userModel';
+import Payment from '../models/paymentModel.js';
+import User from '../models/userModel.js';
 
 const router: express.Router = express.Router();
 

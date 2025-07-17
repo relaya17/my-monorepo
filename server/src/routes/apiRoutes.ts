@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { addPayment, deletePayment, getPayments } from '../controllers/paymentController';
+import { addPayment, deletePayment, getPayments } from '../controllers/paymentController.js';
 import fs from 'fs';
 import path from 'path';
 

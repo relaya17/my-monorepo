@@ -1,0 +1,14 @@
+[build]
+command = "cd my-monorepo-app/client && pnpm install && pnpm run build"
+publish = "my-monorepo-app/client/dist"
+
+# Redirects
+[[redirects]]
+from = "/images/*"
+to = "/images/:splat"
+status = 200
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200 
