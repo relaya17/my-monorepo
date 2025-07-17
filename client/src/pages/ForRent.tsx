@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../redux/store";
 import { removeApartment, fetchRentApartments } from "../redux/slice/forRentSlice";
 import { Card, Button } from "react-bootstrap";
+import "./ForRent.css";
 
 const ForRent: React.FC = () => {
   const { apartments, loading, error } = useSelector((state: RootState) => state.forRent);
@@ -44,12 +45,14 @@ const ForRent: React.FC = () => {
       <div className="cards-grid">
         {apartments.map((apartment) => (
           <Card className="apartment-card" key={apartment.id}>
-            <Card.Img
-              variant="top"
-              src={apartment.image && apartment.image.trim() !== "" ? apartment.image : process.env.PUBLIC_URL + "/images/image.png"}
-              alt="תמונה של הדירה"
-              className="image-img"
-            />
+            {apartment.image && apartment.image.trim() !== "" ? (
+              <Card.Img
+                variant="top"
+                src={apartment.image}
+                alt="תמונה של הדירה"
+                className="apartment-img"
+              />
+            ) : null}
             <Card.Body>
               <Card.Title>{apartment.address}</Card.Title>
               <Card.Text>

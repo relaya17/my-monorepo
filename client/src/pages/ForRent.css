@@ -1,9 +1,22 @@
+.page-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #1976d2;
+}
+
+.page-subtitle {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
 .apartment-card {
   border: 1.5px solid #1976d2;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
   margin: 1rem;
-  background: #fff url('/images/aparment2.png') center/cover no-repeat;
+  background: #fff url('/images/apartment2.png') center/cover no-repeat;
   transition: box-shadow 0.2s;
   position: relative;
   overflow: hidden;
@@ -36,4 +49,18 @@
   object-fit: contain;
   background: #f7f7f7;
   width: 100%;
+}
+
+.forrent-container {
+  text-align: center;
+  padding: 2rem;
+  background: none;
+}
+
+.cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
 } 
