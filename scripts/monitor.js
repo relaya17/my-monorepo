@@ -120,6 +120,12 @@ function sendAlert(message, type = 'warning') {
     }
 }
 
+function test(){
+    console.log("test");
+}
+
+test()
+
 // פונקציה לבדיקה מקיפה
 async function performHealthCheck() {
     const startTime = Date.now();
