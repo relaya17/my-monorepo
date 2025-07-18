@@ -42,11 +42,18 @@ const initialState: ForRentState = {
 export const fetchRentApartments = createAsyncThunk(
   'forRent/fetchRentApartments',
   async () => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/apartments/for-rent`);
+    const baseUrl = import.meta.env.VITE_API_URL;
+    const response = await fetch(`${baseUrl}/apartments/for-rent`);
+
+    const url = `${baseUrl}/apartments/for-rent`
+    console.log('[For rent request]', "sending", url)
+
     if (!response.ok) {
       throw new Error('Failed to fetch apartments for rent');
     }
-    return response.json();
+    const data = await response.json();
+    console.log('FOR RENT DATA', data)
+    return data;
   }
 );
 

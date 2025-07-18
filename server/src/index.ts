@@ -7,16 +7,22 @@ import fs from 'fs';
 import path from 'path';
 import Admin from './models/adminModel.js';
 import bcrypt from 'bcryptjs';
+import morgan from 'morgan';
+import helmet from 'helmet';
 import { fileURLToPath } from 'url';
+dotenv.config();
+
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
 const app = express();
 const port = Number(process.env.PORT) || 3008;
 app.use(cors());
-
-dotenv.config();
+app.use(morgan('dev'));
+app.use(helmet());
 
 // יצירת תיקיית uploads אם לא קיימת
 const uploadsDir = path.join(__dirname, '../../uploads');
@@ -32,11 +38,7 @@ const clientPath = path.join(__dirname, '../../client/dist');
 app.use(express.static(clientPath));
 
 // לאפשר בקשות מ-CORS
-app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176', 'http://localhost:5177'],
-    methods: ['GET', 'POST', 'DELETE', 'PUT'],
-    credentials: true
-}));
+app.use(cors());
 
 app.use(express.json());
 
@@ -53,9 +55,8 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(clientPath, 'index.html'));
 });
 
-console.log('Starting server...');
-console.log("MONGO_URI is:", process.env.MONGO_URI);
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/payments_db')
+
+mongoose.connect(process.env.MONGO_URI)
     .then(async () => {
         console.log('Connected to MongoDB');
         // יצירת אדמין ברירת מחדל אם אין
@@ -68,7 +69,6 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/payments_db
     })
     .catch(err => console.error('MongoDB connection error:', err));
 
-app.listen(port, '0.0.0.0', () => {
-    console.log(`Server is running on http://0.0.0.0:${port}`);
-    console.log('Server started successfully!');
+app.listen(port, () => {
+    console.log(`[Server Started]\tServer is running on http://localhost:${port}`);
 });

@@ -1,9 +1,9 @@
 // src/pages/ForRent.tsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../redux/store";
 import { removeApartment, fetchRentApartments } from "../redux/slice/forRentSlice";
-import { Card, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import "./ForRent.css";
 
 const ForRent: React.FC = () => {
@@ -13,7 +13,7 @@ const ForRent: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchRentApartments());
-  }, [dispatch]);
+  }, []);
 
   const handleRemove = (id: number) => {
     dispatch(removeApartment(id));

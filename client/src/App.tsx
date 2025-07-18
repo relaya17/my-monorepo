@@ -1,10 +1,10 @@
-import React from 'react';
 import Navbar from './components/Navbar';
 import AppRoutes from './routs/AppRoutes';
 import Footer from './components/Footer';
 import AccessibilityPanel from './components/AccessibilityPanel';
 
 const App: React.FC = () => {
+
   return (
     <div className="App">
       <Navbar />

@@ -77,6 +77,7 @@ router.post('/for-sale', (req: any, res: any) => {
 
 // נתיב לקבלת דירות להשכרה
 router.get('/for-rent', (req: any, res: any) => {
+    console.log("[FOR RENT] sending apartments for rent")
     res.json(apartmentsForRent);
 });
 
