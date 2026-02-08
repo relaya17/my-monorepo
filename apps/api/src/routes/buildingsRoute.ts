@@ -1,10 +1,7 @@
 import { Router, Request, Response } from 'express';
 import mongoose from 'mongoose';
+import Building from '../models/buildingModel.js';
 
-/**
- * Returns list of building IDs that have data in the system.
- * Uses native driver to bypass tenant-scoped model filters.
- */
 async function listBuildings(_req: Request, res: Response): Promise<void> {
   try {
     const db = mongoose.connection.db;
@@ -17,14 +14,23 @@ async function listBuildings(_req: Request, res: Response): Promise<void> {
     const fromUsers = await db.collection('users').distinct('buildingId').catch(() => [] as string[]);
     const fromAdmins = await db.collection('admins').distinct('buildingId').catch(() => [] as string[]);
 
-    const set = new Set<string>([
+    const ids = new Set<string>([
       'default',
       ...(fromPayments as string[]).filter(Boolean),
       ...(fromUsers as string[]).filter(Boolean),
       ...(fromAdmins as string[]).filter(Boolean),
     ]);
 
-    const buildings = Array.from(set).sort((a, b) => a.localeCompare(b, 'he'));
+    const buildingDocs = await Building.find({ buildingId: { $in: Array.from(ids) } }).lean();
+    const byId = Object.fromEntries(buildingDocs.map((b: { buildingId: string }) => [b.buildingId, b]));
+
+    const buildings = Array.from(ids).sort((a, b) => a.localeCompare(b, 'he')).map((id) => ({
+      buildingId: id,
+      address: byId[id]?.address ?? id,
+      buildingNumber: byId[id]?.buildingNumber ?? '',
+      committeeName: byId[id]?.committeeName ?? ''
+    }));
+
     res.json({ buildings });
   } catch (err) {
     console.error('List buildings error:', err);

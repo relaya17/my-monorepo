@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signUpUser } from '../../../redux/slice/signUpSlice';
 import { Form, Button, Alert, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import type { AppDispatch, RootState } from '../../../redux/store';
 import ROUTES from '../../../routs/routes';
+import { safeSetItem } from '../../../utils/safeStorage';
 
 const SignUpPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,12 +22,15 @@ const SignUpPage: React.FC = () => {
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({ 
+    buildingAddress: '',
+    buildingNumber: '',
+    apartment: '',
+    committeeName: '',
     name: '', 
     email: '', 
     password: '', 
     confirmPassword: '',
     phone: '',
-    apartment: '',
     familyMembers: ''
   });
 
@@ -49,17 +53,33 @@ const SignUpPage: React.FC = () => {
       return;
     }
     
-    // שליחה ל-redux
     dispatch(signUpUser({
       name: formData.name,
       email: formData.email,
-      password: formData.password
+      password: formData.password,
+      buildingAddress: formData.buildingAddress,
+      buildingNumber: formData.buildingNumber,
+      apartmentNumber: formData.apartment,
+      committeeName: formData.committeeName || undefined
     }));
   };
 
   const handleBackToLogin = () => {
     navigate(ROUTES.USER_LOGIN);
   };
+
+  useEffect(() => {
+    if (status === 'success' && user) {
+      const u = user as { id: string; name: string; email: string; buildingId?: string };
+      safeSetItem('isUserLoggedIn', 'true');
+      safeSetItem('userEmail', u.email);
+      safeSetItem('userName', u.name);
+      safeSetItem('userId', String(u.id));
+      safeSetItem('user', JSON.stringify(u));
+      if (u.buildingId) safeSetItem('buildingId', u.buildingId);
+      navigate(ROUTES.RESIDENT_HOME, { replace: true });
+    }
+  }, [status, user, navigate]);
 
   return (
     <div className="container-fluid d-flex justify-content-center align-items-center" 
@@ -79,6 +99,70 @@ const SignUpPage: React.FC = () => {
           </div>
 
           <Form onSubmit={handleSubmit}>
+            <div className="border-bottom pb-3 mb-3">
+              <h6 className="text-muted mb-3"><i className="fas fa-building me-2"></i>פרטי בניין</h6>
+              <div className="row">
+                <div className="col-md-6">
+                  <Form.Group className="mb-3">
+                    <Form.Label>כתובת הבניין</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="buildingAddress"
+                      value={formData.buildingAddress}
+                      onChange={handleChange}
+                      placeholder="רחוב הרצל 10"
+                      required
+                      style={{ textAlign: 'right' }}
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col-md-6">
+                  <Form.Group className="mb-3">
+                    <Form.Label>מספר בניין</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="buildingNumber"
+                      value={formData.buildingNumber}
+                      onChange={handleChange}
+                      placeholder="1"
+                      required
+                      style={{ textAlign: 'right' }}
+                    />
+                  </Form.Group>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-6">
+                  <Form.Group className="mb-3">
+                    <Form.Label>מספר דירה</Form.Label>
+                    <Form.Control
+                      ref={apartmentRef}
+                      type="text"
+                      name="apartment"
+                      value={formData.apartment}
+                      onChange={handleChange}
+                      placeholder="15"
+                      required
+                      style={{ textAlign: 'right' }}
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col-md-6">
+                  <Form.Group className="mb-3">
+                    <Form.Label>שם וועד/נציגות (אופציונלי)</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="committeeName"
+                      value={formData.committeeName}
+                      onChange={handleChange}
+                      placeholder="ועד הבית"
+                      style={{ textAlign: 'right' }}
+                    />
+                  </Form.Group>
+                </div>
+              </div>
+            </div>
+            <h6 className="text-muted mb-3"><i className="fas fa-user me-2"></i>פרטי דייר</h6>
             <div className="row">
               <div className="col-md-6">
                 <Form.Group className="mb-3">
@@ -150,7 +234,7 @@ const SignUpPage: React.FC = () => {
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
                         e.preventDefault();
-                        apartmentRef.current?.focus();
+                        familyMembersRef.current?.focus();
                       }
                     }}
                     placeholder="050-1234567"
@@ -162,31 +246,6 @@ const SignUpPage: React.FC = () => {
                 </Form.Group>
               </div>
               
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label>
-                    <i className="fas fa-home ms-2"></i>
-                    מספר דירה
-                  </Form.Label>
-                  <Form.Control
-                    ref={apartmentRef}
-                    type="text"
-                    name="apartment"
-                    value={formData.apartment}
-                    onChange={handleChange}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        familyMembersRef.current?.focus();
-                      }
-                    }}
-                    placeholder="דירה 15, בניין א'"
-                    required
-                    enterKeyHint="next"
-                    style={{ textAlign: 'right' }}
-                  />
-                </Form.Group>
-              </div>
             </div>
 
             <div className="row">

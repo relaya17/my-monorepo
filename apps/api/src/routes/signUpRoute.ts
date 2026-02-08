@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import User from '../models/userModel.js';
+import Building from '../models/buildingModel.js';
+import { tenantContext } from '../middleware/tenantMiddleware.js';
 
 const router: express.Router = express.Router();
 
@@ -32,8 +34,11 @@ const validateName = (name: string): { isValid: boolean; message: string } => {
   return { isValid: true, message: '' };
 };
 
+const toSlug = (s: string) => (s || '').trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-\u0590-\u05FF]/g, '');
+
 router.post('/', async (req: Request, res: Response) => {
-  const { name, email, password } = req.body as { name: string; email: string; password: string };
+  const body = req.body as { name: string; email: string; password: string; buildingAddress?: string; buildingNumber?: string; apartmentNumber?: string; committeeName?: string };
+  const { name, email, password, buildingAddress, buildingNumber, apartmentNumber, committeeName } = body;
 
   try {
     // ולידציה לשם
@@ -62,33 +67,57 @@ router.post('/', async (req: Request, res: Response) => {
       });
     }
 
-    // בדיקה אם המשתמש כבר קיים
-    const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
-    if (existingUser) {
-      return res.status(400).json({
-        message: 'משתמש עם אימייל זה כבר קיים',
-        field: 'email'
+    const addr = (buildingAddress || '').trim() || 'כתובת';
+    const num = (buildingNumber || '').trim() || '1';
+    const buildingId = toSlug(addr) + '-' + toSlug(num) || 'default';
+
+    // יצירה/עדכון בניין
+    await Building.findOneAndUpdate(
+      { buildingId },
+      {
+        buildingId,
+        address: addr,
+        buildingNumber: num,
+        ...(committeeName ? { committeeName: (committeeName || '').trim() } : {})
+      },
+      { upsert: true, new: true }
+    );
+
+    // הרצת יצירת המשתמש בתוך tenant context של הבניין החדש
+    let newUser;
+    try {
+      newUser = await tenantContext.run({ buildingId }, async () => {
+        const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
+        if (existingUser) throw new Error('EMAIL_EXISTS');
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        const u = new User({
+          name: name.trim(),
+          email: email.toLowerCase().trim(),
+          password: hashedPassword,
+          apartmentNumber: (apartmentNumber || '').trim() || undefined
+        });
+        await u.save();
+        return u;
       });
+    } catch (e) {
+      if (e instanceof Error && e.message === 'EMAIL_EXISTS') {
+        return res.status(400).json({
+          message: 'משתמש עם אימייל זה כבר קיים בבניין זה',
+          field: 'email'
+        });
+      }
+      throw e;
     }
-
-    // יצירת הסיסמה המוצפנת
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // יצירת המשתמש החדש
-    const newUser = new User({
-      name: name.trim(),
-      email: email.toLowerCase().trim(),
-      password: hashedPassword
-    });
-    await newUser.save();
 
     return res.status(201).json({
       message: 'משתמש נוצר בהצלחה',
       user: {
         id: newUser._id,
         name: newUser.name,
-        email: newUser.email
+        email: newUser.email,
+        buildingId,
+        apartmentNumber: newUser.apartmentNumber
       }
     });
   } catch (error: unknown) {

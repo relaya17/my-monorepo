@@ -16,14 +16,22 @@ const initialState: SignUpState = {
 
 export const signUpUser = createAsyncThunk(
   'signUp/signUpUser',
-  async (formData: { name: string; email: string; password: string }, { rejectWithValue }) => {
+  async (formData: { name: string; email: string; password: string; buildingAddress?: string; buildingNumber?: string; apartmentNumber?: string; committeeName?: string }, { rejectWithValue }) => {
     try {
       const { response, data } = await apiRequestJson<{ message?: string; user?: User; field?: string }>('signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          buildingAddress: formData.buildingAddress,
+          buildingNumber: formData.buildingNumber,
+          apartmentNumber: formData.apartmentNumber,
+          committeeName: formData.committeeName
+        })
       });
       if (!response.ok) {
         return rejectWithValue(data?.message || 'שגיאה בהירשמות');
