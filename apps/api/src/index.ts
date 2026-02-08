@@ -139,13 +139,45 @@ mongoose.connect(mongoUri)
     .then(async () => {
         console.log('Connected to MongoDB');
 
+        // Migration: מסמכים ישנים בלי buildingId או עם ערך ריק – עדכון ל־default (עוקף plugin)
+        const adminMigrated = await Admin.collection.updateMany(
+            { $or: [{ buildingId: { $exists: false } }, { buildingId: null }, { buildingId: '' }] },
+            { $set: { buildingId: 'default' } }
+        );
+        if (adminMigrated.modifiedCount > 0) {
+            console.log(`[Migration] עדכון ${adminMigrated.modifiedCount} אדמין עם buildingId: default`);
+        }
+        const userMigrated = await User.collection.updateMany(
+            { $or: [{ buildingId: { $exists: false } }, { buildingId: null }, { buildingId: '' }] },
+            { $set: { buildingId: 'default' } }
+        );
+        if (userMigrated.modifiedCount > 0) {
+            console.log(`[Migration] עדכון ${userMigrated.modifiedCount} משתמש עם buildingId: default`);
+        }
+
         // אדמין ברירת מחדל – בתוך tenant context של default, לפני תחילת קבלת בקשות
+        const defaultAdminPassword = 'admin123';
         await tenantContext.run({ buildingId: 'default' }, async () => {
             const adminCount = await Admin.countDocuments();
             if (adminCount === 0) {
-                const hash = await bcrypt.hash('admin123', 10);
-                await Admin.create({ username: 'admin', password: hash });
-                console.log('[Admin] אדמין ברירת מחדל נוצר: admin / admin123');
+                try {
+                    const hash = await bcrypt.hash(defaultAdminPassword, 10);
+                    await Admin.create({ username: 'admin', password: hash });
+                    console.log('[Admin] אדמין ברירת מחדל נוצר: admin / admin123');
+                } catch (err: unknown) {
+                    const e = err as { code?: number | string; message?: string };
+                    const isDuplicate = e?.code === 11000 || e?.code === '11000' || (typeof e?.message === 'string' && e.message.includes('E11000'));
+                    if (isDuplicate) {
+                        const hash = await bcrypt.hash(defaultAdminPassword, 10);
+                        await Admin.collection.updateOne(
+                            { username: 'admin' },
+                            { $set: { password: hash, buildingId: 'default' } }
+                        );
+                        console.log('[Admin] אדמין קיים – סיסמה אופסה ל־admin123');
+                    } else {
+                        throw err;
+                    }
+                }
             }
         });
 
