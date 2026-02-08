@@ -8,7 +8,10 @@
     ],
     "scripts": {
         "install:all": "pnpm install --recursive",
-        "dev": "turbo run dev --parallel",
+        "dev": "pnpm --filter web run dev",
+        "dev:full": "turbo run dev --parallel",
+        "dev:web": "pnpm --filter web run dev",
+        "dev:api": "pnpm --filter api run dev",
         "build": "turbo run build",
         "start": "pnpm --filter api run start",
         "lint": "turbo run lint",

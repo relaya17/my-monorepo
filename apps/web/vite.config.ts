@@ -9,7 +9,8 @@ export default defineConfig({
     proxy: {
       '/api': {
         // Dev-only API target (override with VITE_DEV_API_TARGET if needed)
-        target: process.env.VITE_DEV_API_TARGET || 'http://localhost:3008',
+        // Defaulting to Render avoids requiring local MongoDB for frontend work.
+        target: process.env.VITE_DEV_API_TARGET || 'https://my-monorepo-1pzh.onrender.com',
         changeOrigin: true,
         secure: false,
       }
