@@ -24,18 +24,12 @@ export default defineConfig({
     }
   },
   build: {
-    chunkSizeWarningLimit: 750,
+    chunkSizeWarningLimit: 1600,
     rollupOptions: {
       output: {
-        manualChunks(id) {
-          if (!id.includes('node_modules')) return;
-          // Single chunk for React + deps so all libs use same instance - fixes useSyncExternalStore
-          const norm = id.replace(/\\/g, '/');
-          if (norm.includes('/react/') || norm.includes('/react-dom/') || norm.includes('/scheduler/') || norm.includes('/react-is/')) return 'react';
-          if (id.includes('chart.js') || id.includes('react-chartjs-2')) return 'charts';
-          if (id.includes('pdf-lib')) return 'pdf';
-        }
-      }
-    }
+        // Single bundle: no async chunks, so one React instance (fixes useSyncExternalStore)
+        inlineDynamicImports: true,
+      },
+    },
   },
 })

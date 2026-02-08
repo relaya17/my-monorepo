@@ -37,16 +37,14 @@ const parseCorsOrigins = (value: string | undefined) =>
     .filter(Boolean);
 
 const corsOrigins = parseCorsOrigins(process.env.CORS_ORIGIN);
+const netlifyOrigin = 'https://my-monorepo.netlify.app';
 app.use(
   cors({
     origin: (origin, cb) => {
-      // allow server-to-server calls / curl
       if (!origin) return cb(null, true);
 
-      // explicit allowlist (recommended for production)
       if (corsOrigins.length > 0) return cb(null, corsOrigins.includes(origin));
 
-      // dev-friendly defaults
       if (process.env.NODE_ENV !== 'production') {
         const isLocal =
           origin.startsWith('http://localhost:') ||
@@ -56,10 +54,13 @@ app.use(
         return cb(null, isLocal);
       }
 
-      // production with no allowlist: deny by default
+      // production: allow Netlify frontend when CORS_ORIGIN not set
+      if (origin === netlifyOrigin) return cb(null, true);
       return cb(null, false);
     },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-building-id'],
   })
 );
 

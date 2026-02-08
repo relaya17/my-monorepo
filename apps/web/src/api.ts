@@ -2,7 +2,12 @@ import { safeGetItem, safeSetItem } from './utils/safeStorage.js';
 
 const normalizeBase = (base: string) => base.trim().replace(/\/+$/, '');
 
-const ENV_BASE = normalizeBase(String(import.meta.env.VITE_API_URL ?? ''));
+const rawBase = normalizeBase(String(import.meta.env.VITE_API_URL ?? ''));
+// When using a full API URL (e.g. Render), ensure it ends with /api so paths like admin/login become /api/admin/login
+const ENV_BASE =
+  rawBase && (rawBase.startsWith('http://') || rawBase.startsWith('https://'))
+    ? rawBase.endsWith('/api') ? rawBase : `${rawBase}/api`
+    : rawBase;
 const FALLBACK_BASE = '/api';
 
 export const getBuildingId = (): string => {
