@@ -1,9 +1,16 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request } from 'express';
+import type { RequestHandler } from 'express';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
 const router = Router();
+
+// Minimal response typing to avoid Express type-resolution issues in some setups.
+type JsonResponse = {
+    status: (code: number) => JsonResponse;
+    json: (body: unknown) => unknown;
+};
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -19,9 +26,9 @@ const upload = multer({ storage });
 // NOTE: In some pnpm/CI layouts, Express types can be duplicated which causes
 // TS2769 ("No overload matches this call") when passing Multer middleware.
 // Casting here keeps runtime behavior identical while avoiding type conflicts.
-const uploadSingle: any = upload.single('file');
+const uploadSingle = upload.single('file') as unknown as RequestHandler;
 
-router.post('/upload', uploadSingle, (req: Request, res: Response) => {
+router.post('/upload', uploadSingle, (req: Request, res: JsonResponse) => {
     // multer מוסיף את הfile לreq - לצורך TypeScript אפשר להתעלם מהטעות עם //@ts-ignore
     // או להוסיף טיפוס מותאם
     //@ts-ignore
@@ -38,7 +45,7 @@ router.post('/upload', uploadSingle, (req: Request, res: Response) => {
     });
 });
 
-router.get('/files', (req: Request, res: Response) => {
+router.get('/files', (req: Request, res: JsonResponse) => {
     const uploadsDir = path.join(__dirname, '../../uploads');
     fs.readdir(uploadsDir, (err, files) => {
         if (err) {

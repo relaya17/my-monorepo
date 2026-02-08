@@ -1,6 +1,7 @@
+import type { ReportHandler } from 'web-vitals';
 import { onCLS, onFCP, onLCP, onTTFB } from 'web-vitals';
 
-const reportWebVitals = (onPerfEntry?: any) => {
+const reportWebVitals = (onPerfEntry?: ReportHandler) => {
   if (onPerfEntry && onPerfEntry instanceof Function) {
     onCLS(onPerfEntry);
     onFCP(onPerfEntry);

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { apiRequestJson } from '../api';
 
 const AdminLogin: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -22,7 +23,7 @@ const AdminLogin: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/login`, {
+      const { response, data } = await apiRequestJson<{ message?: string; admin?: { username: string; role: string } }>('admin/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -30,9 +31,7 @@ const AdminLogin: React.FC = () => {
         body: JSON.stringify({ username, password })
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
+      if (response.ok && data?.admin) {
         // שמירת סטטוס התחברות
         localStorage.setItem('isAdminLoggedIn', 'true');
         localStorage.setItem('adminUsername', data.admin.username);
@@ -41,7 +40,7 @@ const AdminLogin: React.FC = () => {
         // מעבר לדף האדמין
         navigate('/admin-dashboard');
       } else {
-        setError(data.message || 'שם משתמש או סיסמה שגויים');
+        setError(data?.message || 'שם משתמש או סיסמה שגויים');
       }
     } catch (error) {
       // Admin login error

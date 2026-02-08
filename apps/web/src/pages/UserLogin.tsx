@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../routs/routes';
+import { apiRequestJson } from '../api';
 
 const UserLogin: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -21,7 +22,7 @@ const UserLogin: React.FC = () => {
     try {
       const requestBody = JSON.stringify({ email: cleanEmail, password: cleanPassword });
       
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
+      const { response, data } = await apiRequestJson<{ message?: string; user?: { id: string; name: string; email: string } }>('login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -29,9 +30,7 @@ const UserLogin: React.FC = () => {
         body: requestBody
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
+      if (response.ok && data?.user) {
         // שמירת סטטוס התחברות
         localStorage.setItem('isUserLoggedIn', 'true');
         localStorage.setItem('userEmail', data.user.email);
@@ -42,7 +41,7 @@ const UserLogin: React.FC = () => {
         // מעבר לדף המשתמש
         navigate(ROUTES.RESIDENT_HOME);
       } else {
-        setError(data.message || 'אימייל או סיסמה שגויים');
+        setError(data?.message || 'אימייל או סיסמה שגויים');
       }
     } catch (error) {
       setError('שגיאה בהתחברות לשרת');

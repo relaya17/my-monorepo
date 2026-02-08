@@ -1,81 +1,63 @@
-import { useState } from "react";
+import { Suspense, lazy, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import ROUTES from "../routs/routes";
 
-// דפים ראשיים
-import Home from "../pages/Home";
-import Error404Page from "../pages/404/Error404Page";
-import ThankYouPage from "../pages/thankyou/Thankyou";
+// Route-level code splitting to reduce initial bundle size.
+const Home = lazy(() => import("../pages/Home"));
+const Error404Page = lazy(() => import("../pages/404/Error404Page"));
+const ThankYouPage = lazy(() => import("../pages/thankyou/Thankyou"));
 
-// דפים של דיירים
-import ResidentForm from "../pages/ResidentForm";
-import NewResidentApproval from "../pages/NewResidentApproval";
-import ResidentHome from "../pages/ResidentHome";
+const ResidentForm = lazy(() => import("../pages/ResidentForm"));
+const NewResidentApproval = lazy(() => import("../pages/NewResidentApproval"));
+const ResidentHome = lazy(() => import("../pages/ResidentHome"));
 
-// דפים של תחזוקה
-import Gardening from "../pages/Gardening";
-import RepairTracking from "../pages/RepairTracking";
+const Gardening = lazy(() => import("../pages/Gardening"));
+const RepairTracking = lazy(() => import("../pages/RepairTracking"));
 
-// דפים של עובדים
-import EmployeeManagement from "../pages/EmployeeManagement";
+const EmployeeManagement = lazy(() => import("../pages/EmployeeManagement"));
 
-// דירות
-import ForRent from "../pages/ForRent";
-import ForSale from "../pages/ForSale";
+const ForRent = lazy(() => import("../pages/ForRent"));
+const ForSale = lazy(() => import("../pages/ForSale"));
 
-// דפים משפטיים
-import PrivacyPolicy from "../pages/seqerty/PrivacyPolicy";
-import TermsAndConditions from "../pages/seqerty/TermsAndConditions";
-import Accessibility from "../pages/seqerty/Accessibility";
-import SecurityPolicy from "../pages/seqerty/SecurityPolicy";
+const PrivacyPolicy = lazy(() => import("../pages/seqerty/PrivacyPolicy"));
+const TermsAndConditions = lazy(() => import("../pages/seqerty/TermsAndConditions"));
+const Accessibility = lazy(() => import("../pages/seqerty/Accessibility"));
+const SecurityPolicy = lazy(() => import("../pages/seqerty/SecurityPolicy"));
 
-// משתמשים והרשאות
-import SignUpPage from "../pages/users/UI/SignUpPage";
-import UsersListPage from "../pages/users/UI/UsersListPage";
-import UserDetailsPage from "../pages/users/UI/UserDetailsPage";
-import UserManagement from "../pages/users/UI/UserManagement";
-import CreateAdminPassword from "../pages/users/UI/CreateAdminPassword";
-import ChangeAdminPassword from "../pages/users/UI/ChangeAdminPassword";
+const SignUpPage = lazy(() => import("../pages/users/UI/SignUpPage"));
+const UsersListPage = lazy(() => import("../pages/users/UI/UsersListPage"));
+const UserDetailsPage = lazy(() => import("../pages/users/UI/UserDetailsPage"));
+const UserManagement = lazy(() => import("../pages/users/UI/UserManagement"));
+const CreateAdminPassword = lazy(() => import("../pages/users/UI/CreateAdminPassword"));
+const ChangeAdminPassword = lazy(() => import("../pages/users/UI/ChangeAdminPassword"));
 
-// תשלום
-import CheckOutPage from "../pages/CheckOutPage";
-import PaymentPage from "../pages/PaymentPage";
+const CheckOutPage = lazy(() => import("../pages/CheckOutPage"));
+const PaymentPage = lazy(() => import("../pages/PaymentPage"));
 
-// אדמין
-import AdminDashboard from "../pages/AdminDashboard";
-import AdminLogin from "../pages/AdminLogin";
-import ChangePassword from "../pages/ChangePassword";
+const AdminDashboard = lazy(() => import("../pages/AdminDashboard"));
+const AdminLogin = lazy(() => import("../pages/AdminLogin"));
+const ChangePassword = lazy(() => import("../pages/ChangePassword"));
 
-// משתמשים
-import UserLogin from "../pages/UserLogin";
-import UserDashboard from "../pages/UserDashboard";
+const UserLogin = lazy(() => import("../pages/UserLogin"));
+const UserDashboard = lazy(() => import("../pages/UserDashboard"));
 
-// קבלה
-import ReceiptPage from "../pages/ReceiptPage";
+const ReceiptPage = lazy(() => import("../pages/ReceiptPage"));
 
-// הצבעות
-import Voting from "../components/Voting";
+const Voting = lazy(() => import("../components/Voting"));
 
-// קיר קהילה
-import CommunityWall from "../pages/CommunityWall";
+const CommunityWall = lazy(() => import("../pages/CommunityWall"));
 
-// AI Dashboard
-import AIDashboard from "../pages/AIDashboard";
+const AIDashboard = lazy(() => import("../pages/AIDashboard"));
 
-// ניהול תשלומים
-import PaymentManagement from "../pages/PaymentManagement";
+const PaymentManagement = lazy(() => import("../pages/PaymentManagement"));
 
-// ניהול דירות
-import ApartmentManagement from "../pages/ApartmentManagement";
+const ApartmentManagement = lazy(() => import("../pages/ApartmentManagement"));
 
-// דוחות וסטטיסטיקה
-import ReportsDashboard from "../pages/ReportsDashboard";
+const ReportsDashboard = lazy(() => import("../pages/ReportsDashboard"));
 
-// ניהול תחזוקה
-import MaintenanceManagement from "../pages/MaintenanceManagement";
+const MaintenanceManagement = lazy(() => import("../pages/MaintenanceManagement"));
 
-// הגדרות מערכת
-import SystemSettings from "../pages/SystemSettings";
+const SystemSettings = lazy(() => import("../pages/SystemSettings"));
 
 // קומפוננטת עזר - עטיפת טופס דייר
 const ResidentFormWrapper: React.FC = () => {
@@ -106,87 +88,89 @@ const ResidentFormWrapper: React.FC = () => {
 
 const AppRoutes: React.FC = () => {
   return (
-    <Routes>
-      {/* דף הבית */}
-      <Route path={ROUTES.HOME} element={<Home />} />
+    <Suspense fallback={<div className="container py-4 text-center">טוען...</div>}>
+      <Routes>
+        {/* דף הבית */}
+        <Route path={ROUTES.HOME} element={<Home />} />
 
-      {/* דף הבית של הדיירים */}
-      <Route path={ROUTES.RESIDENT_HOME} element={<ResidentHome />} />
+        {/* דף הבית של הדיירים */}
+        <Route path={ROUTES.RESIDENT_HOME} element={<ResidentHome />} />
 
-      {/* דיירים */}
-      <Route path={ROUTES.RESIDENT_FORM} element={<ResidentFormWrapper />} />
-      <Route path={ROUTES.NEW_RESIDENT_APPROVAL} element={<NewResidentApproval />} />
+        {/* דיירים */}
+        <Route path={ROUTES.RESIDENT_FORM} element={<ResidentFormWrapper />} />
+        <Route path={ROUTES.NEW_RESIDENT_APPROVAL} element={<NewResidentApproval />} />
 
-      {/* תחזוקה */}
-      <Route path={ROUTES.REPAIR_TRACKING} element={<RepairTracking />} />
-      <Route path={ROUTES.GARDENING} element={<Gardening />} />
+        {/* תחזוקה */}
+        <Route path={ROUTES.REPAIR_TRACKING} element={<RepairTracking />} />
+        <Route path={ROUTES.GARDENING} element={<Gardening />} />
 
-      {/* דירות */}
-      <Route path={ROUTES.FOR_RENT} element={<ForRent />} />
-      <Route path={ROUTES.FOR_SALE} element={<ForSale />} />
+        {/* דירות */}
+        <Route path={ROUTES.FOR_RENT} element={<ForRent />} />
+        <Route path={ROUTES.FOR_SALE} element={<ForSale />} />
 
-      {/* עובדים */}
-      <Route path={ROUTES.EMPLOYEE_MANAGEMENT} element={<EmployeeManagement />} />
+        {/* עובדים */}
+        <Route path={ROUTES.EMPLOYEE_MANAGEMENT} element={<EmployeeManagement />} />
 
-      {/* משתמשים */}
-      <Route path={ROUTES.SIGN_UP} element={<SignUpPage />} />
-      <Route path={ROUTES.USERS_LIST} element={<UsersListPage />} />
-      <Route path={ROUTES.USER_DETAILS} element={<UserDetailsPage />} />
-      <Route path={ROUTES.USER_MANAGEMENT} element={<UserManagement />} />
-      <Route path={ROUTES.CREATE_ADMIN_PASSWORD} element={<CreateAdminPassword />} />
-      <Route path={ROUTES.CHANGE_ADMIN_PASSWORD} element={<ChangeAdminPassword />} />
+        {/* משתמשים */}
+        <Route path={ROUTES.SIGN_UP} element={<SignUpPage />} />
+        <Route path={ROUTES.USERS_LIST} element={<UsersListPage />} />
+        <Route path={ROUTES.USER_DETAILS} element={<UserDetailsPage />} />
+        <Route path={ROUTES.USER_MANAGEMENT} element={<UserManagement />} />
+        <Route path={ROUTES.CREATE_ADMIN_PASSWORD} element={<CreateAdminPassword />} />
+        <Route path={ROUTES.CHANGE_ADMIN_PASSWORD} element={<ChangeAdminPassword />} />
 
-      {/* תשלום */}
-      <Route path={ROUTES.CHECK_OUT} element={<CheckOutPage />} />
-      <Route path="/payment-page" element={<PaymentPage />} />
+        {/* תשלום */}
+        <Route path={ROUTES.CHECK_OUT} element={<CheckOutPage />} />
+        <Route path="/payment-page" element={<PaymentPage />} />
 
-      {/* אדמין */}
-      <Route path={ROUTES.ADMIN_LOGIN} element={<AdminLogin />} />
-      <Route path={ROUTES.ADMIN_DASHBOARD} element={<AdminDashboard />} />
-      <Route path={ROUTES.CHANGE_PASSWORD} element={<ChangePassword />} />
-      <Route path={ROUTES.USER_DETAILS} element={<UserDetailsPage />} />
+        {/* אדמין */}
+        <Route path={ROUTES.ADMIN_LOGIN} element={<AdminLogin />} />
+        <Route path={ROUTES.ADMIN_DASHBOARD} element={<AdminDashboard />} />
+        <Route path={ROUTES.CHANGE_PASSWORD} element={<ChangePassword />} />
+        <Route path={ROUTES.USER_DETAILS} element={<UserDetailsPage />} />
 
-      {/* משתמשים */}
-      <Route path={ROUTES.USER_LOGIN} element={<UserLogin />} />
-      <Route path={ROUTES.USER_DASHBOARD} element={<UserDashboard />} />
+        {/* משתמשים */}
+        <Route path={ROUTES.USER_LOGIN} element={<UserLogin />} />
+        <Route path={ROUTES.USER_DASHBOARD} element={<UserDashboard />} />
 
-      {/* קבלה */}
-      <Route path={ROUTES.RECEIPT} element={<ReceiptPage />} />
+        {/* קבלה */}
+        <Route path={ROUTES.RECEIPT} element={<ReceiptPage />} />
 
-      {/* הצבעות */}
-      <Route path={ROUTES.VOTING} element={<Voting />} />
+        {/* הצבעות */}
+        <Route path={ROUTES.VOTING} element={<Voting />} />
 
-      {/* קיר קהילה */}
-      <Route path={ROUTES.COMMUNITY_WALL} element={<CommunityWall />} />
+        {/* קיר קהילה */}
+        <Route path={ROUTES.COMMUNITY_WALL} element={<CommunityWall />} />
 
-      {/* AI Dashboard */}
-      <Route path={ROUTES.AI_DASHBOARD} element={<AIDashboard />} />
+        {/* AI Dashboard */}
+        <Route path={ROUTES.AI_DASHBOARD} element={<AIDashboard />} />
 
-      {/* ניהול תשלומים */}
-      <Route path={ROUTES.PAYMENT_MANAGEMENT} element={<PaymentManagement />} />
+        {/* ניהול תשלומים */}
+        <Route path={ROUTES.PAYMENT_MANAGEMENT} element={<PaymentManagement />} />
 
-      {/* ניהול דירות */}
-      <Route path={ROUTES.APARTMENT_MANAGEMENT} element={<ApartmentManagement />} />
+        {/* ניהול דירות */}
+        <Route path={ROUTES.APARTMENT_MANAGEMENT} element={<ApartmentManagement />} />
 
-      {/* דפים משפטיים */}
-      <Route path={ROUTES.PRIVACY_POLICY} element={<PrivacyPolicy />} />
-      <Route path={ROUTES.TERMS_AND_CONDITIONS} element={<TermsAndConditions />} />
-      <Route path={ROUTES.ACCESSIBILITY} element={<Accessibility />} />
-      <Route path={ROUTES.SECURITY_POLICY} element={<SecurityPolicy />} />
+        {/* דפים משפטיים */}
+        <Route path={ROUTES.PRIVACY_POLICY} element={<PrivacyPolicy />} />
+        <Route path={ROUTES.TERMS_AND_CONDITIONS} element={<TermsAndConditions />} />
+        <Route path={ROUTES.ACCESSIBILITY} element={<Accessibility />} />
+        <Route path={ROUTES.SECURITY_POLICY} element={<SecurityPolicy />} />
 
-      {/* תודה + 404 */}
-      <Route path={ROUTES.THANK_YOU} element={<ThankYouPage />} />
-      <Route path="*" element={<Error404Page />} />
+        {/* תודה + 404 */}
+        <Route path={ROUTES.THANK_YOU} element={<ThankYouPage />} />
+        <Route path="*" element={<Error404Page />} />
 
-      {/* דוחות וסטטיסטיקה */}
-      <Route path={ROUTES.REPORTS_DASHBOARD} element={<ReportsDashboard />} />
+        {/* דוחות וסטטיסטיקה */}
+        <Route path={ROUTES.REPORTS_DASHBOARD} element={<ReportsDashboard />} />
 
-      {/* ניהול תחזוקה */}
-      <Route path={ROUTES.MAINTENANCE_MANAGEMENT} element={<MaintenanceManagement />} />
+        {/* ניהול תחזוקה */}
+        <Route path={ROUTES.MAINTENANCE_MANAGEMENT} element={<MaintenanceManagement />} />
 
-      {/* הגדרות מערכת */}
-      <Route path={ROUTES.SYSTEM_SETTINGS} element={<SystemSettings />} />
-    </Routes>
+        {/* הגדרות מערכת */}
+        <Route path={ROUTES.SYSTEM_SETTINGS} element={<SystemSettings />} />
+      </Routes>
+    </Suspense>
   );
 };
 

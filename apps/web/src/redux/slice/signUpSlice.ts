@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import type { User } from '../types/types';
+import { apiRequestJson } from '../../api';
 
 export type SignUpState = {
   user: User | null;
@@ -17,7 +18,7 @@ export const signUpUser = createAsyncThunk(
   'signUp/signUpUser',
   async (formData: { name: string; email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/signup`, {
+      const { response, data } = await apiRequestJson<{ message?: string; user?: User; field?: string }>('signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -25,10 +26,12 @@ export const signUpUser = createAsyncThunk(
         body: JSON.stringify(formData)
       });
       if (!response.ok) {
-        throw new Error('שגיאה בהירשמות');
+        return rejectWithValue(data?.message || 'שגיאה בהירשמות');
       }
-      const data = await response.json();
-      return data;
+      if (!data?.user) {
+        return rejectWithValue('תגובה לא צפויה מהשרת');
+      }
+      return data.user;
     } catch (error: unknown) {
       return rejectWithValue(error instanceof Error ? error.message : 'שגיאה בהירשמות');
     }

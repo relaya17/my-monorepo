@@ -1,0 +1,53 @@
+const normalizeBase = (base: string) => base.trim().replace(/\/+$/, '');
+
+const ENV_BASE = normalizeBase(String(import.meta.env.VITE_API_URL ?? ''));
+const FALLBACK_BASE = '/api';
+
+const joinUrl = (base: string, path: string) => {
+  const normalizedBase = normalizeBase(base || FALLBACK_BASE);
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return `${normalizedBase}${normalizedPath}`;
+};
+
+async function readJsonSafe<T>(res: Response): Promise<T | null> {
+  try {
+    return (await res.json()) as T;
+  } catch {
+    return null;
+  }
+}
+
+export async function apiRequestJson<T>(
+  path: string,
+  init?: RequestInit
+): Promise<{ response: Response; data: T | null; usedBase: string }> {
+  const tryOnce = async (base: string) => {
+    const url = joinUrl(base, path);
+    const response = await fetch(url, init);
+
+    const contentType = response.headers.get('content-type') ?? '';
+    const looksJson = contentType.includes('application/json');
+    const data = looksJson ? await readJsonSafe<T>(response) : null;
+
+    return { response, data, usedBase: base };
+  };
+
+  try {
+    const first = await tryOnce(ENV_BASE);
+
+    // If ENV_BASE is wrong (e.g. points at the web static service), we may get HTML.
+    // In that case, retry on same-origin /api to avoid "works on desktop, fails on mobile" issues.
+    const shouldFallback =
+      ENV_BASE &&
+      ENV_BASE !== FALLBACK_BASE &&
+      (first.data === null || first.response.status === 404);
+
+    if (shouldFallback) return await tryOnce(FALLBACK_BASE);
+    return first;
+  } catch {
+    // Network error: fall back to same-origin API.
+    if (ENV_BASE && ENV_BASE !== FALLBACK_BASE) return await tryOnce(FALLBACK_BASE);
+    throw new Error('Network error');
+  }
+}
+

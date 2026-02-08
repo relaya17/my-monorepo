@@ -1,9 +1,16 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request } from 'express';
+import type { RequestHandler } from 'express';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
 const router = Router();
+
+// Minimal response typing to avoid Express type-resolution issues in some setups.
+type JsonResponse = {
+    status: (code: number) => JsonResponse;
+    json: (body: unknown) => unknown;
+};
 
 // טיפוס מותאם ל-Multer
 interface MulterRequest extends Request {
@@ -23,10 +30,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // See note in fileRouter.ts about TS2769 with duplicated Express type packages.
-const uploadSingle: any = upload.single('file');
+const uploadSingle = upload.single('file') as unknown as RequestHandler;
 
 // הוספת קובץ
-const uploadHandler = (req: Request, res: Response) => {
+const uploadHandler = (req: Request, res: JsonResponse) => {
     const file = (req as MulterRequest).file;
     if (!file) {
         return res.status(400).json({ error: 'לא נבחר קובץ' });
@@ -42,7 +49,7 @@ const uploadHandler = (req: Request, res: Response) => {
 router.post('/upload', uploadSingle, uploadHandler);
 
 // קבלת רשימת קבצים
-router.get('/', (req: Request, res: Response) => {
+router.get('/', (req: Request, res: JsonResponse) => {
     const uploadsDir = path.join(__dirname, '../../../uploads');
     fs.readdir(uploadsDir, (err: NodeJS.ErrnoException | null, files: string[]) => {
         if (err) {
@@ -59,7 +66,6 @@ router.get('/', (req: Request, res: Response) => {
                 uploadedAt: stats.ctime
             };
         });
-
 
         return res.status(200).json(fileList);
     });
