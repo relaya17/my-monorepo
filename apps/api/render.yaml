@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: web
+    env: node
+    repo: https://github.com/relaya17/my-monorepo
+    branch: main
+    rootDir: my-monorepo-app/apps/web
+    buildCommand: pnpm install && pnpm run build
+    startCommand: pnpm exec serve -s dist -l 0.0.0.0:$PORT
+    buildFilter:
+      paths:
+        - apps/web/**
+
+  - type: web
+    name: api
+    env: node
+    repo: https://github.com/relaya17/my-monorepo
+    branch: main
+    rootDir: my-monorepo-app/apps/api
+    buildCommand: pnpm install && pnpm run build
+    startCommand: node dist/index.js
+    buildFilter:
+      paths:
+        - apps/api/**

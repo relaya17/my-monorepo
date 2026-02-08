@@ -118,7 +118,7 @@ jobs:
       - name: 🚀 Deploy to Netlify
         uses: nwtgck/actions-netlify@v2
         with:
-          publish-dir: 'client/dist'  # יחסי ל-my-monorepo-app
+          publish-dir: 'apps/web/dist'  # יחסי ל-my-monorepo-app
           production-branch: main
           deploy-message: "🚀 Auto-deployed from GitHub Actions"
           enable-pull-request-comment: false

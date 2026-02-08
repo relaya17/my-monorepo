@@ -1,0 +1,82 @@
+import express, { Request, Response } from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import routes from './routes/index.js';
+import stripeRoutes from './routes/stripeRoutes.js';
+import stripeWebhookRoute from './routes/stripeWebhookRoute.js';
+import fs from 'fs';
+import path from 'path';
+import Admin from './models/adminModel.js';
+import bcrypt from 'bcryptjs';
+import morgan from 'morgan';
+import helmet from 'helmet';
+import { fileURLToPath } from 'url';
+dotenv.config();
+
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+const app = express();
+const port = Number(process.env.PORT) || 3008;
+app.use(cors());
+app.use(morgan('dev'));
+app.use(helmet());
+
+// יצירת תיקיית uploads אם לא קיימת
+const uploadsDir = path.join(__dirname, '../../../uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir);
+}
+
+// שרת קבצים סטטי
+app.use('/uploads', express.static(uploadsDir));
+
+// שרת קבצים סטטי ל-React app
+const clientPath = path.join(__dirname, '../../web/dist');
+app.use(express.static(clientPath));
+
+// Stripe webhook חייב גוף raw
+app.use('/api/webhooks/stripe', stripeWebhookRoute);
+
+app.use(express.json());
+
+// נתיב ראשי לבדיקת חיבור
+app.get('/', (req: Request, res: Response) => {
+    res.json({ message: 'Server is running successfully!' });
+});
+
+// API routes
+app.use('/api', routes);
+app.use('/api/stripe', stripeRoutes);
+
+// Fallback route - serve React app for all other routes
+app.get('*', (req, res) => {
+    res.sendFile(path.join(clientPath, 'index.html'));
+});
+
+
+const mongoUri = process.env.MONGO_URI;
+if (!mongoUri) {
+    throw new Error('Missing MONGO_URI environment variable');
+}
+
+mongoose.connect(mongoUri)
+    .then(async () => {
+        console.log('Connected to MongoDB');
+        // יצירת אדמין ברירת מחדל אם אין
+        const adminCount = await Admin.countDocuments();
+        if (adminCount === 0) {
+            const hash = await bcrypt.hash('admin123', 10);
+            await Admin.create({ username: 'admin', password: hash });
+            console.log('Admin ברירת מחדל נוצר: admin / admin123');
+        }
+    })
+    .catch(err => console.error('MongoDB connection error:', err));
+
+app.listen(port, () => {
+    console.log(`[Server Started]\tServer is running on http://localhost:${port}`);
+});

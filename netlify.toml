@@ -1,6 +1,6 @@
 [build]
 command = "pnpm install && pnpm run build"
-publish = "client/dist"
+publish = "apps/web/dist"
 
 
 [[redirects]]

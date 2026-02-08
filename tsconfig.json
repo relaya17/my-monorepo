@@ -1,13 +1,8 @@
 {
-    "compilerOptions": {
-      "target": "ESNext",
-      "module": "CommonJS",
-      "strict": true,
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "outDir": "dist"
-    },
-    "include": ["./server/src", "./client/src"],
-    "exclude": ["node_modules", "dist"]
-  } 
+  "files": [],
+  "references": [
+    { "path": "./apps/web" },
+    { "path": "./apps/api" },
+    { "path": "./packages/shared" }
+  ]
+}

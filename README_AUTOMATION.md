@@ -7,7 +7,6 @@
 - [CI/CD Pipeline](#cicd-pipeline)
 - [ניטור והתראות](#ניטור-והתראות)
 - [גיבויים אוטומטיים](#גיבויים-אוטומטיים)
-- [Docker & DevOps](#docker--devops)
 - [פקודות שימושיות](#פקודות-שימושיות)
 - [פתרון בעיות](#פתרון-בעיות)
 
@@ -17,11 +16,10 @@
 
 פרויקט זה כולל מערכת אוטומציה מלאה עם:
 - ✅ **CI/CD Pipeline** עם GitHub Actions
-- ✅ **ניטור אוטומטי** עם Prometheus + Grafana
+- ✅ **ניטור אוטומטי** באמצעות סקריפטים
 - ✅ **גיבויים אוטומטיים** של מסד הנתונים
 - ✅ **בדיקות אוטומטיות** (lint, test, build)
 - ✅ **התראות חכמות** על שגיאות ובעיות
-- ✅ **Docker Compose** להרצה מלאה
 - ✅ **סקריפטים אוטומטיים** לכל התהליכים
 
 ---
@@ -96,15 +94,6 @@ pnpm run monitor:stats        # סטטיסטיקות
 pnpm run monitor:logs         # לוגים אחרונים
 ```
 
-### 🐳 Docker & DevOps
-```bash
-pnpm run automation:docker    # הפעלת Docker
-pnpm run docker:build         # בניית images
-pnpm run docker:up            # הפעלת שירותים
-pnpm run docker:down          # עצירת שירותים
-pnpm run docker:logs          # צפייה בלוגים
-```
-
 ### 📊 סטטוס וניטור
 ```bash
 pnpm run automation:status    # סטטוס כל השירותים
@@ -127,8 +116,8 @@ pnpm run logs:clear           # ניקוי לוגים
    - Security audit (pnpm audit)
 
 2. **בנייה אוטומטית**
-   - Build client (React)
-   - Build server (Node.js)
+   - Build web (React)
+   - Build api (Node.js)
    - Upload artifacts
 
 3. **בדיקות אבטחה**
@@ -145,15 +134,6 @@ pnpm run logs:clear           # ניקוי לוגים
 ---
 
 ## 📈 ניטור והתראות
-
-### Prometheus + Grafana
-- **Prometheus**: איסוף metrics
-- **Grafana**: דשבורד ניטור
-- **Node Exporter**: ניטור מערכת
-
-### גישה לדשבורדים:
-- **Grafana**: http://localhost:3000 (admin/admin123)
-- **Prometheus**: http://localhost:9090
 
 ### התראות אוטומטיות:
 - 🔴 שגיאות קריטיות
@@ -190,33 +170,6 @@ pnpm run backup:cleanup
 ```
 
 ---
-
-## 🐳 Docker & DevOps
-
-### שירותים זמינים:
-- **MongoDB**: מסד נתונים
-- **Node.js Server**: שרת API
-- **React Client**: ממשק משתמש
-- **Nginx**: Reverse proxy
-- **Redis**: מטמון
-- **Prometheus**: ניטור
-- **Grafana**: דשבורד
-- **Node Exporter**: metrics מערכת
-
-### הרצה עם Docker:
-```bash
-# הפעלת כל השירותים
-docker-compose up -d
-
-# צפייה בלוגים
-docker-compose logs -f
-
-# עצירת שירותים
-docker-compose down
-
-# בנייה מחדש
-docker-compose build
-```
 
 ---
 
@@ -288,16 +241,7 @@ pnpm run health:check
 pnpm run backup:restore
 ```
 
-#### 3. שגיאות Docker
-```bash
-# ניקוי Docker
-docker system prune -a
-
-# בנייה מחדש
-docker-compose build --no-cache
-```
-
-#### 4. שגיאות תלויות
+#### 3. שגיאות תלויות
 ```bash
 # ניקוי והתקנה מחדש
 pnpm run clean:all
@@ -334,8 +278,6 @@ node scripts/monitor.js
 
 ### קבצי הגדרה חשובים:
 - `.github/workflows/ci.yml` - CI/CD Pipeline
-- `docker-compose.yml` - הגדרות Docker
-- `prometheus.yml` - הגדרות ניטור
 - `scripts/` - סקריפטים אוטומטיים
 
 ---
@@ -347,7 +289,6 @@ node scripts/monitor.js
 - ✅ **ניטור מתקדם** עם התראות
 - ✅ **גיבויים חכמים** עם שחזור
 - ✅ **בדיקות אוטומטיות** בכל שלב
-- ✅ **Docker Compose** להרצה מלאה
 - ✅ **סקריפטים ידידותיים** לכל הצרכים
 
 **הכל מוכן לשימוש - פשוט הרץ `pnpm run automation:full` ותיהנה! 🚀** 

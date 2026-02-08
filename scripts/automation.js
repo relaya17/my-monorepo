@@ -62,8 +62,8 @@ function runCommand(command, description) {
 function checkFiles() {
     const requiredFiles = [
         'my-monorepo-app/package.json',
-        'my-monorepo-app/client/package.json',
-        'my-monorepo-app/server/package.json',
+        'my-monorepo-app/apps/web/package.json',
+        'my-monorepo-app/apps/api/package.json',
         '.github/workflows/ci.yml'
     ];
     
@@ -84,8 +84,8 @@ function checkFiles() {
 async function installDependencies() {
     try {
         await runCommand('pnpm install', 'מתקין תלויות ראשיות');
-        await runCommand('cd my-monorepo-app/client && pnpm install', 'מתקין תלויות קליינט');
-        await runCommand('cd my-monorepo-app/server && pnpm install', 'מתקין תלויות שרת');
+        await runCommand('cd my-monorepo-app/apps/web && pnpm install', 'מתקין תלויות Web');
+        await runCommand('cd my-monorepo-app/apps/api && pnpm install', 'מתקין תלויות API');
         return true;
     } catch (error) {
         logError('התקנת תלויות נכשלה');
@@ -138,17 +138,6 @@ async function healthCheck() {
     }
 }
 
-// פונקציה להרצת Docker
-async function runDocker() {
-    try {
-        await runCommand('docker-compose up -d', 'מפעיל שירותים ב-Docker');
-        return true;
-    } catch (error) {
-        logWarning('הרצת Docker נכשלה - ממשיך...');
-        return true;
-    }
-}
-
 // פונקציה לניקוי
 async function cleanup() {
     try {
@@ -166,11 +155,9 @@ function showStatus() {
     
     // בדיקת שרתים
     const services = [
-        { name: 'Server', port: 3008, url: 'http://localhost:3008/api/health' },
-        { name: 'Client', port: 5174, url: 'http://localhost:5174' },
-        { name: 'MongoDB', port: 27017 },
-        { name: 'Prometheus', port: 9090, url: 'http://localhost:9090' },
-        { name: 'Grafana', port: 3000, url: 'http://localhost:3000' }
+        { name: 'API', port: 3008, url: 'http://localhost:3008/api/health' },
+        { name: 'Web', port: 5174, url: 'http://localhost:5174' },
+        { name: 'MongoDB', port: 27017 }
     ];
     
     services.forEach(service => {
@@ -197,8 +184,7 @@ async function fullAutomation() {
         { name: 'הרצת בדיקות', func: runTests },
         { name: 'בנייה', func: build },
         { name: 'גיבוי', func: backup },
-        { name: 'בדיקת בריאות', func: healthCheck },
-        { name: 'הרצת Docker', func: runDocker }
+        { name: 'בדיקת בריאות', func: healthCheck }
     ];
     
     for (const step of steps) {
@@ -260,9 +246,6 @@ switch (command) {
     case 'health':
         healthCheck();
         break;
-    case 'docker':
-        runDocker();
-        break;
     case 'cleanup':
         cleanup();
         break;
@@ -280,7 +263,6 @@ pnpm run automation:test     - הרצת בדיקות בלבד
 pnpm run automation:build    - בנייה בלבד
 pnpm run automation:backup   - גיבוי בלבד
 pnpm run automation:health   - בדיקת בריאות בלבד
-pnpm run automation:docker   - הרצת Docker בלבד
 pnpm run automation:cleanup  - ניקוי בלבד
 pnpm run automation:status   - הצגת סטטוס בלבד
 
