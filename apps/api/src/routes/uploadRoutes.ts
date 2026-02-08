@@ -22,6 +22,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+// See note in fileRouter.ts about TS2769 with duplicated Express type packages.
+const uploadSingle: any = upload.single('file');
+
 // הוספת קובץ
 const uploadHandler = (req: Request, res: Response) => {
     const file = (req as MulterRequest).file;
@@ -36,7 +39,7 @@ const uploadHandler = (req: Request, res: Response) => {
     });
 };
 
-router.post('/upload', upload.single('file'), uploadHandler);
+router.post('/upload', uploadSingle, uploadHandler);
 
 // קבלת רשימת קבצים
 router.get('/', (req: Request, res: Response) => {

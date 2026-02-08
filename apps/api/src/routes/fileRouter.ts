@@ -16,7 +16,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.post('/upload', upload.single('file'), (req: Request, res: Response) => {
+// NOTE: In some pnpm/CI layouts, Express types can be duplicated which causes
+// TS2769 ("No overload matches this call") when passing Multer middleware.
+// Casting here keeps runtime behavior identical while avoiding type conflicts.
+const uploadSingle: any = upload.single('file');
+
+router.post('/upload', uploadSingle, (req: Request, res: Response) => {
     // multer מוסיף את הfile לreq - לצורך TypeScript אפשר להתעלם מהטעות עם //@ts-ignore
     // או להוסיף טיפוס מותאם
     //@ts-ignore
