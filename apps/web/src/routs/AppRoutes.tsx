@@ -39,6 +39,7 @@ const AdminLogin = lazy(() => import("../pages/AdminLogin"));
 const ChangePassword = lazy(() => import("../pages/ChangePassword"));
 
 const UserLogin = lazy(() => import("../pages/UserLogin"));
+const ForgotPasswordPage = lazy(() => import("../pages/ForgotPasswordPage"));
 const UserDashboard = lazy(() => import("../pages/UserDashboard"));
 
 const ReceiptPage = lazy(() => import("../pages/ReceiptPage"));
@@ -134,6 +135,7 @@ const AppRoutes: React.FC = () => {
 
         {/* משתמשים */}
         <Route path={ROUTES.USER_LOGIN} element={<UserLogin />} />
+        <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
         <Route path={ROUTES.USER_DASHBOARD} element={<UserDashboard />} />
 
         {/* קבלה */}

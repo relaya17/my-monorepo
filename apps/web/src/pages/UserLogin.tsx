@@ -98,9 +98,9 @@ const UserLogin: React.FC = () => {
                 </div>
               ) : (
                 <div className="d-grid gap-2 mb-4">
-                  {buildings.map((b) => (
+                  {buildings.map((b, i) => (
                     <button
-                      key={b.buildingId}
+                      key={b.buildingId ? `${b.buildingId}-${i}` : `building-${i}`}
                       type="button"
                       className={`btn btn-lg ${currentBuildingId === b.buildingId ? 'btn-primary' : 'btn-outline-primary'}`}
                       onClick={() => handleSelectBuilding(b.buildingId)}
@@ -165,6 +165,11 @@ const UserLogin: React.FC = () => {
                     <i className="fas fa-exclamation-triangle ms-2"></i> {error}
                   </div>
                 )}
+                <div className="text-end mb-2">
+                  <button type="button" className="btn btn-link btn-sm p-0 text-decoration-none" onClick={() => navigate(ROUTES.FORGOT_PASSWORD)}>
+                    שכחתי סיסמה
+                  </button>
+                </div>
                 <button type="submit" className="btn btn-primary w-100" disabled={isLoading}>
                   {isLoading ? <><span className="spinner-border spinner-border-sm me-2" role="status"></span>מתחבר...</> : <><i className="fas fa-sign-in-alt ms-2"></i>התחבר</>}
                 </button>

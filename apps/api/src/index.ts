@@ -11,6 +11,7 @@ import path from 'path';
 import Admin from './models/adminModel.js';
 import User from './models/userModel.js';
 import bcrypt from 'bcryptjs';
+import { tenantContext } from './middleware/tenantMiddleware.js';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import { fileURLToPath } from 'url';
@@ -138,28 +139,33 @@ mongoose.connect(mongoUri)
     .then(async () => {
         console.log('Connected to MongoDB');
 
-        // אם אין אף אדמין – יוצרים אדמין ברירת מחדל אוטומטית (הפעלה ראשונה).
-        const adminCount = await Admin.countDocuments();
-        if (adminCount === 0) {
-            const hash = await bcrypt.hash('admin123', 10);
-            await Admin.create({ username: 'admin', password: hash });
-            console.log('[Admin] אדמין ברירת מחדל נוצר: admin / admin123');
-        }
+        // אדמין ברירת מחדל – בתוך tenant context של default, לפני תחילת קבלת בקשות
+        await tenantContext.run({ buildingId: 'default' }, async () => {
+            const adminCount = await Admin.countDocuments();
+            if (adminCount === 0) {
+                const hash = await bcrypt.hash('admin123', 10);
+                await Admin.create({ username: 'admin', password: hash });
+                console.log('[Admin] אדמין ברירת מחדל נוצר: admin / admin123');
+            }
+        });
 
         // דייר לדוגמה רק בסביבת פיתוח
         const shouldSeedResident = process.env.SEED_DEFAULT_USERS === 'true' && process.env.NODE_ENV !== 'production';
         if (shouldSeedResident) {
-            const defaultResidentEmail = 'resident@example.com';
-            const existingResident = await User.findOne({ email: defaultResidentEmail });
-            if (!existingResident) {
-                const hash = await bcrypt.hash('123456', 10);
-                await User.create({ name: 'דייר לדוגמה', email: defaultResidentEmail, password: hash });
-                console.log('דייר ברירת מחדל נוצר: resident@example.com / 123456');
-            }
+            await tenantContext.run({ buildingId: 'default' }, async () => {
+                const defaultResidentEmail = 'resident@example.com';
+                const existingResident = await User.findOne({ email: defaultResidentEmail });
+                if (!existingResident) {
+                    const hash = await bcrypt.hash('123456', 10);
+                    await User.create({ name: 'דייר לדוגמה', email: defaultResidentEmail, password: hash });
+                    console.log('דייר ברירת מחדל נוצר: resident@example.com / 123456');
+                }
+            });
         }
+
+        // השרת מתחיל לקבל בקשות רק אחרי שה-seed הושלם
+        app.listen(port, () => {
+            console.log(`[Server Started]\tServer is running on http://localhost:${port}`);
+        });
     })
     .catch(err => console.error('MongoDB connection error:', err));
-
-app.listen(port, () => {
-    console.log(`[Server Started]\tServer is running on http://localhost:${port}`);
-});

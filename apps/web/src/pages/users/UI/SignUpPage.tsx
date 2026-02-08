@@ -5,6 +5,7 @@ import { Form, Button, Alert, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import type { AppDispatch, RootState } from '../../../redux/store';
 import ROUTES from '../../../routs/routes';
+import { setBuildingId } from '../../../api';
 import { safeSetItem } from '../../../utils/safeStorage';
 
 const SignUpPage: React.FC = () => {
@@ -21,6 +22,13 @@ const SignUpPage: React.FC = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
 
+  const SECURITY_QUESTIONS = [
+    'מה שם הנעורים של אמך?',
+    'מה שם חיית המחמד הראשונה שלך?',
+    'באיזו עיר נולדת?',
+    'מהו שם המורה הראשון שלך?'
+  ];
+
   const [formData, setFormData] = useState({ 
     buildingAddress: '',
     buildingNumber: '',
@@ -31,10 +39,14 @@ const SignUpPage: React.FC = () => {
     password: '', 
     confirmPassword: '',
     phone: '',
-    familyMembers: ''
+    familyMembers: '',
+    securityQuestion1: 'מה שם הנעורים של אמך?',
+    securityAnswer1: '',
+    securityQuestion2: 'מה שם חיית המחמד הראשונה שלך?',
+    securityAnswer2: ''
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -53,6 +65,11 @@ const SignUpPage: React.FC = () => {
       return;
     }
     
+    const securityQuestions = [
+      { question: formData.securityQuestion1, answer: formData.securityAnswer1 },
+      { question: formData.securityQuestion2, answer: formData.securityAnswer2 }
+    ].filter((sq) => sq.question && sq.answer);
+
     dispatch(signUpUser({
       name: formData.name,
       email: formData.email,
@@ -60,7 +77,8 @@ const SignUpPage: React.FC = () => {
       buildingAddress: formData.buildingAddress,
       buildingNumber: formData.buildingNumber,
       apartmentNumber: formData.apartment,
-      committeeName: formData.committeeName || undefined
+      committeeName: formData.committeeName || undefined,
+      securityQuestions: securityQuestions.length >= 2 ? securityQuestions : undefined
     }));
   };
 
@@ -76,7 +94,7 @@ const SignUpPage: React.FC = () => {
       safeSetItem('userName', u.name);
       safeSetItem('userId', String(u.id));
       safeSetItem('user', JSON.stringify(u));
-      if (u.buildingId) safeSetItem('buildingId', u.buildingId);
+      if (u.buildingId) setBuildingId(u.buildingId);
       navigate(ROUTES.RESIDENT_HOME, { replace: true });
     }
   }, [status, user, navigate]);
@@ -347,6 +365,43 @@ const SignUpPage: React.FC = () => {
                     </Button>
                   </InputGroup>
                 </Form.Group>
+              </div>
+            </div>
+
+            <div className="border-bottom pb-3 mb-3">
+              <h6 className="text-muted mb-3"><i className="fas fa-shield-alt me-2"></i>שאלות אבטחה (לשחזור סיסמה)</h6>
+              <p className="text-muted small mb-2">בחר שתי שאלות והזן תשובות – ישמשו לאיפוס סיסמה</p>
+              <div className="row mb-3">
+                <div className="col-md-6">
+                  <Form.Group>
+                    <Form.Label>שאלה 1</Form.Label>
+                    <Form.Select name="securityQuestion1" value={formData.securityQuestion1} onChange={handleChange} style={{ textAlign: 'right' }}>
+                      {SECURITY_QUESTIONS.map((q) => <option key={q} value={q}>{q}</option>)}
+                    </Form.Select>
+                  </Form.Group>
+                </div>
+                <div className="col-md-6">
+                  <Form.Group>
+                    <Form.Label>תשובה 1</Form.Label>
+                    <Form.Control name="securityAnswer1" value={formData.securityAnswer1} onChange={handleChange} placeholder="הכנס תשובה" required style={{ textAlign: 'right' }} />
+                  </Form.Group>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-6">
+                  <Form.Group>
+                    <Form.Label>שאלה 2</Form.Label>
+                    <Form.Select name="securityQuestion2" value={formData.securityQuestion2} onChange={handleChange} style={{ textAlign: 'right' }}>
+                      {SECURITY_QUESTIONS.map((q) => <option key={q} value={q}>{q}</option>)}
+                    </Form.Select>
+                  </Form.Group>
+                </div>
+                <div className="col-md-6">
+                  <Form.Group>
+                    <Form.Label>תשובה 2</Form.Label>
+                    <Form.Control name="securityAnswer2" value={formData.securityAnswer2} onChange={handleChange} placeholder="הכנס תשובה" required style={{ textAlign: 'right' }} />
+                  </Form.Group>
+                </div>
               </div>
             </div>
 

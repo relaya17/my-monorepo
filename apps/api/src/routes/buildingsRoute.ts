@@ -1,6 +1,8 @@
 import { Router, Request, Response } from 'express';
 import mongoose from 'mongoose';
-import Building from '../models/buildingModel.js';
+import Building, { type IBuilding } from '../models/buildingModel.js';
+
+type BuildingLean = Pick<IBuilding, 'buildingId' | 'address' | 'buildingNumber' | 'committeeName'>;
 
 async function listBuildings(_req: Request, res: Response): Promise<void> {
   try {
@@ -10,19 +12,21 @@ async function listBuildings(_req: Request, res: Response): Promise<void> {
       return;
     }
 
+    const fromBuildings = await Building.distinct('buildingId').catch(() => [] as string[]);
     const fromPayments = await db.collection('payments').distinct('buildingId').catch(() => [] as string[]);
     const fromUsers = await db.collection('users').distinct('buildingId').catch(() => [] as string[]);
     const fromAdmins = await db.collection('admins').distinct('buildingId').catch(() => [] as string[]);
 
     const ids = new Set<string>([
       'default',
+      ...(fromBuildings as string[]).filter(Boolean),
       ...(fromPayments as string[]).filter(Boolean),
       ...(fromUsers as string[]).filter(Boolean),
       ...(fromAdmins as string[]).filter(Boolean),
     ]);
 
-    const buildingDocs = await Building.find({ buildingId: { $in: Array.from(ids) } }).lean();
-    const byId = Object.fromEntries(buildingDocs.map((b: { buildingId: string }) => [b.buildingId, b]));
+    const buildingDocs = await Building.find({ buildingId: { $in: Array.from(ids) } }).lean<BuildingLean[]>();
+    const byId: Record<string, BuildingLean | undefined> = Object.fromEntries(buildingDocs.map((b) => [b.buildingId, b]));
 
     const buildings = Array.from(ids).sort((a, b) => a.localeCompare(b, 'he')).map((id) => ({
       buildingId: id,

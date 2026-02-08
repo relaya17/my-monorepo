@@ -16,7 +16,16 @@ const initialState: SignUpState = {
 
 export const signUpUser = createAsyncThunk(
   'signUp/signUpUser',
-  async (formData: { name: string; email: string; password: string; buildingAddress?: string; buildingNumber?: string; apartmentNumber?: string; committeeName?: string }, { rejectWithValue }) => {
+  async (formData: {
+    name: string;
+    email: string;
+    password: string;
+    buildingAddress?: string;
+    buildingNumber?: string;
+    apartmentNumber?: string;
+    committeeName?: string;
+    securityQuestions?: { question: string; answer: string }[];
+  }, { rejectWithValue }) => {
     try {
       const { response, data } = await apiRequestJson<{ message?: string; user?: User; field?: string }>('signup', {
         method: 'POST',
@@ -30,7 +39,8 @@ export const signUpUser = createAsyncThunk(
           buildingAddress: formData.buildingAddress,
           buildingNumber: formData.buildingNumber,
           apartmentNumber: formData.apartmentNumber,
-          committeeName: formData.committeeName
+          committeeName: formData.committeeName,
+          securityQuestions: formData.securityQuestions
         })
       });
       if (!response.ok) {

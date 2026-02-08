@@ -28,6 +28,7 @@ const ROUTES = {
   SELECT_BUILDING: "/select-building",
   CHANGE_PASSWORD: "/change-password",
   USER_LOGIN: "/user-login",
+  FORGOT_PASSWORD: "/forgot-password",
   USER_DASHBOARD: "/user-dashboard",
   RECEIPT: "/receipt",
   VOTING: "/voting",

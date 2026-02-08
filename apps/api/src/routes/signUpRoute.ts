@@ -37,8 +37,17 @@ const validateName = (name: string): { isValid: boolean; message: string } => {
 const toSlug = (s: string) => (s || '').trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-\u0590-\u05FF]/g, '');
 
 router.post('/', async (req: Request, res: Response) => {
-  const body = req.body as { name: string; email: string; password: string; buildingAddress?: string; buildingNumber?: string; apartmentNumber?: string; committeeName?: string };
-  const { name, email, password, buildingAddress, buildingNumber, apartmentNumber, committeeName } = body;
+  const body = req.body as {
+    name: string;
+    email: string;
+    password: string;
+    buildingAddress?: string;
+    buildingNumber?: string;
+    apartmentNumber?: string;
+    committeeName?: string;
+    securityQuestions?: { question: string; answer: string }[];
+  };
+  const { name, email, password, buildingAddress, buildingNumber, apartmentNumber, committeeName, securityQuestions: sqInput } = body;
 
   try {
     // ולידציה לשם
@@ -91,11 +100,21 @@ router.post('/', async (req: Request, res: Response) => {
         if (existingUser) throw new Error('EMAIL_EXISTS');
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
+        const securityQuestions: { question: string; answerHash: string }[] = [];
+        if (Array.isArray(sqInput) && sqInput.length >= 2) {
+          for (const sq of sqInput.slice(0, 3)) {
+            if (sq?.question && sq?.answer) {
+              const answerHash = await bcrypt.hash(String(sq.answer).trim(), 10);
+              securityQuestions.push({ question: String(sq.question).trim(), answerHash });
+            }
+          }
+        }
         const u = new User({
           name: name.trim(),
           email: email.toLowerCase().trim(),
           password: hashedPassword,
-          apartmentNumber: (apartmentNumber || '').trim() || undefined
+          apartmentNumber: (apartmentNumber || '').trim() || undefined,
+          ...(securityQuestions.length >= 2 ? { securityQuestions } : {})
         });
         await u.save();
         return u;

@@ -11,8 +11,7 @@
     "lint": "eslint . --ext .ts",
     "format": "prettier --write .",
     "clean": "rimraf dist",
-    "type-check": "node ../../node_modules/typescript/bin/tsc --noEmit",
-    "prepare": "husky install"
+    "type-check": "node ../../node_modules/typescript/bin/tsc --noEmit"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
