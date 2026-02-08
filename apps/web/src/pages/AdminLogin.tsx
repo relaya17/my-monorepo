@@ -23,12 +23,14 @@ const AdminLogin: React.FC = () => {
     setIsLoading(true);
 
     try {
+      const cleanUsername = username.trim();
+      const cleanPassword = password.trim();
       const { response, data } = await apiRequestJson<{ message?: string; admin?: { username: string; role: string } }>('admin/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username: cleanUsername, password: cleanPassword })
       });
 
       if (response.ok && data?.admin) {

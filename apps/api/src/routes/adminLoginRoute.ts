@@ -4,6 +4,8 @@ import bcrypt from 'bcryptjs';
 
 const router: express.Router = express.Router();
 
+const escapeRegex = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 // GET /api/admin/test - בדיקת חיבור
 router.get('/test', (req: Request, res: Response) => {
     console.log('Admin route test endpoint hit');
@@ -13,8 +15,12 @@ router.get('/test', (req: Request, res: Response) => {
 // POST /api/admin/login
 router.post('/login', async (req: Request, res: Response) => {
     const body = req.body as Record<string, unknown>;
-    const username = body.username as string | undefined;
-    const password = body.password as string | undefined;
+    const usernameRaw = typeof body.username === 'string' ? body.username : undefined;
+    const passwordRaw = typeof body.password === 'string' ? body.password : undefined;
+
+    const username = usernameRaw?.trim();
+    const password = passwordRaw?.trim();
+
     console.log('Admin login attempt:', { username, hasPassword: Boolean(password) });
 
     if (!username || !password) {
@@ -23,7 +29,8 @@ router.post('/login', async (req: Request, res: Response) => {
     }
 
     try {
-        const admin = await Admin.findOne({ username });
+        // Case-insensitive, whitespace-tolerant username lookup (mobile keyboards often add spaces/case).
+        const admin = await Admin.findOne({ username: new RegExp(`^${escapeRegex(username)}$`, 'i') });
         console.log('Admin found:', !!admin);
 
         if (!admin) {
