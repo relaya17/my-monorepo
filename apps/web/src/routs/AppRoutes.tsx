@@ -36,7 +36,6 @@ const PaymentPage = lazy(() => import("../pages/PaymentPage"));
 
 const AdminDashboard = lazy(() => import("../pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("../pages/AdminLogin"));
-const SelectBuilding = lazy(() => import("../pages/SelectBuilding"));
 const ChangePassword = lazy(() => import("../pages/ChangePassword"));
 
 const UserLogin = lazy(() => import("../pages/UserLogin"));
