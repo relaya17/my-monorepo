@@ -24,18 +24,16 @@ export default defineConfig({
     }
   },
   build: {
-    // Reduce initial JS by splitting heavy vendor deps into separate chunks
     chunkSizeWarningLimit: 750,
     rollupOptions: {
       output: {
         manualChunks(id) {
           if (!id.includes('node_modules')) return;
-          // Single chunk for all React-dependent libs so there is only one React instance (fixes useSyncExternalStore)
-          if (id.includes('react') || id.includes('react-dom') || id.includes('react-router') || id.includes('@reduxjs') || id.includes('react-bootstrap')) return 'react';
+          // Single chunk for React + deps so all libs use same instance - fixes useSyncExternalStore
+          const norm = id.replace(/\\/g, '/');
+          if (norm.includes('/react/') || norm.includes('/react-dom/') || norm.includes('/scheduler/') || norm.includes('/react-is/')) return 'react';
           if (id.includes('chart.js') || id.includes('react-chartjs-2')) return 'charts';
           if (id.includes('pdf-lib')) return 'pdf';
-          if (id.includes('bootstrap')) return 'bootstrap';
-          return 'vendor';
         }
       }
     }
