@@ -10,7 +10,8 @@ export default defineConfig({
       '/api': {
         // Dev-only API target (override with VITE_DEV_API_TARGET if needed)
         // Defaulting to Render avoids requiring local MongoDB for frontend work.
-        target: process.env.VITE_DEV_API_TARGET || 'https://my-monorepo-1pzh.onrender.com',
+        // NOTE: match the Render "primary URL" you posted in logs.
+        target: process.env.VITE_DEV_API_TARGET || 'https://my-monorepo-1.onrender.com',
         changeOrigin: true,
         secure: false,
       }

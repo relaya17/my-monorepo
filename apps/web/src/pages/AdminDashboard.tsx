@@ -45,30 +45,30 @@ const AdminDashboard: React.FC = () => {
               <i className="fas fa-building me-2" aria-hidden="true"></i>
               לוח בקרה למנהל
             </h1>
-            <div className="d-flex flex-column flex-md-row align-items-center gap-2">
+            <div className="d-flex flex-column flex-md-row align-items-center gap-2 w-100 justify-content-center justify-content-md-end">
               <span className="text-muted text-center text-md-end" style={{ fontSize: 'clamp(0.8rem, 2vw, 1rem)' }}>
                 <i className="fas fa-user me-1" aria-hidden="true"></i>
                 שלום, {adminUsername}
               </span>
-              <div className="d-flex gap-2">
+              <div className="admin-actions d-flex flex-wrap justify-content-center justify-content-md-end gap-2">
                 <AINotifications />
                 <Link 
                   to={ROUTES.CHANGE_PASSWORD}
-                  className="btn btn-outline-primary btn-sm"
+                  className="btn btn-outline-primary btn-sm admin-action-btn"
                   title="שינוי סיסמה"
                   aria-label="שינוי סיסמה"
                 >
                   <i className="fas fa-key me-1" aria-hidden="true"></i>
-                  <span className="d-none d-sm-inline">שינוי סיסמה</span>
+                  <span className="admin-action-label d-none d-sm-inline">שינוי סיסמה</span>
                 </Link>
                 <button 
                   onClick={handleLogout}
-                  className="btn btn-outline-danger btn-sm"
+                  className="btn btn-outline-danger btn-sm admin-action-btn"
                   title="התנתק"
                   aria-label="התנתק מהמערכת"
                 >
                   <i className="fas fa-sign-out-alt me-1" aria-hidden="true"></i>
-                  <span className="d-none d-sm-inline">התנתק</span>
+                  <span className="admin-action-label d-none d-sm-inline">התנתק</span>
                 </button>
               </div>
             </div>
@@ -296,6 +296,26 @@ const AdminDashboard: React.FC = () => {
         
         .dashboard-card:hover .dashboard-icon {
           transform: scale(1.1);
+        }
+
+        /* Top action buttons should be consistent on small screens */
+        .admin-actions {
+          width: 100%;
+        }
+
+        @media (max-width: 576px) {
+          .admin-actions .admin-action-btn {
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .admin-actions .admin-action-btn i {
+            margin: 0 !important;
+          }
         }
         
         @media (max-width: 768px) {

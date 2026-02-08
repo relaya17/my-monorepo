@@ -29,16 +29,20 @@ const Navbar: React.FC = () => {
           <style>{`
             @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap');
           `}</style>
-          <span
-            style={{
-              fontWeight: 700,
-              fontSize: '1.7rem',
-              color: '#ffffff',
-              fontFamily: "'Playfair Display', serif",
-              letterSpacing: '0.08em'
-            }}
-          >
-            VANTERA
+          <span className="brand-stack">
+            <span
+              className="brand-name"
+              style={{
+                fontWeight: 700,
+                fontSize: '1.7rem',
+                color: '#ffffff',
+                fontFamily: "'Playfair Display', serif",
+                letterSpacing: '0.08em'
+              }}
+            >
+              VANTERA
+            </span>
+            <span className="brand-slogan">Vantera – ניהול נכסים בסטנדרט אחר</span>
           </span>
         </Link>
 

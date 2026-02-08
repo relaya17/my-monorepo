@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../routs/routes';
 import { apiRequestJson } from '../api';
@@ -6,9 +6,11 @@ import { apiRequestJson } from '../api';
 const UserLogin: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,8 +80,16 @@ const UserLogin: React.FC = () => {
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    passwordRef.current?.focus();
+                  }
+                }}
                 placeholder="הזן כתובת אימייל"
                 required
+                autoComplete="email"
+                enterKeyHint="next"
                 style={{ textAlign: 'right' }}
               />
             </div>
@@ -89,16 +99,30 @@ const UserLogin: React.FC = () => {
                 <i className="fas fa-lock ms-2"></i>
                 סיסמה
               </label>
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="הזן סיסמה"
-                required
-                style={{ textAlign: 'right' }}
-              />
+              <div className="input-group">
+                <input
+                  ref={passwordRef}
+                  type={showPassword ? 'text' : 'password'}
+                  className="form-control"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="הזן סיסמה"
+                  required
+                  autoComplete="current-password"
+                  enterKeyHint="done"
+                  style={{ textAlign: 'right' }}
+                />
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? 'הסתר סיסמה' : 'הצג סיסמה'}
+                  title={showPassword ? 'הסתר סיסמה' : 'הצג סיסמה'}
+                >
+                  <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`} aria-hidden="true"></i>
+                </button>
+              </div>
             </div>
 
             {error && (

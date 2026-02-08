@@ -248,6 +248,37 @@ h1 {
   border-color: var(--primary-dark);
 }
 
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  /* Ensure visible label/icon even if Bootstrap wins color rules */
+  color: #0d6efd !important;
+  background-color: rgba(13, 110, 253, 0.12) !important;
+  border-color: #0d6efd !important;
+}
+
+.btn-outline-warning:hover,
+.btn-outline-warning:focus {
+  color: #b45309 !important;
+  background-color: rgba(245, 158, 11, 0.14) !important;
+  border-color: #f59e0b !important;
+}
+
+.btn-outline-danger:hover,
+.btn-outline-danger:focus {
+  color: #dc2626 !important;
+  background-color: rgba(239, 68, 68, 0.12) !important;
+  border-color: #ef4444 !important;
+}
+
+.btn-outline-dark:hover,
+.btn-outline-dark:focus,
+.btn-dark:hover,
+.btn-dark:focus {
+  color: #111827 !important;
+  background-color: rgba(17, 24, 39, 0.08) !important;
+  border-color: rgba(17, 24, 39, 0.3) !important;
+}
+
 .btn-secondary {
   background-color: var(--secondary-color);
   border-color: var(--border-light);
@@ -260,6 +291,14 @@ h1 {
   color: white;
 }
 
+.btn-success:hover,
+.btn-success:focus {
+  /* If hover background turns light, keep text readable */
+  background-color: #fff !important;
+  color: #111827 !important;
+  border-color: var(--success-color) !important;
+}
+
 .btn-warning {
   background-color: var(--warning-color);
   border-color: var(--warning-color);
@@ -270,6 +309,13 @@ h1 {
   background-color: var(--danger-color);
   border-color: var(--danger-color);
   color: white;
+}
+
+.btn-danger:hover,
+.btn-danger:focus {
+  background-color: #fff !important;
+  color: #111827 !important;
+  border-color: var(--danger-color) !important;
 }
 
 .btn-info {
@@ -307,6 +353,26 @@ h1 {
   display: flex;
   align-items: center;
   text-decoration: none;
+}
+
+.brand-stack {
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 1.05;
+}
+
+.brand-slogan {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  opacity: 0.85;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+@media (max-width: 576px) {
+  .brand-slogan {
+    display: none;
+  }
 }
 
 .navbar-toggler {

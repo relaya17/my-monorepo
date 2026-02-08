@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { apiRequestJson } from '../api';
 
 const AdminLogin: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('isAdminLoggedIn');
@@ -80,8 +82,16 @@ const AdminLogin: React.FC = () => {
                 id="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    passwordRef.current?.focus();
+                  }
+                }}
                 placeholder="admin"
                 required
+                autoComplete="username"
+                enterKeyHint="next"
                 style={{ textAlign: 'right' }}
               />
             </div>
@@ -91,16 +101,30 @@ const AdminLogin: React.FC = () => {
                 <i className="fas fa-lock ms-2"></i>
                 סיסמה
               </label>
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="admin123"
-                required
-                style={{ textAlign: 'right' }}
-              />
+              <div className="input-group">
+                <input
+                  ref={passwordRef}
+                  type={showPassword ? 'text' : 'password'}
+                  className="form-control"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="admin123"
+                  required
+                  autoComplete="current-password"
+                  enterKeyHint="done"
+                  style={{ textAlign: 'right' }}
+                />
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? 'הסתר סיסמה' : 'הצג סיסמה'}
+                  title={showPassword ? 'הסתר סיסמה' : 'הצג סיסמה'}
+                >
+                  <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`} aria-hidden="true"></i>
+                </button>
+              </div>
             </div>
 
             {error && (

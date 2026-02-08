@@ -129,14 +129,16 @@ const AINotifications: React.FC = () => {
   return (
     <div className="ai-notifications-container">
       {/* כפתור התראות עם מונה */}
-      <div className="position-relative d-inline-block">
+      <div className="position-relative d-inline-flex flex-wrap gap-2">
         <button
-          className="btn btn-outline-primary position-relative"
+          className="btn btn-outline-primary btn-sm position-relative admin-action-btn"
           onClick={() => setShowNotifications(!showNotifications)}
           disabled={loading}
+          aria-label="התראות AI"
+          title="התראות AI"
         >
-          <i className="fas fa-bell me-2"></i>
-          התראות AI
+          <i className="fas fa-bell me-0 me-sm-2" aria-hidden="true"></i>
+          <span className="admin-action-label d-none d-sm-inline">התראות AI</span>
           {totalNotifications > 0 && (
             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {totalNotifications}
@@ -146,12 +148,14 @@ const AINotifications: React.FC = () => {
 
         {/* כפתור התראות בזמן אמת */}
         <button
-          className="btn btn-outline-warning position-relative ms-2"
+          className="btn btn-outline-warning btn-sm position-relative admin-action-btn"
           onClick={() => setShowAlerts(!showAlerts)}
           disabled={loading}
+          aria-label="התראות בזמן אמת"
+          title="התראות בזמן אמת"
         >
-          <i className="fas fa-exclamation-triangle me-2"></i>
-          התראות בזמן אמת
+          <i className="fas fa-exclamation-triangle me-0 me-sm-2" aria-hidden="true"></i>
+          <span className="admin-action-label d-none d-sm-inline">התראות בזמן אמת</span>
           {totalAlerts > 0 && (
             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
               {totalAlerts}
@@ -162,8 +166,8 @@ const AINotifications: React.FC = () => {
 
       {/* דרופדאון התראות AI */}
       {showNotifications && (
-        <div className="position-absolute top-100 start-0 mt-2 z-1000">
-          <div className="card shadow-lg" style={{ minWidth: '400px', maxWidth: '500px' }}>
+        <div className="position-absolute top-100 end-0 mt-2 z-1000">
+          <div className="card shadow-lg" style={{ width: 'min(92vw, 520px)' }}>
             <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
               <h6 className="mb-0">
                 <i className="fas fa-brain me-2"></i>
@@ -243,8 +247,8 @@ const AINotifications: React.FC = () => {
 
       {/* דרופדאון התראות בזמן אמת */}
       {showAlerts && (
-        <div className="position-absolute top-100 start-0 mt-2 z-1000">
-          <div className="card shadow-lg" style={{ minWidth: '400px', maxWidth: '500px' }}>
+        <div className="position-absolute top-100 end-0 mt-2 z-1000">
+          <div className="card shadow-lg" style={{ width: 'min(92vw, 520px)' }}>
             <div className="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
               <h6 className="mb-0">
                 <i className="fas fa-bolt me-2"></i>

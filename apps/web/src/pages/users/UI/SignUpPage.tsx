@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signUpUser } from '../../../redux/slice/signUpSlice';
-import { Form, Button, Alert } from 'react-bootstrap';
+import { Form, Button, Alert, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import type { AppDispatch, RootState } from '../../../redux/store';
 import ROUTES from '../../../routs/routes';
@@ -10,6 +10,16 @@ const SignUpPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { status, user, error } = useSelector((state: RootState) => state.signUp);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const emailRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const apartmentRef = useRef<HTMLInputElement>(null);
+  const familyMembersRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const confirmPasswordRef = useRef<HTMLInputElement>(null);
+
   const [formData, setFormData] = useState({ 
     name: '', 
     email: '', 
@@ -81,8 +91,16 @@ const SignUpPage: React.FC = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        emailRef.current?.focus();
+                      }
+                    }}
                     placeholder="הכנס את שמך המלא"
                     required
+                    autoComplete="name"
+                    enterKeyHint="next"
                     style={{ textAlign: 'right' }}
                   />
                 </Form.Group>
@@ -95,12 +113,21 @@ const SignUpPage: React.FC = () => {
                     כתובת אימייל
                   </Form.Label>
                   <Form.Control
+                    ref={emailRef}
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        phoneRef.current?.focus();
+                      }
+                    }}
                     placeholder="הכנס את האימייל שלך"
                     required
+                    autoComplete="email"
+                    enterKeyHint="next"
                     style={{ textAlign: 'right' }}
                   />
                 </Form.Group>
@@ -115,12 +142,21 @@ const SignUpPage: React.FC = () => {
                     מספר טלפון
                   </Form.Label>
                   <Form.Control
+                    ref={phoneRef}
                     type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        apartmentRef.current?.focus();
+                      }
+                    }}
                     placeholder="050-1234567"
                     required
+                    autoComplete="tel"
+                    enterKeyHint="next"
                     style={{ textAlign: 'right' }}
                   />
                 </Form.Group>
@@ -133,12 +169,20 @@ const SignUpPage: React.FC = () => {
                     מספר דירה
                   </Form.Label>
                   <Form.Control
+                    ref={apartmentRef}
                     type="text"
                     name="apartment"
                     value={formData.apartment}
                     onChange={handleChange}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        familyMembersRef.current?.focus();
+                      }
+                    }}
                     placeholder="דירה 15, בניין א'"
                     required
+                    enterKeyHint="next"
                     style={{ textAlign: 'right' }}
                   />
                 </Form.Group>
@@ -153,14 +197,22 @@ const SignUpPage: React.FC = () => {
                     מספר בני משפחה
                   </Form.Label>
                   <Form.Control
+                    ref={familyMembersRef}
                     type="number"
                     name="familyMembers"
                     value={formData.familyMembers}
                     onChange={handleChange}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        passwordRef.current?.focus();
+                      }
+                    }}
                     placeholder="4"
                     min="1"
                     max="10"
                     required
+                    enterKeyHint="next"
                     style={{ textAlign: 'right' }}
                   />
                 </Form.Group>
@@ -174,15 +226,35 @@ const SignUpPage: React.FC = () => {
                     <i className="fas fa-lock ms-2"></i>
                     סיסמה
                   </Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    placeholder="הכנס סיסמה (לפחות 6 תווים)"
-                    required
-                    style={{ textAlign: 'right' }}
-                  />
+                  <InputGroup>
+                    <Form.Control
+                      ref={passwordRef}
+                      type={showPassword ? 'text' : 'password'}
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          confirmPasswordRef.current?.focus();
+                        }
+                      }}
+                      placeholder="הכנס סיסמה (לפחות 6 תווים)"
+                      required
+                      autoComplete="new-password"
+                      enterKeyHint="next"
+                      style={{ textAlign: 'right' }}
+                    />
+                    <Button
+                      variant="outline-secondary"
+                      type="button"
+                      onClick={() => setShowPassword((v) => !v)}
+                      aria-label={showPassword ? 'הסתר סיסמה' : 'הצג סיסמה'}
+                      title={showPassword ? 'הסתר סיסמה' : 'הצג סיסמה'}
+                    >
+                      <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`} aria-hidden="true"></i>
+                    </Button>
+                  </InputGroup>
                 </Form.Group>
               </div>
               
@@ -192,15 +264,29 @@ const SignUpPage: React.FC = () => {
                     <i className="fas fa-check ms-2"></i>
                     אישור סיסמה
                   </Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    placeholder="הכנס שוב את הסיסמה"
-                    required
-                    style={{ textAlign: 'right' }}
-                  />
+                  <InputGroup>
+                    <Form.Control
+                      ref={confirmPasswordRef}
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      placeholder="הכנס שוב את הסיסמה"
+                      required
+                      autoComplete="new-password"
+                      enterKeyHint="done"
+                      style={{ textAlign: 'right' }}
+                    />
+                    <Button
+                      variant="outline-secondary"
+                      type="button"
+                      onClick={() => setShowConfirmPassword((v) => !v)}
+                      aria-label={showConfirmPassword ? 'הסתר סיסמה' : 'הצג סיסמה'}
+                      title={showConfirmPassword ? 'הסתר סיסמה' : 'הצג סיסמה'}
+                    >
+                      <i className={`fas ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`} aria-hidden="true"></i>
+                    </Button>
+                  </InputGroup>
                 </Form.Group>
               </div>
             </div>
