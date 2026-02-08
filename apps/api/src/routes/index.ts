@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { loginRateLimiter, rateLimiter, validateInput } from '../middleware/securityMiddleware.js';
 
 // ייבוא כל הנתיבים
 import paymentRoutes from './paymentsRouter.js';
@@ -18,6 +19,9 @@ import aiNotificationsRoute from './aiNotificationsRoute.js';
 const router = Router();
 
 // חיבור הנתיבים לראוטר הראשי
+router.use(validateInput);
+router.use(rateLimiter);
+
 router.use('/payments', paymentRoutes);
 router.use('/vote', voteRoutes);
 router.use('/health', healthRoute);
@@ -26,8 +30,10 @@ router.use('/residents', residentRoutes);
 router.use('/blog', blogRoutes);
 router.use('/files', fileRoutes);
 router.use('/apartments', apartmentRoutes);
-router.use('/signup', signUpRoute);
-router.use('/login', loginRoute);
+
+// Tight rate-limit on auth endpoints
+router.use('/signup', loginRateLimiter, signUpRoute);
+router.use('/login', loginRateLimiter, loginRoute);
 router.use('/admin', adminLoginRoute);
 router.use('/ai-analytics', aiAnalyticsRoute);
 router.use('/ai-notifications', aiNotificationsRoute);

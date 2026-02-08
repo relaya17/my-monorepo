@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
+import compression from 'compression';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import routes from './routes/index.js';
@@ -23,9 +24,47 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = Number(process.env.PORT) || 3008;
-app.use(cors());
-app.use(morgan('dev'));
+
+// Render / reverse proxies
+app.set('trust proxy', 1);
+
+// CORS
+const parseCorsOrigins = (value: string | undefined) =>
+  (value ?? '')
+    .split(',')
+    .map(s => s.trim())
+    .filter(Boolean);
+
+const corsOrigins = parseCorsOrigins(process.env.CORS_ORIGIN);
+app.use(
+  cors({
+    origin: (origin, cb) => {
+      // allow server-to-server calls / curl
+      if (!origin) return cb(null, true);
+
+      // explicit allowlist (recommended for production)
+      if (corsOrigins.length > 0) return cb(null, corsOrigins.includes(origin));
+
+      // dev-friendly defaults
+      if (process.env.NODE_ENV !== 'production') {
+        const isLocal =
+          origin.startsWith('http://localhost:') ||
+          origin.startsWith('http://127.0.0.1:') ||
+          origin.startsWith('http://192.168.') ||
+          origin.startsWith('http://10.');
+        return cb(null, isLocal);
+      }
+
+      // production with no allowlist: deny by default
+      return cb(null, false);
+    },
+    credentials: true,
+  })
+);
+
+app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(helmet());
+app.use(compression());
 
 // יצירת תיקיית uploads אם לא קיימת
 const uploadsDir = path.join(__dirname, '../../../uploads');
@@ -45,7 +84,7 @@ if (process.env.NODE_ENV === 'production' && fs.existsSync(path.join(clientPath,
 // Stripe webhook חייב גוף raw
 app.use('/api/webhooks/stripe', stripeWebhookRoute);
 
-app.use(express.json());
+app.use(express.json({ limit: '1mb' }));
 
 // נתיב ראשי לבדיקת חיבור
 app.get('/', (req: Request, res: Response) => {
@@ -72,21 +111,27 @@ if (!mongoUri) {
 mongoose.connect(mongoUri)
     .then(async () => {
         console.log('Connected to MongoDB');
-        // יצירת אדמין ברירת מחדל אם אין
-        const adminCount = await Admin.countDocuments();
-        if (adminCount === 0) {
-            const hash = await bcrypt.hash('admin123', 10);
-            await Admin.create({ username: 'admin', password: hash });
-            console.log('Admin ברירת מחדל נוצר: admin / admin123');
-        }
 
-        // יצירת דייר ברירת מחדל (לצורכי פיתוח) אם אין
-        const defaultResidentEmail = 'resident@example.com';
-        const existingResident = await User.findOne({ email: defaultResidentEmail });
-        if (!existingResident) {
-            const hash = await bcrypt.hash('123456', 10);
-            await User.create({ name: 'דייר לדוגמה', email: defaultResidentEmail, password: hash });
-            console.log('דייר ברירת מחדל נוצר: resident@example.com / 123456');
+        // Seed default credentials ONLY when explicitly enabled.
+        // This prevents insecure default admin credentials in production.
+        const shouldSeed = process.env.SEED_DEFAULT_USERS === 'true' && process.env.NODE_ENV !== 'production';
+        if (shouldSeed) {
+            // יצירת אדמין ברירת מחדל אם אין
+            const adminCount = await Admin.countDocuments();
+            if (adminCount === 0) {
+                const hash = await bcrypt.hash('admin123', 10);
+                await Admin.create({ username: 'admin', password: hash });
+                console.log('Admin ברירת מחדל נוצר: admin / admin123');
+            }
+
+            // יצירת דייר ברירת מחדל (לצורכי פיתוח) אם אין
+            const defaultResidentEmail = 'resident@example.com';
+            const existingResident = await User.findOne({ email: defaultResidentEmail });
+            if (!existingResident) {
+                const hash = await bcrypt.hash('123456', 10);
+                await User.create({ name: 'דייר לדוגמה', email: defaultResidentEmail, password: hash });
+                console.log('דייר ברירת מחדל נוצר: resident@example.com / 123456');
+            }
         }
     })
     .catch(err => console.error('MongoDB connection error:', err));

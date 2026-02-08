@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import Admin from '../models/adminModel.js';
 import bcrypt from 'bcryptjs';
+import { loginRateLimiter } from '../middleware/securityMiddleware.js';
 
 const router: express.Router = express.Router();
 
@@ -13,7 +14,7 @@ router.get('/test', (req: Request, res: Response) => {
 });
 
 // POST /api/admin/login
-router.post('/login', async (req: Request, res: Response) => {
+router.post('/login', loginRateLimiter, async (req: Request, res: Response) => {
     const body = req.body as Record<string, unknown>;
     const usernameRaw = typeof body.username === 'string' ? body.username : undefined;
     const passwordRaw = typeof body.password === 'string' ? body.password : undefined;

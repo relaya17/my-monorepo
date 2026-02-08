@@ -44,15 +44,19 @@ router.post('/', async (req: Request, res: Response) => {
 
         // חיפוש המשתמש במסד הנתונים (תיקון: lowercase + trim)
         const normalizedEmail = email.toLowerCase().trim();
-        console.log('=== LOGIN DEBUG ===');
-        console.log('Original email:', email);
-        console.log('Normalized email:', normalizedEmail);
+        if (process.env.NODE_ENV !== 'production' && process.env.DEBUG_AUTH === 'true') {
+            console.log('=== LOGIN DEBUG ===');
+            console.log('Original email:', email);
+            console.log('Normalized email:', normalizedEmail);
+        }
 
         const user = await User.findOne({ email: normalizedEmail });
-        console.log('User found:', user ? 'Yes' : 'No');
-        if (user) {
-            console.log('User email in DB:', user.email);
-            console.log('User name:', user.name);
+        if (process.env.NODE_ENV !== 'production' && process.env.DEBUG_AUTH === 'true') {
+            console.log('User found:', user ? 'Yes' : 'No');
+            if (user) {
+                console.log('User email in DB:', user.email);
+                console.log('User name:', user.name);
+            }
         }
 
         if (!user) {
@@ -63,9 +67,10 @@ router.post('/', async (req: Request, res: Response) => {
         }
 
         // השוואת הסיסמה
-        console.log('Comparing passwords...');
         const isPasswordValid = await bcrypt.compare(password, user.password);
-        console.log('Password valid:', isPasswordValid);
+        if (process.env.NODE_ENV !== 'production' && process.env.DEBUG_AUTH === 'true') {
+            console.log('Password valid:', isPasswordValid);
+        }
 
         if (!isPasswordValid) {
             return res.status(401).json({
