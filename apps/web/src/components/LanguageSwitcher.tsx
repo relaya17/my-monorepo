@@ -8,17 +8,18 @@ const LanguageSwitcher: React.FC = () => {
   const dispatch = useDispatch();
   const language = useSelector((state: RootState) => state.settings.language);
 
-  const changeLanguage = (lang: "en" | "he" | "es" | "ar") => {
+  const changeLanguage = (lang: "en" | "he" | "es" | "ar" | "ru") => {
     dispatch(setLanguage(lang));
   };
 
   return (
     <div>
-      <h1>השפה הנוכחית: {language}</h1>
-      <button onClick={() => changeLanguage("en")}>English</button>
-      <button onClick={() => changeLanguage("he")}>עברית</button>
-      <button onClick={() => changeLanguage("es")}>Español</button>
-      <button onClick={() => changeLanguage("ar")}>العربية</button>
+      <span className="me-2">Language:</span>
+      <button type="button" className="btn btn-sm btn-outline-secondary me-1" onClick={() => changeLanguage("en")}>English</button>
+      <button type="button" className="btn btn-sm btn-outline-secondary me-1" onClick={() => changeLanguage("he")}>עברית</button>
+      <button type="button" className="btn btn-sm btn-outline-secondary me-1" onClick={() => changeLanguage("ar")}>العربية</button>
+      <button type="button" className="btn btn-sm btn-outline-secondary me-1" onClick={() => changeLanguage("ru")}>Русский</button>
+      <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => changeLanguage("es")}>Español</button>
     </div>
   );
 };

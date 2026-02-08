@@ -39,6 +39,7 @@ const ROUTES = {
   REPORTS_DASHBOARD: "/reports-dashboard",
   MAINTENANCE_MANAGEMENT: "/maintenance",
   SYSTEM_SETTINGS: "/settings",
+  CONTRACTS_AND_LETTERS: "/contracts-letters",
 };
 
 export default ROUTES;

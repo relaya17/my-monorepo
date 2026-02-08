@@ -9,6 +9,7 @@ const Error404Page: React.FC = () => {
     he: { title: "404", message: "העמוד שחיפשת לא נמצא.", button: "חזור לדף הבית" },
     es: { title: "404", message: "La página que buscas no existe.", button: "Volver al inicio" },
     ar: { title: "404", message: "الصفحة التي تبحث عنها غير موجودة.", button: "العودة إلى الصفحة الرئيسية" },
+    ru: { title: "404", message: "Страница, которую вы ищете, не существует.", button: "На главную" },
   };
 
   const { title, message, button } = messages[language] || messages.en;

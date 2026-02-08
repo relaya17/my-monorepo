@@ -1,24 +1,18 @@
+import { safeGetItem, safeSetItem } from './utils/safeStorage.js';
+
 const normalizeBase = (base: string) => base.trim().replace(/\/+$/, '');
 
 const ENV_BASE = normalizeBase(String(import.meta.env.VITE_API_URL ?? ''));
 const FALLBACK_BASE = '/api';
 
 export const getBuildingId = (): string => {
-  try {
-    const value = localStorage.getItem('buildingId');
-    return (value ?? 'default').trim() || 'default';
-  } catch {
-    return 'default';
-  }
+  const value = safeGetItem('buildingId');
+  return (value ?? 'default').trim() || 'default';
 };
 
 export const setBuildingId = (buildingId: string): void => {
-  try {
-    const id = (buildingId ?? 'default').trim() || 'default';
-    localStorage.setItem('buildingId', id);
-  } catch {
-    // ignore
-  }
+  const id = (buildingId ?? 'default').trim() || 'default';
+  safeSetItem('buildingId', id);
 };
 
 const joinUrl = (base: string, path: string) => {

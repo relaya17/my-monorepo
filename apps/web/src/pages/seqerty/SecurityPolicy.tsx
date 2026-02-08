@@ -1,30 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useTranslation } from '../../i18n/useTranslation';
 
 const SecurityPolicy: React.FC = () => {
+  const { t, dir } = useTranslation();
+
+  useEffect(() => {
+    document.documentElement.setAttribute('dir', dir);
+  }, [dir]);
+
   return (
-    <div className="container mt-5" dir="rtl">
+    <div className="container mt-5 py-4" dir={dir} style={{ maxWidth: '800px' }}>
       <div className="d-flex flex-column align-items-center">
-        <h1 className="text-center mb-4">מדיניות אבטחה</h1>
-        <div className="mb-4">
-          <p>
-            אבטחת המידע חשובה לנו. אנו משתמשים באמצעי אבטחה סטנדרטיים להגנה על מידע,
-            לרבות אימות, הגבלת קצב בקשות, אימות קלט, והקשחת כותרות אבטחה.
-          </p>
+        <h1 className="text-center mb-4">{t('security_title')}</h1>
+        <div className="w-100 mb-4">
+          <p className="text-center">{t('security_intro')}</p>
         </div>
-        <div className="mb-4">
-          <h4 className="text-center">עקרונות מרכזיים</h4>
-          <ul className="list-unstyled">
-            <li>הצפנת מידע רגיש וציות לנהלי אבטחה.</li>
-            <li>ניטור אירועי אבטחה וזיהוי חריגות.</li>
-            <li>בקרת גישה לפי הרשאות.</li>
-            <li>עדכון רכיבים ותלויות באופן שוטף.</li>
-          </ul>
+        <div className="w-100 mb-4">
+          <h4 className="text-center">{t('security_principles')}</h4>
+          <p className="text-center">{t('security_list')}</p>
         </div>
-        <div>
-          <h4 className="text-center">דיווח פגיעות</h4>
-          <p>
-            במידה ומצאת פגיעות, אנא פנה אלינו דרך פרטי הקשר המופיעים ב-SECURITY.md.
-          </p>
+        <div className="w-100">
+          <h4 className="text-center">{t('security_report')}</h4>
+          <p className="text-center">{t('security_report_text')}</p>
         </div>
       </div>
     </div>

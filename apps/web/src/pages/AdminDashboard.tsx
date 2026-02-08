@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ROUTES from '../routs/routes';
+import { safeGetItem, safeRemoveItem } from '../utils/safeStorage';
 // import NavigationBar from './SecondNavbar';
 import AINotifications from '../components/AINotifications';
 
@@ -9,23 +10,18 @@ const AdminDashboard: React.FC = () => {
   const [adminUsername, setAdminUsername] = useState<string>('');
 
   useEffect(() => {
-    // בדיקה אם המשתמש מחובר כאדמין
-    const isLoggedIn = localStorage.getItem('isAdminLoggedIn');
-    const username = localStorage.getItem('adminUsername');
-    
+    const isLoggedIn = safeGetItem('isAdminLoggedIn');
+    const username = safeGetItem('adminUsername');
     if (!isLoggedIn || !username) {
-      // אם לא מחובר, מעבר לדף הכניסה
       navigate('/admin-login');
       return;
     }
-    
     setAdminUsername(username);
   }, [navigate]);
 
   const handleLogout = () => {
-    // מחיקת פרטי ההתחברות
-    localStorage.removeItem('isAdminLoggedIn');
-    localStorage.removeItem('adminUsername');
+    safeRemoveItem('isAdminLoggedIn');
+    safeRemoveItem('adminUsername');
     navigate('/admin-login');
   };
 
@@ -220,6 +216,24 @@ const AdminDashboard: React.FC = () => {
                   <i className="fas fa-chart-network me-2" aria-hidden="true"></i>
                   <span className="d-none d-sm-inline">דשבורד AI</span>
                   <span className="d-sm-none">AI</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* חוזים ומכתבים */}
+          <div className="col-12 col-sm-6 col-lg-4 col-xl-3">
+            <div className="card h-100 shadow-sm border-0 dashboard-card" style={{ backgroundColor: '#fff' }}>
+              <div className="card-body text-center d-flex flex-column">
+                <div className="mb-3 flex-grow-1 d-flex align-items-center justify-content-center">
+                  <i className="fas fa-file-contract dashboard-icon" style={{ color: '#0d9488', fontSize: 'clamp(2rem, 5vw, 3rem)' }} aria-hidden="true"></i>
+                </div>
+                <h5 className="card-title" style={{ color: '#374151', fontSize: 'clamp(1rem, 2.5vw, 1.25rem)' }}>חוזים ומכתבים</h5>
+                <p className="card-text text-muted mb-3" style={{ fontSize: 'clamp(0.8rem, 2vw, 1rem)' }}>תבניות חוזים תואמי ועד בית, מכתב נזק, פיגורי תשלום ומחדלים</p>
+                <Link to={ROUTES.CONTRACTS_AND_LETTERS} className="btn w-100 mt-auto" style={{ backgroundColor: '#0d9488', color: '#fff', borderColor: '#0d9488' }}>
+                  <i className="fas fa-pen-fancy me-2" aria-hidden="true"></i>
+                  <span className="d-none d-sm-inline">חוזים ומכתבים</span>
+                  <span className="d-sm-none">חוזים</span>
                 </Link>
               </div>
             </div>

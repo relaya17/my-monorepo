@@ -1,22 +1,61 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import ROUTES from '../routs/routes';
+import { useTranslation } from '../i18n/useTranslation';
+import type { LangCode } from '../i18n/translations';
+
+const LANG_OPTIONS: { code: LangCode; labelKey: string }[] = [
+  { code: 'he', labelKey: 'lang_he' },
+  { code: 'en', labelKey: 'lang_en' },
+  { code: 'ar', labelKey: 'lang_ar' },
+  { code: 'ru', labelKey: 'lang_ru' },
+  { code: 'es', labelKey: 'lang_es' },
+];
 
 const Footer: React.FC = () => {
-  console.log('Footer rendered');
+  const { t, lang, dir, setLang } = useTranslation();
+
+  useEffect(() => {
+    document.documentElement.setAttribute('dir', dir);
+    document.documentElement.setAttribute('lang', lang === 'he' ? 'he' : lang === 'ar' ? 'ar' : lang);
+  }, [dir, lang]);
+
   return (
-    <footer className="bg-dark text-light py-4">
-      {/* <div style={{fontSize: '2rem', color: 'red', textAlign: 'center'}}>אני פוטר</div> */}
-      <div className="container-fluid text-center">
-        <div className="mb-2">
-          <Link to="/" className="text-light me-3">דף הבית</Link>
-          <Link to="/privacy-policy" className="text-light me-3">מדיניות פרטיות</Link>
-          <Link to="/terms-and-conditions" className="text-light me-3">תנאי שימוש</Link>
-          <Link to="/accessibility" className="text-light me-3">נגישות</Link>
-          <Link to="/security-policy" className="text-light">אבטחה</Link>
+    <footer className="bg-dark text-light py-4" role="contentinfo">
+      <div className="container-fluid">
+        <div className="row align-items-center justify-content-center text-center">
+          <div className="col-12 col-md-auto mb-2 mb-md-0">
+            <nav aria-label="Footer navigation">
+              <Link to={ROUTES.HOME} className="text-light me-2 me-md-3">{t('footer_home')}</Link>
+              <Link to={ROUTES.PRIVACY_POLICY} className="text-light me-2 me-md-3">{t('footer_privacy')}</Link>
+              <Link to={ROUTES.TERMS_AND_CONDITIONS} className="text-light me-2 me-md-3">{t('footer_terms')}</Link>
+              <Link to={ROUTES.ACCESSIBILITY} className="text-light me-2 me-md-3">{t('footer_accessibility')}</Link>
+              <Link to={ROUTES.SECURITY_POLICY} className="text-light me-2 me-md-3">{t('footer_security')}</Link>
+            </nav>
+          </div>
+          <div className="col-12 col-md-auto mb-2 mb-md-0">
+            <span className="text-muted small d-block mb-1">{t('footer_legal')}</span>
+            <p className="small text-muted mb-0" style={{ maxWidth: '320px', margin: '0 auto' }}>{t('legal_notice')}</p>
+          </div>
+          <div className="col-12 col-md-auto">
+            <div className="d-flex flex-wrap align-items-center justify-content-center gap-1" role="group" aria-label="Language selection">
+              {LANG_OPTIONS.map(({ code, labelKey }) => (
+                <button
+                  key={code}
+                  type="button"
+                  className={`btn btn-sm ${lang === code ? 'btn-light' : 'btn-outline-light'}`}
+                  onClick={() => setLang(code)}
+                  aria-pressed={lang === code}
+                  aria-label={t(labelKey)}
+                >
+                  {t(labelKey)}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
-        
-        <div>
-          <small>© {new Date().getFullYear()} כל הזכויות שמורות relaya</small>
+        <div className="text-center mt-3 pt-2 border-top border-secondary">
+          <small className="text-muted">© {new Date().getFullYear()} {t('footer_rights')} relaya</small>
         </div>
       </div>
     </footer>

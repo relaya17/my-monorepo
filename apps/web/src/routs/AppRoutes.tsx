@@ -59,6 +59,7 @@ const MaintenanceManagement = lazy(() => import("../pages/MaintenanceManagement"
 
 const SystemSettings = lazy(() => import("../pages/SystemSettings"));
 const BuildingSelect = lazy(() => import("../pages/BuildingSelect"));
+const ContractsAndLetters = lazy(() => import("../pages/ContractsAndLetters"));
 
 // קומפוננטת עזר - עטיפת טופס דייר
 const ResidentFormWrapper: React.FC = () => {
@@ -171,6 +172,7 @@ const AppRoutes: React.FC = () => {
 
         {/* הגדרות מערכת */}
         <Route path={ROUTES.SYSTEM_SETTINGS} element={<SystemSettings />} />
+        <Route path={ROUTES.CONTRACTS_AND_LETTERS} element={<ContractsAndLetters />} />
       </Routes>
     </Suspense>
   );

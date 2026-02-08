@@ -3,6 +3,12 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    dedupe: ['react', 'react-dom'],
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom', '@reduxjs/toolkit', 'react-redux'],
+  },
   server: {
     host: true,
     port: 5174,
@@ -24,8 +30,8 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (!id.includes('node_modules')) return;
-          if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) return 'react';
-          if (id.includes('redux') || id.includes('@reduxjs')) return 'redux';
+          // Keep React + react-dom + react-router + @reduxjs in one chunk so they share the same React instance (avoids useSyncExternalStore error)
+          if (id.includes('react') || id.includes('react-dom') || id.includes('react-router') || id.includes('@reduxjs')) return 'react';
           if (id.includes('chart.js') || id.includes('react-chartjs-2')) return 'charts';
           if (id.includes('pdf-lib')) return 'pdf';
           if (id.includes('bootstrap') || id.includes('react-bootstrap')) return 'bootstrap';

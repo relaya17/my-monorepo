@@ -1,19 +1,21 @@
 // src/store/settingsSlice.ts
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
+export type AppLanguage = "en" | "he" | "es" | "ar" | "ru";
+
 interface SettingsState {
-  language: "en" | "he" | "es" | "ar";
+  language: AppLanguage;
 }
 
 const initialState: SettingsState = {
-  language: "he", // שפת ברירת המחדל
+  language: "he",
 };
 
 const settingsSlice = createSlice({
   name: "settings",
   initialState,
   reducers: {
-    setLanguage: (state, action: PayloadAction<"en" | "he" | "es" | "ar">) => {
+    setLanguage: (state, action: PayloadAction<AppLanguage>) => {
       state.language = action.payload;
     },
   },

@@ -1,42 +1,46 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useTranslation } from '../../i18n/useTranslation';
 
 const TermsAndConditions: React.FC = () => {
+  const { t, dir } = useTranslation();
+
+  useEffect(() => {
+    document.documentElement.setAttribute('dir', dir);
+  }, [dir]);
+
   return (
-    <div 
-      className="d-flex flex-column align-items-center justify-content-center container mt-5" 
-      style={{ minHeight: '100vh', textAlign: 'center' }} 
-      dir="rtl"
+    <div
+      className="d-flex flex-column align-items-center justify-content-center container mt-5 py-4"
+      style={{ minHeight: '70vh', maxWidth: '800px' }}
+      dir={dir}
     >
-      <div className="w-100" style={{ maxWidth: '800px' }}>
-        <h1 className="mb-4">תנאי שימוש</h1>
-        <p>
-          תנאי שימוש אלה מגדירים את הכללים וההנחיות לשימוש באתר האינטרנט שלנו. השימוש באתר מהווה את הסכמתך לתנאים המפורטים להלן. אנא קרא את התנאים בעיון.
-        </p>
-        <h4>השימוש באתר</h4>
-        <p>
-          השימוש באתר זה מותר למטרות חוקיות בלבד. אינך רשאי להשתמש באתר לכל מטרה שעלולה להזיק, לפגוע או לפגוע בזכויות של צדדים שלישיים. המשתמש מסכים לא למסור מידע כוזב או מטעה.
-        </p>
-        <h4>זכויות יוצרים וקניין רוחני</h4>
-        <p>
-          כל התכנים, העיצובים, והמידע באתר (כולל אך לא מוגבל לטקסטים, תמונות, לוגו, וסימנים מסחריים) מוגנים בזכויות יוצרים ובחוקי קניין רוחני. כל שימוש בלתי מורשה בתכנים אלו מהווה עבירה על החוק.
-        </p>
-        <h4>הגבלת אחריות</h4>
-        <p>
-          בעלי האתר אינם אחראים לכל נזק ישיר, עקיף, או תוצאתי שעלול להיגרם משימוש באתר או הסתמכות על המידע המוצג בו. השימוש באתר נעשה באחריות המשתמש בלבד.
-        </p>
-        <h4>מדיניות פרטיות</h4>
-        <p>
-          אנו מחויבים לשמור על פרטיות המשתמשים. מידע אישי שנמסר במסגרת השימוש באתר נשמר בהתאם למדיניות הפרטיות של האתר. אנו נוקטים בכל הצעדים הסבירים להבטחת אבטחת המידע.
-        </p>
-        <h4>שינויים בתנאי השימוש</h4>
-        <p>
-          אנו שומרים לעצמנו את הזכות לשנות או לעדכן את תנאי השימוש מעת לעת. אנו ממליצים לבדוק את דף תנאי השימוש באופן תקופתי כדי להתעדכן בשינויים.
-        </p>
-        <h4>צור קשר</h4>
-        <p>
-          אם יש לך שאלות או הבהרות בנוגע לתנאי השימוש, ניתן ליצור איתנו קשר דרך עמוד יצירת הקשר באתר.
-        </p>
-      </div>
+      <h1 className="mb-4 text-center">{t('terms_title')}</h1>
+      <p className="text-center mb-4">{t('terms_intro')}</p>
+
+      <section className="w-100 mb-4">
+        <h4>{t('terms_use')}</h4>
+        <p>{t('terms_use_text')}</p>
+      </section>
+      <section className="w-100 mb-4">
+        <h4>{t('terms_copyright')}</h4>
+        <p>{t('terms_copyright_text')}</p>
+      </section>
+      <section className="w-100 mb-4">
+        <h4>{t('terms_liability')}</h4>
+        <p>{t('terms_liability_text')}</p>
+      </section>
+      <section className="w-100 mb-4">
+        <h4>{t('terms_privacy_ref')}</h4>
+        <p>{t('terms_privacy_ref_text')}</p>
+      </section>
+      <section className="w-100 mb-4">
+        <h4>{t('terms_changes')}</h4>
+        <p>{t('terms_changes_text')}</p>
+      </section>
+      <section className="w-100">
+        <h4>{t('terms_contact')}</h4>
+        <p>{t('terms_contact_text')}</p>
+      </section>
     </div>
   );
 };

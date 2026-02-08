@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { apiRequestJson } from '../api';
+import { safeGetItem, safeSetItem } from '../utils/safeStorage';
 
 const AdminLogin: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -12,8 +13,8 @@ const AdminLogin: React.FC = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem('isAdminLoggedIn');
-    const storedUsername = localStorage.getItem('adminUsername');
+    const isLoggedIn = safeGetItem('isAdminLoggedIn');
+    const storedUsername = safeGetItem('adminUsername');
     if (isLoggedIn && storedUsername) {
       navigate('/select-building');
     }
@@ -36,12 +37,9 @@ const AdminLogin: React.FC = () => {
       });
 
       if (response.ok && data?.admin) {
-        // שמירת סטטוס התחברות
-        localStorage.setItem('isAdminLoggedIn', 'true');
-        localStorage.setItem('adminUsername', data.admin.username);
-        localStorage.setItem('adminRole', data.admin.role);
-        
-        // מעבר לבחירת בניין ואז ללוח הבקרה
+        safeSetItem('isAdminLoggedIn', 'true');
+        safeSetItem('adminUsername', data.admin.username);
+        safeSetItem('adminRole', data.admin.role);
         navigate('/select-building');
       } else {
         setError(data?.message || 'שם משתמש או סיסמה שגויים');
