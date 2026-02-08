@@ -15,6 +15,7 @@ import loginRoute from './loginRoute.js';
 import adminLoginRoute from './adminLoginRoute.js';
 import aiAnalyticsRoute from './aiAnalyticsRoute.js';
 import aiNotificationsRoute from './aiNotificationsRoute.js';
+import buildingsRoute from './buildingsRoute.js';
 
 const router = Router();
 
@@ -37,5 +38,6 @@ router.use('/login', loginRateLimiter, loginRoute);
 router.use('/admin', adminLoginRoute);
 router.use('/ai-analytics', aiAnalyticsRoute);
 router.use('/ai-notifications', aiNotificationsRoute);
+router.use('/buildings', buildingsRoute);
 
 export default router;

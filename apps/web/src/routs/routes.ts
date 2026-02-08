@@ -25,6 +25,7 @@ const ROUTES = {
   CHECK_OUT: "/check-out",
   ADMIN_DASHBOARD: "/admin-dashboard",
   ADMIN_LOGIN: "/admin-login",
+  SELECT_BUILDING: "/select-building",
   CHANGE_PASSWORD: "/change-password",
   USER_LOGIN: "/user-login",
   USER_DASHBOARD: "/user-dashboard",

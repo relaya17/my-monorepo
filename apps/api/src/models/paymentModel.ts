@@ -1,4 +1,5 @@
 import { Schema, model, Document, Types } from 'mongoose';
+import { multiTenancyPlugin } from '../utils/multiTenancy.js';
 
 interface Payment extends Document {
   payer: string;
@@ -29,5 +30,7 @@ const paymentSchema = new Schema<Payment>({
   stripeSessionId: { type: String },
   stripePaymentIntentId: { type: String }
 });
+
+paymentSchema.plugin(multiTenancyPlugin);
 
 export default model<Payment>('Payment', paymentSchema);

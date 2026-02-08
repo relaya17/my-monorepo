@@ -36,6 +36,7 @@ const PaymentPage = lazy(() => import("../pages/PaymentPage"));
 
 const AdminDashboard = lazy(() => import("../pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("../pages/AdminLogin"));
+const SelectBuilding = lazy(() => import("../pages/SelectBuilding"));
 const ChangePassword = lazy(() => import("../pages/ChangePassword"));
 
 const UserLogin = lazy(() => import("../pages/UserLogin"));
@@ -58,6 +59,7 @@ const ReportsDashboard = lazy(() => import("../pages/ReportsDashboard"));
 const MaintenanceManagement = lazy(() => import("../pages/MaintenanceManagement"));
 
 const SystemSettings = lazy(() => import("../pages/SystemSettings"));
+const BuildingSelect = lazy(() => import("../pages/BuildingSelect"));
 
 // קומפוננטת עזר - עטיפת טופס דייר
 const ResidentFormWrapper: React.FC = () => {
@@ -125,6 +127,7 @@ const AppRoutes: React.FC = () => {
 
         {/* אדמין */}
         <Route path={ROUTES.ADMIN_LOGIN} element={<AdminLogin />} />
+        <Route path={ROUTES.SELECT_BUILDING} element={<BuildingSelect />} />
         <Route path={ROUTES.ADMIN_DASHBOARD} element={<AdminDashboard />} />
         <Route path={ROUTES.CHANGE_PASSWORD} element={<ChangePassword />} />
         <Route path={ROUTES.USER_DETAILS} element={<UserDetailsPage />} />

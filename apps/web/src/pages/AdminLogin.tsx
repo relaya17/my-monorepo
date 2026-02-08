@@ -15,7 +15,7 @@ const AdminLogin: React.FC = () => {
     const isLoggedIn = localStorage.getItem('isAdminLoggedIn');
     const storedUsername = localStorage.getItem('adminUsername');
     if (isLoggedIn && storedUsername) {
-      navigate('/admin-dashboard');
+      navigate('/select-building');
     }
   }, [navigate]);
 
@@ -41,8 +41,8 @@ const AdminLogin: React.FC = () => {
         localStorage.setItem('adminUsername', data.admin.username);
         localStorage.setItem('adminRole', data.admin.role);
         
-        // מעבר לדף האדמין
-        navigate('/admin-dashboard');
+        // מעבר לבחירת בניין ואז ללוח הבקרה
+        navigate('/select-building');
       } else {
         setError(data?.message || 'שם משתמש או סיסמה שגויים');
       }

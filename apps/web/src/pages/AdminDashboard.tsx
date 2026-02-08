@@ -51,7 +51,26 @@ const AdminDashboard: React.FC = () => {
                 שלום, {adminUsername}
               </span>
               <div className="admin-actions d-flex flex-wrap justify-content-center justify-content-md-end gap-2">
+                <Link
+                  to={ROUTES.SELECT_BUILDING}
+                  state={{ from: ROUTES.ADMIN_DASHBOARD }}
+                  className="btn btn-outline-secondary btn-sm admin-action-btn"
+                  title="החלף בניין"
+                  aria-label="החלף בניין"
+                >
+                  <i className="fas fa-building me-1" aria-hidden="true"></i>
+                  <span className="admin-action-label d-none d-sm-inline">החלף בניין</span>
+                </Link>
                 <AINotifications />
+                <Link
+                  to={ROUTES.SELECT_BUILDING}
+                  className="btn btn-outline-secondary btn-sm admin-action-btn"
+                  title="בחירת בניין"
+                  aria-label="בחירת בניין"
+                >
+                  <i className="fas fa-building me-1" aria-hidden="true"></i>
+                  <span className="admin-action-label d-none d-sm-inline">בחירת בניין</span>
+                </Link>
                 <Link 
                   to={ROUTES.CHANGE_PASSWORD}
                   className="btn btn-outline-primary btn-sm admin-action-btn"

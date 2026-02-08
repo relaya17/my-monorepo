@@ -3,6 +3,24 @@ const normalizeBase = (base: string) => base.trim().replace(/\/+$/, '');
 const ENV_BASE = normalizeBase(String(import.meta.env.VITE_API_URL ?? ''));
 const FALLBACK_BASE = '/api';
 
+export const getBuildingId = (): string => {
+  try {
+    const value = localStorage.getItem('buildingId');
+    return (value ?? 'default').trim() || 'default';
+  } catch {
+    return 'default';
+  }
+};
+
+export const setBuildingId = (buildingId: string): void => {
+  try {
+    const id = (buildingId ?? 'default').trim() || 'default';
+    localStorage.setItem('buildingId', id);
+  } catch {
+    // ignore
+  }
+};
+
 const joinUrl = (base: string, path: string) => {
   const normalizedBase = normalizeBase(base || FALLBACK_BASE);
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
@@ -21,9 +39,15 @@ export async function apiRequestJson<T>(
   path: string,
   init?: RequestInit
 ): Promise<{ response: Response; data: T | null; usedBase: string }> {
+  const buildingId = getBuildingId();
+  const headers = new Headers(init?.headers);
+  if (!headers.has('x-building-id')) headers.set('x-building-id', buildingId);
+
+  const finalInit: RequestInit = init ? { ...init, headers } : { headers };
+
   const tryOnce = async (base: string) => {
     const url = joinUrl(base, path);
-    const response = await fetch(url, init);
+    const response = await fetch(url, finalInit);
 
     const contentType = response.headers.get('content-type') ?? '';
     const looksJson = contentType.includes('application/json');

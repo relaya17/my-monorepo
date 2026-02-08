@@ -14,6 +14,7 @@ import bcrypt from 'bcryptjs';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import { fileURLToPath } from 'url';
+import { tenantMiddleware } from './middleware/tenantMiddleware.js';
 dotenv.config();
 
 
@@ -92,7 +93,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // API routes
-app.use('/api', routes);
+app.use('/api', tenantMiddleware, routes);
 app.use('/api/stripe', stripeRoutes);
 
 // Fallback route - serve React app for all other routes (production only)
