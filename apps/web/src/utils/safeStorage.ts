@@ -1,31 +1,30 @@
 /**
  * Safe localStorage wrapper for environments where storage is blocked
- * (e.g. Safari Tracking Prevention, private mode, or strict privacy settings).
- * Never throws; returns default values when storage is unavailable.
+ * (e.g. Safari Tracking Prevention, private mode). Never throws.
+ * We avoid touching localStorage at module load so Tracking Prevention doesn't break the app.
  */
 
-function isStorageAvailable(): boolean {
+let storageOk: boolean | null = null;
+
+function checkStorage(): boolean {
+  if (storageOk !== null) return storageOk;
+  if (typeof window === 'undefined') {
+    storageOk = false;
+    return false;
+  }
   try {
     const key = '__safe_storage_test__';
     localStorage.setItem(key, key);
     localStorage.removeItem(key);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-let storageOk = false;
-if (typeof window !== 'undefined') {
-  try {
-    storageOk = isStorageAvailable();
+    storageOk = true;
   } catch {
     storageOk = false;
   }
+  return storageOk;
 }
 
 export function safeGetItem(key: string): string | null {
-  if (!storageOk) return null;
+  if (!checkStorage()) return null;
   try {
     return localStorage.getItem(key);
   } catch {
@@ -34,7 +33,7 @@ export function safeGetItem(key: string): string | null {
 }
 
 export function safeSetItem(key: string, value: string): void {
-  if (!storageOk) return;
+  if (!checkStorage()) return;
   try {
     localStorage.setItem(key, value);
   } catch {
@@ -43,7 +42,7 @@ export function safeSetItem(key: string, value: string): void {
 }
 
 export function safeRemoveItem(key: string): void {
-  if (!storageOk) return;
+  if (!checkStorage()) return;
   try {
     localStorage.removeItem(key);
   } catch {
