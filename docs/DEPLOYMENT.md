@@ -42,8 +42,8 @@ sudo npm install -g pm2
 #### הגדרת הפרויקט
 ```bash
 # שכפול הפרויקט
-git clone https://github.com/your-username/my-monorepo-app.git
-cd my-monorepo-app
+git clone https://github.com/your-username/my-monorepo.git
+cd my-monorepo
 
 # התקנת תלויות
 pnpm install:all
@@ -100,11 +100,11 @@ pm2 startup
 ssh -i your-key.pem ubuntu@your-server-ip
 
 # התקנה אוטומטית
-curl -fsSL https://raw.githubusercontent.com/your-username/my-monorepo-app/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/your-username/my-monorepo/main/scripts/install.sh | bash
 
 # או התקנה ידנית
-git clone https://github.com/your-username/my-monorepo-app.git
-cd my-monorepo-app
+git clone https://github.com/your-username/my-monorepo.git
+cd my-monorepo
 ./scripts/deploy.sh
 ```
 

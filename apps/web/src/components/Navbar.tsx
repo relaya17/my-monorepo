@@ -26,8 +26,21 @@ const Navbar: React.FC = () => {
     <nav className="navbar navbar-expand-lg navbar-dark" style={{ background: 'rgba(55,65,81,0.7)', borderBottom: '2px solid #1f2937', boxShadow: '0 2px 10px rgba(0,0,0,0.3)' }}>
       <div className="container">
         <Link className="navbar-brand" to="/" onClick={handleCloseNavbar} style={{ color: '#ffffff' }}>
+          <style>{`
+            @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap');
+          `}</style>
           <i className="fas fa-building me-2" style={{ color: '#ffffff' }}></i>
-          <span style={{ fontWeight: 'bold', fontSize: '1.5rem', color: '#ffffff' }}>מצפה נוף</span>
+          <span
+            style={{
+              fontWeight: 700,
+              fontSize: '1.7rem',
+              color: '#ffffff',
+              fontFamily: "'Playfair Display', serif",
+              letterSpacing: '0.08em'
+            }}
+          >
+            VANTERA
+          </span>
         </Link>
 
         <button

@@ -24,7 +24,7 @@ const SystemSettings: React.FC = () => {
     {
       id: '1',
       name: 'שם המערכת',
-      value: 'ניהול אחזקות מצפה נוף',
+      value: 'ניהול אחזקות מבנים',
       description: 'שם המערכת שיוצג בכותרת',
       category: 'general',
       type: 'text'

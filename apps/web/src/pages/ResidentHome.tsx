@@ -31,7 +31,7 @@ const ResidentHome: React.FC = () => {
             <i className="fas fa-home me-3" aria-hidden="true"></i>
             ברוכים הבאים לדף הבית של הדיירים
           </h1>
-          <p className="lead" style={{ color: '#6b7280' }}>מצפה נוף - מערכת ניהול דיירים</p>
+          <p className="lead" style={{ color: '#6b7280' }}>מערכת ניהול דיירים למבנים</p>
         </div>
 
         {/* כפתורי ניווט מהירים */}
@@ -276,7 +276,7 @@ const ResidentHome: React.FC = () => {
         <div className="text-center mt-5">
           <p style={{ color: '#6b7280' }}>
             <i className="fas fa-heart me-1" aria-hidden="true"></i>
-            מצפה נוף - מערכת ניהול דיירים מתקדמת
+            מערכת ניהול דיירים מתקדמת למבנים
           </p>
         </div>
       </div>

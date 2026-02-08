@@ -40,7 +40,7 @@ const UserDashboard: React.FC = () => {
           <div></div>
                       <h1 className="text-center" style={{ color: '#ffffff', fontWeight: 'bold', margin: 0 }}>
             <i className="fas fa-home ms-2"></i>
-            לוח בקרה - מצפה נוף
+            לוח בקרה - אחזקת מבנים
           </h1>
           <div className="d-flex align-items-center">
             <span className="ms-3 text-muted">

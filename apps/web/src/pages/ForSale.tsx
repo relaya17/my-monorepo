@@ -41,7 +41,7 @@ const ForSale: React.FC = () => {
   return (
     <div className="forsale-container">
       <h1 className="page-title">Apartments for Sale</h1>
-      <div className="page-subtitle">כל הדירות למכירה במצפה נוף</div>
+      <div className="page-subtitle">כל הדירות למכירה במתחם שלנו</div>
       <div className="cards-grid">
         {apartments.map((apartment) => (
           <Card className="apartment-card" key={apartment.id}>

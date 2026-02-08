@@ -84,7 +84,7 @@ const NavigationBar: React.FC = () => {
               fontSize: 'clamp(1rem, 2.5vw, 1.25rem)'
             }}
           >
-            ניהול אחזקות מצפה נוף
+            ניהול אחזקות מבנים
           </span>
         </Navbar.Brand>
         

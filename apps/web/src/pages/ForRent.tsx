@@ -42,7 +42,7 @@ const ForRent: React.FC = () => {
   return (
     <div className="forrent-container">
       <h1 className="page-title">Apartments for Rent</h1>
-      <div className="page-subtitle">כל הדירות להשכרה במצפה נוף</div>
+      <div className="page-subtitle">כל הדירות להשכרה במתחם שלנו</div>
       <div className="cards-grid">
         {apartments.map((apartment) => {
           const hasImage = apartment.image && apartment.image.trim() !== "";

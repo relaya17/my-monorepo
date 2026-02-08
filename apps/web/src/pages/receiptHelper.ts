@@ -1,4 +1,4 @@
-// client/src/receiptHelper.ts
+// apps/web/src/pages/receiptHelper.ts
 export const generateReceipt = async (payer: string, amount: number) => {
   try {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/payments`, {

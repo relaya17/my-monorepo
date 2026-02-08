@@ -2,10 +2,10 @@
 
 ## משתני סביבה חשובים
 
-צור קובץ `.env` בתיקיית `server` עם המשתנים הבאים:
+צור קובץ `.env` בתיקיית `apps/api` עם המשתנים הבאים:
 
 ```env
-# משתני סביבה לשרת
+# משתני סביבה ל-API
 NODE_ENV=development
 PORT=3008
 
@@ -71,11 +71,11 @@ LOG_FILE=./logs/server.log
 ## קבצים חסרים שצריך ליצור
 
 ### 1. קובץ .env
-צור קובץ `.env` בתיקיית `server` עם המשתנים למעלה.
+צור קובץ `.env` בתיקיית `apps/api` עם המשתנים למעלה.
 
 ### 2. תיקיית logs
 ```bash
-mkdir -p my-monorepo-app/server/logs
+mkdir -p apps/api/logs
 ```
 
 ### 3. קובץ .gitignore

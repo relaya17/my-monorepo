@@ -63,7 +63,7 @@ const SignUpPage: React.FC = () => {
           <div className="text-center mb-4">
             <i className="fas fa-user-plus fa-3x mb-3" style={{ color: '#6b7280' }}></i>
             <h2 className="card-title" style={{ color: '#2c3e50' }}>
-              הרשמה למצפה נוף
+              הרשמה למערכת
             </h2>
             <p className="text-muted">הצטרף לקהילת הדיירים שלנו</p>
           </div>

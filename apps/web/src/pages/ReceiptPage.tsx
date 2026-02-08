@@ -23,7 +23,7 @@ const ReceiptPage: React.FC = () => {
       navigate('/');
     }
 
-    setChairmanName('יושב ראש אגודת מצפה נוף');
+    setChairmanName('יושב ראש אגודת המבנה');
   }, [location, navigate]);
 
   const handleDownloadReceipt = async () => {
@@ -158,7 +158,7 @@ const ReceiptPage: React.FC = () => {
             <div className="mb-3">
               <label className="form-label fw-bold">
                 <i className="fas fa-user-tie ms-2"></i>
-                יושב ראש אגודת מצפה נוף
+                יושב ראש אגודת המבנה
               </label>
               <p className="text-muted">{chairmanName}</p>
             </div>

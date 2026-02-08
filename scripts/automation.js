@@ -61,9 +61,9 @@ function runCommand(command, description) {
 // פונקציה לבדיקת קיום קבצים
 function checkFiles() {
     const requiredFiles = [
-        'my-monorepo-app/package.json',
-        'my-monorepo-app/apps/web/package.json',
-        'my-monorepo-app/apps/api/package.json',
+        'package.json',
+        'apps/web/package.json',
+        'apps/api/package.json',
         '.github/workflows/ci.yml'
     ];
     
@@ -84,8 +84,8 @@ function checkFiles() {
 async function installDependencies() {
     try {
         await runCommand('pnpm install', 'מתקין תלויות ראשיות');
-        await runCommand('cd my-monorepo-app/apps/web && pnpm install', 'מתקין תלויות Web');
-        await runCommand('cd my-monorepo-app/apps/api && pnpm install', 'מתקין תלויות API');
+        await runCommand('cd apps/web && pnpm install', 'מתקין תלויות Web');
+        await runCommand('cd apps/api && pnpm install', 'מתקין תלויות API');
         return true;
     } catch (error) {
         logError('התקנת תלויות נכשלה');

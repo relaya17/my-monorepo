@@ -13,9 +13,6 @@ env:
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: my-monorepo-app
 
     services:
       mongodb:
@@ -60,9 +57,6 @@ jobs:
 
   security:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: my-monorepo-app
     needs: test-and-build
 
     steps:
@@ -88,9 +82,6 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: my-monorepo-app
     needs: [test-and-build, security]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 

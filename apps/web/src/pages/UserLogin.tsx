@@ -64,7 +64,7 @@ const UserLogin: React.FC = () => {
             <h2 className="card-title" style={{ color: '#ffffff' }}>
               כניסת דייר
             </h2>
-            <p className="text-muted">ברוכים הבאים למצפה נוף</p>
+            <p className="text-muted">ברוכים הבאים למערכת אחזקת מבנים</p>
           </div>
 
           <form onSubmit={handleSubmit}>
