@@ -8,12 +8,11 @@ let ENV_BASE =
   rawBase && (rawBase.startsWith('http://') || rawBase.startsWith('https://'))
     ? rawBase.endsWith('/api') ? rawBase : `${rawBase}/api`
     : rawBase;
-// On Netlify, same-origin /api does not exist (404). Always use Render API.
-const isNetlifyOrigin =
-  typeof window !== 'undefined' && window.location.origin === 'https://my-monorepo.netlify.app';
-if (isNetlifyOrigin && (!ENV_BASE || ENV_BASE === '/api')) {
-  ENV_BASE = 'https://my-monorepo-1.onrender.com/api';
-}
+// Netlify ו-Render Web אין להם /api – משתמשים ב-Render API
+const RENDER_API = 'https://my-monorepo-1.onrender.com/api';
+const origin = typeof window !== 'undefined' ? window.location.origin : '';
+const needsExternalApi = origin && (origin.includes('netlify.app') || origin.includes('onrender.com')) && (!ENV_BASE || ENV_BASE === '/api');
+if (needsExternalApi) ENV_BASE = RENDER_API;
 const FALLBACK_BASE = '/api';
 
 export const getBuildingId = (): string => {
@@ -65,7 +64,7 @@ export async function apiRequestJson<T>(
     const first = await tryOnce(ENV_BASE);
 
     const shouldFallback =
-      !isNetlifyOrigin &&
+      !needsExternalApi &&
       ENV_BASE &&
       ENV_BASE !== FALLBACK_BASE &&
       (first.data === null || first.response.status === 404);
@@ -73,7 +72,7 @@ export async function apiRequestJson<T>(
     if (shouldFallback) return await tryOnce(FALLBACK_BASE);
     return first;
   } catch {
-    if (!isNetlifyOrigin && ENV_BASE && ENV_BASE !== FALLBACK_BASE) return await tryOnce(FALLBACK_BASE);
+    if (!needsExternalApi && ENV_BASE && ENV_BASE !== FALLBACK_BASE) return await tryOnce(FALLBACK_BASE);
     throw new Error('Network error');
   }
 }

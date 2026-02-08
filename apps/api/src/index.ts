@@ -37,12 +37,10 @@ const parseCorsOrigins = (value: string | undefined) =>
     .filter(Boolean);
 
 const corsOrigins = parseCorsOrigins(process.env.CORS_ORIGIN);
-const netlifyOrigin = 'https://my-monorepo.netlify.app';
 app.use(
   cors({
     origin: (origin, cb) => {
       if (!origin) return cb(null, true);
-
       if (corsOrigins.length > 0) return cb(null, corsOrigins.includes(origin));
 
       if (process.env.NODE_ENV !== 'production') {
@@ -54,8 +52,8 @@ app.use(
         return cb(null, isLocal);
       }
 
-      // production: allow Netlify frontend when CORS_ORIGIN not set
-      if (origin === netlifyOrigin) return cb(null, true);
+      // production: Netlify + Render Web (כל *.netlify.app ו-*.onrender.com)
+      if (origin.endsWith('.netlify.app') || origin.endsWith('.onrender.com')) return cb(null, true);
       return cb(null, false);
     },
     credentials: true,
