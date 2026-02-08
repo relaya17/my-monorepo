@@ -4,10 +4,16 @@ const normalizeBase = (base: string) => base.trim().replace(/\/+$/, '');
 
 const rawBase = normalizeBase(String(import.meta.env.VITE_API_URL ?? ''));
 // When using a full API URL (e.g. Render), ensure it ends with /api so paths like admin/login become /api/admin/login
-const ENV_BASE =
+let ENV_BASE =
   rawBase && (rawBase.startsWith('http://') || rawBase.startsWith('https://'))
     ? rawBase.endsWith('/api') ? rawBase : `${rawBase}/api`
     : rawBase;
+// On Netlify, same-origin /api does not exist (404). Always use Render API.
+const isNetlifyOrigin =
+  typeof window !== 'undefined' && window.location.origin === 'https://my-monorepo.netlify.app';
+if (isNetlifyOrigin && (!ENV_BASE || ENV_BASE === '/api')) {
+  ENV_BASE = 'https://my-monorepo-1.onrender.com/api';
+}
 const FALLBACK_BASE = '/api';
 
 export const getBuildingId = (): string => {
@@ -58,9 +64,8 @@ export async function apiRequestJson<T>(
   try {
     const first = await tryOnce(ENV_BASE);
 
-    // If ENV_BASE is wrong (e.g. points at the web static service), we may get HTML.
-    // In that case, retry on same-origin /api to avoid "works on desktop, fails on mobile" issues.
     const shouldFallback =
+      !isNetlifyOrigin &&
       ENV_BASE &&
       ENV_BASE !== FALLBACK_BASE &&
       (first.data === null || first.response.status === 404);
@@ -68,8 +73,7 @@ export async function apiRequestJson<T>(
     if (shouldFallback) return await tryOnce(FALLBACK_BASE);
     return first;
   } catch {
-    // Network error: fall back to same-origin API.
-    if (ENV_BASE && ENV_BASE !== FALLBACK_BASE) return await tryOnce(FALLBACK_BASE);
+    if (!isNetlifyOrigin && ENV_BASE && ENV_BASE !== FALLBACK_BASE) return await tryOnce(FALLBACK_BASE);
     throw new Error('Network error');
   }
 }

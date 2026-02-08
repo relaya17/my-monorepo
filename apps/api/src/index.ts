@@ -73,9 +73,9 @@ app.use(
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'"],
         scriptSrcAttr: ["'none'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
         imgSrc: ["'self'", 'data:', 'https:'],
-        fontSrc: ["'self'"],
+        fontSrc: ["'self'", 'https://fonts.gstatic.com'],
         connectSrc: ["'self'"],
         frameSrc: ["'none'"],
         objectSrc: ["'none'"],
@@ -132,19 +132,17 @@ mongoose.connect(mongoUri)
     .then(async () => {
         console.log('Connected to MongoDB');
 
-        // Seed default credentials ONLY when explicitly enabled.
-        // This prevents insecure default admin credentials in production.
-        const shouldSeed = process.env.SEED_DEFAULT_USERS === 'true' && process.env.NODE_ENV !== 'production';
-        if (shouldSeed) {
-            // יצירת אדמין ברירת מחדל אם אין
-            const adminCount = await Admin.countDocuments();
-            if (adminCount === 0) {
-                const hash = await bcrypt.hash('admin123', 10);
-                await Admin.create({ username: 'admin', password: hash });
-                console.log('Admin ברירת מחדל נוצר: admin / admin123');
-            }
+        // אם אין אף אדמין – יוצרים אדמין ברירת מחדל אוטומטית (הפעלה ראשונה).
+        const adminCount = await Admin.countDocuments();
+        if (adminCount === 0) {
+            const hash = await bcrypt.hash('admin123', 10);
+            await Admin.create({ username: 'admin', password: hash });
+            console.log('[Admin] אדמין ברירת מחדל נוצר: admin / admin123');
+        }
 
-            // יצירת דייר ברירת מחדל (לצורכי פיתוח) אם אין
+        // דייר לדוגמה רק בסביבת פיתוח
+        const shouldSeedResident = process.env.SEED_DEFAULT_USERS === 'true' && process.env.NODE_ENV !== 'production';
+        if (shouldSeedResident) {
             const defaultResidentEmail = 'resident@example.com';
             const existingResident = await User.findOne({ email: defaultResidentEmail });
             if (!existingResident) {

@@ -182,6 +182,18 @@ server {
 }
 ```
 
+## Render / Netlify (פריסה בענן)
+
+### שגיאת 401 בכניסת אדמין
+כשהשרת מחזיר 401 (Unauthorized) – אין אדמין במסד הנתונים. ב-Render הוסף משתנה סביבה:
+- **Key:** `SEED_DEFAULT_USERS`
+- **Value:** `true`
+
+בדיפלוי הראשון ייווצר אדמין ברירת מחדל: **admin** / **admin123**. לאחר התחברות ראשונה מומלץ להגדיר `SEED_DEFAULT_USERS=false` או להסיר את המשתנה.
+
+### Netlify – כתובת API
+ב-Netlify הגדר `VITE_API_URL=https://your-api.onrender.com` (ללא `/api` בסוף). האפליקציה אוטומטית משתמשת ב-Render כשמוגדר `/api` ורצה ב-Netlify.
+
 ## 📊 ניטור ובקרה
 
 ### ניטור עם PM2

@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { apiRequestJson } from '../api';
-import { safeGetItem, safeSetItem } from '../utils/safeStorage';
+import { safeSetItem } from '../utils/safeStorage';
 
 const AdminLogin: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -11,14 +11,6 @@ const AdminLogin: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const passwordRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    const isLoggedIn = safeGetItem('isAdminLoggedIn');
-    const storedUsername = safeGetItem('adminUsername');
-    if (isLoggedIn && storedUsername) {
-      navigate('/select-building');
-    }
-  }, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,14 +62,15 @@ const AdminLogin: React.FC = () => {
 
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
-              <label htmlFor="username" className="form-label">
-                <i className="fas fa-user ms-2"></i>
+              <label htmlFor="admin-username" className="form-label fw-semibold">
+                <i className="fas fa-user ms-2" aria-hidden="true"></i>
                 שם משתמש
               </label>
               <input
                 type="text"
                 className="form-control"
-                id="username"
+                id="admin-username"
+                name="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 onKeyDown={(e) => {
@@ -86,17 +79,18 @@ const AdminLogin: React.FC = () => {
                     passwordRef.current?.focus();
                   }
                 }}
-                placeholder="admin"
+                placeholder="הזן שם משתמש (למשל: admin)"
                 required
                 autoComplete="username"
                 enterKeyHint="next"
+                aria-label="שם משתמש"
                 style={{ textAlign: 'right' }}
               />
             </div>
 
             <div className="mb-4">
-              <label htmlFor="password" className="form-label">
-                <i className="fas fa-lock ms-2"></i>
+              <label htmlFor="admin-password" className="form-label fw-semibold">
+                <i className="fas fa-lock ms-2" aria-hidden="true"></i>
                 סיסמה
               </label>
               <div className="input-group">
@@ -104,13 +98,15 @@ const AdminLogin: React.FC = () => {
                   ref={passwordRef}
                   type={showPassword ? 'text' : 'password'}
                   className="form-control"
-                  id="password"
+                  id="admin-password"
+                  name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="admin123"
+                  placeholder="הזן סיסמה (למשל: admin123)"
                   required
                   autoComplete="current-password"
                   enterKeyHint="done"
+                  aria-label="סיסמה"
                   style={{ textAlign: 'right' }}
                 />
                 <button
@@ -152,9 +148,9 @@ const AdminLogin: React.FC = () => {
           </form>
 
           <div className="text-center mt-4">
-            <small className="text-muted">
-              <i className="fas fa-info-circle ms-1"></i>
-              פרטי התחברות לדוגמה: admin / admin123
+            <small className="text-muted d-block">
+              <i className="fas fa-info-circle ms-1" aria-hidden="true"></i>
+              שם משתמש: admin &nbsp;|&nbsp; סיסמה: admin123
             </small>
           </div>
 
