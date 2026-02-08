@@ -25,8 +25,10 @@ async function listBuildings(_req: Request, res: Response): Promise<void> {
       ...(fromAdmins as string[]).filter(Boolean),
     ]);
 
-    const buildingDocs = await Building.find({ buildingId: { $in: Array.from(ids) } }).lean<BuildingLean[]>();
-    const byId: Record<string, BuildingLean | undefined> = Object.fromEntries(buildingDocs.map((b) => [b.buildingId, b]));
+    const buildingDocs = await Building.find({ buildingId: { $in: Array.from(ids) } }).lean();
+    const byId = Object.fromEntries(
+      buildingDocs.map((b) => [b.buildingId, b as BuildingLean])
+    ) as Record<string, BuildingLean | undefined>;
 
     const buildings = Array.from(ids).sort((a, b) => a.localeCompare(b, 'he')).map((id) => ({
       buildingId: id,
