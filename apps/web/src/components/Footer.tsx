@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
         </div>
         
         <div>
-          <small>© {new Date().getFullYear()} כל הזכויות שמורות טלי לופטנהוס</small>
+          <small>© {new Date().getFullYear()} כל הזכויות שמורות relaya</small>
         </div>
       </div>
     </footer>

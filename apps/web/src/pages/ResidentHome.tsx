@@ -1,5 +1,4 @@
 import React from 'react';
-import NavigationBar from './SecondNavbar';
 import { useNavigate } from "react-router-dom";
 import Footer from '../components/Footer';
 

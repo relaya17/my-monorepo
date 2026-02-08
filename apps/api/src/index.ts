@@ -8,6 +8,7 @@ import stripeWebhookRoute from './routes/stripeWebhookRoute.js';
 import fs from 'fs';
 import path from 'path';
 import Admin from './models/adminModel.js';
+import User from './models/userModel.js';
 import bcrypt from 'bcryptjs';
 import morgan from 'morgan';
 import helmet from 'helmet';
@@ -35,9 +36,11 @@ if (!fs.existsSync(uploadsDir)) {
 // שרת קבצים סטטי
 app.use('/uploads', express.static(uploadsDir));
 
-// שרת קבצים סטטי ל-React app
+// Serve React build only in production (avoid "old design" in dev)
 const clientPath = path.join(__dirname, '../../web/dist');
-app.use(express.static(clientPath));
+if (process.env.NODE_ENV === 'production' && fs.existsSync(path.join(clientPath, 'index.html'))) {
+  app.use(express.static(clientPath));
+}
 
 // Stripe webhook חייב גוף raw
 app.use('/api/webhooks/stripe', stripeWebhookRoute);
@@ -53,10 +56,12 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api', routes);
 app.use('/api/stripe', stripeRoutes);
 
-// Fallback route - serve React app for all other routes
-app.get('*', (req, res) => {
+// Fallback route - serve React app for all other routes (production only)
+if (process.env.NODE_ENV === 'production' && fs.existsSync(path.join(clientPath, 'index.html'))) {
+  app.get('*', (req, res) => {
     res.sendFile(path.join(clientPath, 'index.html'));
-});
+  });
+}
 
 
 const mongoUri = process.env.MONGO_URI;
@@ -73,6 +78,15 @@ mongoose.connect(mongoUri)
             const hash = await bcrypt.hash('admin123', 10);
             await Admin.create({ username: 'admin', password: hash });
             console.log('Admin ברירת מחדל נוצר: admin / admin123');
+        }
+
+        // יצירת דייר ברירת מחדל (לצורכי פיתוח) אם אין
+        const defaultResidentEmail = 'resident@example.com';
+        const existingResident = await User.findOne({ email: defaultResidentEmail });
+        if (!existingResident) {
+            const hash = await bcrypt.hash('123456', 10);
+            await User.create({ name: 'דייר לדוגמה', email: defaultResidentEmail, password: hash });
+            console.log('דייר ברירת מחדל נוצר: resident@example.com / 123456');
         }
     })
     .catch(err => console.error('MongoDB connection error:', err));

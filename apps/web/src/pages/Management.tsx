@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchResidentsRequest, fetchResidentsSuccess, fetchResidentsFailure } from '../redux/slice/ManagementSlice';
+import { fetchResidentsRequest, fetchResidentsSuccess } from '../redux/slice/ManagementSlice';
 import type { RootState } from '../redux/store';
 
 const Management: React.FC = () => {

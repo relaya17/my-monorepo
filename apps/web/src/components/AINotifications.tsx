@@ -123,7 +123,6 @@ const AINotifications: React.FC = () => {
     }
   };
 
-  const highPriorityNotifications = notifications.filter(n => n.priority === 'high');
   const totalNotifications = notifications.length;
   const totalAlerts = alerts.length;
 

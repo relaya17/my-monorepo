@@ -1,14 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addFile, removeFile } from "../redux/slice/newResidentApprovalSlice";
 import type { RootState, AppDispatch } from "../redux/store"; 
 import { PDFDocument } from "pdf-lib";
-
-interface FileData {
-  id: string;
-  name: string;
-  url: string;
-}
 
 const NewResidentApproval: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

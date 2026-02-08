@@ -5,6 +5,7 @@ interface AccessibilitySettings {
   contrast: 'normal' | 'high';
   motion: 'normal' | 'reduced';
   spacing: 'normal' | 'large';
+  links: 'normal' | 'underlined';
 }
 
 const AccessibilityPanel: React.FC = () => {
@@ -13,7 +14,8 @@ const AccessibilityPanel: React.FC = () => {
     fontSize: 'base',
     contrast: 'normal',
     motion: 'normal',
-    spacing: 'normal'
+    spacing: 'normal',
+    links: 'normal'
   });
 
   useEffect(() => {
@@ -59,6 +61,13 @@ const AccessibilityPanel: React.FC = () => {
     } else {
       document.body.classList.remove('large-spacing');
     }
+
+    // קו תחתון לקישורים
+    if (newSettings.links === 'underlined') {
+      document.body.classList.add('underline-links');
+    } else {
+      document.body.classList.remove('underline-links');
+    }
     
     // אנימציות
     if (newSettings.motion === 'reduced') {
@@ -84,12 +93,17 @@ const AccessibilityPanel: React.FC = () => {
     setSettings(prev => ({ ...prev, spacing }));
   };
 
+  const handleLinksChange = (links: AccessibilitySettings['links']) => {
+    setSettings(prev => ({ ...prev, links }));
+  };
+
   const resetSettings = () => {
     const defaultSettings: AccessibilitySettings = {
       fontSize: 'base',
       contrast: 'normal',
       motion: 'normal',
-      spacing: 'normal'
+      spacing: 'normal',
+      links: 'normal'
     };
     setSettings(defaultSettings);
   };
@@ -242,6 +256,32 @@ const AccessibilityPanel: React.FC = () => {
                     aria-pressed={settings.motion === 'reduced'}
                   >
                     מופחת
+                  </button>
+                </div>
+              </div>
+
+              {/* קישורים */}
+              <div className="mb-3">
+                <label className="form-label fw-bold">
+                  <i className="fas fa-link me-2"></i>
+                  קישורים
+                </label>
+                <div className="btn-group w-100" role="group" aria-label="קישורים">
+                  <button
+                    type="button"
+                    className={`btn btn-outline-primary ${settings.links === 'normal' ? 'active' : ''}`}
+                    onClick={() => handleLinksChange('normal')}
+                    aria-pressed={settings.links === 'normal'}
+                  >
+                    רגיל
+                  </button>
+                  <button
+                    type="button"
+                    className={`btn btn-outline-primary ${settings.links === 'underlined' ? 'active' : ''}`}
+                    onClick={() => handleLinksChange('underlined')}
+                    aria-pressed={settings.links === 'underlined'}
+                  >
+                    עם קו תחתון
                   </button>
                 </div>
               </div>

@@ -29,7 +29,6 @@ const Navbar: React.FC = () => {
           <style>{`
             @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap');
           `}</style>
-          <i className="fas fa-building me-2" style={{ color: '#ffffff' }}></i>
           <span
             style={{
               fontWeight: 700,

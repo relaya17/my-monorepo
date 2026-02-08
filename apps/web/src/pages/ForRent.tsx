@@ -2,9 +2,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../redux/store";
-import { removeApartment, fetchRentApartments } from "../redux/slice/forRentSlice";
+import { fetchRentApartments } from "../redux/slice/forRentSlice";
 import { Button } from "react-bootstrap";
 import "./ForRent.css";
+import apartmentImg from "../assets/apartment.png";
 
 const ForRent: React.FC = () => {
   const { apartments, loading, error } = useSelector((state: RootState) => state.forRent);
@@ -14,10 +15,6 @@ const ForRent: React.FC = () => {
   useEffect(() => {
     dispatch(fetchRentApartments());
   }, []);
-
-  const handleRemove = (id: number) => {
-    dispatch(removeApartment(id));
-  };
 
   if (loading) {
     return (
@@ -74,7 +71,13 @@ const ForRent: React.FC = () => {
                   <div className="apartment-card-back">
                     {hasImage && (
                       <img
-                        src={apartment.image.startsWith('/') ? apartment.image : `/images/${apartment.image}`}
+                        src={
+                          apartment.image.startsWith('/')
+                            ? apartment.image
+                            : apartment.image === 'apartment.png'
+                              ? apartmentImg
+                              : apartment.image
+                        }
                         alt="תמונה של הדירה"
                         className="apartment-img-hover"
                       />

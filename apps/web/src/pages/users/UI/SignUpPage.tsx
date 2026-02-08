@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signUpUser } from '../../../redux/slice/signUpSlice';
-import { Form, Button, Container, Alert } from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import type { AppDispatch, RootState } from '../../../redux/store';
 import ROUTES from '../../../routs/routes';

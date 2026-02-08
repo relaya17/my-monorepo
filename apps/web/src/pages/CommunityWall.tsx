@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Form, Modal, Badge, Spinner, Alert } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import type { AppDispatch, RootState } from '../redux/store';
 
 interface Post {
   id: string;
@@ -23,7 +21,6 @@ interface Comment {
 }
 
 const CommunityWall: React.FC = () => {
-  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   
   // בדיקה אם המשתמש מחובר

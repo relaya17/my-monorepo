@@ -38,7 +38,7 @@ const UserDashboard: React.FC = () => {
       <div className="row">
         <div className="col-12 d-flex justify-content-between align-items-center mb-5">
           <div></div>
-                      <h1 className="text-center" style={{ color: '#ffffff', fontWeight: 'bold', margin: 0 }}>
+                      <h1 className="text-center" style={{ color: '#374151', fontWeight: 'bold', margin: 0 }}>
             <i className="fas fa-home ms-2"></i>
             לוח בקרה - אחזקת מבנים
           </h1>
@@ -67,7 +67,7 @@ const UserDashboard: React.FC = () => {
               <div className="mb-3">
                 <i className="fas fa-credit-card fa-3x" style={{ color: '#27ae60' }}></i>
               </div>
-                              <h5 className="card-title" style={{ color: '#ffffff' }}>תשלומים</h5>
+                              <h5 className="card-title" style={{ color: '#374151' }}>תשלומים</h5>
               <p className="card-text text-muted">צפייה בתשלומים וניהול חשבון</p>
               <Link to={ROUTES.CHECK_OUT} className="btn btn-success w-100">
                 <i className="fas fa-chart-line ms-2"></i>
@@ -84,7 +84,7 @@ const UserDashboard: React.FC = () => {
               <div className="mb-3">
                 <i className="fas fa-tools fa-3x" style={{ color: '#9b59b6' }}></i>
               </div>
-                              <h5 className="card-title" style={{ color: '#ffffff' }}>בקשות תחזוקה</h5>
+                              <h5 className="card-title" style={{ color: '#374151' }}>בקשות תחזוקה</h5>
               <p className="card-text text-muted">דיווח על בעיות תחזוקה</p>
               <Link to={ROUTES.REPAIR_TRACKING} className="btn btn-info w-100">
                 <i className="fas fa-wrench ms-2"></i>
@@ -101,7 +101,7 @@ const UserDashboard: React.FC = () => {
               <div className="mb-3">
                 <i className="fas fa-seedling fa-3x" style={{ color: '#27ae60' }}></i>
               </div>
-                              <h5 className="card-title" style={{ color: '#ffffff' }}>גינון</h5>
+                              <h5 className="card-title" style={{ color: '#374151' }}>גינון</h5>
               <p className="card-text text-muted">בקשות גינון ותחזוקת גינות</p>
               <Link to={ROUTES.GARDENING} className="btn btn-success w-100">
                 <i className="fas fa-leaf ms-2"></i>
@@ -120,7 +120,7 @@ const UserDashboard: React.FC = () => {
               <div className="mb-3">
                 <i className="fas fa-key fa-3x" style={{ color: '#f39c12' }}></i>
               </div>
-                              <h5 className="card-title" style={{ color: '#ffffff' }}>דירות להשכרה</h5>
+                              <h5 className="card-title" style={{ color: '#374151' }}>דירות להשכרה</h5>
               <p className="card-text text-muted">צפייה בדירות פנויות להשכרה</p>
               <Link to={ROUTES.FOR_RENT} className="btn btn-warning w-100">
                 <i className="fas fa-search ms-2"></i>
@@ -137,7 +137,7 @@ const UserDashboard: React.FC = () => {
               <div className="mb-3">
                 <i className="fas fa-home fa-3x" style={{ color: '#e74c3c' }}></i>
               </div>
-                              <h5 className="card-title" style={{ color: '#ffffff' }}>דירות למכירה</h5>
+                              <h5 className="card-title" style={{ color: '#374151' }}>דירות למכירה</h5>
               <p className="card-text text-muted">צפייה בדירות למכירה</p>
               <Link to={ROUTES.FOR_SALE} className="btn btn-danger w-100">
                 <i className="fas fa-tag ms-2"></i>
@@ -177,7 +177,7 @@ const UserDashboard: React.FC = () => {
       {/* סטטיסטיקות מהירות */}
       <div className="row mt-4">
         <div className="col-12">
-                      <h3 className="text-center mb-4" style={{ color: '#ffffff' }}>סטטיסטיקות אישיות</h3>
+                      <h3 className="text-center mb-4" style={{ color: '#374151' }}>סטטיסטיקות אישיות</h3>
         </div>
         <div className="col-md-3">
           <div className="card text-center border-0 shadow-sm">

@@ -214,7 +214,7 @@ const MaintenanceManagement: React.FC = () => {
       <Container fluid className="mt-4">
         <Row>
           <Col>
-            <h2 className="mb-4 text-center" style={{ color: '#ffffff' }}>
+            <h2 className="mb-4 text-center" style={{ color: '#374151' }}>
               <i className="fas fa-tools me-2"></i>
               ניהול ותחזוקה
             </h2>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AdminLogin: React.FC = () => {
@@ -7,6 +7,14 @@ const AdminLogin: React.FC = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('isAdminLoggedIn');
+    const storedUsername = localStorage.getItem('adminUsername');
+    if (isLoggedIn && storedUsername) {
+      navigate('/admin-dashboard');
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,7 +79,7 @@ const AdminLogin: React.FC = () => {
                 id="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="הזן שם משתמש"
+                placeholder="admin"
                 required
                 style={{ textAlign: 'right' }}
               />
@@ -88,7 +96,7 @@ const AdminLogin: React.FC = () => {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="הזן סיסמה"
+                placeholder="admin123"
                 required
                 style={{ textAlign: 'right' }}
               />

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../redux/store';
-import { addPost, addComment, fetchPosts, addPostAsync } from '../redux/slice/blogSlice';
+import { addComment, fetchPosts, addPostAsync } from '../redux/slice/blogSlice';
 
 const Blog: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

@@ -1,10 +1,11 @@
 // src/pages/ForSale.tsx
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../redux/store";
-import { removeApartment, fetchApartments } from "../redux/slice/forSaleSlice";
+import { fetchApartments } from "../redux/slice/forSaleSlice";
 import { Card, Button } from "react-bootstrap";
 import "./ForSale.css"; // לוודא שהקובץ קיים
+import apartmentImg from "../assets/apartment.png";
 
 const ForSale: React.FC = () => {
   const { apartments, loading, error } = useSelector((state: RootState) => state.forSale);
@@ -13,10 +14,6 @@ const ForSale: React.FC = () => {
   useEffect(() => {
     dispatch(fetchApartments());
   }, [dispatch]);
-
-  const handleRemove = (id: number) => {
-    dispatch(removeApartment(id));
-  };
 
   if (loading) {
     return (
@@ -47,7 +44,11 @@ const ForSale: React.FC = () => {
           <Card className="apartment-card" key={apartment.id}>
             <Card.Img
               variant="top"
-              src={apartment.image && apartment.image.trim() !== "" ? apartment.image : process.env.PUBLIC_URL + "/images/image.png"}
+              src={
+                apartment.image && apartment.image.trim() !== ""
+                  ? (apartment.image === 'apartment.png' || apartment.image === 'aparment.png' ? apartmentImg : apartment.image)
+                  : apartmentImg
+              }
               alt="תמונה של הדירה"
               className="apartment-img"
             />

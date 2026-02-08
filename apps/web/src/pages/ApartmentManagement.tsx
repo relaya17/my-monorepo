@@ -171,12 +171,6 @@ const ApartmentManagement: React.FC = () => {
     }
   };
 
-  const getTypeBadge = (type: string) => {
-    return type === 'sale' ? 
-      <Badge bg="danger">למכירה</Badge> : 
-      <Badge bg="warning" text="dark">להשכרה</Badge>;
-  };
-
   const handleAddApartment = () => {
     const newApartment: Apartment = {
       id: Date.now().toString(),
@@ -307,7 +301,7 @@ const ApartmentManagement: React.FC = () => {
       <Container fluid className="mt-4">
         <Row>
           <Col>
-            <h2 className="mb-4 text-center" style={{ color: '#ffffff' }}>
+            <h2 className="mb-4 text-center" style={{ color: '#374151' }}>
               <i className="fas fa-home me-2"></i>
               ניהול דירות
             </h2>

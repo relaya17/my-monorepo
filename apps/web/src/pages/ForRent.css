@@ -12,7 +12,7 @@
 }
 
 .apartment-card {
-  background: url('/images/apartment2.png') center/cover no-repeat;
+  background: url('../assets/apartment2.png') center/cover no-repeat;
   position: relative;
   border: 1.5px solid #1976d2;
   border-radius: 12px;
@@ -81,8 +81,7 @@
   transition: opacity 0.3s;
 }
 
-
-הרקע */
+/* הרקע */
 .card-overlay {
   flex: 1;
   display: flex;

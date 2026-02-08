@@ -105,7 +105,7 @@ const ReportsDashboard: React.FC = () => {
       <Container fluid className="mt-4 px-3">
         <Row>
           <Col>
-            <h2 className="mb-4 text-center" style={{ color: '#ffffff', fontSize: 'clamp(1.5rem, 4vw, 2.5rem)' }}>
+            <h2 className="mb-4 text-center" style={{ color: '#374151', fontSize: 'clamp(1.5rem, 4vw, 2.5rem)' }}>
               <i className="fas fa-chart-bar me-2" aria-hidden="true"></i>
               דוחות וסטטיסטיקה
             </h2>
@@ -199,7 +199,7 @@ const ReportsDashboard: React.FC = () => {
           <Col lg={6} md={12} className="mb-3">
             <Card className="shadow-sm h-100 chart-card">
               <Card.Body>
-                <h5 className="mb-3 text-center" style={{ color: '#ffffff', fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)' }}>
+                <h5 className="mb-3 text-center" style={{ color: '#374151', fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)' }}>
                   <i className="fas fa-chart-bar me-2" aria-hidden="true"></i>
                   התפלגות דירות
                 </h5>
@@ -221,7 +221,7 @@ const ReportsDashboard: React.FC = () => {
           <Col lg={6} md={12} className="mb-3">
             <Card className="shadow-sm h-100 chart-card">
               <Card.Body>
-                <h5 className="mb-3 text-center" style={{ color: '#ffffff', fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)' }}>
+                <h5 className="mb-3 text-center" style={{ color: '#374151', fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)' }}>
                   <i className="fas fa-chart-pie me-2" aria-hidden="true"></i>
                   סטטוס תשלומים
                 </h5>
@@ -241,7 +241,7 @@ const ReportsDashboard: React.FC = () => {
           <Col>
             <Card className="shadow-sm">
               <Card.Body>
-                <h5 className="mb-3 text-center" style={{ color: '#ffffff', fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)' }}>
+                <h5 className="mb-3 text-center" style={{ color: '#374151', fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)' }}>
                   <i className="fas fa-file-alt me-2" aria-hidden="true"></i>
                   דוחות אחרונים
                 </h5>

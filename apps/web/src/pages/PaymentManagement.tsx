@@ -132,22 +132,7 @@ const PaymentManagement: React.FC = () => {
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'paid':
-        return 'text-success';
-      case 'pending':
-        return 'text-warning';
-      case 'overdue':
-        return 'text-danger';
-      case 'cancelled':
-        return 'text-secondary';
-      default:
-        return 'text-muted';
-    }
-  };
-
-  const handlePaymentAction = (payment: Payment, action: string) => {
+  const handlePaymentAction = (payment: Payment, _action: string) => {
     setSelectedPayment(payment);
     setShowPaymentModal(true);
   };
@@ -226,7 +211,7 @@ const PaymentManagement: React.FC = () => {
       <Container fluid className="mt-4">
         <Row>
           <Col>
-            <h2 className="mb-4 text-center" style={{ color: '#ffffff' }}>
+            <h2 className="mb-4 text-center" style={{ color: '#374151' }}>
               <i className="fas fa-credit-card me-2"></i>
               מעקב וניהול תשלומים
             </h2>

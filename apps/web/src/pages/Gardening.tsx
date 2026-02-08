@@ -15,8 +15,8 @@ const Gardening = () => {
   const dispatch = useDispatch();
   const [date, setDate] = useState('');
   const [wateringAmount, setWateringAmount] = useState('');
-  const [soilCheck, setSoilCheck] = useState('');
-  const [task, setTask] = useState('');
+  const [soilCheck] = useState('');
+  const [task] = useState('');
   const [treatmentType, setTreatmentType] = useState<string[]>([]);
   const [treatmentDetails, setTreatmentDetails] = useState('');
 

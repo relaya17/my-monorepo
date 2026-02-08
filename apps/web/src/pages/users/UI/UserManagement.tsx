@@ -60,7 +60,7 @@ const UserManagement: React.FC = () => {
           <div className="card-body p-5" style={{ textAlign: 'right' }}>
             <div className="text-center mb-4">
               <i className="fas fa-users fa-3x mb-3" style={{ color: '#6b7280' }}></i>
-              <h2 className="card-title" style={{ color: '#ffffff' }}>
+              <h2 className="card-title" style={{ color: '#374151' }}>
                 ניהול משתמשים
               </h2>
               <p className="text-muted">הזן סיסמת מנהל</p>
@@ -99,7 +99,7 @@ const UserManagement: React.FC = () => {
       <div className="row">
         <div className="col-12 d-flex justify-content-between align-items-center mb-5">
           <div></div>
-                      <h1 className="text-center" style={{ color: '#ffffff', fontWeight: 'bold', margin: 0 }}>
+                      <h1 className="text-center" style={{ color: '#374151', fontWeight: 'bold', margin: 0 }}>
             <i className="fas fa-users ms-2"></i>
             ניהול משתמשים
           </h1>
@@ -123,7 +123,7 @@ const UserManagement: React.FC = () => {
               <div className="mb-3">
                 <i className="fas fa-list fa-3x" style={{ color: '#3498db' }}></i>
               </div>
-                              <h5 className="card-title" style={{ color: '#ffffff' }}>רשימת משתמשים</h5>
+                              <h5 className="card-title" style={{ color: '#374151' }}>רשימת משתמשים</h5>
               <p className="card-text text-muted">צפייה וניהול כל המשתמשים במערכת</p>
               <button onClick={goToUsersList} className="btn btn-primary w-100">
                 <i className="fas fa-eye ms-2"></i>
@@ -139,7 +139,7 @@ const UserManagement: React.FC = () => {
               <div className="mb-3">
                 <i className="fas fa-user-plus fa-3x" style={{ color: '#27ae60' }}></i>
               </div>
-                              <h5 className="card-title" style={{ color: '#ffffff' }}>הוספת משתמש</h5>
+                              <h5 className="card-title" style={{ color: '#374151' }}>הוספת משתמש</h5>
               <p className="card-text text-muted">הוספת משתמש חדש למערכת</p>
               <button onClick={goToCreateUser} className="btn btn-success w-100">
                 <i className="fas fa-plus ms-2"></i>
@@ -155,7 +155,7 @@ const UserManagement: React.FC = () => {
               <div className="mb-3">
                 <i className="fas fa-key fa-3x" style={{ color: '#e74c3c' }}></i>
               </div>
-                              <h5 className="card-title" style={{ color: '#ffffff' }}>שינוי סיסמה</h5>
+                              <h5 className="card-title" style={{ color: '#374151' }}>שינוי סיסמה</h5>
               <p className="card-text text-muted">שינוי סיסמת מנהל</p>
               <button onClick={goToChangePassword} className="btn btn-danger w-100">
                 <i className="fas fa-edit ms-2"></i>

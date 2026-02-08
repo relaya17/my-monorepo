@@ -89,6 +89,7 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: var(--font-size-base);
   background-color: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.6;
@@ -99,6 +100,44 @@ body {
   padding: 0;
   position: relative;
   width: 100%;
+}
+
+/* ===== Accessibility helpers (toggled via AccessibilityPanel) ===== */
+body.high-contrast {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+body.high-contrast .card,
+body.high-contrast .modal-content,
+body.high-contrast .dropdown-menu,
+body.high-contrast .table,
+body.high-contrast .navbar {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+body.high-contrast .text-muted {
+  color: #d1d5db !important;
+}
+body.high-contrast a,
+body.high-contrast .btn-link {
+  color: #93c5fd !important;
+}
+body.underline-links a {
+  text-decoration: underline !important;
+  text-underline-offset: 0.18em;
+}
+body.large-spacing {
+  letter-spacing: 0.02em;
+  word-spacing: 0.06em;
+  line-height: 1.85;
+}
+body.reduced-motion *,
+body.reduced-motion *::before,
+body.reduced-motion *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
 }
 
 body::before {
@@ -816,7 +855,7 @@ body::before {
   top: 0; left: 0; right: 0; bottom: 0;
   min-width: 100vw;
   min-height: 100vh;
-  background-image: url('/images/aparment.png');
+  background-image: url('./assets/apartment.png');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;

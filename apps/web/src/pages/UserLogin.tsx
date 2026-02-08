@@ -61,7 +61,7 @@ const UserLogin: React.FC = () => {
         <div className="card-body p-5" style={{ direction: 'rtl', textAlign: 'right' }}>
           <div className="text-center mb-4">
             <i className="fas fa-home fa-3x mb-3" style={{ color: '#6b7280' }}></i>
-            <h2 className="card-title" style={{ color: '#ffffff' }}>
+            <h2 className="card-title" style={{ color: '#374151' }}>
               כניסת דייר
             </h2>
             <p className="text-muted">ברוכים הבאים למערכת אחזקת מבנים</p>

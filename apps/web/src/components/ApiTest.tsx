@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 interface ApiResponse {
@@ -16,7 +16,7 @@ const ApiTest = () => {
         setData(response.data);
         setError(null);
       })
-      .catch(err => {
+      .catch((_err) => {
         setError('Error fetching data');
         // Error fetching data
       });

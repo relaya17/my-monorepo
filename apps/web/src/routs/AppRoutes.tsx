@@ -33,7 +33,6 @@ import SecurityPolicy from "../pages/seqerty/SecurityPolicy";
 import SignUpPage from "../pages/users/UI/SignUpPage";
 import UsersListPage from "../pages/users/UI/UsersListPage";
 import UserDetailsPage from "../pages/users/UI/UserDetailsPage";
-import UsersPage from "../pages/users/UI/UsersPage";
 import UserManagement from "../pages/users/UI/UserManagement";
 import CreateAdminPassword from "../pages/users/UI/CreateAdminPassword";
 import ChangeAdminPassword from "../pages/users/UI/ChangeAdminPassword";

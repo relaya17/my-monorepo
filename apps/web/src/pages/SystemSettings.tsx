@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Form, Button, Alert, Tabs, Tab, Table, Badge } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button, Alert, Tabs, Tab, Table } from 'react-bootstrap';
 import NavigationBar from './SecondNavbar';
 
 interface SystemSetting {
@@ -187,7 +187,7 @@ const SystemSettings: React.FC = () => {
       <Container fluid className="mt-4">
         <Row>
           <Col>
-            <h2 className="mb-4 text-center" style={{ color: '#ffffff' }}>
+            <h2 className="mb-4 text-center" style={{ color: '#374151' }}>
               <i className="fas fa-cogs me-2"></i>
               הגדרות מערכת
             </h2>
@@ -205,11 +205,11 @@ const SystemSettings: React.FC = () => {
         <Row className="mb-4">
           <Col>
             <div className="d-flex justify-content-end gap-2">
-              <Button variant="outline-secondary" onClick={handleResetSettings}>
+              <Button variant="outline-dark" onClick={handleResetSettings}>
                 <i className="fas fa-undo me-2"></i>
                 אופס לברירת מחדל
               </Button>
-              <Button variant="primary" onClick={handleSaveSettings}>
+              <Button variant="dark" onClick={handleSaveSettings} style={{ backgroundColor: '#4b5563', borderColor: '#4b5563' }}>
                 <i className="fas fa-save me-2"></i>
                 שמור הגדרות
               </Button>

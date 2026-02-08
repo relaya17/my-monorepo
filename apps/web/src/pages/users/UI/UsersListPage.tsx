@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Container, ListGroup, Badge, Button } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { ListGroup, Badge, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import ROUTES from '../../../routs/routes';
 
 interface User {
@@ -14,7 +14,7 @@ interface User {
 
 const UsersListPage: React.FC = () => {
   const navigate = useNavigate();
-  const [users, setUsers] = useState<User[]>([
+  const [users] = useState<User[]>([
     { 
       id: 1, 
       name: "יוסי כהן", 
@@ -80,7 +80,7 @@ const UsersListPage: React.FC = () => {
       <div className="row">
         <div className="col-12 d-flex justify-content-between align-items-center mb-5">
           <div></div>
-                      <h1 className="text-center" style={{ color: '#ffffff', fontWeight: 'bold', margin: 0 }}>
+                      <h1 className="text-center" style={{ color: '#374151', fontWeight: 'bold', margin: 0 }}>
             <i className="fas fa-list ms-2"></i>
             רשימת משתמשים
           </h1>

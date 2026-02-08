@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveMenu } from '../redux/slice/SecondNavbar';
@@ -15,9 +15,6 @@ const NavigationBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const activeMenu = useSelector((state: RootState) => state.secondNavbar.activeMenu);
   const [expanded, setExpanded] = useState(false);
-  
-  // בדיקה אם המשתמש מחובר
-  const isLoggedIn = localStorage.getItem('userToken') || localStorage.getItem('adminToken');
 
   const receiptsMenu: NavItem[] = [
     { label: 'מעקב וניהול תשלומים', path: '/payment-management' },
