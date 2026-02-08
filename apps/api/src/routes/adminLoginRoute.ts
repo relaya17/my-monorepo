@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import Admin from '../models/adminModel.js';
 import bcrypt from 'bcryptjs';
 import { loginRateLimiter } from '../middleware/securityMiddleware.js';
+import { tenantContext } from '../middleware/tenantMiddleware.js';
 
 const router: express.Router = express.Router();
 
@@ -30,8 +31,10 @@ router.post('/login', loginRateLimiter, async (req: Request, res: Response) => {
     }
 
     try {
-        // Case-insensitive, whitespace-tolerant username lookup (mobile keyboards often add spaces/case).
-        const admin = await Admin.findOne({ username: new RegExp(`^${escapeRegex(username)}$`, 'i') });
+        // אדמין תמיד ב-buildingId default – חיפוש ב-default גם אם נשלח x-building-id אחר
+        const admin = await tenantContext.run({ buildingId: 'default' }, async () =>
+            Admin.findOne({ username: new RegExp(`^${escapeRegex(username)}$`, 'i') })
+        );
         console.log('Admin found:', !!admin);
 
         if (!admin) {

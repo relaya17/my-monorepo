@@ -12,6 +12,8 @@ export default defineConfig({
   server: {
     host: true,
     port: 5174,
+    strictPort: true,
+    hmr: { clientPort: 5174 },
     proxy: {
       '/api': {
         // Dev-only API target (override with VITE_DEV_API_TARGET if needed)

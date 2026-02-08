@@ -29,12 +29,21 @@ const port = Number(process.env.PORT) || 3008;
 // Render / reverse proxies
 app.set('trust proxy', 1);
 
-// CORS
+// CORS – מותר: CORS_ORIGIN, localhost, 192.168.x.x, Netlify, Render
 const parseCorsOrigins = (value: string | undefined) =>
   (value ?? '')
     .split(',')
     .map(s => s.trim())
     .filter(Boolean);
+
+const defaultDevOrigins = [
+  'http://localhost:5174',
+  'http://localhost:5173',
+  'http://127.0.0.1:5174',
+  'http://127.0.0.1:5173',
+  'http://192.168.0.100:5174',
+  'http://192.168.0.100:5173',
+];
 
 const corsOrigins = parseCorsOrigins(process.env.CORS_ORIGIN);
 app.use(
@@ -43,16 +52,15 @@ app.use(
       if (!origin) return cb(null, true);
       if (corsOrigins.length > 0) return cb(null, corsOrigins.includes(origin));
 
-      if (process.env.NODE_ENV !== 'production') {
-        const isLocal =
-          origin.startsWith('http://localhost:') ||
-          origin.startsWith('http://127.0.0.1:') ||
-          origin.startsWith('http://192.168.') ||
-          origin.startsWith('http://10.');
-        return cb(null, isLocal);
-      }
+      // localhost + LAN (פיתוח מקומי כלפי Render API)
+      const isLocalOrLan =
+        defaultDevOrigins.includes(origin) ||
+        origin.startsWith('http://localhost:') ||
+        origin.startsWith('http://127.0.0.1:') ||
+        origin.startsWith('http://192.168.') ||
+        origin.startsWith('http://10.');
+      if (isLocalOrLan) return cb(null, true);
 
-      // production: Netlify + Render Web (כל *.netlify.app ו-*.onrender.com)
       if (origin.endsWith('.netlify.app') || origin.endsWith('.onrender.com')) return cb(null, true);
       return cb(null, false);
     },

@@ -8,10 +8,11 @@ let ENV_BASE =
   rawBase && (rawBase.startsWith('http://') || rawBase.startsWith('https://'))
     ? rawBase.endsWith('/api') ? rawBase : `${rawBase}/api`
     : rawBase;
-// Netlify ו-Render Web אין להם /api – משתמשים ב-Render API
+// בפרודקשן (לא localhost) אין /api – משתמשים ב-Render API
 const RENDER_API = 'https://my-monorepo-1.onrender.com/api';
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
-const needsExternalApi = origin && (origin.includes('netlify.app') || origin.includes('onrender.com')) && (!ENV_BASE || ENV_BASE === '/api');
+const isLocalhost = origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:');
+const needsExternalApi = origin && !isLocalhost && (!ENV_BASE || ENV_BASE === '/api');
 if (needsExternalApi) ENV_BASE = RENDER_API;
 const FALLBACK_BASE = '/api';
 
