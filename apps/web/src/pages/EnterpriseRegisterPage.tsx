@@ -74,6 +74,7 @@ const EnterpriseRegisterPage: React.FC = () => {
           companyName: form.companyName.trim(),
           buildingCount: Math.max(1, form.buildingCount),
           phone: form.phone.trim() || undefined,
+          source: 'enterprise_register',
         }),
       });
       const data = await res.json().catch(() => ({}));

@@ -31,6 +31,8 @@ const envSchema = z.object({
   LOG_PATH: z.string().optional(),
   AI_CRON_ENABLED: z.string().optional(),
   OPENAI_API_KEY: z.string().optional(),
+  RESEND_API_KEY: z.string().optional(),
+  EMAIL_FROM: z.union([z.string().email(), z.literal('')]).optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);
@@ -79,6 +81,8 @@ export const config = {
   log: { level: env.LOG_LEVEL, path: env.LOG_PATH },
   aiCronEnabled: env.AI_CRON_ENABLED !== 'false',
   openaiApiKey: env.OPENAI_API_KEY,
+  resendApiKey: env.RESEND_API_KEY || undefined,
+  emailFrom: env.EMAIL_FROM || 'Vantera <onboarding@vantera.co.il>',
 } as const;
 
 export type Config = typeof config;

@@ -362,7 +362,7 @@ const ApartmentManagement: React.FC = () => {
                                 <Image
                                   key={index}
                                   src={image}
-                                  alt={`תמונה ${index + 1}`}
+                                  alt={`תמונה ${index + 1} של הדירה – ניהול דירות Vantera`}
                                   width={40}
                                   height={40}
                                   className="rounded me-1"
@@ -621,7 +621,7 @@ const ApartmentManagement: React.FC = () => {
                       <div className="position-relative">
                         <Image 
                           src={image} 
-                          alt={`תמונה ${index + 1}`}
+                          alt={`תמונה ${index + 1} של הדירה – ניהול דירות Vantera`}
                           fluid 
                           className="rounded"
                           style={{ height: '150px', objectFit: 'cover', width: '100%' }}
@@ -786,7 +786,7 @@ const ApartmentManagement: React.FC = () => {
                       <div className="position-relative">
                         <Image 
                           src={image} 
-                          alt={`תמונה ${index + 1}`}
+                          alt={`תמונה ${index + 1} של הדירה – ניהול דירות Vantera`}
                           fluid 
                           className="rounded"
                           style={{ height: '150px', objectFit: 'cover', width: '100%' }}

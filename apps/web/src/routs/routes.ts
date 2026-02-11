@@ -2,6 +2,7 @@
 const ROUTES = {
   HOME: "/",
   LANDING: "/landing",
+  LANDING_INSIGHTS: "/insights",
   LANDING_TECHNICIAN: "/landing/technician",
   LANDING_RESIDENT: "/landing/resident",
   REGISTER: "/register",
@@ -51,6 +52,16 @@ const ROUTES = {
   /** Friendly URL for SEO: vantera.co.il/companies-management */
   COMPANIES_MANAGEMENT: "/companies-management",
   SALES_TOOLKIT: "/sales-toolkit",
+  /** CEO: מעקב הורדות אפליקציה לפי בניין */
+  RESIDENT_ADOPTION: "/resident-adoption",
+  /** אדמין: הזמנת דיירים ושליחת מייל onboarding */
+  RESIDENT_INVITE: "/resident-invite",
+  /** CEO: דשבורד מאוחד */
+  SUPER_ADMIN_DASHBOARD: "/ceo",
+  /** בלוג שיווקי – מאמרים לסמכות דומיין */
+  BLOG: "/blog",
+  /** מאמר בודד */
+  BLOG_ARTICLE: "/blog/:slug",
 };
 
 export default ROUTES;

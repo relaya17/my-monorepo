@@ -214,6 +214,38 @@
 }
 
 /* רשימת הפיצ'רים למכירה – 4 הנקודות */
+.landing-insights-cta {
+  padding: 2rem 1.5rem 4rem;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.landing-insights-link {
+  display: block;
+  padding: 2rem;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.landing-insights-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 242, 255, 0.15);
+}
+
+.landing-insights-link h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #00F2FF;
+}
+
+.landing-insights-link p {
+  color: #9ca3af;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
 .landing-sales-pitch {
   padding: 3rem 1.5rem 4rem;
   max-width: 1100px;

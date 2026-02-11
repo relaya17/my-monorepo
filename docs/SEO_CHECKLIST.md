@@ -29,16 +29,13 @@
 
 ---
 
-## 4. Alt-Text לתמונות (להשלים ידנית)
+## 4. Alt-Text לתמונות ✅
 
-כל תמונה של **לוויין**, **GPS** או אלמנטים ויזואליים מרכזיים – יש להוסיף `alt` תיאורי:
+- **וידאו רקע:** `title` תיאורי ב-Home, Landing, LandingInsightsPage
+- **תמונות:** `alt` משופר ב-Error404, ForSale, ForRent, CommunityWall, ApartmentManagement
 
-```
-alt="ניטור לווייני של גגות ותשתיות בבניין – טכנולוגיית AI של Vantera"
-alt="מפת GPS בזמן אמת – ספקים קרובים לדייר בבניין"
-```
-
-**מיקומים לבדיקה:** `Landing.tsx` (וידאו/רקעים), `Home.tsx` (תמונת Hero), רכיבים עם תמונות.
+תמונות נוספות (לוויין/GPS) – כשתתווספנה, להשתמש בתיאורים כמו:
+`alt="ניטור לווייני של גגות ותשתיות בבניין – טכנולוגיית AI של Vantera"`
 
 ---
 
@@ -50,13 +47,15 @@ alt="מפת GPS בזמן אמת – ספקים קרובים לדייר בבני�
 
 ---
 
-## 6. ארגז כלים להשקה
+## 6. ארגז כלים להשקה ✅
 
 | כלי | סטטוס | הערות |
 |-----|--------|-------|
-| **Google Analytics** | להגדיר | חיבור האתר למערכת ניטור – כמה נכנסו, מאיפה, על איזה כפתור לחצו |
-| **Heatmaps** | להגדיר | Hotjar / Microsoft Clarity – איפה משתמשים "נתקעים" באתר |
+| **Google Analytics 4** | מוכן | הוסף `VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX` ב-`.env.production` – נטען אוטומטית |
+| **Microsoft Clarity** | מוכן | הוסף `VITE_CLARITY_PROJECT_ID=xxxxxxxxxx` ב-`.env.production` – Heatmaps חינם |
 | **CRM Integration** | API קיים | קבלנים שנרשמו בטופס נכנסים למערכת – חזרה בלחיצת כפתור |
+
+**מיקום:** `apps/web/src/components/AnalyticsProvider.tsx`
 
 ---
 

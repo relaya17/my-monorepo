@@ -33,43 +33,50 @@
 }
 
 /* שכבת תוכן */
-.home-overlay {
+.home-wrapper .home-overlay {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: clamp(1rem, 3vw, 2rem);
   position: relative;
   z-index: 1;
   min-height: 100vh;
+  background: none !important;
 }
 
-/* תוכן בתוך הרקע המטושטש */
-.home-content {
-  /* ביטול רקע לבן/שקוף וטשטוש */
-  background: none;
-  backdrop-filter: none;
+/* תוכן בתוך הרקע – זכוכית מטושטשת */
+.home-wrapper .home-content {
+  background: rgba(15, 23, 42, 0.45) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 2.5rem;
   border-radius: 1.5rem;
   text-align: center;
   max-width: 600px;
   width: 100%;
-  box-shadow: none;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.08);
   position: relative;
   z-index: 2;
   pointer-events: auto;
 }
 
-/* כותרת ראשית */
-.home-title {
-  font-size: 2.5rem;
+/* כותרת – גדולה, רספונסיבי */
+.home-wrapper .home-title {
+  font-size: clamp(1.6rem, 5vw, 2.8rem);
   margin-bottom: 1.5rem;
   font-weight: bold;
-  color: #f8fafc;
+  color: #f8fafc !important;
+  background: none !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 
-.home-subtitle {
-  font-size: 1.2rem;
+.home-wrapper .home-subtitle {
+  font-size: clamp(0.95rem, 2.5vw, 1.2rem);
   margin-bottom: 1rem;
   color: #e2e8f0;
 }
@@ -78,8 +85,19 @@
   margin-top: 1.5rem;
 }
 
-.home-cta .home-btn {
+.home-wrapper .home-cta .home-btn {
   text-decoration: none;
+  background: rgba(255,255,255,0.12) !important;
+  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #f8fafc !important;
+  transition: background 0.3s, border-color 0.3s;
+}
+.home-wrapper .home-cta .home-btn:hover {
+  background: rgba(55,65,81,0.95) !important;
+  border-color: #1f2937;
+  color: #fff !important;
 }
 
 .page-header {

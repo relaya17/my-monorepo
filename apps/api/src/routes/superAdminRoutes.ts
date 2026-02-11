@@ -149,4 +149,37 @@ router.get('/reconcile', verifySuperAdmin, async (req: Request, res: Response) =
   }
 });
 
+/** Dashboard מעקב – כמה דיירים הורידו אפליקציה (נרשמו) בכל בניין. LAUNCH_STRATEGY §3 */
+router.get('/resident-adoption', verifySuperAdmin, async (_req: Request, res: Response) => {
+  try {
+    const agg = await User.collection
+      .aggregate<{ _id: string; count: number }>([
+        { $match: { role: { $in: ['tenant', undefined, null] } } },
+        { $group: { _id: '$buildingId', count: { $sum: 1 } } },
+        { $sort: { count: -1 } },
+      ])
+      .toArray();
+
+    const buildingIds = agg.map((r) => r._id).filter(Boolean);
+    const buildingDocs = await Building.find({ buildingId: { $in: buildingIds } }).lean();
+    const byId = Object.fromEntries(
+      buildingDocs.map((b) => [
+        (b as { buildingId: string }).buildingId,
+        (b as { committeeName?: string }).committeeName || (b as { address?: string }).address || (b as { buildingId: string }).buildingId,
+      ])
+    );
+
+    const items = agg.map((r) => ({
+      buildingId: r._id,
+      buildingName: byId[r._id] ?? r._id,
+      appDownloadedCount: r.count,
+    }));
+
+    const total = items.reduce((s, i) => s + i.appDownloadedCount, 0);
+    res.json({ items, total });
+  } catch (err) {
+    res.status(500).json({ error: 'שגיאה בשליפת מעקב הורדות אפליקציה' });
+  }
+});
+
 export default router;

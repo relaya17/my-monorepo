@@ -344,7 +344,7 @@ const CommunityWall: React.FC = () => {
                       <div className="mb-3">
                         <img
                           src={post.image}
-                          alt="תמונה בפוסט"
+                          alt="תמונה בפוסט – קיר קהילה Vantera"
                           className="img-fluid rounded cursor-pointer"
                           style={{ maxHeight: '300px', objectFit: 'cover' }}
                           onClick={() => {
@@ -454,7 +454,7 @@ const CommunityWall: React.FC = () => {
               <div className="mb-3">
                 <img
                   src={URL.createObjectURL(newPost.image)}
-                  alt="תמונה שנבחרה"
+                  alt="תמונה שנבחרה להעלאה – קיר קהילה"
                   className="img-fluid rounded"
                   style={{ maxHeight: '200px' }}
                 />
@@ -494,7 +494,7 @@ const CommunityWall: React.FC = () => {
         <Modal.Body className="text-center">
           <img
             src={selectedImage}
-            alt="תמונה מוגדלת"
+            alt="תמונה מוגדלת – צפייה מלאה"
             className="img-fluid"
             style={{ maxHeight: '70vh' }}
           />

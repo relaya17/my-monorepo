@@ -78,7 +78,7 @@ const ForRent: React.FC = () => {
                               ? apartmentImg
                               : apartment.image
                         }
-                        alt="תמונה של הדירה"
+                        alt="תמונה של דירת מגורים להשכרה – Vantera"
                         className="apartment-img-hover"
                       />
                     )}

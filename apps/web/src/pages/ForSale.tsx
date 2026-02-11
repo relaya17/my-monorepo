@@ -49,7 +49,7 @@ const ForSale: React.FC = () => {
                   ? (apartment.image === 'apartment.png' || apartment.image === 'aparment.png' ? apartmentImg : apartment.image)
                   : apartmentImg
               }
-              alt="תמונה של הדירה"
+              alt="תמונה של דירת מגורים למכירה – Vantera"
               className="apartment-img"
             />
             <Card.Body>

@@ -5,11 +5,13 @@ import AppRoutes from './routs/AppRoutes';
 import Footer from './components/Footer';
 import AccessibilityPanel from './components/AccessibilityPanel';
 import ErrorBoundary from './components/ErrorBoundary';
+import { AnalyticsProvider, useAnalyticsScripts } from './components/AnalyticsProvider';
 import { initStoredLanguage } from './i18n/useTranslation';
 import { RTL_LANGS } from './i18n/translations';
 import type { AppDispatch, RootState } from './redux/store';
 
-const App: React.FC = () => {
+function AppContent() {
+  useAnalyticsScripts();
   const dispatch = useDispatch<AppDispatch>();
   const language = useSelector((state: RootState) => state.settings.language);
   useEffect(() => {
@@ -23,17 +25,23 @@ const App: React.FC = () => {
   }, [language]);
 
   return (
-    <ErrorBoundary>
-      <div className="App">
-        <Navbar />
-        <main>
-          <AppRoutes />
-        </main>
-        <Footer />
-        <AccessibilityPanel />
-      </div>
-    </ErrorBoundary>
+    <div className="App">
+      <Navbar />
+      <main>
+        <AppRoutes />
+      </main>
+      <Footer />
+      <AccessibilityPanel />
+    </div>
   );
-};
+}
+
+const App: React.FC = () => (
+  <ErrorBoundary>
+    <AnalyticsProvider>
+      <AppContent />
+    </AnalyticsProvider>
+  </ErrorBoundary>
+);
 
 export default App;

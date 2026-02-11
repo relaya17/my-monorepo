@@ -8,16 +8,19 @@ import AINotifications from '../components/AINotifications';
 const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [adminUsername, setAdminUsername] = useState<string>('');
+  const [adminRole, setAdminRole] = useState<string>('');
   const [currentBuildingId, setCurrentBuildingId] = useState<string>(getBuildingId());
 
   useEffect(() => {
     const isLoggedIn = safeGetItem('isAdminLoggedIn');
     const username = safeGetItem('adminUsername');
+    const role = safeGetItem('adminRole');
     if (!isLoggedIn || !username) {
       navigate('/admin-login');
       return;
     }
     setAdminUsername(username);
+    setAdminRole(role || '');
     setCurrentBuildingId(getBuildingId());
   }, [navigate]);
 
@@ -283,6 +286,64 @@ const AdminDashboard: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* הזמנת דיירים – שליחת מייל onboarding */}
+          <div className="col-12 col-sm-6 col-lg-4 col-xl-3">
+            <div className="card h-100 shadow-sm border-0 dashboard-card" style={{ backgroundColor: '#fff' }}>
+              <div className="card-body text-center d-flex flex-column">
+                <div className="mb-3 flex-grow-1 d-flex align-items-center justify-content-center">
+                  <i className="fas fa-envelope-open-text dashboard-icon" style={{ color: '#10b981', fontSize: 'clamp(2rem, 5vw, 3rem)' }} aria-hidden="true"></i>
+                </div>
+                <h5 className="card-title" style={{ color: '#374151', fontSize: 'clamp(1rem, 2.5vw, 1.25rem)' }}>הזמנת דיירים</h5>
+                <p className="card-text text-muted mb-3" style={{ fontSize: 'clamp(0.8rem, 2vw, 1rem)' }}>שליחת מייל Welcome לרשימת דיירים חדשים</p>
+                <Link to={ROUTES.RESIDENT_INVITE} className="btn w-100 mt-auto" style={{ backgroundColor: '#10b981', color: '#fff', borderColor: '#10b981' }}>
+                  <i className="fas fa-paper-plane me-2" aria-hidden="true"></i>
+                  <span className="d-none d-sm-inline">שלח הזמנות</span>
+                  <span className="d-sm-none">הזמנות</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* לוח CEO – super-admin בלבד */}
+          {adminRole === 'super-admin' && (
+            <div className="col-12 col-sm-6 col-lg-4 col-xl-3">
+              <div className="card h-100 shadow-sm border-0 dashboard-card" style={{ backgroundColor: '#fff', borderLeft: '4px solid #6366f1' }}>
+                <div className="card-body text-center d-flex flex-column">
+                  <div className="mb-3 flex-grow-1 d-flex align-items-center justify-content-center">
+                    <i className="fas fa-crown dashboard-icon" style={{ color: '#6366f1', fontSize: 'clamp(2rem, 5vw, 3rem)' }} aria-hidden="true"></i>
+                  </div>
+                  <h5 className="card-title" style={{ color: '#374151', fontSize: 'clamp(1rem, 2.5vw, 1.25rem)' }}>לוח CEO</h5>
+                  <p className="card-text text-muted mb-3" style={{ fontSize: 'clamp(0.8rem, 2vw, 1rem)' }}>סטטיסטיקות גלובליות, יומן פעילות, Anomaly Feed</p>
+                  <Link to={ROUTES.SUPER_ADMIN_DASHBOARD} className="btn w-100 mt-auto" style={{ backgroundColor: '#6366f1', color: '#fff', borderColor: '#6366f1' }}>
+                    <i className="fas fa-chart-pie me-2" aria-hidden="true"></i>
+                    <span className="d-none d-sm-inline">לוח CEO</span>
+                    <span className="d-sm-none">CEO</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* מעקב הורדות אפליקציה – ל-super-admin בלבד */}
+          {adminRole === 'super-admin' && (
+            <div className="col-12 col-sm-6 col-lg-4 col-xl-3">
+              <div className="card h-100 shadow-sm border-0 dashboard-card" style={{ backgroundColor: '#fff' }}>
+                <div className="card-body text-center d-flex flex-column">
+                  <div className="mb-3 flex-grow-1 d-flex align-items-center justify-content-center">
+                    <i className="fas fa-mobile-alt dashboard-icon" style={{ color: '#8b5cf6', fontSize: 'clamp(2rem, 5vw, 3rem)' }} aria-hidden="true"></i>
+                  </div>
+                  <h5 className="card-title" style={{ color: '#374151', fontSize: 'clamp(1rem, 2.5vw, 1.25rem)' }}>מעקב הורדות</h5>
+                  <p className="card-text text-muted mb-3" style={{ fontSize: 'clamp(0.8rem, 2vw, 1rem)' }}>כמה דיירים הורידו אפליקציה בכל בניין</p>
+                  <Link to={ROUTES.RESIDENT_ADOPTION} className="btn w-100 mt-auto" style={{ backgroundColor: '#8b5cf6', color: '#fff', borderColor: '#8b5cf6' }}>
+                    <i className="fas fa-chart-bar me-2" aria-hidden="true"></i>
+                    <span className="d-none d-sm-inline">מעקב הורדות</span>
+                    <span className="d-sm-none">מעקב</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* סטטיסטיקות מהירות */}

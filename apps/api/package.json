@@ -29,6 +29,7 @@
     "node-cron": "^4.2.1",
     "openai": "^6.18.0",
     "pdf-lib": "^1.17.1",
+    "resend": "^6.9.2",
     "shared": "workspace:*",
     "stripe": "^20.3.1",
     "winston": "^3.19.0",

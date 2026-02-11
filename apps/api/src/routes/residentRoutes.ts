@@ -3,6 +3,7 @@ import Building from '../models/buildingModel.js';
 import Maintenance from '../models/maintenanceModel.js';
 import { tenantContext } from '../middleware/tenantMiddleware.js';
 import { authMiddleware } from '../middleware/authMiddleware.js';
+import residentInviteRoutes from './residentInviteRoutes.js';
 
 const router = Router();
 
@@ -174,6 +175,7 @@ const getDashboard = async (_req: Request, res: Response) => {
 };
 
 router.get('/dashboard', authMiddleware, getDashboard);
+router.use('/', residentInviteRoutes); /* POST /invite-bulk */
 router.get('/', getResidents);
 router.post('/', createResident);
 router.put('/:id/status', updateResidentStatus);

@@ -31,7 +31,7 @@ const Error404Page: React.FC = () => {
           <div className="col-md-6 text-center">
             <img
               src="https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569__340.jpg"
-              alt="Error Illustration"
+              alt="איור – דף לא נמצא. חזרה לדף הבית Vantera"
               className="img-fluid"
               style={{ maxWidth: "100%", height: "auto" }}
             />

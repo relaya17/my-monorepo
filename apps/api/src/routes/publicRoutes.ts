@@ -46,6 +46,9 @@ router.post('/demo-request', async (req: Request, res: Response) => {
     const companyName = String(body.companyName ?? '').trim();
     const buildingCount = Math.max(1, Number(body.buildingCount) || 1);
     const phone = String(body.phone ?? '').trim();
+    const sourceRaw = String(body.source ?? 'landing_demo').trim();
+    const source =
+      sourceRaw === 'vendor_portal' || sourceRaw === 'enterprise_register' ? sourceRaw : 'landing_demo';
     if (!contactName || !companyName || !phone) {
       return res.status(400).json({ message: 'Missing required fields: contactName, companyName, phone' });
     }
@@ -54,7 +57,7 @@ router.post('/demo-request', async (req: Request, res: Response) => {
       companyName,
       buildingCount,
       phone,
-      source: 'landing_demo',
+      source,
     });
     logger.info('[Lead] Demo request saved', { id: lead._id, companyName, contactName });
     res.status(201).json({

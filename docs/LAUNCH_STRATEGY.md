@@ -39,10 +39,10 @@
 **מיקום בקוד:** `sales-templates.json` → `onboardingEmail`  
 **ממשק:** כלי מכירה → טאב "מייל דיירים"
 
-### דרישה טכנית (להטמעה)
+### דרישה טכנית ✅
 
-- **Webhook:** ברגע שחברת הניהול מוסיפה רשימת דיירים (API bulk import) → המיילים יוצאים אוטומטית.
-- **שירות מייל:** SendGrid, Mailgun או Resend – חיבור ל-API.
+- **Webhook:** `POST /api/residents/invite-bulk` – Header: `Authorization: Bearer <admin-token>`, `x-building-id: <buildingId>`, Body: `{ residents: [{ name, email, apartment }] }`. שולח מייל onboarding (Resend) לכל דייר.
+- **שירות מייל:** Resend – הוסף `RESEND_API_KEY` ו־`EMAIL_FROM` ב־`.env`.
 
 ---
 
@@ -50,9 +50,11 @@
 
 | רכיב | תיאור | סטטוס |
 |------|-------|-------|
-| **מנוע אוטומציה (Webhook)** | כשרשימת דיירים נוספת לבניין → שליחת מייל welcome אוטומטית | 🔲 להטמעה |
-| **Dashboard מעקב** | מסך: כמה דיירים הורידו אפליקציה בכל בניין – "פוש" שיווקי | 🔲 להטמעה |
-| **Push התראות** | קבלן בלובי, דייר לא בבית → "הספק נמצא בלובי, האם לאפשר כניסה מרחוק?" | 🔲 להטמעה |
+| **מנוע אוטומציה (Webhook)** | כשרשימת דיירים נוספת לבניין → שליחת מייל welcome אוטומטית | ✅ `POST /api/residents/invite-bulk` + Resend |
+| **Dashboard מעקב** | מסך: כמה דיירים הורידו אפליקציה בכל בניין – "פוש" שיווקי | ✅ `GET /api/super-admin/resident-adoption` |
+| **לוח CEO מאוחד** | סטטיסטיקות גלובליות, יומן פעילות, Anomaly Feed – `/ceo` | ✅ SuperAdminDashboard |
+| **בלוג שיווקי** | 3 מאמרים לסמכות דומיין – `/blog`, `/blog/:slug` | ✅ MarketingBlogPage, BlogArticlePage |
+| **Push התראות** | קבלן בלובי, דייר לא בבית → "הספק נמצא בלובי, האם לאפשר כניסה מרחוק?" | 📋 Stub: `pushService.ts` + מפרט: `docs/PUSH_NOTIFICATIONS_SPEC.md` |
 
 ---
 
@@ -63,7 +65,9 @@
 | מפרט טכני וקוד | ✅ יש |
 | מודל רווח | ✅ יש |
 | כלי מכירה ו-SEO | ✅ יש |
-| תוכנית השקה ואוטומציה | ✅ מתועד – Webhook + Dashboard + Push להטמעה |
+| Alt-Text, GA, Clarity | ✅ מוכן – הוסף ID ב-.env.production |
+| תוכנית השקה ואוטומציה | ✅ Webhook + Dashboard + CEO + בלוג | Push: stub + מפרט |
+| תיעוד התקנה | ✅ `docs/SETUP.md` – env, התקנה, Super-Admin |
 
 ---
 

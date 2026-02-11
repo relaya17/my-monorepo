@@ -5,24 +5,18 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import ROUTES from '../routs/routes';
 import SeoHead from '../components/SeoHead';
 import { SEO, SOFTWARE_APPLICATION_SCHEMA } from '../content/seo';
-import LiveStats from '../components/LiveStats';
 import SystemStatus from '../components/SystemStatus';
-import LiveTicker from '../components/LiveTicker';
-import XRayBuilding from '../components/XRayBuilding';
-import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { getApiUrl } from '../api';
 import landingContent from '../content/landing-pages.json';
 import type { RootState } from '../redux/store';
 import { RTL_LANGS } from '../i18n/translations';
+import { LANDING_VIDEO_SRC } from '../config/media';
 import './Landing.css';
-
-/** וידאו רקע Hero – Cloudinary */
-const HERO_VIDEO_SRC = 'https://res.cloudinary.com/dora8sxcb/video/upload/v1770835423/motion2Fast_mp4_bwq9kf.mp4';
 
 type LangKey = 'he' | 'en';
 
-type LandingContent = {
+export type LandingContent = {
   hero: { title: string; subtitle: string; subtitleLong?: string; cta: string; b2bCta?: string };
   pillars: { ceo: { title: string; description: string }; technician: { title: string; description: string }; resident: { title: string; description: string } };
   pillarsSectionTitle?: string;
@@ -216,6 +210,14 @@ type LandingContent = {
   revenueHubSection?: { title: string; cumulativeLabel: string; cumulativeValue: string; callsLabel: string; callsValue: string; activeVendorsLabel: string; vendors: Array<{ name: string; commission: string }>; proAccessTitle: string; proAccessPoints: string[] };
   programmerDeclaration?: { title: string; body: string; revenueSignature: string };
   residentValueSection?: { title: string; painTitle: string; painPoints: string[]; solutionTitle: string; solutionPoints: string[]; valueTitle: string; valuePoints: string[] };
+  insightsPage?: {
+    ctaTitle: string;
+    ctaDesc: string;
+    ctaLink: string;
+    heroTitle: string;
+    heroSubtitle: string;
+    backToLanding: string;
+  };
 };
 
 const rawContent = landingContent as Record<LangKey, LandingContent>;
@@ -261,7 +263,7 @@ function SalesPitchSection({
 }
 
 /** טבלת השוואה טכנולוגית + Safe-Zone – מה שהופך אותנו לסטארט-אפ. */
-function ShieldSection({
+export function ShieldSection({
   data,
 }: {
   data: {
@@ -331,7 +333,7 @@ function ShieldSection({
 }
 
 /** סעיף תחרותי – למה אנחנו מנצחים (ישראל vs עולם). */
-function CompetitiveSection({ data }: { data: NonNullable<LandingContent['competitiveSection']> }) {
+export function CompetitiveSection({ data }: { data: NonNullable<LandingContent['competitiveSection']> }) {
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   return (
@@ -366,7 +368,7 @@ function CompetitiveSection({ data }: { data: NonNullable<LandingContent['compet
 }
 
 /** סעיף דירוג 1-10 – Security, Performance, Profitability. */
-function RatingSection({ data }: { data: NonNullable<LandingContent['ratingSection']> }) {
+export function RatingSection({ data }: { data: NonNullable<LandingContent['ratingSection']> }) {
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   const items = [
@@ -403,7 +405,7 @@ function RatingSection({ data }: { data: NonNullable<LandingContent['ratingSecti
 }
 
 /** סעיף אבטחה – טבלת השוואה, 3 שכבות הגנה, Security Trust, דירוג סופי. */
-function SecurityShieldSection({ data }: { data: NonNullable<LandingContent['securityShieldSection']> }) {
+export function SecurityShieldSection({ data }: { data: NonNullable<LandingContent['securityShieldSection']> }) {
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   return (
@@ -531,7 +533,7 @@ function SecurityShieldSection({ data }: { data: NonNullable<LandingContent['sec
 }
 
 /** סעיף אודות Vantera – תוכן שיווקי-טכנולוגי מלא. */
-function AboutSection({ data }: { data: NonNullable<LandingContent['aboutSection']> }) {
+export function AboutSection({ data }: { data: NonNullable<LandingContent['aboutSection']> }) {
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   const coreItems = [
@@ -622,7 +624,7 @@ function AboutSection({ data }: { data: NonNullable<LandingContent['aboutSection
 }
 
 /** סעיף הסטנדרט החי – Pro-Radar, Online/Offline, Live GPS. */
-function LiveStandardSection({ data }: { data: NonNullable<LandingContent['liveStandardSection']> }) {
+export function LiveStandardSection({ data }: { data: NonNullable<LandingContent['liveStandardSection']> }) {
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   const pillars = [
@@ -726,7 +728,7 @@ function LiveStandardSection({ data }: { data: NonNullable<LandingContent['liveS
 }
 
 /** דוח פוטנציאל רווח – 50 בניינים. */
-function ProfitPotentialSection({ data }: { data: NonNullable<LandingContent['profitPotentialSection']> }) {
+export function ProfitPotentialSection({ data }: { data: NonNullable<LandingContent['profitPotentialSection']> }) {
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   const rows = [
@@ -772,7 +774,7 @@ function ProfitPotentialSection({ data }: { data: NonNullable<LandingContent['pr
 }
 
 /** חוויית הדייר – Resident App mockup. */
-function ResidentAppSection({ data }: { data: NonNullable<LandingContent['residentAppSection']> }) {
+export function ResidentAppSection({ data }: { data: NonNullable<LandingContent['residentAppSection']> }) {
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   return (
@@ -800,7 +802,7 @@ function ResidentAppSection({ data }: { data: NonNullable<LandingContent['reside
 }
 
 /** מערכת דירוג אקטיבית + אישור סיום עבודה. */
-function RatingSystemSection({ data }: { data: NonNullable<LandingContent['ratingSystemSection']> }) {
+export function RatingSystemSection({ data }: { data: NonNullable<LandingContent['ratingSystemSection']> }) {
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   const points = [
@@ -835,7 +837,7 @@ function RatingSystemSection({ data }: { data: NonNullable<LandingContent['ratin
 }
 
 /** הסכם השירות הדיגיטלי. */
-function DigitalAgreementSection({ data }: { data: NonNullable<LandingContent['digitalAgreementSection']> }) {
+export function DigitalAgreementSection({ data }: { data: NonNullable<LandingContent['digitalAgreementSection']> }) {
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   const points = [
@@ -859,7 +861,7 @@ function DigitalAgreementSection({ data }: { data: NonNullable<LandingContent['d
 }
 
 /** סעיף שותפות עסקית – לא רק תוכנה. */
-function PartnershipSection({ data }: { data: NonNullable<LandingContent['partnershipSection']> }) {
+export function PartnershipSection({ data }: { data: NonNullable<LandingContent['partnershipSection']> }) {
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   return (
@@ -887,7 +889,7 @@ function PartnershipSection({ data }: { data: NonNullable<LandingContent['partne
 }
 
 /** סעיף פורטל ספקים – רישום קבלנים (Pro-Filter). */
-function VendorPortalSection({ data, onRequestDemo }: { data: NonNullable<LandingContent['vendorPortalSection']>; onRequestDemo: () => void }) {
+export function VendorPortalSection({ data, onRequestDemo }: { data: NonNullable<LandingContent['vendorPortalSection']>; onRequestDemo: () => void }) {
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   const [securityChecked, setSecurityChecked] = React.useState(false);
@@ -947,7 +949,7 @@ function VendorPortalSection({ data, onRequestDemo }: { data: NonNullable<Landin
 }
 
 /** סעיף Revenue Hub – דשבורד הכנסות. */
-function RevenueHubSection({ data }: { data: NonNullable<LandingContent['revenueHubSection']> }) {
+export function RevenueHubSection({ data }: { data: NonNullable<LandingContent['revenueHubSection']> }) {
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   return (
@@ -999,7 +1001,7 @@ function RevenueHubSection({ data }: { data: NonNullable<LandingContent['revenue
 }
 
 /** הצהרת המתכנת. */
-function ProgrammerDeclarationSection({ data }: { data: NonNullable<LandingContent['programmerDeclaration']> }) {
+export function ProgrammerDeclarationSection({ data }: { data: NonNullable<LandingContent['programmerDeclaration']> }) {
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   return (
@@ -1026,7 +1028,7 @@ function ProgrammerDeclarationSection({ data }: { data: NonNullable<LandingConte
 }
 
 /** סעיף ערך לדיירים – המהפכה בניהול הבניין. */
-function ResidentValueSection({ data }: { data: NonNullable<LandingContent['residentValueSection']> }) {
+export function ResidentValueSection({ data }: { data: NonNullable<LandingContent['residentValueSection']> }) {
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   return (
@@ -1066,7 +1068,7 @@ function ResidentValueSection({ data }: { data: NonNullable<LandingContent['resi
 }
 
 /** סעיף "הבניין שמממן את עצמו" – Marketplace, Targeting, Revenue Share + דוגמת באנר. */
-function SelfFundingSection({
+export function SelfFundingSection({
   data,
   onRequestDemo,
 }: {
@@ -1145,7 +1147,7 @@ function SelfFundingSection({
 }
 
 /** סעיף מודל הכנסה – פיד פרסומי + Emergency Banner. */
-function RevenueSection({
+export function RevenueSection({
   data,
 }: {
   data: {
@@ -1188,7 +1190,7 @@ function RevenueSection({
 }
 
 /** סעיף דשבורד המנהל – The Eye, Wallet, Marketplace, AI Map + טבלת רווחים + Quality Score. */
-function DashboardSection({
+export function DashboardSection({
   data,
   onRequestDemo,
 }: {
@@ -1295,7 +1297,7 @@ function DashboardSection({
 }
 
 /** סעיף משקיעים ושותפים אסטרטגיים – Vision, Problem, Advantage, Market. */
-function InvestorSection({
+export function InvestorSection({
   data,
   onRequestSummary,
 }: {
@@ -1478,12 +1480,13 @@ const Landing: React.FC = () => {
       <SeoHead title={SEO.home.title} description={SEO.home.description} schemaJson={SOFTWARE_APPLICATION_SCHEMA} />
       <div className="landing-page-bg-video" aria-hidden>
         <video
-          src={HERO_VIDEO_SRC}
+          src={LANDING_VIDEO_SRC}
           autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
+          title="רקע וידאו – ניטור לווייני ו-AI לבניינים, Vantera"
         />
         <div className="landing-page-bg-overlay" />
       </div>
@@ -1540,25 +1543,7 @@ const Landing: React.FC = () => {
         </motion.div>
       </section>
 
-      <section className="landing-pulse">
-        <h2>{content.metricsSection?.title ?? 'Vantera Intelligence in Action'}</h2>
-        <LiveStats />
-        <LiveTicker />
-      </section>
-
       <PillarsSection content={content} />
-
-      {content.aboutSection && <AboutSection data={content.aboutSection} />}
-
-      {content.liveStandardSection && <LiveStandardSection data={content.liveStandardSection} />}
-
-      {content.profitPotentialSection && <ProfitPotentialSection data={content.profitPotentialSection} />}
-
-      {content.residentAppSection && <ResidentAppSection data={content.residentAppSection} />}
-
-      {content.ratingSystemSection && <RatingSystemSection data={content.ratingSystemSection} />}
-
-      {content.digitalAgreementSection && <DigitalAgreementSection data={content.digitalAgreementSection} />}
 
       {content.salesPitch && content.salesPitch.length > 0 && (
         <SalesPitchSection
@@ -1567,41 +1552,19 @@ const Landing: React.FC = () => {
         />
       )}
 
-      {content.shieldSection && <ShieldSection data={content.shieldSection} />}
-      {content.competitiveSection && <CompetitiveSection data={content.competitiveSection} />}
-      {content.ratingSection && <RatingSection data={content.ratingSection} />}
-      {content.securityShieldSection && <SecurityShieldSection data={content.securityShieldSection} />}
-      {content.partnershipSection && <PartnershipSection data={content.partnershipSection} />}
-      {content.vendorPortalSection && (
-        <VendorPortalSection data={content.vendorPortalSection} onRequestDemo={() => setDemoOpen(true)} />
-      )}
-      {content.revenueHubSection && <RevenueHubSection data={content.revenueHubSection} />}
-      {content.residentValueSection && <ResidentValueSection data={content.residentValueSection} />}
-      {content.programmerDeclaration && <ProgrammerDeclarationSection data={content.programmerDeclaration} />}
-      {content.selfFundingSection && (
-        <SelfFundingSection
-          data={content.selfFundingSection}
-          onRequestDemo={() => setDemoOpen(true)}
-        />
-      )}
-      {content.revenueSection && <RevenueSection data={content.revenueSection} />}
-      {content.dashboardSection && (
-        <DashboardSection
-          data={content.dashboardSection}
-          onRequestDemo={() => setDemoOpen(true)}
-        />
-      )}
+      <section className="landing-insights-cta">
+        <Link to={ROUTES.LANDING_INSIGHTS} className="glass-card landing-insights-link">
+          <h3>{content.insightsPage?.ctaTitle ?? (lang === 'he' ? 'נתונים, השוואות והכנסות' : 'Data, Comparisons & Revenue')}</h3>
+          <p>{content.insightsPage?.ctaDesc ?? (lang === 'he' ? 'השוואות טכנולוגיות, סטטיסטיקות, דוחות רווח וכל המידע הטכני – מסודר ומאורגן' : 'Technology comparisons, statistics, profit reports and all technical information – organized and structured')}</p>
+          <span className="landing-cta">{content.insightsPage?.ctaLink ?? (lang === 'he' ? 'לכל הנתונים →' : 'View all data →')}</span>
+        </Link>
+      </section>
 
-      {content.investorSection && (
-        <InvestorSection
-          data={content.investorSection}
-          onRequestSummary={() => setDemoOpen(true)}
-        />
-      )}
-
-      <XRayBuilding />
-
-      <BeforeAfterSlider />
+      <footer className="landing-footer py-3 text-center text-muted small">
+        <Link to={ROUTES.BLOG} className="me-3">{lang === 'he' ? 'בלוג' : 'Blog'}</Link>
+        <Link to={ROUTES.PRIVACY_POLICY} className="me-3">מדיניות פרטיות</Link>
+        <Link to={ROUTES.TERMS_AND_CONDITIONS}>תנאי שימוש</Link>
+      </footer>
 
       </div>
 

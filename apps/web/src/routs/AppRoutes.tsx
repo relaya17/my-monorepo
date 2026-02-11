@@ -6,6 +6,7 @@ import ROUTES from "../routs/routes";
 const Home = lazy(() => import("../pages/Home"));
 const Landing = lazy(() => import("../pages/Landing").then((m) => ({ default: m.default ?? m.Landing })));
 const LandingTechnician = lazy(() => import("../pages/LandingTechnician"));
+const LandingInsightsPage = lazy(() => import("../pages/LandingInsightsPage"));
 const LandingResident = lazy(() => import("../pages/LandingResident"));
 const Error404Page = lazy(() => import("../pages/404/Error404Page"));
 const ThankYouPage = lazy(() => import("../pages/thankyou/Thankyou"));
@@ -67,6 +68,11 @@ const ContractsAndLetters = lazy(() => import("../pages/ContractsAndLetters"));
 const SafeZonePage = lazy(() => import("../pages/SafeZonePage"));
 const EnterpriseRegisterPage = lazy(() => import("../pages/EnterpriseRegisterPage"));
 const SalesToolkitPage = lazy(() => import("../pages/SalesToolkitPage"));
+const ResidentAdoptionPage = lazy(() => import("../pages/ResidentAdoptionPage"));
+const ResidentInvitePage = lazy(() => import("../pages/ResidentInvitePage"));
+const SuperAdminDashboard = lazy(() => import("../pages/SuperAdminDashboard"));
+const MarketingBlogPage = lazy(() => import("../pages/MarketingBlogPage"));
+const BlogArticlePage = lazy(() => import("../pages/BlogArticlePage"));
 
 // קומפוננטת עזר - עטיפת טופס דייר
 const ResidentFormWrapper: React.FC = () => {
@@ -101,7 +107,10 @@ const AppRoutes: React.FC = () => {
       <Routes>
         {/* דף הבית – מוצג אחרי רענון/רסטרט כשנכנסים לשורש */}
         <Route path={ROUTES.HOME} element={<Home />} />
+        <Route path={ROUTES.BLOG} element={<MarketingBlogPage />} />
+        <Route path={ROUTES.BLOG_ARTICLE} element={<BlogArticlePage />} />
         <Route path={ROUTES.LANDING} element={<Landing />} />
+        <Route path={ROUTES.LANDING_INSIGHTS} element={<LandingInsightsPage />} />
         <Route path={ROUTES.LANDING_TECHNICIAN} element={<LandingTechnician />} />
         <Route path={ROUTES.LANDING_RESIDENT} element={<LandingResident />} />
         {/* אם נפתח עם /index.html (למשל בפרודקשן) – הפניה לדף הבית */}
@@ -190,6 +199,9 @@ const AppRoutes: React.FC = () => {
         <Route path={ROUTES.COMPANIES_MANAGEMENT} element={<EnterpriseRegisterPage />} />
         <Route path={ROUTES.CONTRACTORS_JOIN} element={<LandingTechnician />} />
         <Route path={ROUTES.SALES_TOOLKIT} element={<SalesToolkitPage />} />
+        <Route path={ROUTES.RESIDENT_ADOPTION} element={<ResidentAdoptionPage />} />
+        <Route path={ROUTES.RESIDENT_INVITE} element={<ResidentInvitePage />} />
+        <Route path={ROUTES.SUPER_ADMIN_DASHBOARD} element={<SuperAdminDashboard />} />
 
         {/* 404 – חייב להיות אחרון */}
         <Route path="*" element={<Error404Page />} />

@@ -349,6 +349,14 @@
       "dashboardCta": "הפוך את הבניין שלך לחכם ומניב - צור קשר"
     },
     "metricsSection": { "title": "Vantera Intelligence בפעולה" },
+    "insightsPage": {
+      "ctaTitle": "נתונים, השוואות והכנסות",
+      "ctaDesc": "השוואות טכנולוגיות, סטטיסטיקות, דוחות רווח וכל המידע הטכני – מסודר ומאורגן",
+      "ctaLink": "לכל הנתונים →",
+      "heroTitle": "נתונים, השוואות והכנסות",
+      "heroSubtitle": "כל המידע הטכני – מאורגן ומסודר",
+      "backToLanding": "חזרה לדף הנחיתה"
+    },
     "seedMetrics": { "moneySaved": 242500, "preventedFailures": 142, "activeAssets": 84 },
     "technicianPage": {
       "title": "אפס חיכוך. ביצועים מקסימליים.",
@@ -772,6 +780,14 @@
       "dashboardCta": "Make your building smart and profitable - Contact us"
     },
     "metricsSection": { "title": "Vantera Intelligence in Action" },
+    "insightsPage": {
+      "ctaTitle": "Data, Comparisons & Revenue",
+      "ctaDesc": "Technology comparisons, statistics, profit reports and all technical information – organized and structured",
+      "ctaLink": "View all data →",
+      "heroTitle": "Data, Comparisons & Revenue",
+      "heroSubtitle": "All technical information – organized and structured",
+      "backToLanding": "Back to Landing"
+    },
     "seedMetrics": { "moneySaved": 242500, "preventedFailures": 142, "activeAssets": 84 },
     "technicianPage": {
       "title": "Zero Friction. Maximum Performance.",
