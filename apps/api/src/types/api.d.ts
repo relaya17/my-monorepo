@@ -1,5 +1,15 @@
 // types/api.d.ts
 
+declare global {
+  namespace Express {
+    interface Request {
+      auth?: { sub: string; type: 'user' | 'admin'; buildingId: string; email?: string; username?: string; role?: string };
+      id?: string;
+    }
+  }
+}
+export {};
+
 // מיועד לתשלום
 export interface PaymentRequestBody {
   payer: string;

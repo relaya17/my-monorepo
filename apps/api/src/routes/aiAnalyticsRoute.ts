@@ -1,9 +1,24 @@
 import express, { Request, Response } from 'express';
 import Payment from '../models/paymentModel.js';
 import User from '../models/userModel.js';
+import AiInsight from '../models/aiInsightModel.js';
 import { generateBuildingInsights } from '../services/aiInsightsService.js';
+import { logger } from '../utils/logger.js';
 
 const router: express.Router = express.Router();
+
+// Stored insights from pipeline (TECHNICAL_SPECIFICATION §11.3)
+router.get('/insights/:buildingId', async (req: Request, res: Response) => {
+    try {
+        const { buildingId } = req.params;
+        if (!buildingId) return res.status(400).json({ message: 'Missing buildingId' });
+        const insights = await AiInsight.find({ buildingId }).sort({ createdAt: -1 }).limit(50).lean();
+        return res.json({ buildingId, insights });
+    } catch (err) {
+        logger.error('AI insights error', { error: (err as Error).message });
+        return res.status(500).json({ message: 'שגיאה בטעינת תובנות' });
+    }
+});
 
 type PaymentRecord = {
     _id?: { toString(): string } | string;

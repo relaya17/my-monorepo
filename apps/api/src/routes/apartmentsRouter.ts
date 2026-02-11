@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+import { buildingApartmentsKey, cacheDel, cacheGet, cacheSet } from '../config/redis.js';
 
 const router = Router();
 
@@ -45,13 +46,17 @@ let apartmentsForRent = [
     },
 ];
 
-// נתיב לקבלת דירות למכירה
-router.get('/for-sale', (req: Request, res: Response) => {
+// נתיב לקבלת דירות למכירה (with optional Redis cache – TECHNICAL_SPECIFICATION §8.1)
+router.get('/for-sale', async (req: Request, res: Response) => {
+    const buildingId = (req.headers['x-building-id'] as string)?.trim() || 'default';
+    const cached = await cacheGet<typeof apartmentsForSale>(buildingApartmentsKey(buildingId, 'for-sale'));
+    if (cached != null) return res.json(cached);
+    await cacheSet(buildingApartmentsKey(buildingId, 'for-sale'), apartmentsForSale);
     res.json(apartmentsForSale);
 });
 
 // נתיב להוספת דירה למכירה
-router.post('/for-sale', (req: Request, res: Response) => {
+router.post('/for-sale', async (req: Request, res: Response) => {
     const { address, price, description, image } = req.body as {
         address: string;
         price: number;
@@ -72,17 +77,22 @@ router.post('/for-sale', (req: Request, res: Response) => {
     };
 
     apartmentsForSale.push(newApartment);
+    const buildingId = (req.headers['x-building-id'] as string)?.trim() || 'default';
+    await cacheDel(buildingApartmentsKey(buildingId, 'for-sale'));
     res.status(201).json(newApartment);
 });
 
-// נתיב לקבלת דירות להשכרה
-router.get('/for-rent', (req: Request, res: Response) => {
-    console.log("[FOR RENT] sending apartments for rent")
+// נתיב לקבלת דירות להשכרה (with optional Redis cache – TECHNICAL_SPECIFICATION §8.1)
+router.get('/for-rent', async (req: Request, res: Response) => {
+    const buildingId = (req.headers['x-building-id'] as string)?.trim() || 'default';
+    const cached = await cacheGet<typeof apartmentsForRent>(buildingApartmentsKey(buildingId, 'for-rent'));
+    if (cached != null) return res.json(cached);
+    await cacheSet(buildingApartmentsKey(buildingId, 'for-rent'), apartmentsForRent);
     res.json(apartmentsForRent);
 });
 
 // נתיב להוספת דירה להשכרה
-router.post('/for-rent', (req: Request, res: Response) => {
+router.post('/for-rent', async (req: Request, res: Response) => {
     const { address, price, description, image } = req.body as {
         address: string;
         price: number;
@@ -103,6 +113,8 @@ router.post('/for-rent', (req: Request, res: Response) => {
     };
 
     apartmentsForRent.push(newApartment);
+    const buildingId = (req.headers['x-building-id'] as string)?.trim() || 'default';
+    await cacheDel(buildingApartmentsKey(buildingId, 'for-rent'));
     res.status(201).json(newApartment);
 });
 

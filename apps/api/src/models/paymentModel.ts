@@ -16,21 +16,27 @@ interface Payment extends Document {
   stripePaymentIntentId?: string;
 }
 
-const paymentSchema = new Schema<Payment>({
-  payer: { type: String, required: true },
-  amount: { type: Number, required: true },
-  createdAt: { type: Date, default: Date.now },
-  category: { type: String },
-  status: { type: String, enum: ['pending', 'paid', 'overdue', 'failed'], default: 'pending' },
-  userId: { type: Schema.Types.ObjectId, ref: 'User' },
-  dueDate: { type: Date },
-  buildingId: { type: String },
-  tenantId: { type: String },
-  stripeAccountId: { type: String },
-  stripeSessionId: { type: String },
-  stripePaymentIntentId: { type: String }
-});
+const paymentSchema = new Schema<Payment>(
+  {
+    payer: { type: String, required: true },
+    amount: { type: Number, required: true },
+    category: { type: String },
+    status: { type: String, enum: ['pending', 'paid', 'overdue', 'failed'], default: 'pending' },
+    userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    dueDate: { type: Date },
+    tenantId: { type: String },
+    stripeAccountId: { type: String },
+    stripeSessionId: { type: String },
+    stripePaymentIntentId: { type: String, index: true },
+  },
+  { timestamps: true }
+);
 
 paymentSchema.plugin(multiTenancyPlugin);
+
+paymentSchema.index({ buildingId: 1, status: 1, createdAt: -1 });
+paymentSchema.index({ buildingId: 1, userId: 1, dueDate: 1 });
+paymentSchema.index({ buildingId: 1, createdAt: -1 });
+paymentSchema.index({ buildingId: 1, userId: 1 });
 
 export default model<Payment>('Payment', paymentSchema);

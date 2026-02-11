@@ -184,6 +184,17 @@ server {
 
 ## Render / Netlify (פריסה בענן)
 
+### פריסה לדומיין vantera.io (Netlify)
+
+1. **Netlify Dashboard** → Site settings → Domain management → Add custom domain.
+2. הזינו `vantera.io` ו-`www.vantera.io`.
+3. **DNS** (אצל רשם הדומיין): הוסיפו CNAME:
+   - `www` → `your-site-name.netlify.app`
+   - עבור דומיין שורש (`vantera.io`): השתמשו ב-DNS Netlify Load Balancer או A record לפי ההנחיות.
+4. **SSL**: Netlify מנפיק תעודת HTTPS אוטומטית.
+5. **GitHub Secrets** (ל-CI deploy): `NETLIFY_AUTH_TOKEN`, `NETLIFY_SITE_ID` – מתקבלים מ-Netlify Dashboard → Site settings → Build & deploy.
+6. **Environment (Netlify)**: הגדירו `VITE_API_URL=https://your-api.onrender.com` (כתובת ה-API).
+
 ### שגיאת 401 בכניסת אדמין
 כשהשרת מחזיר 401 (Unauthorized) – אין אדמין במסד הנתונים. ב-Render הוסף משתנה סביבה:
 - **Key:** `SEED_DEFAULT_USERS`

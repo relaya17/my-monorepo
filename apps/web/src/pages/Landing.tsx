@@ -1,0 +1,1239 @@
+import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import ROUTES from '../routs/routes';
+import LiveStats from '../components/LiveStats';
+import SystemStatus from '../components/SystemStatus';
+import LiveTicker from '../components/LiveTicker';
+import XRayBuilding from '../components/XRayBuilding';
+import BeforeAfterSlider from '../components/BeforeAfterSlider';
+import LanguageSwitcher from '../components/LanguageSwitcher';
+import { getApiUrl } from '../api';
+import landingContent from '../content/landing-pages.json';
+import type { RootState } from '../redux/store';
+import { RTL_LANGS } from '../i18n/translations';
+import './Landing.css';
+
+/** וידאו רקע Hero – Cloudinary */
+const HERO_VIDEO_SRC = 'https://res.cloudinary.com/dora8sxcb/video/upload/v1770835423/motion2Fast_mp4_bwq9kf.mp4';
+
+type LangKey = 'he' | 'en';
+
+type LandingContent = {
+  hero: { title: string; subtitle: string; subtitleLong?: string; cta: string; b2bCta?: string };
+  pillars: { ceo: { title: string; description: string }; technician: { title: string; description: string }; resident: { title: string; description: string } };
+  pillarsSectionTitle?: string;
+  salesPitchSectionTitle?: string;
+  salesPitch?: Array<{ title: string; pitch: string }>;
+  competitiveSection?: {
+    title: string;
+    israelTitle: string;
+    israelFocus: string;
+    israelWeakness: string;
+    israelAdvantage: string;
+    globalTitle: string;
+    globalFocus: string;
+    globalWeakness: string;
+    globalAdvantage: string;
+  };
+  ratingSection?: {
+    title: string;
+    securityTitle: string;
+    securityOurs: string;
+    securityOursNote: string;
+    securityOthers: string;
+    securityOthersNote: string;
+    performanceTitle: string;
+    performanceOurs: string;
+    performanceOursNote: string;
+    performanceOthers: string;
+    performanceOthersNote: string;
+    profitabilityTitle: string;
+    profitabilityOurs: string;
+    profitabilityOursNote: string;
+    profitabilityOthers: string;
+    profitabilityOthersNote: string;
+  };
+  securityShieldSection?: {
+    title: string;
+    subtitle: string;
+    colParam: string;
+    colBuilding: string;
+    colGov: string;
+    colOurs: string;
+    securityRows: Array<{ param: string; building: string; gov: string; ours: string }>;
+    layersTitle: string;
+    layer1Title: string;
+    layer1Desc: string;
+    layer2Title: string;
+    layer2Desc: string;
+    layer3Title: string;
+    layer3Desc: string;
+    trustStatus: string;
+    trustLine1: string;
+    trustLine2: string;
+    trustLine3: string;
+    finalRatingTitle: string;
+    finalBanks: string;
+    finalBanksNote: string;
+    finalOurs: string;
+    finalOursNote: string;
+    finalApps: string;
+    finalAppsNote: string;
+    e2eTitle?: string;
+    e2eDesc?: string;
+    latencyTitle?: string;
+    latencyDesc?: string;
+    tokenizationTitle?: string;
+    tokenizationRegular?: string;
+    tokenizationOurs?: string;
+  };
+  shieldSection?: {
+    title: string;
+    taglines: string[];
+    comparisonTitle: string;
+    colParam?: string;
+    colRegular?: string;
+    colOurs?: string;
+    comparisonRows: Array<{ param: string; regular: string; ours: string }>;
+    safeZoneTitle: string;
+    safeZoneDesc: string;
+  };
+  selfFundingSection?: {
+    title: string;
+    body: string;
+    targetingTitle: string;
+    targetingDesc: string;
+    revenueShareTitle: string;
+    revenueShareDesc: string;
+    adDemoLabel?: string;
+    adDemoTitle?: string;
+    adDemoDesc?: string;
+    adDemoCta?: string;
+  };
+  revenueSection?: {
+    title: string;
+    subtitle: string;
+    bulletPoints: string[];
+    emergencyBannerTitle: string;
+    emergencyBannerDesc: string;
+  };
+  dashboardSection?: {
+    title: string;
+    subtitle: string;
+    eyeTitle: string;
+    eyeDesc: string;
+    walletTitle: string;
+    walletDesc: string;
+    marketplaceTitle: string;
+    marketplaceDesc: string;
+    aiMapTitle: string;
+    aiMapDesc: string;
+    revenueTableTitle: string;
+    colSupplier?: string;
+    colExposures?: string;
+    colClicks?: string;
+    colProfit?: string;
+    revenueTableRows: Array<{ supplier: string; exposures: string; clicks: string; profit: string }>;
+    qualityScoreTitle: string;
+    qualityScoreDesc: string;
+    dashboardCta?: string;
+  };
+  investorSection?: {
+    title: string;
+    tagline?: string;
+    vision: string;
+    problemTitle: string;
+    problems: string[];
+    advantageTitle: string;
+    advantages: string[];
+    marketTitle: string;
+    marketPoints: string[];
+    cta: string;
+  };
+  metricsSection?: { title: string };
+  demoVideo?: { cta: string; url?: string };
+  demoForm: {
+    title: string;
+    contactNameLabel: string;
+    companyNameLabel: string;
+    buildingCountLabel: string;
+    phoneLabel: string;
+    successMessage: string;
+    errorMessage: string;
+    cancel: string;
+    submit: string;
+    sending: string;
+    close: string;
+  };
+  loginCta?: string;
+  technicianQuote?: string;
+  mockupPlaceholder?: string;
+  partnershipSection?: { title: string; body: string; revenueShareTitle: string; revenueShareBody: string };
+  vendorPortalSection?: { title: string; subtitle: string; labelBusiness: string; placeholderBusiness: string; labelSpecialty: string; options: string[]; tip: string; cta: string; smartMatching: string };
+  revenueHubSection?: { title: string; cumulativeLabel: string; cumulativeValue: string; callsLabel: string; callsValue: string; activeVendorsLabel: string; vendors: Array<{ name: string; commission: string }>; proAccessTitle: string; proAccessPoints: string[] };
+  programmerDeclaration?: { title: string; body: string; revenueSignature: string };
+  residentValueSection?: { title: string; painTitle: string; painPoints: string[]; solutionTitle: string; solutionPoints: string[]; valueTitle: string; valuePoints: string[] };
+};
+
+const rawContent = landingContent as Record<LangKey, LandingContent>;
+
+const pillarVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, delay: i * 0.12 },
+  }),
+};
+
+/** רשימת הפיצ'רים למכירה – 4 הנקודות לועד/מנכ"ל. */
+function SalesPitchSection({
+  sectionTitle,
+  items,
+}: {
+  sectionTitle?: string;
+  items: Array<{ title: string; pitch: string }>;
+}) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <section className="landing-sales-pitch" ref={ref} aria-labelledby="sales-pitch-heading">
+      <h2 id="sales-pitch-heading">{sectionTitle ?? 'למה לבחור ב-Vantera'}</h2>
+      <div className="sales-pitch-grid">
+        {items.map((item, i) => (
+          <motion.article
+            key={item.title}
+            className="glass-card sales-pitch-card"
+            initial={{ opacity: 0, y: 24 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+            transition={{ duration: 0.4, delay: i * 0.1 }}
+          >
+            <h3>{item.title}</h3>
+            <p>{item.pitch}</p>
+          </motion.article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/** טבלת השוואה טכנולוגית + Safe-Zone – מה שהופך אותנו לסטארט-אפ. */
+function ShieldSection({
+  data,
+}: {
+  data: {
+    title: string;
+    taglines: string[];
+    comparisonTitle: string;
+    comparisonRows: Array<{ param: string; regular: string; ours: string }>;
+    safeZoneTitle: string;
+    safeZoneDesc: string;
+  };
+}) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <section className="landing-shield" ref={ref} aria-labelledby="shield-heading">
+      <h2 id="shield-heading">{data.title}</h2>
+      <div className="landing-shield-taglines">
+        {data.taglines.map((t, i) => (
+          <motion.span
+            key={t}
+            className="landing-shield-tagline"
+            initial={{ opacity: 0, y: 8 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.3, delay: i * 0.08 }}
+          >
+            {t}
+          </motion.span>
+        ))}
+      </div>
+      <h3 className="landing-shield-table-title">{data.comparisonTitle}</h3>
+      <motion.div
+        className="landing-shield-table-wrap"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.2 }}
+      >
+        <table className="landing-shield-table" role="grid">
+          <thead>
+            <tr>
+              <th scope="col">{data.colParam ?? 'Parameter'}</th>
+              <th scope="col">{data.colRegular ?? 'Regular Systems'}</th>
+              <th scope="col">{data.colOurs ?? 'Our System'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.comparisonRows.map((row, i) => (
+              <tr key={i}>
+                <td data-label={data.colParam ?? 'Parameter'}>{row.param}</td>
+                <td data-label={data.colRegular ?? 'Regular'}>{row.regular}</td>
+                <td data-label={data.colOurs ?? 'Ours'}>{row.ours}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </motion.div>
+      <motion.div
+        className="landing-shield-safezone glass-card"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.35 }}
+      >
+        <h4>{data.safeZoneTitle}</h4>
+        <p>{data.safeZoneDesc}</p>
+      </motion.div>
+    </section>
+  );
+}
+
+/** סעיף תחרותי – למה אנחנו מנצחים (ישראל vs עולם). */
+function CompetitiveSection({ data }: { data: NonNullable<LandingContent['competitiveSection']> }) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <section className="landing-competitive" ref={ref} aria-labelledby="competitive-heading">
+      <h2 id="competitive-heading">{data.title}</h2>
+      <div className="landing-competitive-grid">
+        <motion.div
+          className="landing-competitive-card glass-card"
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4 }}
+        >
+          <h4>{data.israelTitle}</h4>
+          <p>{data.israelFocus}</p>
+          <p className="landing-competitive-weak">{data.israelWeakness}</p>
+          <p className="landing-competitive-strong">{data.israelAdvantage}</p>
+        </motion.div>
+        <motion.div
+          className="landing-competitive-card glass-card"
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4, delay: 0.12 }}
+        >
+          <h4>{data.globalTitle}</h4>
+          <p>{data.globalFocus}</p>
+          <p className="landing-competitive-weak">{data.globalWeakness}</p>
+          <p className="landing-competitive-strong">{data.globalAdvantage}</p>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/** סעיף דירוג 1-10 – Security, Performance, Profitability. */
+function RatingSection({ data }: { data: NonNullable<LandingContent['ratingSection']> }) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const items = [
+    { title: data.securityTitle, ours: data.securityOurs, oursNote: data.securityOursNote, others: data.securityOthers, othersNote: data.securityOthersNote },
+    { title: data.performanceTitle, ours: data.performanceOurs, oursNote: data.performanceOursNote, others: data.performanceOthers, othersNote: data.performanceOthersNote },
+    { title: data.profitabilityTitle, ours: data.profitabilityOurs, oursNote: data.profitabilityOursNote, others: data.profitabilityOthers, othersNote: data.profitabilityOthersNote },
+  ];
+  return (
+    <section className="landing-rating" ref={ref} aria-labelledby="rating-heading">
+      <h2 id="rating-heading">{data.title}</h2>
+      <div className="landing-rating-grid">
+        {items.map((item, i) => (
+          <motion.div
+            key={item.title}
+            className="landing-rating-card glass-card"
+            initial={{ opacity: 0, y: 12 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.4, delay: i * 0.08 }}
+          >
+            <h4>{item.title}</h4>
+            <div className="landing-rating-row">
+              <span className="landing-rating-ours">{item.ours}/10</span>
+              <span className="landing-rating-note">{item.oursNote}</span>
+            </div>
+            <div className="landing-rating-row landing-rating-others">
+              <span>{item.others}/10</span>
+              <span className="landing-rating-note">{item.othersNote}</span>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/** סעיף אבטחה – טבלת השוואה, 3 שכבות הגנה, Security Trust, דירוג סופי. */
+function SecurityShieldSection({ data }: { data: NonNullable<LandingContent['securityShieldSection']> }) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <section className="landing-security-shield" ref={ref} aria-labelledby="security-shield-heading">
+      <h2 id="security-shield-heading">{data.title}</h2>
+      <p className="landing-security-subtitle">{data.subtitle}</p>
+
+      <motion.div
+        className="landing-security-table-wrap glass-card"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.1 }}
+      >
+        <table className="landing-security-table" role="grid">
+          <thead>
+            <tr>
+              <th scope="col">{data.colParam}</th>
+              <th scope="col">{data.colBuilding}</th>
+              <th scope="col">{data.colGov}</th>
+              <th scope="col">{data.colOurs}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.securityRows.map((row, i) => (
+              <tr key={i}>
+                <td data-label={data.colParam}>{row.param}</td>
+                <td data-label={data.colBuilding}>{row.building}</td>
+                <td data-label={data.colGov}>{row.gov}</td>
+                <td data-label={data.colOurs} className="landing-security-ours">{row.ours}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </motion.div>
+
+      <h3 className="landing-security-layers-title">{data.layersTitle}</h3>
+      <div className="landing-security-layers">
+        {[
+          { title: data.layer1Title, desc: data.layer1Desc },
+          { title: data.layer2Title, desc: data.layer2Desc },
+          { title: data.layer3Title, desc: data.layer3Desc },
+        ].map((layer, i) => (
+          <motion.div
+            key={layer.title}
+            className="landing-security-layer glass-card"
+            initial={{ opacity: 0, y: 12 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.4, delay: 0.2 + i * 0.08 }}
+          >
+            <h4>{layer.title}</h4>
+            <p>{layer.desc}</p>
+          </motion.div>
+        ))}
+      </div>
+
+      <motion.div
+        className="landing-security-trust glass-card"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.5 }}
+      >
+        <div className="landing-security-trust-header">
+          <span className="landing-security-trust-dot" aria-hidden />
+          <strong>{data.trustStatus}</strong>
+        </div>
+        <ul className="landing-security-trust-list">
+          <li>&gt; {data.trustLine1}</li>
+          <li>&gt; {data.trustLine2}</li>
+          <li>&gt; {data.trustLine3}</li>
+        </ul>
+      </motion.div>
+
+      {(data.e2eTitle || data.latencyTitle || data.tokenizationTitle) && (
+        <div className="landing-security-tech">
+          {data.e2eTitle && (
+            <motion.div
+              className="landing-security-tech-card glass-card"
+              initial={{ opacity: 0, y: 12 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.4, delay: 0.45 }}
+            >
+              <h4>{data.e2eTitle}</h4>
+              <p>{data.e2eDesc}</p>
+            </motion.div>
+          )}
+          {data.latencyTitle && (
+            <motion.div
+              className="landing-security-tech-card glass-card"
+              initial={{ opacity: 0, y: 12 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.4, delay: 0.5 }}
+            >
+              <h4>{data.latencyTitle}</h4>
+              <p>{data.latencyDesc}</p>
+            </motion.div>
+          )}
+          {data.tokenizationTitle && (
+            <motion.div
+              className="landing-security-tech-card glass-card"
+              initial={{ opacity: 0, y: 12 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.4, delay: 0.55 }}
+            >
+              <h4>{data.tokenizationTitle}</h4>
+              <p className="landing-security-weak">{data.tokenizationRegular}</p>
+              <p className="landing-security-strong">{data.tokenizationOurs}</p>
+            </motion.div>
+          )}
+        </div>
+      )}
+
+      <motion.div
+        className="landing-security-final"
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.4, delay: 0.65 }}
+      >
+        <h4>{data.finalRatingTitle}</h4>
+        <p><strong>{data.finalBanks}</strong> – {data.finalBanksNote}</p>
+        <p className="landing-security-final-ours"><strong>{data.finalOurs}</strong> – {data.finalOursNote}</p>
+        <p><strong>{data.finalApps}</strong> – {data.finalAppsNote}</p>
+      </motion.div>
+    </section>
+  );
+}
+
+/** סעיף שותפות עסקית – לא רק תוכנה. */
+function PartnershipSection({ data }: { data: NonNullable<LandingContent['partnershipSection']> }) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <section className="landing-partnership" ref={ref} aria-labelledby="partnership-heading">
+      <h2 id="partnership-heading">{data.title}</h2>
+      <motion.p
+        className="landing-partnership-body"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4 }}
+      >
+        {data.body}
+      </motion.p>
+      <motion.div
+        className="landing-partnership-revenue glass-card"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.15 }}
+      >
+        <h4>{data.revenueShareTitle}</h4>
+        <p>{data.revenueShareBody}</p>
+      </motion.div>
+    </section>
+  );
+}
+
+/** סעיף פורטל ספקים – רישום קבלנים. */
+function VendorPortalSection({ data, onRequestDemo }: { data: NonNullable<LandingContent['vendorPortalSection']>; onRequestDemo: () => void }) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <section className="landing-vendor-portal" ref={ref} aria-labelledby="vendor-heading">
+      <h2 id="vendor-heading">{data.title}</h2>
+      <p className="landing-vendor-subtitle">{data.subtitle}</p>
+      <motion.div
+        className="landing-vendor-form glass-card"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4 }}
+      >
+        <label>{data.labelBusiness}</label>
+        <input type="text" placeholder={data.placeholderBusiness} readOnly />
+        <label>{data.labelSpecialty}</label>
+        <select disabled><option>{data.options[0]}</option></select>
+        <div className="landing-vendor-tip">
+          <span>💡</span> {data.tip}
+        </div>
+        <button type="button" className="landing-vendor-cta" onClick={onRequestDemo}>{data.cta}</button>
+      </motion.div>
+      <motion.p
+        className="landing-vendor-smart"
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.4, delay: 0.2 }}
+      >
+        {data.smartMatching}
+      </motion.p>
+    </section>
+  );
+}
+
+/** סעיף Revenue Hub – דשבורד הכנסות. */
+function RevenueHubSection({ data }: { data: NonNullable<LandingContent['revenueHubSection']> }) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <section className="landing-revenue-hub" ref={ref} aria-labelledby="revenue-hub-heading">
+      <h2 id="revenue-hub-heading">{data.title}</h2>
+      <motion.div
+        className="landing-revenue-hub-card glass-card"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4 }}
+      >
+        <div className="landing-revenue-hub-stats">
+          <div className="landing-revenue-hub-stat">
+            <span>{data.cumulativeLabel}</span>
+            <strong className="text-success">{data.cumulativeValue}</strong>
+          </div>
+          <div className="landing-revenue-hub-stat">
+            <span>{data.callsLabel}</span>
+            <strong className="text-warning">{data.callsValue}</strong>
+          </div>
+        </div>
+        <div className="landing-revenue-hub-vendors">
+          <h4>{data.activeVendorsLabel}</h4>
+          <ul>
+            {data.vendors.map((v, i) => (
+              <li key={i}>
+                <span>{v.name}</span>
+                <span className="landing-revenue-commission">{v.commission}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </motion.div>
+      <motion.div
+        className="landing-revenue-hub-pro glass-card"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.15 }}
+      >
+        <h4>{data.proAccessTitle}</h4>
+        <ul>
+          {data.proAccessPoints.map((p, i) => (
+            <li key={i}>{p}</li>
+          ))}
+        </ul>
+      </motion.div>
+    </section>
+  );
+}
+
+/** הצהרת המתכנת. */
+function ProgrammerDeclarationSection({ data }: { data: NonNullable<LandingContent['programmerDeclaration']> }) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <section className="landing-programmer-declaration" ref={ref} aria-labelledby="declaration-heading">
+      <h2 id="declaration-heading">{data.title}</h2>
+      <motion.blockquote
+        className="landing-declaration-body glass-card"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4 }}
+      >
+        {data.body}
+      </motion.blockquote>
+      <motion.p
+        className="landing-declaration-signature"
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.4, delay: 0.15 }}
+      >
+        {data.revenueSignature}
+      </motion.p>
+    </section>
+  );
+}
+
+/** סעיף ערך לדיירים – המהפכה בניהול הבניין. */
+function ResidentValueSection({ data }: { data: NonNullable<LandingContent['residentValueSection']> }) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <section className="landing-resident-value" ref={ref} aria-labelledby="resident-value-heading">
+      <h2 id="resident-value-heading">{data.title}</h2>
+      <div className="landing-resident-value-grid">
+        <motion.div
+          className="landing-resident-value-card glass-card"
+          initial={{ opacity: 0, y: 12 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4 }}
+        >
+          <h4>{data.painTitle}</h4>
+          <ul>{data.painPoints.map((p, i) => <li key={i}>{p}</li>)}</ul>
+        </motion.div>
+        <motion.div
+          className="landing-resident-value-card glass-card"
+          initial={{ opacity: 0, y: 12 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4, delay: 0.08 }}
+        >
+          <h4>{data.solutionTitle}</h4>
+          <ul>{data.solutionPoints.map((p, i) => <li key={i}>{p}</li>)}</ul>
+        </motion.div>
+        <motion.div
+          className="landing-resident-value-card glass-card"
+          initial={{ opacity: 0, y: 12 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4, delay: 0.16 }}
+        >
+          <h4>{data.valueTitle}</h4>
+          <ul>{data.valuePoints.map((p, i) => <li key={i}>{p}</li>)}</ul>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/** סעיף "הבניין שמממן את עצמו" – Marketplace, Targeting, Revenue Share + דוגמת באנר. */
+function SelfFundingSection({
+  data,
+  onRequestDemo,
+}: {
+  data: {
+    title: string;
+    body: string;
+    targetingTitle: string;
+    targetingDesc: string;
+    revenueShareTitle: string;
+    revenueShareDesc: string;
+    adDemoTitle?: string;
+    adDemoDesc?: string;
+    adDemoCta?: string;
+  };
+  onRequestDemo: () => void;
+}) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <section className="landing-self-funding" ref={ref} aria-labelledby="self-funding-heading">
+      <h2 id="self-funding-heading">{data.title}</h2>
+      <motion.p
+        className="landing-self-funding-body"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4 }}
+      >
+        {data.body}
+      </motion.p>
+
+      <div className="landing-self-funding-cards">
+        <motion.div
+          className="landing-self-funding-card glass-card"
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4, delay: 0.1 }}
+        >
+          <h4>{data.targetingTitle}</h4>
+          <p>{data.targetingDesc}</p>
+        </motion.div>
+        <motion.div
+          className="landing-self-funding-card glass-card"
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4, delay: 0.2 }}
+        >
+          <h4>{data.revenueShareTitle}</h4>
+          <p>{data.revenueShareDesc}</p>
+        </motion.div>
+      </div>
+
+      {(data.adDemoTitle || data.adDemoDesc) && (
+        <motion.div
+          className="landing-ad-demo-wrap"
+          initial={{ opacity: 0, y: 12 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4, delay: 0.3 }}
+        >
+          <p className="landing-ad-demo-label">{data.adDemoLabel ?? 'Sample ad:'}</p>
+          <div className="landing-ad-demo">
+            <div className="landing-ad-demo-content">
+              <span className="landing-ad-demo-badge">בחסות</span>
+              <h3>{data.adDemoTitle ?? 'חשמלאי מוסמך זמין כעת'}</h3>
+              <p>{data.adDemoDesc ?? 'תיקון קצרים ותשתיות לדיירי הבניין שלכם.'}</p>
+            </div>
+            <div className="landing-ad-demo-action">
+              <button type="button" className="landing-ad-demo-cta" onClick={onRequestDemo}>
+                {data.adDemoCta ?? 'הזמן שירות'}
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </section>
+  );
+}
+
+/** סעיף מודל הכנסה – פיד פרסומי + Emergency Banner. */
+function RevenueSection({
+  data,
+}: {
+  data: {
+    title: string;
+    subtitle: string;
+    bulletPoints: string[];
+    emergencyBannerTitle: string;
+    emergencyBannerDesc: string;
+  };
+}) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <section className="landing-revenue" ref={ref} aria-labelledby="revenue-heading">
+      <h2 id="revenue-heading">{data.title}</h2>
+      <p className="landing-revenue-subtitle">{data.subtitle}</p>
+      <ul className="landing-revenue-bullets">
+        {data.bulletPoints.map((b, i) => (
+          <motion.li
+            key={i}
+            initial={{ opacity: 0, x: -12 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.35, delay: 0.1 + i * 0.08 }}
+          >
+            {b}
+          </motion.li>
+        ))}
+      </ul>
+      <motion.div
+        className="landing-revenue-emergency glass-card"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.4 }}
+      >
+        <h4>{data.emergencyBannerTitle}</h4>
+        <p>{data.emergencyBannerDesc}</p>
+      </motion.div>
+    </section>
+  );
+}
+
+/** סעיף דשבורד המנהל – The Eye, Wallet, Marketplace, AI Map + טבלת רווחים + Quality Score. */
+function DashboardSection({
+  data,
+  onRequestDemo,
+}: {
+  data: {
+    title: string;
+    subtitle: string;
+    eyeTitle: string;
+    eyeDesc: string;
+    walletTitle: string;
+    walletDesc: string;
+    marketplaceTitle: string;
+    marketplaceDesc: string;
+    aiMapTitle: string;
+    aiMapDesc: string;
+    revenueTableTitle: string;
+    revenueTableRows: Array<{ supplier: string; exposures: string; clicks: string; profit: string }>;
+    qualityScoreTitle: string;
+    qualityScoreDesc: string;
+  };
+  onRequestDemo: () => void;
+}) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const widgets = [
+    { title: data.eyeTitle, desc: data.eyeDesc, icon: 'eye', status: 'green' },
+    { title: data.walletTitle, desc: data.walletDesc, icon: 'wallet' },
+    { title: data.marketplaceTitle, desc: data.marketplaceDesc, icon: 'list' },
+    { title: data.aiMapTitle, desc: data.aiMapDesc, icon: 'map' },
+  ];
+  return (
+    <section className="landing-dashboard" ref={ref} aria-labelledby="dashboard-heading">
+      <h2 id="dashboard-heading">{data.title}</h2>
+      <p className="landing-dashboard-subtitle">{data.subtitle}</p>
+
+      <div className="landing-dashboard-widgets">
+        {widgets.map((w, i) => (
+          <motion.div
+            key={w.title}
+            className="landing-dashboard-widget glass-card"
+            initial={{ opacity: 0, y: 16 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.4, delay: i * 0.08 }}
+          >
+            {w.status === 'green' && <span className="landing-dashboard-status landing-dashboard-status-ok" aria-hidden>●</span>}
+            <h4>{w.title}</h4>
+            <p>{w.desc}</p>
+          </motion.div>
+        ))}
+      </div>
+
+      <motion.div
+        className="landing-dashboard-revenue glass-card"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.35 }}
+      >
+        <h3>{data.revenueTableTitle}</h3>
+        <div className="landing-dashboard-table-wrap">
+          <table className="landing-dashboard-table" role="grid">
+            <thead>
+              <tr>
+                <th scope="col">{data.colSupplier ?? 'Supplier'}</th>
+                <th scope="col">{data.colExposures ?? 'Exposures'}</th>
+                <th scope="col">{data.colClicks ?? 'Clicks'}</th>
+                <th scope="col">{data.colProfit ?? 'Profit'}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.revenueTableRows.map((row, i) => (
+                <tr key={i}>
+                  <td data-label={data.colSupplier ?? 'Supplier'}>{row.supplier}</td>
+                  <td data-label={data.colExposures ?? 'Exposures'}>{row.exposures}</td>
+                  <td data-label={data.colClicks ?? 'Clicks'}>{row.clicks}</td>
+                  <td data-label={data.colProfit ?? 'Profit'} className="landing-dashboard-profit">{row.profit}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </motion.div>
+
+      <motion.div
+        className="landing-dashboard-quality glass-card"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.45 }}
+      >
+        <h4>{data.qualityScoreTitle}</h4>
+        <p>{data.qualityScoreDesc}</p>
+      </motion.div>
+
+      <motion.div
+        className="landing-dashboard-cta"
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.3, delay: 0.55 }}
+      >
+        <button type="button" className="landing-cta" onClick={onRequestDemo}>
+          {data.dashboardCta ?? 'Contact us'}
+        </button>
+      </motion.div>
+    </section>
+  );
+}
+
+/** סעיף משקיעים ושותפים אסטרטגיים – Vision, Problem, Advantage, Market. */
+function InvestorSection({
+  data,
+  onRequestSummary,
+}: {
+  data: {
+    title: string;
+    tagline?: string;
+    vision: string;
+    problemTitle: string;
+    problems: string[];
+    advantageTitle: string;
+    advantages: string[];
+    marketTitle: string;
+    marketPoints: string[];
+    cta: string;
+  };
+  onRequestSummary: () => void;
+}) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <section className="landing-investor" ref={ref} aria-labelledby="investor-heading">
+      <div className="landing-investor-inner">
+        <h2 id="investor-heading" className="landing-investor-title">{data.title}</h2>
+        {data.tagline && <p className="landing-investor-tagline">{data.tagline}</p>}
+        <motion.p
+          className="landing-investor-vision"
+          initial={{ opacity: 0, y: 12 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4 }}
+        >
+          {data.vision}
+        </motion.p>
+
+        <motion.div
+          className="landing-investor-block"
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4, delay: 0.1 }}
+        >
+          <h3>{data.problemTitle}</h3>
+          <ul>
+            {data.problems.map((p, i) => (
+              <li key={i}>{p}</li>
+            ))}
+          </ul>
+        </motion.div>
+
+        <motion.div
+          className="landing-investor-block glass-card"
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4, delay: 0.2 }}
+        >
+          <h3>{data.advantageTitle}</h3>
+          <ul>
+            {data.advantages.map((a, i) => (
+              <li key={i}>{a}</li>
+            ))}
+          </ul>
+        </motion.div>
+
+        <motion.div
+          className="landing-investor-block"
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4, delay: 0.3 }}
+        >
+          <h3>{data.marketTitle}</h3>
+          <ul>
+            {data.marketPoints.map((p, i) => (
+              <li key={i}>{p}</li>
+            ))}
+          </ul>
+        </motion.div>
+
+        <motion.div
+          className="landing-investor-cta"
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.3, delay: 0.45 }}
+        >
+          <button type="button" className="landing-cta" onClick={onRequestSummary}>
+            {data.cta}
+          </button>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/** עמודי התווך – אנימציית Fade-in מלמטה בגלילה. */
+function PillarsSection({
+  content,
+}: {
+  content: { pillarsSectionTitle?: string; pillars: { ceo: { title: string; description: string }; technician: { title: string; description: string }; resident: { title: string; description: string } } };
+}) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <section className="landing-pillars">
+      <h2>{content.pillarsSectionTitle ?? 'Core Pillars'}</h2>
+      <div className="pillars-grid" ref={ref}>
+        {[
+          { to: ROUTES.SELECT_BUILDING, ...content.pillars.ceo },
+          { to: ROUTES.LANDING_TECHNICIAN, ...content.pillars.technician },
+          { to: ROUTES.USER_LOGIN, ...content.pillars.resident },
+        ].map((item, i) => (
+          <motion.div
+            key={item.title}
+            custom={i}
+            variants={pillarVariants}
+            initial="hidden"
+            animate={inView ? 'visible' : 'hidden'}
+          >
+            <Link to={item.to} className="glass-card pillar-card pillar-link">
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </Link>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/**
+ * דף נחיתה – Vantera. Dark-Mode Luxury.
+ * תמיכה מלאה בעברית/אנגלית – ללא ערבוב שפות.
+ */
+const Landing: React.FC = () => {
+  const appLang = useSelector((state: RootState) => state.settings.language);
+  const lang: LangKey = RTL_LANGS.includes(appLang as 'he' | 'ar') || appLang === 'he' ? 'he' : 'en';
+  const content = useMemo(() => rawContent[lang] ?? rawContent.he, [lang]);
+  const dir = lang === 'he' ? 'rtl' : 'ltr';
+
+  const [demoOpen, setDemoOpen] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [form, setForm] = useState({
+    contactName: '',
+    companyName: '',
+    buildingCount: 1,
+    phone: '',
+  });
+  const { scrollY } = useScroll();
+  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0.3]);
+
+  const handleDemoSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitStatus('sending');
+    try {
+      const res = await fetch(getApiUrl('public/demo-request'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contactName: form.contactName.trim(),
+          companyName: form.companyName.trim(),
+          buildingCount: Math.max(1, form.buildingCount),
+          phone: form.phone.trim(),
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && (data.success || data.message)) {
+        setSubmitStatus('success');
+        setForm({ contactName: '', companyName: '', buildingCount: 1, phone: '' });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch {
+      setSubmitStatus('error');
+    }
+  };
+
+  const closeModal = () => {
+    setDemoOpen(false);
+    setTimeout(() => setSubmitStatus('idle'), 300);
+  };
+
+  return (
+    <div className="landing-page" dir={dir} lang={lang === 'he' ? 'he' : 'en'}>
+      <div className="landing-page-bg-video" aria-hidden>
+        <video
+          src={HERO_VIDEO_SRC}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+        />
+        <div className="landing-page-bg-overlay" />
+      </div>
+      <div className="landing-page-content">
+      <header className="landing-login-bar">
+        <SystemStatus />
+        <LanguageSwitcher />
+        <Link to={ROUTES.HOME} className="landing-cta" aria-label={content.loginCta ?? 'Sign In'}>
+          {content.loginCta ?? 'Sign In'}
+        </Link>
+      </header>
+
+      <section className="landing-hero">
+        <div className="hero-video-overlay" aria-hidden />
+        <motion.div className="landing-hero-content" style={{ opacity: heroOpacity }}>
+          <h1>{content.hero.title}</h1>
+          <p className="hero-subtitle">{content.hero.subtitle}</p>
+          {content.hero.subtitleLong && <p className="hero-subtitle-long">{content.hero.subtitleLong}</p>}
+          <div className="landing-hero-ctas">
+            <button type="button" className="landing-cta" onClick={() => setDemoOpen(true)}>
+              {content.hero.cta}
+            </button>
+            {content.hero.b2bCta && (
+              <Link to={ROUTES.B2B_REGISTER} className="landing-cta secondary">
+                {content.hero.b2bCta}
+              </Link>
+            )}
+            {content.demoVideo && (
+              (() => {
+                const demoUrl = (import.meta.env.VITE_DEMO_VIDEO_URL as string) || content.demoVideo?.url;
+                return demoUrl ? (
+                  <a
+                    href={demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="landing-cta secondary"
+                  >
+                    {content.demoVideo.cta}
+                  </a>
+                ) : (
+                  <Link to={ROUTES.LANDING_TECHNICIAN} className="landing-cta secondary">
+                    {content.demoVideo.cta}
+                  </Link>
+                );
+              })()
+            )}
+          </div>
+        </motion.div>
+      </section>
+
+      <section className="landing-pulse">
+        <h2>{content.metricsSection?.title ?? 'Vantera Intelligence in Action'}</h2>
+        <LiveStats />
+        <LiveTicker />
+      </section>
+
+      <PillarsSection content={content} />
+
+      {content.salesPitch && content.salesPitch.length > 0 && (
+        <SalesPitchSection
+          sectionTitle={content.salesPitchSectionTitle}
+          items={content.salesPitch}
+        />
+      )}
+
+      {content.shieldSection && <ShieldSection data={content.shieldSection} />}
+      {content.competitiveSection && <CompetitiveSection data={content.competitiveSection} />}
+      {content.ratingSection && <RatingSection data={content.ratingSection} />}
+      {content.securityShieldSection && <SecurityShieldSection data={content.securityShieldSection} />}
+      {content.partnershipSection && <PartnershipSection data={content.partnershipSection} />}
+      {content.vendorPortalSection && (
+        <VendorPortalSection data={content.vendorPortalSection} onRequestDemo={() => setDemoOpen(true)} />
+      )}
+      {content.revenueHubSection && <RevenueHubSection data={content.revenueHubSection} />}
+      {content.residentValueSection && <ResidentValueSection data={content.residentValueSection} />}
+      {content.programmerDeclaration && <ProgrammerDeclarationSection data={content.programmerDeclaration} />}
+      {content.selfFundingSection && (
+        <SelfFundingSection
+          data={content.selfFundingSection}
+          onRequestDemo={() => setDemoOpen(true)}
+        />
+      )}
+      {content.revenueSection && <RevenueSection data={content.revenueSection} />}
+      {content.dashboardSection && (
+        <DashboardSection
+          data={content.dashboardSection}
+          onRequestDemo={() => setDemoOpen(true)}
+        />
+      )}
+
+      {content.investorSection && (
+        <InvestorSection
+          data={content.investorSection}
+          onRequestSummary={() => setDemoOpen(true)}
+        />
+      )}
+
+      <XRayBuilding />
+
+      <BeforeAfterSlider />
+
+      </div>
+
+      {demoOpen && (
+        <div className="landing-modal-overlay" onClick={closeModal} role="dialog" aria-modal="true" aria-labelledby="demo-modal-title">
+          <div className="landing-modal glass-card" onClick={e => e.stopPropagation()}>
+            <h2 id="demo-modal-title">{content.demoForm.title}</h2>
+            {submitStatus === 'success' ? (
+              <p className="landing-modal-success">{content.demoForm.successMessage}</p>
+            ) : (
+              <form onSubmit={handleDemoSubmit}>
+                <label>
+                  <span>{content.demoForm.contactNameLabel}</span>
+                  <input type="text" value={form.contactName} onChange={e => setForm(f => ({ ...f, contactName: e.target.value }))} required />
+                </label>
+                <label>
+                  <span>{content.demoForm.companyNameLabel}</span>
+                  <input type="text" value={form.companyName} onChange={e => setForm(f => ({ ...f, companyName: e.target.value }))} required />
+                </label>
+                <label>
+                  <span>{content.demoForm.buildingCountLabel}</span>
+                  <input type="number" min={1} value={form.buildingCount} onChange={e => setForm(f => ({ ...f, buildingCount: Number(e.target.value) || 1 }))} required />
+                </label>
+                <label>
+                  <span>{content.demoForm.phoneLabel}</span>
+                  <input type="tel" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} required />
+                </label>
+                {submitStatus === 'error' && <p className="landing-modal-error">{content.demoForm.errorMessage}</p>}
+                <div className="landing-modal-actions">
+                  <button type="button" className="landing-cta secondary" onClick={closeModal}>{content.demoForm.cancel}</button>
+                  <button type="submit" className="landing-cta" disabled={submitStatus === 'sending'}>
+                    {submitStatus === 'sending' ? content.demoForm.sending : content.demoForm.submit}
+                  </button>
+                </div>
+              </form>
+            )}
+            {submitStatus === 'success' && (
+              <button type="button" className="landing-cta mt-3" onClick={closeModal}>{content.demoForm.close}</button>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export { Landing };
+export default Landing;

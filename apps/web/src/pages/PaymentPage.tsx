@@ -1,8 +1,11 @@
 // pages/PaymentPage.tsx
 import React, { useState } from 'react';
 import { Button, Form, Alert } from 'react-bootstrap';
+import { getApiUrl, getApiHeaders } from '../api';
+import { useBuilding } from '../context/BuildingContext';
 
 const PaymentPage: React.FC = () => {
+  const { buildingName } = useBuilding();
   const [payer, setPayer] = useState('');
   const [amount, setAmount] = useState<number>(0);
   const [cardNumber, setCardNumber] = useState('');
@@ -22,9 +25,9 @@ const PaymentPage: React.FC = () => {
     // שליחת נתוני התשלום לשרת
     const payment = { payer, amount, cardNumber, expiryDate, cvv };
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/payments`, {
+      const response = await fetch(getApiUrl('payments'), {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...getApiHeaders() },
         body: JSON.stringify(payment),
       });
       if (!response.ok) {
@@ -53,7 +56,12 @@ const PaymentPage: React.FC = () => {
               <span style={{ fontSize: 32, color: '#1976d2', marginLeft: 12 }}>
                 <i className="fas fa-credit-card"></i>
               </span>
-              <h2 className="mb-0" style={{ textAlign: 'right', color: '#2c3e50', fontWeight: 'bold' }}>ביצוע תשלום</h2>
+              <div>
+                <h2 className="mb-0" style={{ textAlign: 'right', color: '#2c3e50', fontWeight: 'bold' }}>ביצוע תשלום</h2>
+                {buildingName && buildingName !== 'default' && (
+                  <p className="mb-0 small text-muted" style={{ textAlign: 'right' }}>בניין: {buildingName}</p>
+                )}
+              </div>
             </div>
             <Form onSubmit={handleSubmit} style={{ textAlign: 'right' }}>
               <Form.Group className="mb-2">

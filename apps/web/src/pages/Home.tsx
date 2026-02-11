@@ -1,4 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import ROUTES from '../routs/routes';
 import './Home.css';
 
 const Home: React.FC = () => {
@@ -47,6 +49,11 @@ const Home: React.FC = () => {
         <div className="home-content">
           <h1 className="home-title">אחזקת מבנים חכמה ומקצועית</h1>
           <p className="home-subtitle">שירות מתקדם לניהול, גבייה ותחזוקה של בניינים</p>
+          <div className="home-cta">
+            <Link to={ROUTES.LANDING} className="home-btn btn btn-primary btn-lg">
+              לדף הנחיתה
+            </Link>
+          </div>
         </div>
       </div>
     </div>

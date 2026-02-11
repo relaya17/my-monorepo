@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getApiUrl, getApiHeaders } from '../api';
 
 const PaymentForm: React.FC = () => {
   const [payer, setPayer] = useState('');
@@ -21,11 +22,11 @@ const PaymentForm: React.FC = () => {
     };
 
     try {
-      // שליחת הבקשה ל-API
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/payments`, {
+      const response = await fetch(getApiUrl('payments'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...getApiHeaders(),
         },
         body: JSON.stringify(payment),
       });

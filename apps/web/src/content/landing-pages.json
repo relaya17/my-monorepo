@@ -1,0 +1,596 @@
+{
+  "he": {
+    "demoVideo": { "cta": "צפה בדמו", "url": "", "placeholder": "הדבקו כאן קישור לסרטון" },
+    "hero": {
+      "title": "הבניין שלך. הביטחון שלך. הרווח שלך.",
+      "subtitle": "המערכת החכמה לניהול בניינים – חיסכון מוכח בעלויות תחזוקה.",
+      "subtitleLong": "Vantera הופכת בניינים לנכסים אוטונומיים. חסכון בעלויות תחזוקה באמצעות בינה מלאכותית שמזהה תקלות לפני שהן קורות.",
+      "cta": "הפוך את הבניין שלך לחכם ומניב - צור קשר",
+      "b2bCta": "רישום חברות אחזקה"
+    },
+    "pillars": {
+      "ceo": { "title": "המנכ\"ל (שליטה)", "description": "דשבורד אסטרטגי עם התראות חריגות וניהול מלאי גלובלי.", "ctaTarget": "dashboard" },
+      "technician": { "title": "הטכנאי (ביצוע)", "description": "קישורי Magic לדיווח קולי – בלי אפליקציה, אפס ניירת.", "ctaTarget": "technician_page" },
+      "resident": { "title": "הדייר (שקיפות)", "description": "שקיפות מלאה על כל שקל. דירוג AAA לאמון וניהול.", "ctaTarget": "portal" }
+    },
+    "pillarsSectionTitle": "עמודי התווך",
+    "salesPitchSectionTitle": "למה לבחור ב-Vantera",
+    "salesPitch": [
+      { "title": "מערכת אפס תקלות (Predictive AI)", "pitch": "האפליקציה לא רק מדווחת על נזילה – היא לומדת את דפוסי צריכת המים והחשמל של המגדל ומתריעה לפני שהפיצוץ קורה. חוסך עשרות אלפי שקלים בתיקוני חירום." },
+      { "title": "חוויית דייר חמישה כוכבים", "pitch": "במקום קבוצת ווטסאפ רועשת, הדייר מקבל פיד יוקרתי עם עדכונים, צילומי תחזוקה והודעות מהוועד. מעלה שביעות רצון וערך דירות." },
+      { "title": "שקיפות פיננסית בלחיצת כפתור", "pitch": "כל חשבונית של ספק נסרקת על ידי ה-AI ומופיעה בפיד העלויות. אין יותר שאלות 'לאן הלך הכסף?' – הכל שקוף, מאובטח ונגיש באפליקציה." },
+      { "title": "מיתוג אישי (White Label)", "pitch": "חברת הניהול מקבלת את האפליקציה עם הלוגו והצבעים שלה. הופך אתכם למותג טכנולוגי ומתקדם מול המתחרים." }
+    ],
+    "investorSection": {
+      "title": "סיכום למשקיעים ושותפים אסטרטגיים – Q1 2026",
+      "tagline": "מערכת ההפעלה האנכית לניהול נדל\"ן יוקרתי",
+      "vision": "Vantera מגדירה מחדש את תעשיית ניהול הנכסים בשווי 20 מיליארד דולר, ומחליפה תהליכים ידניים וריאקטיביים במערכת אקולוגית לתחזוקה אוטונומית. אנו הופכים בניינים מנכסים פסיביים לסביבות חכמות ובריאות עצמית.",
+      "problemTitle": "פער הראייה",
+      "problems": [
+        "30% מנזקי בניין (מים, מבנה) אינם מזוהים עד שמאוחר מדי.",
+        "צוותי תחזוקה מוצפים בדיווחים כפולים ונתונים גרועים מהשטח.",
+        "בעלי נדל\"ן חסרים שקיפות בזמן אמת לשימוש בתקציבי התחזוקה."
+      ],
+      "advantageTitle": "היתרון של Vantera",
+      "advantages": [
+        "בינה חזותית ולוויינית: מזהה חריגות (הצפות, התדרדרות גג) בזמן אמת דרך מצלמות ולוויין, לעיתים לפני שהדיירים מודעים.",
+        "שומר השלום של ה-AI: מנוע סמנטי שמבטל ~95% מכרטיסי התחזוקה הכפולים, מפחית עומס על קבלנים.",
+        "Voice-to-Insight (V2I): ממשק קישור Magic לטכנאים – סיכומי קול הופכים לנתונים פיננסיים ומלאי מובנים.",
+        "ספר שקיפות AAA: יומן ביקורת בהשראת בלוקצ'יין עם ציון אמון בזמן אמת ואחריות פיננסית מלאה."
+      ],
+      "marketTitle": "שוק וסקלאביליות",
+      "marketPoints": [
+        "Monorepo מלא שתוכנן לסקלאביליות גלובלית מהירה ובידוד רב-דייר.",
+        "מודל עסקי: SaaS (לכל דלת/חודש) + דמי אופטימיזציה של רכש.",
+        "משחק הנתונים: בניית מסד הנתונים הגרנולרי ביותר בעולם לבריאות בניינים – שווקים משניים לביטוח ותכנון עירוני."
+      ],
+      "cta": "בקש סיכום למשקיעים"
+    },
+    "shieldSection": {
+      "title": "מה שהופך אותנו לסטארט-אפ",
+      "taglines": ["לא רק מנהלים – מגנים", "אפס זמן המתנה", "טכנולוגיה צבאית בשירות הבניין שלך"],
+      "comparisonTitle": "טבלת ההשוואה הטכנולוגית",
+      "colParam": "פרמטר",
+      "colRegular": "מערכות רגילות",
+      "colOurs": "המערכת שלנו",
+      "comparisonRows": [
+        { "param": "מהירות תגובה", "regular": "פתיחת קריאה → המתנה למוקדן → טלפון לטכנאי.", "ours": "זיהוי אוטומטי: המערכת מזהה תקלה ושולחת התראה לפני שהדייר התקשר." },
+        { "param": "מערך הגנה", "regular": "ניהול הרשאות כניסה בסיסי בלבד.", "ours": "שכבת הגנה אקטיבית: אינטגרציה למצלמות עם ניתוח וידאו למניעת פריצות." },
+        { "param": "תשתית קוד", "regular": "מערכות ישנות, איטיות בעומס.", "ours": "Micro-services: מהירות מקסימלית גם כשאלפי דיירים מחוברים בו-זמנית." },
+        { "param": "שקיפות", "regular": "דוחות ידניים בסוף חודש.", "ours": "Dashboard בזמן אמת: המנהל רואה בכל רגע את בריאות הבניין." }
+      ],
+      "safeZoneTitle": "Safe-Zone",
+      "safeZoneDesc": "ליווי מצלמות וירטואלי מהכניסה לבניין עד לדלת הדירה. מיועד להורים לילדים ונשים שחוזרות מאוחר – המערכת עוקבת ומוודאת כניסה בשלום."
+    },
+    "competitiveSection": {
+      "title": "למה אנחנו מנצחים?",
+      "israelTitle": "מול השוק הישראלי (HSL וחברותיה)",
+      "israelFocus": "המתחרים בישראל מתמקדים בכאב הראש של ועד הבית: איך לגבות כסף ואיך להזמין אינסטלטור.",
+      "israelWeakness": "החיסרון שלהם: הם נשארים ברמה האדמיניסטרטיבית.",
+      "israelAdvantage": "היתרון שלנו: אנחנו הופכים את הבניין לישות חכמה ומניבה. לא רק כלי עבודה – ביטחון (מצלמות/לוויין) וכסף (באנרים של ספקים).",
+      "globalTitle": "מול השוק העולמי (BuildingLink/AppFolio)",
+      "globalFocus": "בעולם קיימות מערכות ענק, אבל הן כבדות ומסורבלות.",
+      "globalWeakness": "החיסרון שלהן: הטמעה של חודשים, חיבור מסורבל לתשתיות ויזואליות.",
+      "globalAdvantage": "היתרון שלנו: מהירות. Mobile-First, מהיר כאפליקציית הודעות, אינטגרציית וידאו חלקה."
+    },
+    "ratingSection": {
+      "title": "דירוג לפי קטגוריות (סקאלה 1-10)",
+      "securityTitle": "מערכת הגנה",
+      "securityOurs": "9.8",
+      "securityOursNote": "E2E על וידאו + AI במצלמות",
+      "securityOthers": "5.0",
+      "securityOthersNote": "מסתמכים על חברות אבטחה חיצוניות",
+      "performanceTitle": "מהירות וביצועים",
+      "performanceOurs": "10",
+      "performanceOursNote": "Zero Latency",
+      "performanceOthers": "7.0",
+      "performanceOthersNote": "מערכות מבוססות דפדפן איטיות",
+      "profitabilityTitle": "פוטנציאל רווח ליזם",
+      "profitabilityOurs": "9.0",
+      "profitabilityOursNote": "הפיד הפרסומי הוא Game Changer",
+      "profitabilityOthers": "2.0",
+      "profitabilityOthersNote": "רק הוצאה חודשית קבועה - SaaS"
+    },
+    "securityShieldSection": {
+      "title": "השוואת רמת האבטחה והמיגון: The Shield מול מערכות מאובטחות",
+      "subtitle": "מול מערכות ברמה של בנקים, אתרי ממשל ומערכות שליטה ובקרה",
+      "colParam": "פרמטר אבטחה",
+      "colBuilding": "מערכות ניהול מבנים",
+      "colGov": "אתרים ממשלתיים/בנקאיים",
+      "colOurs": "המערכת שלנו (The Shield)",
+      "securityRows": [
+        { "param": "הצפנת נתונים", "building": "SSL בסיסי", "gov": "AES-256 (סטנדרט צבאי)", "ours": "AES-256 + הצפנת קצה לקצה (E2EE)" },
+        { "param": "זיהוי משתמש", "building": "סיסמה פשוטה", "gov": "אימות דו-שלבי (2FA)", "ours": "Biometric + זיהוי התקן מורשה" },
+        { "param": "הגנת וידאו", "building": "גישה ישירה (פגיעה לפריצה)", "gov": "חומות אש מורכבות", "ours": "Streaming מוצפן ומבוזר (Cloud-Secured)" },
+        { "param": "ניטור חדירות", "building": "אין", "gov": "מערכות SOC (מוקד אבטחה)", "ours": "AI-Sentinel: זיהוי ניסיונות פריצה בזמן אמת" }
+      ],
+      "layersTitle": "למה אנחנו אתר מאובטח ברמה הגבוהה ביותר?",
+      "layer1Title": "שכבת Cyber-Wall",
+      "layer1Desc": "המערכת יושבת על שרתים מבוזרים. גם אם שרת אחד מותקף, המצלמות והנתונים ממשיכים לעבוד.",
+      "layer2Title": "מערכת Zero Trust",
+      "layer2Desc": "אף אחד, אפילו לא אנחנו, לא יכול לראות צילומי מצלמות בתוך דירות או מסדרונות ללא הרשאה דיגיטלית חתומה מהדייר/מנהל.",
+      "layer3Title": "הגנה פיזית דרך הלוויין",
+      "layer3Desc": "בניגוד לאתרים שהם רק תוכנה – אנחנו מצליבים מידע פיזי. אם הלוויין מזהה שינוי (פגיעה בסיב אופטי), המערכת עוברת אוטומטית למצב הגנת חירום (Fail-safe).",
+      "trustStatus": "SYSTEM STATUS: SECURED",
+      "trustLine1": "Encrypted Video Feed: ACTIVE",
+      "trustLine2": "Satellite Link: STABLE",
+      "trustLine3": "Multi-Layer Firewall: ON",
+      "finalRatingTitle": "הדירוג המעודכן (מיגון ואמינות)",
+      "finalBanks": "מערכות בנקאיות/בטחוניות: 9.9/10",
+      "finalBanksNote": "אבל לא נוחות לשימוש יומיומי",
+      "finalOurs": "The Shield (שלנו): 9.8/10",
+      "finalOursNote": "אבטחה של בנק, נוחות של רשת חברתית",
+      "finalApps": "אפליקציות ניהול (HSL/BuildingLink): 4.0/10",
+      "finalAppsNote": "רמת אבטחה של אתר תוכן פשוט",
+      "e2eTitle": "הצפנת End-to-End על וידאו",
+      "e2eDesc": "בניגוד ל-HSL, בפריצת סייבר לשרת המרכזי – המידע של הבניינים נשאר חסום. המפתחות אצל המשתמש בלבד. ציון אבטחה: 9.8/10",
+      "latencyTitle": "מהירות תגובה",
+      "latencyDesc": "פחות מ-150ms – מהיר מעין אנושית. התראה על חדירה מגיעה לטלפון לפני שהפורץ עבר את הלובי.",
+      "tokenizationTitle": "תשלום מאובטח",
+      "tokenizationRegular": "אתרים רגילים: שומרים כרטיסי אשראי בצורה פגיעה.",
+      "tokenizationOurs": "The Shield: Tokenization (כמו Apple Pay). פרטי תשלום לעולם לא נשמרים אצלנו – אין חשש מפריצות."
+    },
+    "partnershipSection": {
+      "title": "שותפות עסקית, לא רק תוכנה",
+      "body": "חברות אחזקה – הצטרפו למהפכה. קבלו תשלום חודשי על כל פרסום ושירות בבניינים שלכם. אנחנו מספקים את הטכנולוגיה המאובטחת, אתם נהנים מההכנסות.",
+      "revenueShareTitle": "מודל Revenue Share",
+      "revenueShareBody": "על כל שקל שקבלן משלם על פרסום – אתם מקבלים אחוז (למשל 20%). האפליקציה מממנת את עצמה. אפשר להגיע לשימוש בחינם ואף לעודף בסוף החודש."
+    },
+    "vendorPortalSection": {
+      "title": "הצטרף לנבחרת הספקים המורשים",
+      "subtitle": "קבל גישה ישירה לאלפי דיירים בבניינים המאובטחים ביותר בישראל.",
+      "labelBusiness": "שם העסק / קבלן:",
+      "placeholderBusiness": "למשל: אינסטלציה מהירה",
+      "labelSpecialty": "תחום התמחות:",
+      "options": ["חשמל", "אינסטלציה", "מיזוג אוויר", "ניקיון ואחזקה"],
+      "tip": "ספקים עם תעודת הסמכה מעלה מקבלים עדיפות בפיד המבנה.",
+      "cta": "הגש בקשת הצטרפות",
+      "smartMatching": "Smart Matching: כשחיישן המים מזהה צריכה חריגה (חשד לנזילה) – הבאנר של האינסטלטור הרשום קופץ אוטומטית לפיד כל הדיירים בבניין."
+    },
+    "revenueHubSection": {
+      "title": "דשבורד הכנסות מפרסום ושירותים",
+      "cumulativeLabel": "רווח מצטבר החודש",
+      "cumulativeValue": "₪4,250.00",
+      "callsLabel": "קריאות שירות שבוצעו",
+      "callsValue": "128",
+      "activeVendorsLabel": "קבלנים פעילים בפיד:",
+      "vendors": [
+        { "name": "א.א אינסטלציה (מומחה מורשה)", "commission": "+ ₪140 עמלה" },
+        { "name": "מייק חשמל (זמין בבניין)", "commission": "+ ₪85 עמלה" }
+      ],
+      "proAccessTitle": "The Pro Access – הערך לקבלנים",
+      "proAccessPoints": ["כניסה חכמה: QR Code זמני לבניין – בלי להמתין לאבטחה", "תיק טכני: גישה לתוכניות אינסטלציה/חשמל של הבניין", "אימות AI: סריקת מסמכים מול מאגרי המדינה – רישיון פג = הבאנר נעלם"]
+    },
+    "programmerDeclaration": {
+      "title": "הצהרת המתכנת",
+      "body": "אני מאשר כי האפליקציה עומדת בסטנדרטים של Zero Trust Architecture. השילוב בין מיגון אקטיבי, מהירות קצה (פחות מ-150ms) ומוניטיזציה חכמה (הפיד הפרסומי) – מציב אותנו כפתרון המתקדם ביותר בשוק הנדל\"ן המודרני.",
+      "revenueSignature": "הטמעת Revenue Splitting (פיצול תשלומים אוטומטי) תבצע סליקה מאובטחת, תפריש עמלה לחברת האחזקה אוטומטית, ותנפיק חשבוניות דיגיטליות לכל הצדדים."
+    },
+    "residentValueSection": {
+      "title": "המהפכה בניהול הבניין שלך",
+      "painTitle": "הבעיה המוכרת",
+      "painPoints": ["חיפוש בגוגל → מישהו אנונימי, לא יודעים אם אמין", "מי באמת נכנס לבניין? יש לו הסמכה?", "מחירים גבוהים ללא פיקוח"],
+      "solutionTitle": "הפתרון – ספקים מורשים בפיד",
+      "solutionPoints": ["סינון קפדני: רק קבלנים שעברו אימות מסמכים וביטוח", "כניסה מתועדת במערכת האבטחה – יודעים בדיוק מי נכנס ומתי יצא", "הנחת קבוצה: תעריף מועדף וקבוע מראש"],
+      "valueTitle": "למה זה טוב לבניין?",
+      "valuePoints": ["תחזוקה מונעת: הקבלנים מכירים את התשתיות", "השקעה חוזרת: חלק מהכנסות הפרסום משמש לשיפורי הבניין"]
+    },
+    "selfFundingSection": {
+      "title": "הבניין שמממן את עצמו",
+      "body": "המערכת שלנו כוללת זירת מסחר פנימית המאפשרת לקבלני שירות להציע הצעות ייעודיות לדיירים. אתם קובעים אילו ספקים יופיעו, ונהנים מהכנסה פסיבית בכל חודש.",
+      "targetingTitle": "Targeting",
+      "targetingDesc": "אנחנו יודעים בדיוק איפה הלקוח גר. אם יש תקלה בבניין, הפרסומת הופכת לפתרון מיידי.",
+      "revenueShareTitle": "Revenue Share",
+      "revenueShareDesc": "חברת הניהול מקבלת אחוזים מכל עסקה שנסגרת דרך הבאנר. שותפים עסקיים, לא רק ספקי תוכנה.",
+      "adDemoLabel": "דוגמת באנר בפיד הדייר:",
+      "adDemoTitle": "חשמלאי מוסמך זמין כעת",
+      "adDemoDesc": "תיקון קצרים ותשתיות לדיירי בניין רום.",
+      "adDemoCta": "הזמן שירות"
+    },
+    "revenueSection": {
+      "title": "מערכת ניהול שמייצרת לכם הכנסה",
+      "subtitle": "שלבו פרסומות של ספקי שירות נבחרים בפיד הבניין והפכו את האפליקציה למרכז רווח.",
+      "bulletPoints": [
+        "באנרים דינמיים: פרסום ממוקד של קבלני חשמל, אינסטלציה ושיפוצים – לפי מיקום הבניין.",
+        "לחיצה אחת להזמנה: כפתור הזמן עכשיו ישירות מהבאנר שפותח קריאת שירות.",
+        "דירוג קהילה: הדיירים מדרגים את הספקים, ורק הטובים ביותר נשארים בפיד."
+      ],
+      "emergencyBannerTitle": "באנר חירום",
+      "emergencyBannerDesc": "כשהמערכת מזהה פיצוץ צינור או תקלת חשמל – הבאנר בפיד משתנה אוטומטית: זוהתה תקלה במבנה – לחצו כאן להזמנת טכנאי חירום. הפרסום הופך לשירות קריטי."
+    },
+    "dashboardSection": {
+      "title": "מרכז הבקרה של המנהל",
+      "subtitle": "כל הכלים במקום אחד – אבטחה, רווחים וניהול ספקים",
+      "eyeTitle": "מרכז בקרה ויזואלי",
+      "eyeDesc": "חלונית סטרימינג חיה ממצלמות הבניין הנבחר, עם חיווי ירוק (הכל תקין) או אדום (זוהתה תנועה חריגה או תקלה).",
+      "walletTitle": "מרכז רווחים",
+      "walletDesc": "גרף שמראה כמה כסף נכנס היום מבאנרים של ספקים – כמה דיירים לחצו על הזמן אינסטלטור וכמה עמלה נגזרה מזה.",
+      "marketplaceTitle": "ניהול ספקים",
+      "marketplaceDesc": "רשימת הקבלנים שרוצים לפרסם אצלנו. המנהל יכול לאשר או לחסום ספק בלחיצת כפתור – אם חשמלאי קיבל דירוג נמוך מהדיירים, הוא יוצא מהפיד.",
+      "aiMapTitle": "מפת ה-AI",
+      "aiMapDesc": "מפה שמראה את פריסת הבניינים באזור, עם התראות על מזג אוויר או מפגעי חוץ שעלולים להשפיע על התחזוקה.",
+      "revenueTableTitle": "ביצועי מפרסמים בבניין",
+      "colSupplier": "ספק שירות",
+      "colExposures": "חשיפות בפיד",
+      "colClicks": "לחיצות/הזמנות",
+      "colProfit": "רווח בניין (₪)",
+      "revenueTableRows": [
+        { "supplier": "משה אינסטלציה", "exposures": "1,240", "clicks": "42", "profit": "₪840" },
+        { "supplier": "חשמל אקספרס", "exposures": "890", "clicks": "15", "profit": "₪300" }
+      ],
+      "qualityScoreTitle": "מודל הדירוג החכם",
+      "qualityScoreDesc": "ספק שנותן שירות גרוע לדיירים – המערכת מורידה לו אוטומטית את הנראות בבאנרים. הדיירים מקבלים רק את הכי טובים, וחברת הניהול נהנית מראש שקט.",
+      "dashboardCta": "הפוך את הבניין שלך לחכם ומניב - צור קשר"
+    },
+    "metricsSection": { "title": "Vantera Intelligence בפעולה" },
+    "seedMetrics": { "moneySaved": 242500, "preventedFailures": 142, "activeAssets": 84 },
+    "technicianPage": {
+      "title": "אפס חיכוך. ביצועים מקסימליים.",
+      "subtitle": "טכנולוגיה שעובדת בשבילך, לא נגדך.",
+      "blocks": [
+        { "heading": "בלי אפליקציות", "body": "שכחו שמות משתמש, סיסמאות או חנויות אפליקציות. עם Vantera, המשימה מגיעה אליך בקישור Magic ישיר לווטסאפ או SMS." },
+        { "heading": "הקול שלך הוא הפקודה", "body": "אל תבזבזו זמן בהקלדה. כשהעבודה מסתיימת, תעד סיכום קצר. ה-AI מעדכן מלאי, מייצר דוח וסוגר את הכרטיס." },
+        { "heading": "עובד במקומות הקשים", "body": "המערכת בנויה למרתפים ולמחסות. תעד, תועד ודווח גם בלי אות – הכל מסתנכרן אוטומטית כשתחזור." }
+      ],
+      "cta": "צפה בדמו דיווח קולי",
+      "videoPlaceholder": "סרטון הדמו יופיע כאן"
+    },
+    "residentPage": {
+      "title": "שקיפות מושלמת. שקט נפשי.",
+      "subtitle": "הבניין שלך, הסטנדרט של מחר כבר היום.",
+      "blocks": [
+        { "heading": "שקיפות היא הסטנדרט", "body": "כל שקל שיוצא מקופת הבניין נעקב ומדורג. עם דירוג AAA של Vantera, אתה יודע בדיוק לאן הלך הכסף ואיך הוא חוזר בתחזוקה מונעת." },
+        { "heading": "הגנה אוטונומית 24/7", "body": "ה-AI סורק את תשתית הבניין דרך מצלמות ולוויין. אם יש דליפה בגג או תקלה במעלית, אנחנו יודעים ופועלים לפני שתשים לב." },
+        { "heading": "דווח בלחיצה אחת", "body": "בעיה במבואה? פשוט צלם תמונה. המערכת מזהה כפילויות ומעדכנת אותך בזמן אמת על התקדמות התיקון." }
+      ],
+      "cta": "בדוק את דירוג השקיפות של הבניין שלך",
+      "trustBadge": "מאומת על ידי Vantera AI"
+    },
+    "demoForm": {
+      "title": "דמו ארגוני",
+      "contactNameLabel": "שם מנהל/איש קשר",
+      "companyNameLabel": "חברת ניהול",
+      "buildingCountLabel": "מספר בניינים בתיק",
+      "phoneLabel": "טלפון",
+      "successMessage": "צוות האסטרטגיה שלנו יצור איתך קשר תוך 24 שעות לקביעת סיור פרטי.",
+      "errorMessage": "משהו השתבש. נסה שוב.",
+      "cancel": "ביטול",
+      "submit": "שלח",
+      "sending": "שולח...",
+      "close": "סגור"
+    },
+    "enterpriseRegister": {
+      "title": "הפוך את תיק הנכסים שלך למנוע צמיחה דיגיטלי",
+      "subtitle": "הצטרף ל-The Shield: המערכת היחידה שמאבטחת את הבניין ומייצרת לך הכנסה פסיבית מפרסום ושירותים.",
+      "formTitle": "רישום חברת אחזקה / ניהול",
+      "formDesc": "מלא את הפרטים ונציג טכני ילווה את הטמעת המערכת בבניינים שלך.",
+      "companyNameLabel": "שם החברה",
+      "companyNamePlaceholder": "למשל: אחזקות העיר",
+      "buildingCountLabel": "מספר בניינים בניהול",
+      "buildingCountPlaceholder": "כמות מבנים",
+      "phoneLabel": "טלפון",
+      "phonePlaceholder": "לשיחת התאמה",
+      "sendingLabel": "שולח...",
+      "profitBoxTitle": "פוטנציאל רווח משוער",
+      "profitBoxAmount": "₪2,400 - ₪8,500 בחודש*",
+      "profitBoxNote": "*מבוסס על ממוצע הקלקות ושירותים בפיד.",
+      "submitCta": "קבע פגישת דמו והתחלת הטמעה",
+      "quickStartTitle": "המדריך המקוצר לקבלן",
+      "quickStartSubtitle": "הערך המוסף לקבלנים שנרשמו – לו\"ז לנייד:",
+      "step1Title": "שלב 1: אישור הזמנה",
+      "step1Body": "קיבלת קריאה מדייר? אשר אותה באפליקציה.",
+      "step2Title": "שלב 2: מפתח דיגיטלי",
+      "step2Body": "ברדיוס של 50 מטר מהבניין, כפתור \"פתח שער\" יופיע לך בנייד (מאובטח GPS).",
+      "step3Title": "שלב 3: תיק טכני",
+      "step3Body": "בלחיצה על \"פרטי מבנה\", תוכל לראות איפה נמצאים ארונות החשמל/מים (חוסך לך זמן בחיפושים).",
+      "step4Title": "שלב 4: סיום ותשלום",
+      "step4Body": "בסיום העבודה, העלה תמונה של התיקון. הכסף משתחרר לחשבונך בניכוי עמלת המערכת וחברת האחזקה.",
+      "securityTitle": "דגש אבטחה – Time-Boxing",
+      "securityBody": "המפתח הדיגיטלי של הקבלן עובד רק בשעות שהוגדרו לו לקריאת השירות. ברגע שהוא מסיים ומדווח על סיום עבודה, הגישה שלו לבניין ננעלת אוטומטית.",
+      "successMessage": "נרשמת בהצלחה! נציג יצור איתך קשר תוך 24 שעות.",
+      "errorMessage": "משהו השתבש. נסה שוב.",
+      "backToLanding": "חזרה לדף הנחיתה"
+    },
+    "loginCta": "התחבר",
+    "technicianQuote": "הטכנאים שלך לא צריכים ללמוד מערכת חדשה. הם פשוט מדברים; אנחנו מקשיבים.",
+    "mockupPlaceholder": "Mockup: קישור Magic במסך הטלפון",
+    "backToLanding": "חזרה לדף הנחיתה"
+  },
+  "en": {
+    "demoVideo": { "cta": "Watch the Demo", "url": "", "placeholder": "Paste video link here" },
+    "hero": {
+      "title": "Your Building. Your Security. Your Profit.",
+      "subtitle": "The smart system for building management – proven savings on maintenance costs.",
+      "subtitleLong": "Vantera turns buildings into autonomous assets. Proven savings on maintenance costs through AI that predicts issues before they happen.",
+      "cta": "Make your building smart and profitable - Contact us",
+      "b2bCta": "B2B / Holding Companies Register"
+    },
+    "pillars": {
+      "ceo": { "title": "The CEO (Control)", "description": "Strategic dashboard with anomaly alerts and global inventory management.", "ctaTarget": "dashboard" },
+      "technician": { "title": "The Technician (Execution)", "description": "Magic Links for voice reporting—no app, zero paperwork.", "ctaTarget": "technician_page" },
+      "resident": { "title": "The Resident (Transparency)", "description": "Full transparency on every dollar. AAA rating for trust and management.", "ctaTarget": "portal" }
+    },
+    "pillarsSectionTitle": "Core Pillars",
+    "salesPitchSectionTitle": "Why Choose Vantera",
+    "salesPitch": [
+      { "title": "Zero-Failure System (Predictive AI)", "pitch": "The app doesn't just report leaks – it learns water and power consumption patterns and alerts before the burst happens. Saves tens of thousands in emergency repairs." },
+      { "title": "Five-Star Resident Experience", "pitch": "Instead of a noisy WhatsApp group, residents get a premium feed with updates, maintenance photos and committee messages. Raises satisfaction and property value." },
+      { "title": "Financial Transparency at a Click", "pitch": "Every supplier invoice is scanned by AI and appears in the cost feed. No more 'where did the money go?' – everything is transparent, secure and accessible in the app." },
+      { "title": "White Label Branding", "pitch": "Management companies get the app with their logo and colors. Turns you into a tech-savvy brand ahead of competitors." }
+    ],
+    "investorSection": {
+      "title": "Investor & Strategic Partner Summary – Q1 2026",
+      "tagline": "The Vertical OS for Elite Property Management",
+      "vision": "Vantera is redefining the $20B property management industry by replacing manual, reactive processes with an Autonomous Maintenance Ecosystem. We transform buildings from passive assets into intelligent, self-healing environments.",
+      "problemTitle": "The Visibility Gap",
+      "problems": [
+        "30% of building damage (water, structural) goes unnoticed until it's too late.",
+        "Maintenance teams are overwhelmed by duplicate reports and poor data from the field.",
+        "Real estate owners lack real-time transparency into how maintenance budgets are utilized."
+      ],
+      "advantageTitle": "The Vantera Advantage",
+      "advantages": [
+        "AI Vision & Satellite Intelligence: Detects anomalies (floods, roof degradation) in real-time via CCTV and satellite feeds, often before residents are aware.",
+        "AI Peacekeeper: Semantic engine that eliminates ~95% of duplicate maintenance tickets, reducing contractor overhead.",
+        "Voice-to-Insight (V2I): Magic Link interface for technicians—voice summaries become structured financial and inventory data via LLM.",
+        "AAA Transparency Ledger: Blockchain-inspired audit log with real-time Trust Score and full financial accountability."
+      ],
+      "marketTitle": "Market & Scalability",
+      "marketPoints": [
+        "Full-stack Monorepo designed for rapid global scaling and multi-tenant isolation.",
+        "Business Model: SaaS (per-door/per-month) + Procurement Optimization fees.",
+        "The Data Play: Building the world's most granular database of building health—secondary markets for insurance and urban planning."
+      ],
+      "cta": "Request Investor Summary"
+    },
+    "shieldSection": {
+      "title": "What Makes Us a Startup",
+      "taglines": ["Not just managers – protectors", "Zero wait time", "Military tech for your building"],
+      "comparisonTitle": "Technology Comparison",
+      "colParam": "Parameter",
+      "colRegular": "Regular Systems",
+      "colOurs": "Our System",
+      "comparisonRows": [
+        { "param": "Response Speed", "regular": "Open ticket → wait for operator → call technician.", "ours": "Auto-detection: system identifies faults and alerts before the resident calls." },
+        { "param": "Protection Setup", "regular": "Basic access management only.", "ours": "Active protection layer: camera integration with video analysis to prevent break-ins." },
+        { "param": "Codebase", "regular": "Legacy systems, slow under load.", "ours": "Micro-services: maximum speed even with thousands of residents online." },
+        { "param": "Transparency", "regular": "Manual reports at month end.", "ours": "Real-time dashboard: manager sees building health at any moment." }
+      ],
+      "safeZoneTitle": "Safe-Zone",
+      "safeZoneDesc": "Virtual camera escort from building entry to your door. For parents with kids and women returning late – the system follows and ensures safe entry."
+    },
+    "competitiveSection": {
+      "title": "Why Do We Win?",
+      "israelTitle": "Vs. Israeli Market (HSL and peers)",
+      "israelFocus": "Israeli competitors focus on the committee's headache: how to collect money and how to order a plumber.",
+      "israelWeakness": "Their weakness: they stay at the administrative level.",
+      "israelAdvantage": "Our advantage: we turn the building into a smart, profitable entity. Not just tools – security (cameras/satellite) and revenue (supplier banners).",
+      "globalTitle": "Vs. Global Market (BuildingLink/AppFolio)",
+      "globalFocus": "Global players offer massive systems, but they're heavy and cumbersome.",
+      "globalWeakness": "Their weakness: months-long implementation, clunky integration with visual infrastructure.",
+      "globalAdvantage": "Our advantage: speed. Mobile-First, fast as a messaging app, seamless video integration."
+    },
+    "ratingSection": {
+      "title": "Rating by Category (Scale 1-10)",
+      "securityTitle": "Security System",
+      "securityOurs": "9.8",
+      "securityOursNote": "E2E on video + AI in cameras",
+      "securityOthers": "5.0",
+      "securityOthersNote": "Rely on external security vendors",
+      "performanceTitle": "Speed & Performance",
+      "performanceOurs": "10",
+      "performanceOursNote": "Zero Latency",
+      "performanceOthers": "7.0",
+      "performanceOthersNote": "Slow browser-based systems",
+      "profitabilityTitle": "Profit Potential for Manager",
+      "profitabilityOurs": "9.0",
+      "profitabilityOursNote": "The ad feed is a Game Changer",
+      "profitabilityOthers": "2.0",
+      "profitabilityOthersNote": "Just fixed monthly SaaS cost"
+    },
+    "securityShieldSection": {
+      "title": "Security & Protection: The Shield vs. Secure Systems",
+      "subtitle": "Against bank-level, government and control room systems",
+      "colParam": "Security Parameter",
+      "colBuilding": "Building Management",
+      "colGov": "Government/Bank Sites",
+      "colOurs": "Our System (The Shield)",
+      "securityRows": [
+        { "param": "Data Encryption", "building": "Basic SSL", "gov": "AES-256 (military standard)", "ours": "AES-256 + End-to-End (E2EE)" },
+        { "param": "User Authentication", "building": "Simple password", "gov": "Two-factor (2FA)", "ours": "Biometric + device fingerprint" },
+        { "param": "Video Protection", "building": "Direct access (vulnerable)", "gov": "Complex firewalls", "ours": "Encrypted, distributed streaming (Cloud-Secured)" },
+        { "param": "Intrusion Monitoring", "building": "None", "gov": "SOC systems", "ours": "AI-Sentinel: real-time break-in detection" }
+      ],
+      "layersTitle": "Why We're Top-Tier Secure",
+      "layer1Title": "Cyber-Wall Layer",
+      "layer1Desc": "The system runs on distributed servers. If one node is attacked, cameras and data keep running.",
+      "layer2Title": "Zero Trust System",
+      "layer2Desc": "Nobody – not even us – can view in-apartment or hallway footage without a signed digital authorization from resident or manager.",
+      "layer3Title": "Physical Protection via Satellite",
+      "layer3Desc": "Unlike software-only sites – we cross-reference physical data. If the satellite detects a change (e.g. fiber damage), the system automatically switches to Fail-safe mode.",
+      "trustStatus": "SYSTEM STATUS: SECURED",
+      "trustLine1": "Encrypted Video Feed: ACTIVE",
+      "trustLine2": "Satellite Link: STABLE",
+      "trustLine3": "Multi-Layer Firewall: ON",
+      "finalRatingTitle": "Updated Rating (Protection & Reliability)",
+      "finalBanks": "Bank/Security systems: 9.9/10",
+      "finalBanksNote": "But not user-friendly for daily use",
+      "finalOurs": "The Shield (ours): 9.8/10",
+      "finalOursNote": "Bank-level security, social-network comfort",
+      "finalApps": "Management apps (HSL/BuildingLink): 4.0/10",
+      "finalAppsNote": "Basic content-site security level",
+      "e2eTitle": "E2E Encryption on Video",
+      "e2eDesc": "Unlike HSL, in a cyber breach – building data stays locked. Keys are with the user only. Security score: 9.8/10",
+      "latencyTitle": "Response Speed",
+      "latencyDesc": "Under 150ms – faster than human eye. Intrusion alert reaches your phone before the intruder crosses the lobby.",
+      "tokenizationTitle": "Secure Payments",
+      "tokenizationRegular": "Regular sites: store credit cards vulnerably.",
+      "tokenizationOurs": "The Shield: Tokenization (like Apple Pay). Payment details never stored with us – no breach risk."
+    },
+    "partnershipSection": {
+      "title": "Business Partnership, Not Just Software",
+      "body": "Holding companies – join the revolution. Get monthly payment for every ad and service in your buildings. We provide the secure tech, you enjoy the revenue.",
+      "revenueShareTitle": "Revenue Share Model",
+      "revenueShareBody": "For every dollar a contractor pays for ads – you get a percentage (e.g. 20%). The app funds itself. You can reach free usage or even surplus by month end."
+    },
+    "vendorPortalSection": {
+      "title": "Join the Authorized Supplier Network",
+      "subtitle": "Get direct access to thousands of residents in Israel's most secure buildings.",
+      "labelBusiness": "Business / Contractor name:",
+      "placeholderBusiness": "e.g. Quick Plumbing",
+      "labelSpecialty": "Specialty:",
+      "options": ["Electricity", "Plumbing", "HVAC", "Cleaning & Maintenance"],
+      "tip": "Suppliers with certification get priority in the building feed.",
+      "cta": "Submit Join Request",
+      "smartMatching": "Smart Matching: When water sensor detects abnormal use (suspected leak) – the registered plumber's banner pops automatically into all residents' feed in that building."
+    },
+    "revenueHubSection": {
+      "title": "Ad & Service Revenue Dashboard",
+      "cumulativeLabel": "Cumulative profit this month",
+      "cumulativeValue": "₪4,250.00",
+      "callsLabel": "Service calls completed",
+      "callsValue": "128",
+      "activeVendorsLabel": "Active vendors in feed:",
+      "vendors": [
+        { "name": "A.A Plumbing (Certified)", "commission": "+ ₪140 commission" },
+        { "name": "Mike Electric (On-site)", "commission": "+ ₪85 commission" }
+      ],
+      "proAccessTitle": "The Pro Access – Value for Contractors",
+      "proAccessPoints": ["Smart entry: Temporary QR code for building – no waiting for security", "Technical folder: Access to building plumbing/electrical plans", "AI verification: Document scan vs. state databases – expired license = banner disappears"]
+    },
+    "programmerDeclaration": {
+      "title": "Senior Developer Declaration",
+      "body": "I certify that the app meets Zero Trust Architecture standards. The combination of active protection, edge speed (<150ms) and smart monetization (the ad feed) – positions us as the most advanced solution in modern real estate.",
+      "revenueSignature": "Revenue Splitting (automated payment split) will perform secure settlement, allocate commission to the holding company automatically, and issue digital invoices to all parties."
+    },
+    "residentValueSection": {
+      "title": "The Revolution in Your Building Management",
+      "painTitle": "The Familiar Problem",
+      "painPoints": ["Google search → anonymous person, unknown if reliable", "Who really enters the building? Do they have certification?", "High prices with no oversight"],
+      "solutionTitle": "The Solution – Authorized Suppliers in Feed",
+      "solutionPoints": ["Strict filtering: only contractors who passed document and insurance verification", "Entry logged in security system – know exactly who entered and when they left", "Group discount: preferred fixed rate"],
+      "valueTitle": "Why is this good for your building?",
+      "valuePoints": ["Preventive maintenance: contractors know the infrastructure", "Reinvestment: part of ad revenue goes to building improvements"]
+    },
+    "selfFundingSection": {
+      "title": "The Self-Funding Building",
+      "body": "Our system includes an internal marketplace that lets service contractors offer dedicated deals to residents. You decide which suppliers appear, and enjoy passive income every month.",
+      "targetingTitle": "Targeting",
+      "targetingDesc": "We know exactly where the customer lives. If there's a building fault, the ad becomes an instant solution.",
+      "revenueShareTitle": "Revenue Share",
+      "revenueShareDesc": "The management company gets a percentage of every deal closed through the banner. Business partners, not just software vendors.",
+      "adDemoLabel": "Sample ad in resident feed:",
+      "adDemoTitle": "Certified Electrician Available Now",
+      "adDemoDesc": "Short circuits and infrastructure repairs for your building.",
+      "adDemoCta": "Order Service"
+    },
+    "revenueSection": {
+      "title": "Management System That Generates Revenue",
+      "subtitle": "Integrate ads from selected service suppliers in the building feed and turn the app into a profit center.",
+      "bulletPoints": [
+        "Dynamic banners: targeted ads for electricians, plumbers and contractors – by building location.",
+        "One-click ordering: Order Now button directly from the banner opens a service request.",
+        "Community rating: residents rate suppliers, and only the best stay in the feed."
+      ],
+      "emergencyBannerTitle": "Emergency Banner",
+      "emergencyBannerDesc": "When the system detects a pipe burst or electrical fault – the feed banner changes automatically: Fault detected – click here to order an emergency technician already on the way. Advertising becomes critical service."
+    },
+    "dashboardSection": {
+      "title": "Manager Control Center",
+      "subtitle": "All tools in one place – security, revenue and supplier management",
+      "eyeTitle": "Visual Control Center (The Eye)",
+      "eyeDesc": "Live streaming panel from the selected building cameras, with green (all ok) or red (abnormal movement/fault detected) indicator.",
+      "walletTitle": "Revenue Center (The Wallet)",
+      "walletDesc": "Graph showing how much money came in today from supplier banners – how many residents clicked Order Plumber and how much commission was derived.",
+      "marketplaceTitle": "Supplier Management (Marketplace Admin)",
+      "marketplaceDesc": "List of contractors who want to advertise. The manager can approve or block a supplier with one click – if an electrician got a low rating from residents, they're removed from the feed.",
+      "aiMapTitle": "AI Map",
+      "aiMapDesc": "Map showing building layout in the area, with weather alerts or external hazards that might affect maintenance.",
+      "revenueTableTitle": "Publisher Performance in Building",
+      "colSupplier": "Service Supplier",
+      "colExposures": "Feed Exposures",
+      "colClicks": "Clicks/Orders",
+      "colProfit": "Building Profit (₪)",
+      "revenueTableRows": [
+        { "supplier": "Mo Plumbing", "exposures": "1,240", "clicks": "42", "profit": "₪840" },
+        { "supplier": "Express Electric", "exposures": "890", "clicks": "15", "profit": "₪300" }
+      ],
+      "qualityScoreTitle": "Quality Score Model",
+      "qualityScoreDesc": "A supplier who gives poor service to residents – the system automatically reduces their visibility in banners. Residents get only the best, and the management company enjoys peace of mind.",
+      "dashboardCta": "Make your building smart and profitable - Contact us"
+    },
+    "metricsSection": { "title": "Vantera Intelligence in Action" },
+    "seedMetrics": { "moneySaved": 242500, "preventedFailures": 142, "activeAssets": 84 },
+    "technicianPage": {
+      "title": "Zero Friction. Maximum Performance.",
+      "subtitle": "Technology that works for you, not against you.",
+      "blocks": [
+        { "heading": "No More Apps", "body": "Forget usernames, passwords, or app stores. With Vantera, the task comes to you via a direct Magic Link to WhatsApp or SMS." },
+        { "heading": "Your Voice Is the Command", "body": "Don't waste time typing. When the job is done, record a short summary. Our AI updates inventory, generates the report, and closes the ticket." },
+        { "heading": "Works Where It's Hardest", "body": "The system is built for basements and shelters. Capture, document, and report even without signal—everything syncs automatically when you're back above ground." }
+      ],
+      "cta": "Watch the voice reporting demo",
+      "videoPlaceholder": "Demo video will appear here"
+    },
+    "residentPage": {
+      "title": "Ultimate Transparency. Total Peace of Mind.",
+      "subtitle": "Your building, tomorrow's standard today.",
+      "blocks": [
+        { "heading": "Transparency Is the Standard", "body": "Every dollar that leaves the building fund is tracked and rated. With Vantera's AAA rating, you know exactly where the money goes and how it comes back in preventive maintenance." },
+        { "heading": "Autonomous Protection 24/7", "body": "Our AI scans building infrastructure via cameras and satellite. If there's a roof leak or elevator fault, we know and act before you notice." },
+        { "heading": "Report in One Click", "body": "Issue in the lobby? Just take a photo. The system detects duplicates and keeps you updated in real time on repair progress." }
+      ],
+      "cta": "Check your building's transparency rating",
+      "trustBadge": "Verified by Vantera AI"
+    },
+    "demoForm": {
+      "title": "Enterprise Demo",
+      "contactNameLabel": "CEO / Contact Name",
+      "companyNameLabel": "Management Company",
+      "buildingCountLabel": "Number of buildings in portfolio",
+      "phoneLabel": "Phone",
+      "successMessage": "Our strategic team will contact you within 24 hours to schedule a private tour.",
+      "errorMessage": "Something went wrong. Please try again.",
+      "cancel": "Cancel",
+      "submit": "Submit",
+      "sending": "Sending...",
+      "close": "Close"
+    },
+    "enterpriseRegister": {
+      "title": "Turn Your Property Portfolio Into a Digital Growth Engine",
+      "subtitle": "Join The Shield: The only system that secures your building and generates passive income from ads and services.",
+      "formTitle": "Holding / Management Company Registration",
+      "formDesc": "Fill in the details and a technical representative will accompany the system implementation in your buildings.",
+      "companyNameLabel": "Company Name",
+      "companyNamePlaceholder": "e.g. City Holdings",
+      "buildingCountLabel": "Number of Buildings Managed",
+      "buildingCountPlaceholder": "Number of buildings",
+      "phoneLabel": "Phone",
+      "phonePlaceholder": "For scheduling call",
+      "sendingLabel": "Sending...",
+      "profitBoxTitle": "Estimated Profit Potential",
+      "profitBoxAmount": "₪2,400 - ₪8,500/month*",
+      "profitBoxNote": "*Based on average clicks and services in the feed.",
+      "submitCta": "Schedule Demo & Implementation Kickoff",
+      "quickStartTitle": "Quick-Start Guide for Contractors",
+      "quickStartSubtitle": "The added value for registered contractors – timeline for your phone:",
+      "step1Title": "Step 1: Order Approval",
+      "step1Body": "Got a call from a resident? Approve it in the app.",
+      "step2Title": "Step 2: Digital Key",
+      "step2Body": "Within 50 meters of the building, the \"Open Gate\" button appears on your phone (GPS-secured).",
+      "step3Title": "Step 3: Technical Structure",
+      "step3Body": "Tap \"Building Details\" to see where electrical/water cabinets are located (saves you search time).",
+      "step4Title": "Step 4: Completion & Payment",
+      "step4Body": "When done, upload a photo of the fix. Funds are released to your account minus system and management fees.",
+      "securityTitle": "Security Highlight – Time-Boxing",
+      "securityBody": "The contractor's digital key works only during the hours defined for the service call. Once they finish and report completion, their building access is locked automatically.",
+      "successMessage": "Registered successfully! A representative will contact you within 24 hours.",
+      "errorMessage": "Something went wrong. Please try again.",
+      "backToLanding": "Back to Landing"
+    },
+    "loginCta": "Sign In",
+    "technicianQuote": "Your technicians don't need to learn a new system. They just talk; we listen.",
+    "mockupPlaceholder": "Mockup: Magic Link on phone screen",
+    "backToLanding": "Back to Landing"
+  }
+}

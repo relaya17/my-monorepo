@@ -1,4 +1,7 @@
-import { safeGetItem, safeSetItem } from './utils/safeStorage.js';
+import { safeGetItem, safeRemoveItem, safeSetItem } from './utils/safeStorage.js';
+
+export const AUTH_TOKEN_KEY = 'authToken';
+export const REFRESH_TOKEN_KEY = 'refreshToken';
 
 const normalizeBase = (base: string) => base.trim().replace(/\/+$/, '');
 
@@ -26,15 +29,43 @@ export const setBuildingId = (buildingId: string): void => {
   safeSetItem('buildingId', id);
 };
 
+/** תווית לתצוגה של מזהי בניין (משותף – ללא כפילות). */
+export const buildingLabel = (buildingId: string): string =>
+  buildingId === 'default' ? 'בניין ברירת מחדל' : buildingId;
+
 const joinUrl = (base: string, path: string) => {
   const normalizedBase = normalizeBase(base || FALLBACK_BASE);
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   return `${normalizedBase}${normalizedPath}`;
 };
 
+/** Base URL used for API (e.g. /api or https://.../api). Use with getApiHeaders() for fetch. */
+export function getApiBaseUrl(): string {
+  return ENV_BASE || FALLBACK_BASE;
+}
+
+/** Full URL for an API path (no leading slash in path). */
+export function getApiUrl(path: string): string {
+  return joinUrl(ENV_BASE || FALLBACK_BASE, path);
+}
+
+/** Headers to send with non-JSON requests (e.g. blob): x-building-id and optionally Authorization. */
+export function getApiHeaders(includeAuth = true): Record<string, string> {
+  const h: Record<string, string> = { 'x-building-id': getBuildingId() };
+  if (includeAuth) {
+    const token = safeGetItem(AUTH_TOKEN_KEY);
+    if (token) h['Authorization'] = `Bearer ${token}`;
+  }
+  return h;
+}
+
 async function readJsonSafe<T>(res: Response): Promise<T | null> {
+  const contentType = res.headers.get('content-type') ?? '';
+  if (!contentType.includes('application/json')) return null;
+  const text = await res.text();
+  if (res.status === 204 || !text || text.trim() === '') return {} as T;
   try {
-    return (await res.json()) as T;
+    return JSON.parse(text) as T;
   } catch {
     return null;
   }
@@ -48,28 +79,57 @@ export async function apiRequestJson<T>(
   const headers = new Headers(init?.headers);
   if (!headers.has('x-building-id')) headers.set('x-building-id', buildingId);
 
-  const finalInit: RequestInit = init ? { ...init, headers } : { headers };
+  // Don't send Authorization on login/register/refresh
+  const isAuthEndpoint = /^\/(admin\/login|admin\/register|login|signup|auth\/refresh)/.test(path.startsWith('/') ? path : `/${path}`);
+  const token = safeGetItem(AUTH_TOKEN_KEY);
+  if (token && !headers.has('Authorization') && !isAuthEndpoint) {
+    headers.set('Authorization', `Bearer ${token}`);
+  }
 
-  const tryOnce = async (base: string) => {
+  const finalInit: RequestInit = {
+    ...init,
+    headers
+  };
+
+  const tryOnce = async (base: string, useRefresh = false): Promise<{ response: Response; data: T | null; usedBase: string }> => {
     const url = joinUrl(base, path);
     const response = await fetch(url, finalInit);
-
     const contentType = response.headers.get('content-type') ?? '';
     const looksJson = contentType.includes('application/json');
     const data = looksJson ? await readJsonSafe<T>(response) : null;
 
+    if (response.status === 401 && !useRefresh && !isAuthEndpoint) {
+      const refresh = safeGetItem(REFRESH_TOKEN_KEY);
+      if (refresh) {
+        const refreshRes = await fetch(joinUrl(base, 'auth/refresh'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-building-id': buildingId },
+          body: JSON.stringify({ refreshToken: refresh })
+        });
+        const refreshData = await readJsonSafe<{ accessToken?: string; refreshToken?: string }>(refreshRes);
+        if (refreshRes.ok && refreshData?.accessToken) {
+          safeSetItem(AUTH_TOKEN_KEY, refreshData.accessToken);
+          if (refreshData.refreshToken) safeSetItem(REFRESH_TOKEN_KEY, refreshData.refreshToken);
+          const newHeaders = new Headers(finalInit.headers);
+          newHeaders.set('Authorization', `Bearer ${refreshData.accessToken}`);
+          const retryRes = await fetch(url, { ...finalInit, headers: newHeaders });
+          const retryData = retryRes.headers.get('content-type')?.includes('application/json') ? await readJsonSafe<T>(retryRes) : null;
+          return { response: retryRes, data: retryData, usedBase: base };
+        }
+        safeRemoveItem(AUTH_TOKEN_KEY);
+        safeRemoveItem(REFRESH_TOKEN_KEY);
+      }
+    }
     return { response, data, usedBase: base };
   };
 
   try {
     const first = await tryOnce(ENV_BASE);
-
     const shouldFallback =
       !needsExternalApi &&
       ENV_BASE &&
       ENV_BASE !== FALLBACK_BASE &&
       (first.data === null || first.response.status === 404);
-
     if (shouldFallback) return await tryOnce(FALLBACK_BASE);
     return first;
   } catch {

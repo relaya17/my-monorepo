@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { apiRequestJson, getBuildingId, setBuildingId } from '../api';
+import { apiRequestJson, buildingLabel, getBuildingId, setBuildingId } from '../api';
 import ROUTES from '../routs/routes';
 
 const FALLBACK_BUILDINGS = ['default'];
@@ -18,9 +18,11 @@ const BuildingSelect: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const { response, data } = await apiRequestJson<{ buildings?: string[] }>('buildings');
+      const { response, data } = await apiRequestJson<{
+        buildings?: Array<{ buildingId: string; address?: string; buildingNumber?: string; committeeName?: string }>;
+      }>('buildings');
       if (response.ok && Array.isArray(data?.buildings) && data.buildings.length > 0) {
-        setBuildings(data.buildings);
+        setBuildings(data.buildings.map((b) => b.buildingId));
       }
     } catch {
       setError('לא ניתן לטעון את רשימת הבניינים');
@@ -39,8 +41,6 @@ const BuildingSelect: React.FC = () => {
     setBuildingId(buildingId);
     navigate(from, { replace: true });
   };
-
-  const buildingLabel = (id: string) => (id === 'default' ? 'בניין ברירת מחדל' : id);
 
   return (
     <div

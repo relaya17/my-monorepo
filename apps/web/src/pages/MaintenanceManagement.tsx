@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Card, Table, Button, Form, Modal, Alert, Badge } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import NavigationBar from './SecondNavbar';
+import { apiRequestJson } from '../api';
+import { useAuth } from '../context/AuthContext';
 
 interface MaintenanceTask {
   id: string;
@@ -32,48 +35,55 @@ const MaintenanceManagement: React.FC = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertVariant, setAlertVariant] = useState<'success' | 'danger'>('success');
+  const [duplicateExistingId, setDuplicateExistingId] = useState<string | null>(null);
+  const { user } = useAuth();
 
-  // נתונים לדוגמה
-  const mockTasks: MaintenanceTask[] = [
-    {
-      id: '1',
-      title: 'תיקון דלת כניסה',
-      description: 'הדלת הראשית לא נסגרת טוב',
-      status: 'open',
-      createdAt: '2024-06-01',
-      updatedAt: '2024-06-01',
-      assignedTo: 'יוסי',
-      priority: 'high',
-    },
-    {
-      id: '2',
-      title: 'נזילה בחדר מדרגות',
-      description: 'מים מטפטפים מהתקרה',
-      status: 'in_progress',
-      createdAt: '2024-06-02',
-      updatedAt: '2024-06-03',
-      assignedTo: 'שרה',
-      priority: 'medium',
-    },
-    {
-      id: '3',
-      title: 'החלפת נורה',
-      description: 'נורה שרופה בקומה 3',
-      status: 'done',
-      createdAt: '2024-06-01',
-      updatedAt: '2024-06-04',
-      assignedTo: 'דוד',
-      priority: 'low',
-    },
-  ];
+  type ApiStatus = 'Open' | 'In_Progress' | 'Waiting_For_Parts' | 'Resolved' | 'Closed';
+  const statusToUi = (s: ApiStatus): MaintenanceTask['status'] => {
+    if (s === 'Open') return 'open';
+    if (s === 'In_Progress' || s === 'Waiting_For_Parts') return 'in_progress';
+    if (s === 'Resolved' || s === 'Closed') return 'done';
+    return 'open';
+  };
+  const priorityToUi = (p: string): 'low' | 'medium' | 'high' => {
+    const lower = (p || '').toLowerCase();
+    if (lower === 'urgent' || lower === 'high') return 'high';
+    if (lower === 'low') return 'low';
+    return 'medium';
+  };
+
+  const fetchTasks = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { response, data } = await apiRequestJson<unknown[]>('maintenance', { method: 'GET' });
+      if (response.ok && Array.isArray(data)) {
+        const mapped: MaintenanceTask[] = data.map((d: unknown) => {
+          const rec = d as Record<string, unknown>;
+          return {
+          id: String((rec._id ?? rec.id) ?? ''),
+          title: String(rec.title ?? ''),
+          description: String(rec.description ?? ''),
+          status: statusToUi((rec.status as ApiStatus) ?? 'Open'),
+          createdAt: rec.createdAt ? new Date(rec.createdAt as string).toISOString().split('T')[0] : '',
+          updatedAt: rec.updatedAt ? new Date(rec.updatedAt as string).toISOString().split('T')[0] : '',
+          assignedTo: (rec.assignedContractor as { name?: string })?.name ?? '-',
+          priority: priorityToUi(String(rec.priority ?? '')),
+        };
+        });
+        setTasks(mapped);
+        setFilteredTasks(mapped);
+      }
+    } catch {
+      setTasks([]);
+      setFilteredTasks([]);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      setTasks(mockTasks);
-      setFilteredTasks(mockTasks);
-      setLoading(false);
-    }, 1000);
-  }, []);
+    fetchTasks();
+  }, [fetchTasks]);
 
   useEffect(() => {
     let filtered = tasks;
@@ -148,7 +158,7 @@ const MaintenanceManagement: React.FC = () => {
     setSelectedTask(null);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!formData.title) return;
     if (editMode && selectedTask) {
       const updatedTasks = tasks.map(task =>
@@ -157,22 +167,51 @@ const MaintenanceManagement: React.FC = () => {
           : task
       );
       setTasks(updatedTasks);
-      setAlertMessage('המשימה עודכנה בהצלחה');
+      setAlertMessage('המשימה עודכנה בהצלחה (מקומי – עדיין לא נשמר בשרת)');
       setAlertVariant('success');
-    } else {
-      const newTask: MaintenanceTask = {
-        id: Date.now().toString(),
-        ...formData,
-        createdAt: new Date().toISOString().split('T')[0],
-        updatedAt: new Date().toISOString().split('T')[0],
-      };
-      setTasks([...tasks, newTask]);
-      setAlertMessage('המשימה נוספה בהצלחה');
-      setAlertVariant('success');
+      setShowAlert(true);
+      setShowModal(false);
+      setTimeout(() => setShowAlert(false), 3000);
+      return;
     }
-    setShowAlert(true);
-    setShowModal(false);
-    setTimeout(() => setShowAlert(false), 3000);
+    const priorityMap = { low: 'Low', medium: 'Medium', high: 'High' };
+    const body = {
+      title: formData.title,
+      description: formData.description || formData.title,
+      category: 'Other',
+      priority: priorityMap[formData.priority] ?? 'Medium',
+      reporterId: user?.id ?? undefined,
+    };
+    try {
+      const { response, data } = await apiRequestJson<{ _id?: string; error?: string; duplicateAlert?: boolean; existingId?: string }>(
+        'maintenance',
+        { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+      );
+      if (response.status === 409 && (data?.duplicateAlert || data?.existingId)) {
+        setDuplicateExistingId(data.existingId ? String(data.existingId) : null);
+        setAlertMessage('נמצאה תקלה דומה. האם תרצי להתחבר אליה או לפתוח חדשה?');
+        setAlertVariant('danger');
+        setShowAlert(true);
+        setShowModal(false);
+        return;
+      }
+      if (response.ok) {
+        setAlertMessage('המשימה נוספה בהצלחה');
+        setAlertVariant('success');
+        setShowAlert(true);
+        setShowModal(false);
+        fetchTasks();
+      } else {
+        setAlertMessage((data as { error?: string })?.error ?? 'שגיאה ביצירת משימה');
+        setAlertVariant('danger');
+        setShowAlert(true);
+      }
+    } catch {
+      setAlertMessage('שגיאת רשת ביצירת משימה');
+      setAlertVariant('danger');
+      setShowAlert(true);
+    }
+    setTimeout(() => { setShowAlert(false); setDuplicateExistingId(null); }, 5000);
   };
 
   const handleDelete = (task: MaintenanceTask) => {
@@ -222,8 +261,16 @@ const MaintenanceManagement: React.FC = () => {
         </Row>
         {/* התראות */}
         {showAlert && (
-          <Alert variant={alertVariant} dismissible onClose={() => setShowAlert(false)}>
+          <Alert variant={alertVariant} dismissible onClose={() => { setShowAlert(false); setDuplicateExistingId(null); }}>
             {alertMessage}
+            {duplicateExistingId && (
+              <div className="mt-2">
+                <Link to="/maintenance" className="btn btn-sm btn-outline-primary me-2" onClick={() => fetchTasks()}>
+                  צפה ברשימת התקלות
+                </Link>
+                <span className="text-muted small">מזהה התקלה הקיימת: {duplicateExistingId}</span>
+              </div>
+            )}
           </Alert>
         )}
         {/* סטטיסטיקות */}

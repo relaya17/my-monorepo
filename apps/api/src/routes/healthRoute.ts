@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
+import { logger } from '../utils/logger.js';
 
 const router: express.Router = express.Router();
 
@@ -32,7 +33,7 @@ router.get('/', async (req: Request, res: Response) => {
         const statusCode = healthCheck.status === 'OK' ? 200 : 503;
         res.status(statusCode).json(healthCheck);
     } catch (error) {
-        console.error('Health check error:', error);
+        logger.error('Health check error', { error: (error as Error).message });
         res.status(500).json({
             status: 'ERROR',
             timestamp: new Date().toISOString(),
@@ -85,7 +86,7 @@ router.get('/health/detailed', async (req: Request, res: Response) => {
         const statusCode = detailedHealth.status === 'OK' ? 200 : 503;
         res.status(statusCode).json(detailedHealth);
     } catch (error) {
-        console.error('Detailed health check error:', error);
+        logger.error('Detailed health check error', { error: (error as Error).message });
         res.status(500).json({
             status: 'ERROR',
             timestamp: new Date().toISOString(),
@@ -110,7 +111,7 @@ router.get('/ready', async (req: Request, res: Response) => {
         const statusCode = readiness.ready ? 200 : 503;
         res.status(statusCode).json(readiness);
     } catch (error) {
-        console.error('Readiness check error:', error);
+        logger.error('Readiness check error', { error: (error as Error).message });
         res.status(503).json({
             ready: false,
             timestamp: new Date().toISOString(),

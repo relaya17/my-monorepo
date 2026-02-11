@@ -1,6 +1,9 @@
 // routes.ts
 const ROUTES = {
   HOME: "/",
+  LANDING: "/landing",
+  LANDING_TECHNICIAN: "/landing/technician",
+  LANDING_RESIDENT: "/landing/resident",
   REGISTER: "/register",
   LOGIN: "/login",
   RESIDENT_FORM: "/resident-form",
@@ -41,6 +44,8 @@ const ROUTES = {
   MAINTENANCE_MANAGEMENT: "/maintenance",
   SYSTEM_SETTINGS: "/settings",
   CONTRACTS_AND_LETTERS: "/contracts-letters",
+  SAFE_ZONE: "/safe-zone",
+  B2B_REGISTER: "/enterprise-register",
 };
 
 export default ROUTES;

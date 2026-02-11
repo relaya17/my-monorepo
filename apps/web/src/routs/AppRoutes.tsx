@@ -1,9 +1,12 @@
 import { Suspense, lazy, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import ROUTES from "../routs/routes";
 
 // Route-level code splitting to reduce initial bundle size.
 const Home = lazy(() => import("../pages/Home"));
+const Landing = lazy(() => import("../pages/Landing").then((m) => ({ default: m.default ?? m.Landing })));
+const LandingTechnician = lazy(() => import("../pages/LandingTechnician"));
+const LandingResident = lazy(() => import("../pages/LandingResident"));
 const Error404Page = lazy(() => import("../pages/404/Error404Page"));
 const ThankYouPage = lazy(() => import("../pages/thankyou/Thankyou"));
 
@@ -61,6 +64,8 @@ const MaintenanceManagement = lazy(() => import("../pages/MaintenanceManagement"
 const SystemSettings = lazy(() => import("../pages/SystemSettings"));
 const BuildingSelect = lazy(() => import("../pages/BuildingSelect"));
 const ContractsAndLetters = lazy(() => import("../pages/ContractsAndLetters"));
+const SafeZonePage = lazy(() => import("../pages/SafeZonePage"));
+const EnterpriseRegisterPage = lazy(() => import("../pages/EnterpriseRegisterPage"));
 
 // קומפוננטת עזר - עטיפת טופס דייר
 const ResidentFormWrapper: React.FC = () => {
@@ -93,8 +98,13 @@ const AppRoutes: React.FC = () => {
   return (
     <Suspense fallback={<div className="container py-4 text-center">טוען...</div>}>
       <Routes>
-        {/* דף הבית */}
+        {/* דף הבית – מוצג אחרי רענון/רסטרט כשנכנסים לשורש */}
         <Route path={ROUTES.HOME} element={<Home />} />
+        <Route path={ROUTES.LANDING} element={<Landing />} />
+        <Route path={ROUTES.LANDING_TECHNICIAN} element={<LandingTechnician />} />
+        <Route path={ROUTES.LANDING_RESIDENT} element={<LandingResident />} />
+        {/* אם נפתח עם /index.html (למשל בפרודקשן) – הפניה לדף הבית */}
+        <Route path="/index.html" element={<Navigate to={ROUTES.HOME} replace />} />
 
         {/* דף הבית של הדיירים */}
         <Route path={ROUTES.RESIDENT_HOME} element={<ResidentHome />} />
@@ -162,9 +172,8 @@ const AppRoutes: React.FC = () => {
         <Route path={ROUTES.ACCESSIBILITY} element={<Accessibility />} />
         <Route path={ROUTES.SECURITY_POLICY} element={<SecurityPolicy />} />
 
-        {/* תודה + 404 */}
+        {/* תודה */}
         <Route path={ROUTES.THANK_YOU} element={<ThankYouPage />} />
-        <Route path="*" element={<Error404Page />} />
 
         {/* דוחות וסטטיסטיקה */}
         <Route path={ROUTES.REPORTS_DASHBOARD} element={<ReportsDashboard />} />
@@ -175,6 +184,11 @@ const AppRoutes: React.FC = () => {
         {/* הגדרות מערכת */}
         <Route path={ROUTES.SYSTEM_SETTINGS} element={<SystemSettings />} />
         <Route path={ROUTES.CONTRACTS_AND_LETTERS} element={<ContractsAndLetters />} />
+        <Route path={ROUTES.SAFE_ZONE} element={<SafeZonePage />} />
+        <Route path={ROUTES.B2B_REGISTER} element={<EnterpriseRegisterPage />} />
+
+        {/* 404 – חייב להיות אחרון */}
+        <Route path="*" element={<Error404Page />} />
       </Routes>
     </Suspense>
   );

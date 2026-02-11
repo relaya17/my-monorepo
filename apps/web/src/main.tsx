@@ -7,17 +7,29 @@ import App from './App';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { BuildingProvider } from './context/BuildingContext';
+import ErrorBoundary from './components/ErrorBoundary';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <Provider store={store}>
-    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <App />
-    </Router>
-  </Provider>
-);
+const rootEl = document.getElementById('root');
+if (!rootEl) {
+  document.body.innerHTML = '<div style="padding:2rem;text-align:center;font-family:sans-serif;">אין אלמנט root. בדוק את index.html.</div>';
+} else {
+  const root = ReactDOM.createRoot(rootEl);
+  root.render(
+    <ErrorBoundary>
+      <Provider store={store}>
+        <AuthProvider>
+          <BuildingProvider>
+            <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+              <App />
+            </Router>
+          </BuildingProvider>
+        </AuthProvider>
+      </Provider>
+    </ErrorBoundary>
+  );
+}
 
 // reportWebVitals removed - not needed for this project
 

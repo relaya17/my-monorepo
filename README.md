@@ -65,10 +65,19 @@ my-monorepo-app/
 │   └── native/             # אפליקציה נייטיבית (placeholder)
 ├── packages/
 │   └── shared/             # קוד משותף בין האפליקציות
-├── docs/                   # תיעוד וסטנדרטים
+├── docs/                   # תיעוד וסטנדרטים (ראה docs/README.md לאינדקס)
+├── scripts/                # סקריפטים (גיבוי, אוטומציה, ניטור – ראה להלן)
 ├── uploads/                # קבצים שהועלו
 └── logs/                   # לוגים (נוצר אוטומטית)
 ```
+
+### סקריפטים (`scripts/`)
+
+| סקריפט | תיאור |
+|--------|--------|
+| `backup.js` | גיבוי MongoDB (`mongodump`) לתיקיית `backups/`. הרצה: `node scripts/backup.js`. |
+| `automation.js` | אוטומציה להרצת build/פקודות בפרויקט. |
+| `monitor.js` | ניטור זמינות השרת (health check ל־`/api/health`), רישום ל־`logs/monitoring.log`. |
 
 ## 🔐 אבטחה מתקדמת
 
@@ -304,6 +313,7 @@ MONGO_URI=mongodb://localhost:27017/your_db
 - אבטחה: `/security-policy`
 
 תיעוד מדיניות וסטנדרטים ברמת המאגר:
+- **[docs/README.md](docs/README.md)** – אינדקס כל התיעוד (מפרטים טכניים, פריסה, פתרון בעיות)
 - [SECURITY.md](docs/SECURITY.md)
 - [ACCESSIBILITY.md](docs/ACCESSIBILITY.md)
 - [CONTRIBUTING.md](docs/CONTRIBUTING.md)

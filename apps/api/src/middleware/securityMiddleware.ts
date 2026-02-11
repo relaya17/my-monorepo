@@ -27,6 +27,23 @@ export const loginRateLimiter = rateLimit({
     legacyHeaders: false,
 });
 
+// Per-building rate limit – DoS protection per tenant (TECHNICAL_SPECIFICATION §9.1)
+export const buildingRateLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 200,
+    message: {
+        error: 'יותר מדי בקשות לבניין זה, נסה שוב מאוחר יותר',
+        hebrew: 'יותר מדי בקשות לבניין זה, נסה שוב מאוחר יותר'
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => {
+        const bid = req.headers['x-building-id'];
+        const buildingId = typeof bid === 'string' ? bid.trim() || req.ip : req.ip;
+        return `building:${buildingId ?? 'unknown'}`;
+    },
+});
+
 // CORS configuration
 export const corsOptions = {
     origin: process.env.NODE_ENV === 'production'

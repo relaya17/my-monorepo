@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../routs/routes';
-import { apiRequestJson, getBuildingId, setBuildingId } from '../api';
+import { apiRequestJson, AUTH_TOKEN_KEY, getBuildingId, REFRESH_TOKEN_KEY, setBuildingId } from '../api';
 import { safeSetItem } from '../utils/safeStorage';
+import { useAuth } from '../context/AuthContext';
 
 type Step = 'building' | 'login';
 
 const UserLogin: React.FC = () => {
+  const { refreshAuth } = useAuth();
   const [step, setStep] = useState<Step>('building');
   const [buildings, setBuildings] = useState<{ buildingId: string; address: string; buildingNumber: string; committeeName?: string }[]>([]);
   const [buildingsLoading, setBuildingsLoading] = useState(true);
@@ -54,7 +56,12 @@ const UserLogin: React.FC = () => {
     const cleanPassword = password.trim();
 
     try {
-      const { response, data } = await apiRequestJson<{ message?: string; user?: { id: string; name: string; email: string } }>('login', {
+      const { response, data } = await apiRequestJson<{
+        message?: string;
+        user?: { id: string; name: string; email: string };
+        accessToken?: string;
+        refreshToken?: string;
+      }>('login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: cleanEmail, password: cleanPassword })
@@ -66,6 +73,9 @@ const UserLogin: React.FC = () => {
         safeSetItem('userName', data.user.name);
         safeSetItem('userId', data.user.id.toString());
         safeSetItem('user', JSON.stringify(data.user));
+        if (data.accessToken) safeSetItem(AUTH_TOKEN_KEY, data.accessToken);
+        if (data.refreshToken) safeSetItem(REFRESH_TOKEN_KEY, data.refreshToken);
+        refreshAuth();
         navigate(ROUTES.RESIDENT_HOME);
       } else {
         setError(data?.message || 'אימייל או סיסמה שגויים');

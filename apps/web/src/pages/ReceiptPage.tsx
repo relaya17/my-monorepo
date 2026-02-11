@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getApiUrl, getApiHeaders } from '../api';
+import { useBuilding } from '../context/BuildingContext';
 
 interface PaymentInfo {
   payer: string;
@@ -9,6 +11,7 @@ interface PaymentInfo {
 const ReceiptPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { buildingName } = useBuilding();
   const [paymentInfo, setPaymentInfo] = useState<PaymentInfo | null>(null);
   const [chairmanName, setChairmanName] = useState<string>('');
   const [isDownloading, setIsDownloading] = useState(false);
@@ -30,10 +33,11 @@ const ReceiptPage: React.FC = () => {
     
     setIsDownloading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/payments/generate-receipt`, {
+      const response = await fetch(getApiUrl('payments/generate-receipt'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...getApiHeaders(),
         },
         body: JSON.stringify({
           payer: paymentInfo.payer,
@@ -107,6 +111,9 @@ const ReceiptPage: React.FC = () => {
               קבלה לתשלום
             </h2>
             <p className="text-muted">תודה על התשלום שלך</p>
+            {buildingName && buildingName !== 'default' && (
+              <p className="text-muted small mb-0">בניין: {buildingName}</p>
+            )}
           </div>
 
           <div className="receipt-details mb-4">

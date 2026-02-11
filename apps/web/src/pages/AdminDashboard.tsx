@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ROUTES from '../routs/routes';
 import { safeGetItem, safeRemoveItem } from '../utils/safeStorage';
-// import NavigationBar from './SecondNavbar';
+import { buildingLabel, getBuildingId } from '../api';
 import AINotifications from '../components/AINotifications';
 
 const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [adminUsername, setAdminUsername] = useState<string>('');
+  const [currentBuildingId, setCurrentBuildingId] = useState<string>(getBuildingId());
 
   useEffect(() => {
     const isLoggedIn = safeGetItem('isAdminLoggedIn');
@@ -17,6 +18,7 @@ const AdminDashboard: React.FC = () => {
       return;
     }
     setAdminUsername(username);
+    setCurrentBuildingId(getBuildingId());
   }, [navigate]);
 
   const handleLogout = () => {
@@ -58,15 +60,6 @@ const AdminDashboard: React.FC = () => {
                   <span className="admin-action-label d-none d-sm-inline">החלף בניין</span>
                 </Link>
                 <AINotifications />
-                <Link
-                  to={ROUTES.SELECT_BUILDING}
-                  className="btn btn-outline-secondary btn-sm admin-action-btn"
-                  title="בחירת בניין"
-                  aria-label="בחירת בניין"
-                >
-                  <i className="fas fa-building me-1" aria-hidden="true"></i>
-                  <span className="admin-action-label d-none d-sm-inline">בחירת בניין</span>
-                </Link>
                 <Link 
                   to={ROUTES.CHANGE_PASSWORD}
                   className="btn btn-outline-primary btn-sm admin-action-btn"
@@ -85,6 +78,40 @@ const AdminDashboard: React.FC = () => {
                   <i className="fas fa-sign-out-alt me-1" aria-hidden="true"></i>
                   <span className="admin-action-label d-none d-sm-inline">התנתק</span>
                 </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* אופציה ראשונה: בחירת בניין או המשך ללוח הבקרה */}
+        <div className="row mb-4">
+          <div className="col-12">
+            <div className="card border-primary shadow-sm" style={{ borderWidth: '2px', backgroundColor: '#f0f9ff' }}>
+              <div className="card-body py-3 py-md-4">
+                <h5 className="card-title mb-3 text-center" style={{ color: '#1e40af' }}>
+                  <i className="fas fa-building me-2" aria-hidden="true"></i>
+                  במה תרצה להתחיל?
+                </h5>
+                <div className="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3">
+                  <Link
+                    to={ROUTES.SELECT_BUILDING}
+                    state={{ from: ROUTES.ADMIN_DASHBOARD }}
+                    className="btn btn-primary btn-lg"
+                    aria-label="בחר בניין ספציפי"
+                  >
+                    <i className="fas fa-search me-2" aria-hidden="true"></i>
+                    בחירת בניין ספציפי
+                  </Link>
+                  <span className="text-muted small d-none d-sm-inline" aria-hidden="true">או</span>
+                  <div className="text-center">
+                    <span className="d-block text-muted small mb-1">עבודה עם הבניין הנוכחי</span>
+                    <strong className="d-block" style={{ color: '#1e40af' }}>
+                      <i className="fas fa-check-circle me-1" aria-hidden="true"></i>
+                      {buildingLabel(currentBuildingId)}
+                    </strong>
+                    <span className="text-muted small">הלוח הבקרה למטה פעיל בהקשר של בניין זה</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

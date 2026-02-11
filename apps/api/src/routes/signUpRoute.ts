@@ -3,36 +3,9 @@ import bcrypt from 'bcryptjs';
 import User from '../models/userModel.js';
 import Building from '../models/buildingModel.js';
 import { tenantContext } from '../middleware/tenantMiddleware.js';
+import { validateEmail, validatePassword, validateName } from '../utils/validation.js';
 
 const router: express.Router = express.Router();
-
-// ולידציה לאימייל
-const validateEmail = (email: string): boolean => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
-
-// ולידציה לסיסמה
-const validatePassword = (password: string): { isValid: boolean; message: string } => {
-  if (password.length < 6) {
-    return { isValid: false, message: 'הסיסמה חייבת להיות לפחות 6 תווים' };
-  }
-  if (password.length > 50) {
-    return { isValid: false, message: 'הסיסמה לא יכולה להיות יותר מ-50 תווים' };
-  }
-  return { isValid: true, message: '' };
-};
-
-// ולידציה לשם
-const validateName = (name: string): { isValid: boolean; message: string } => {
-  if (!name || name.trim().length < 2) {
-    return { isValid: false, message: 'השם חייב להיות לפחות 2 תווים' };
-  }
-  if (name.trim().length > 50) {
-    return { isValid: false, message: 'השם לא יכול להיות יותר מ-50 תווים' };
-  }
-  return { isValid: true, message: '' };
-};
 
 const toSlug = (s: string) => (s || '').trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-\u0590-\u05FF]/g, '');
 
@@ -132,11 +105,11 @@ router.post('/', async (req: Request, res: Response) => {
     return res.status(201).json({
       message: 'משתמש נוצר בהצלחה',
       user: {
-        id: newUser._id,
+        id: (newUser._id as { toString?: () => string })?.toString?.() ?? String(newUser._id),
         name: newUser.name,
         email: newUser.email,
         buildingId,
-        apartmentNumber: newUser.apartmentNumber
+        apartmentNumber: newUser.apartmentNumber ?? undefined
       }
     });
   } catch (error: unknown) {

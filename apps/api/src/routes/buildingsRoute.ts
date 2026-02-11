@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Building, { type IBuilding } from '../models/buildingModel.js';
 
-type BuildingLean = Pick<IBuilding, 'buildingId' | 'address' | 'buildingNumber' | 'committeeName'>;
+type BuildingLean = Pick<IBuilding, 'buildingId' | 'address' | 'buildingNumber' | 'committeeName' | 'stripeAccountId' | 'stripeOnboardingComplete'>;
 
 async function listBuildings(_req: Request, res: Response): Promise<void> {
   try {
@@ -34,7 +34,9 @@ async function listBuildings(_req: Request, res: Response): Promise<void> {
       buildingId: id,
       address: byId[id]?.address ?? id,
       buildingNumber: byId[id]?.buildingNumber ?? '',
-      committeeName: byId[id]?.committeeName ?? ''
+      committeeName: byId[id]?.committeeName ?? '',
+      stripeAccountId: byId[id]?.stripeAccountId ?? undefined,
+      stripeOnboardingComplete: byId[id]?.stripeOnboardingComplete ?? false,
     }));
 
     res.json({ buildings });

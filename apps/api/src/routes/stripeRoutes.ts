@@ -1,6 +1,15 @@
 import { Request, Response, Router } from 'express';
 import Payment from '../models/paymentModel.js';
-import { getClientUrl, getPlatformFeeBps, getStripeClient } from '../services/stripeService.js';
+import Building from '../models/buildingModel.js';
+import {
+  getClientUrl,
+  getPlatformFeeBps,
+  getStripeClient,
+  getOrCreateConnectAccount,
+  createConnectAccountLink,
+  createConnectLoginLink,
+  getConnectAccountStatus,
+} from '../services/stripeService.js';
 
 const router = Router();
 
@@ -11,6 +20,95 @@ type CheckoutSessionBody = {
   buildingId?: string;
   buildingStripeAccountId: string;
 };
+
+type ConnectOnboardBody = {
+  buildingId: string;
+  returnUrl: string;
+  refreshUrl: string;
+};
+
+/** POST /api/stripe/connect/onboard – Create/link Connect account and return onboarding URL */
+router.post('/connect/onboard', async (req: Request, res: Response) => {
+  try {
+    const { buildingId, returnUrl, refreshUrl } = req.body as ConnectOnboardBody;
+    if (!buildingId || typeof returnUrl !== 'string' || typeof refreshUrl !== 'string') {
+      res.status(400).json({ error: 'Missing buildingId, returnUrl or refreshUrl' });
+      return;
+    }
+    const building = await Building.findOne({ buildingId }).lean();
+    if (!building) {
+      res.status(404).json({ error: 'Building not found' });
+      return;
+    }
+    const accountId = await getOrCreateConnectAccount({
+      buildingId,
+      existingAccountId: (building as { stripeAccountId?: string }).stripeAccountId,
+      email: (building as { committeeContact?: string }).committeeContact ?? undefined,
+      buildingName: (building as { committeeName?: string }).committeeName ?? undefined,
+    });
+    await Building.updateOne(
+      { buildingId },
+      { $set: { stripeAccountId: accountId } }
+    );
+    const url = await createConnectAccountLink({
+      accountId,
+      returnUrl,
+      refreshUrl,
+    });
+    res.json({ url, accountId });
+  } catch (err) {
+    console.error('Stripe Connect onboard error:', err);
+    res.status(500).json({ error: 'Failed to create onboarding link' });
+  }
+});
+
+/** POST /api/stripe/connect/login – Login link for existing Connect Express account */
+router.post('/connect/login', async (req: Request, res: Response) => {
+  try {
+    const buildingId = req.body?.buildingId as string | undefined;
+    if (!buildingId) {
+      res.status(400).json({ error: 'Missing buildingId' });
+      return;
+    }
+    const building = await Building.findOne({ buildingId }).lean();
+    const accountId = (building as { stripeAccountId?: string } | null)?.stripeAccountId;
+    if (!accountId) {
+      res.status(404).json({ error: 'Building has no Stripe Connect account. Complete onboarding first.' });
+      return;
+    }
+    const url = await createConnectLoginLink(accountId);
+    res.json({ url });
+  } catch (err) {
+    console.error('Stripe Connect login error:', err);
+    res.status(500).json({ error: 'Failed to create login link' });
+  }
+});
+
+/** GET /api/stripe/connect/status?buildingId=xxx – Connect account status */
+router.get('/connect/status', async (req: Request, res: Response) => {
+  try {
+    const buildingId = req.query.buildingId as string | undefined;
+    if (!buildingId) {
+      res.status(400).json({ error: 'Missing buildingId' });
+      return;
+    }
+    const building = await Building.findOne({ buildingId }).lean();
+    const accountId = (building as { stripeAccountId?: string } | null)?.stripeAccountId;
+    if (!accountId) {
+      res.json({ accountId: null, chargesEnabled: false, detailsSubmitted: false });
+      return;
+    }
+    const status = await getConnectAccountStatus(accountId);
+    res.json({
+      accountId: status.id,
+      chargesEnabled: status.chargesEnabled,
+      detailsSubmitted: status.detailsSubmitted,
+    });
+  } catch (err) {
+    console.error('Stripe Connect status error:', err);
+    res.status(500).json({ error: 'Failed to get Connect status' });
+  }
+});
 
 router.post('/checkout-session', async (req: Request, res: Response) => {
   try {

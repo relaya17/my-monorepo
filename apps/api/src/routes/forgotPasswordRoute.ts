@@ -2,17 +2,9 @@ import express, { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import User from '../models/userModel.js';
 import { loginRateLimiter } from '../middleware/securityMiddleware.js';
+import { validateEmail, validatePassword } from '../utils/validation.js';
 
 const router = express.Router();
-
-const validateEmail = (email: string): boolean =>
-  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-const validatePassword = (password: string): { isValid: boolean; message: string } => {
-  if (password.length < 6) return { isValid: false, message: 'הסיסמה חייבת להיות לפחות 6 תווים' };
-  if (password.length > 50) return { isValid: false, message: 'הסיסמה לא יכולה להיות יותר מ-50 תווים' };
-  return { isValid: true, message: '' };
-};
 
 // POST /api/forgot-password/questions – מחזיר שאלות אבטחה לפי אימייל (בהתאם ל-buildingId מהבקשה)
 router.post('/questions', loginRateLimiter, async (req: Request, res: Response) => {

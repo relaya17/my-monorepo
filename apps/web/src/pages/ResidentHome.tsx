@@ -1,36 +1,31 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import Footer from '../components/Footer';
+import ResidentFeed from '../components/ResidentFeed';
+import { useBuilding } from '../context/BuildingContext';
 
 const ResidentHome: React.FC = () => {
   const navigate = useNavigate();
-  
-  // בדיקה אם המשתמש מחובר
-  const isLoggedIn = localStorage.getItem('userToken') || localStorage.getItem('adminToken');
-  
+  const { buildingName } = useBuilding();
+
+  const isLoggedIn = localStorage.getItem('authToken') || localStorage.getItem('userToken') || localStorage.getItem('adminToken');
+
+  const pageTitle = buildingName && buildingName !== 'default' ? `Vantera | ${buildingName}` : 'ברוכים הבאים לדף הבית של הדיירים';
+  const pageSubtitle = buildingName && buildingName !== 'default' ? `ברוכים הבאים – ${buildingName}` : 'מערכת ניהול דיירים למבנים';
+
   return (
     <div className="resident-home-container">
-      {/* Skip Links לנגישות */}
-      <a href="#main-content" className="skip-link">
-        דלג לתוכן הראשי
-      </a>
-      <a href="#navigation" className="skip-link">
-        דלג לניווט
-      </a>
-      <a href="#quick-actions" className="skip-link">
-        דלג לפעולות מהירות
-      </a>
-      
-      {/* <NavigationBar /> הוסר */}
-      
+      <a href="#main-content" className="skip-link">דלג לתוכן הראשי</a>
+      <a href="#navigation" className="skip-link">דלג לניווט</a>
+      <a href="#quick-actions" className="skip-link">דלג לפעולות מהירות</a>
+
       <div className="container py-4" id="main-content">
-        {/* כותרת ראשית */}
         <div className="text-center mb-5">
           <h1 className="display-4 mb-3" style={{ fontWeight: 'bold', color: '#374151' }}>
             <i className="fas fa-home me-3" aria-hidden="true"></i>
-            ברוכים הבאים לדף הבית של הדיירים
+            {pageTitle}
           </h1>
-          <p className="lead" style={{ color: '#6b7280' }}>מערכת ניהול דיירים למבנים</p>
+          <p className="lead" style={{ color: '#6b7280' }}>{pageSubtitle}</p>
         </div>
 
         {/* כפתורי ניווט מהירים */}
@@ -92,15 +87,26 @@ const ResidentHome: React.FC = () => {
                     לשירותים מקצועיים
                   </button>
                   {isLoggedIn && (
-                    <button 
-                      className="btn btn-lg" 
-                      onClick={() => navigate('/community-wall')}
-                      style={{ minWidth: '150px', backgroundColor: '#dbeafe', borderColor: '#dbeafe', color: '#1e40af' }}
-                      aria-label="עבור לקיר הקהילה"
-                    >
-                      <i className="fas fa-users me-2" aria-hidden="true"></i>
-                      קיר הקהילה
-                    </button>
+                    <>
+                      <button 
+                        className="btn btn-lg" 
+                        onClick={() => navigate('/community-wall')}
+                        style={{ minWidth: '150px', backgroundColor: '#dbeafe', borderColor: '#dbeafe', color: '#1e40af' }}
+                        aria-label="עבור לקיר הקהילה"
+                      >
+                        <i className="fas fa-users me-2" aria-hidden="true"></i>
+                        קיר הקהילה
+                      </button>
+                      <button 
+                        className="btn btn-lg" 
+                        onClick={() => navigate('/safe-zone')}
+                        style={{ minWidth: '150px', backgroundColor: '#00d4aa', borderColor: '#00d4aa', color: '#0f172a' }}
+                        aria-label="Safe-Zone – ליווי מצלמות"
+                      >
+                        <i className="fas fa-shield-alt me-2" aria-hidden="true"></i>
+                        Safe-Zone
+                      </button>
+                    </>
                   )}
                 </div>
               </div>
@@ -110,29 +116,10 @@ const ResidentHome: React.FC = () => {
 
         {/* כרטיסי מידע */}
         <div className="row g-4 mb-5">
-          {/* אזור ידיעות */}
+          {/* אזור ידיעות – פיד מותאם לבניין */}
           <div className="col-lg-6">
             <div className="card shadow-lg border-0 h-100">
-              <div className="card-header" style={{ backgroundColor: '#6b7280', color: 'white' }}>
-                <h5 className="mb-0">
-                  <i className="fas fa-bullhorn me-2" aria-hidden="true"></i>
-                  ידיעות ועדכונים
-                </h5>
-              </div>
-              <div className="card-body">
-                <div className="d-flex align-items-center mb-3">
-                  <i className="fas fa-info-circle me-2" style={{ color: '#9ca3af' }} aria-hidden="true"></i>
-                  <span>הודעה חשובה: ישיבת ועד דיירים ביום שלישי הקרוב</span>
-                </div>
-                <div className="d-flex align-items-center mb-3">
-                  <i className="fas fa-exclamation-triangle me-2" style={{ color: '#fef3c7' }} aria-hidden="true"></i>
-                  <span>תזכורת: תשלום דמי ועד בית עד סוף החודש</span>
-                </div>
-                <div className="d-flex align-items-center">
-                  <i className="fas fa-check-circle me-2" style={{ color: '#a7f3d0' }} aria-hidden="true"></i>
-                  <span>עבודות תחזוקה בגינה הושלמו בהצלחה</span>
-                </div>
-              </div>
+              <ResidentFeed />
             </div>
           </div>
           

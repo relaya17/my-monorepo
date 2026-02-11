@@ -15,5 +15,8 @@ const adminSchema = new Schema<IAdmin>({
 
 adminSchema.plugin(multiTenancyPlugin);
 
+// Compound index for per-building admin lookups (Enterprise – see TECHNICAL_SPECIFICATION §8.2)
+adminSchema.index({ buildingId: 1, username: 1 });
+
 const Admin = mongoose.model<IAdmin>('Admin', adminSchema);
 export default Admin; 

@@ -7,10 +7,12 @@ import type { AppDispatch, RootState } from '../../../redux/store';
 import ROUTES from '../../../routs/routes';
 import { setBuildingId } from '../../../api';
 import { safeSetItem } from '../../../utils/safeStorage';
+import { useAuth } from '../../../context/AuthContext';
 
 const SignUpPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const { refreshAuth } = useAuth();
   const { status, user, error } = useSelector((state: RootState) => state.signUp);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -46,7 +48,7 @@ const SignUpPage: React.FC = () => {
     securityAnswer2: ''
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -95,9 +97,10 @@ const SignUpPage: React.FC = () => {
       safeSetItem('userId', String(u.id));
       safeSetItem('user', JSON.stringify(u));
       if (u.buildingId) setBuildingId(u.buildingId);
+      refreshAuth();
       navigate(ROUTES.RESIDENT_HOME, { replace: true });
     }
-  }, [status, user, navigate]);
+  }, [status, user, navigate, refreshAuth]);
 
   return (
     <div className="container-fluid d-flex justify-content-center align-items-center" 

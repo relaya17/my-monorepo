@@ -1,0 +1,251 @@
+/**
+ * Enterprise B2B Registration – Fintech style
+ * נקי, מאובטח, מרשים
+ * Colors: #f4f7f6, #2c3e50, #2ecc71, #27ae60
+ */
+.enterprise-register-page {
+  min-height: 100vh;
+  background: #f4f7f6;
+  color: #2c3e50;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.enterprise-register-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.enterprise-back-link {
+  color: #2c3e50;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.enterprise-back-link:hover {
+  color: #27ae60;
+}
+
+.enterprise-register-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.enterprise-hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.enterprise-hero h1 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 0.75rem;
+  line-height: 1.3;
+}
+
+.enterprise-subtitle {
+  font-size: 1rem;
+  color: #5a6c7d;
+  margin: 0;
+  max-width: 600px;
+  margin-inline: auto;
+  line-height: 1.5;
+}
+
+.enterprise-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 900px) {
+  .enterprise-layout {
+    grid-template-columns: 1fr 380px;
+  }
+}
+
+/* Form card – Fintech */
+.enterprise-form-section {
+  order: 1;
+}
+
+.enterprise-form-card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  border-top: 5px solid #2ecc71;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.enterprise-form-card h3 {
+  font-size: 1.25rem;
+  color: #2c3e50;
+  margin: 0 0 0.5rem;
+}
+
+.enterprise-form-desc {
+  font-size: 0.875rem;
+  color: #7f8c8d;
+  margin: 0 0 1.5rem;
+}
+
+.enterprise-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.enterprise-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.enterprise-field label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.enterprise-field input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #dde2e5;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.enterprise-field input:focus {
+  outline: none;
+  border-color: #2ecc71;
+  box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.15);
+}
+
+.enterprise-profit-box {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  border-inline-start: 4px solid #2ecc71;
+  margin: 0.5rem 0;
+}
+
+.enterprise-profit-title {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.enterprise-profit-amount {
+  margin: 0.35rem 0 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #27ae60;
+}
+
+.enterprise-profit-box small {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+
+.enterprise-submit-btn {
+  width: 100%;
+  padding: 15px;
+  background: #2c3e50;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.enterprise-submit-btn:hover:not(:disabled) {
+  background: #1a252f;
+}
+
+.enterprise-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.enterprise-success {
+  font-size: 1rem;
+  color: #27ae60;
+  font-weight: 500;
+  margin: 0;
+  padding: 1rem 0;
+}
+
+.enterprise-error {
+  font-size: 0.9rem;
+  color: #c0392b;
+  margin: 0;
+}
+
+/* Sidebar – Quick-Start + Security */
+.enterprise-sidebar {
+  order: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.enterprise-quick-start,
+.enterprise-security {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #e8ecf0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.enterprise-quick-start h4,
+.enterprise-security h4 {
+  font-size: 1.1rem;
+  color: #2c3e50;
+  margin: 0 0 0.75rem;
+}
+
+.enterprise-quick-start-sub {
+  font-size: 0.875rem;
+  color: #5a6c7d;
+  margin: 0 0 1rem;
+  line-height: 1.4;
+}
+
+.enterprise-steps {
+  margin: 0;
+  padding-inline-start: 1.25rem;
+}
+
+.enterprise-steps li {
+  margin-bottom: 0.85rem;
+  line-height: 1.5;
+}
+
+.enterprise-steps li strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #2c3e50;
+}
+
+.enterprise-steps li span {
+  font-size: 0.9rem;
+  color: #5a6c7d;
+}
+
+.enterprise-security p {
+  font-size: 0.9rem;
+  color: #5a6c7d;
+  margin: 0;
+  line-height: 1.55;
+}

@@ -1,25 +1,11 @@
 import express, { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import User from '../models/userModel.js';
+import RefreshToken from '../models/refreshTokenModel.js';
+import { createAccessToken, createRefreshTokenValue, getRefreshExpiresDate } from '../utils/jwt.js';
+import { validateEmail, validatePassword } from '../utils/validation.js';
 
 const router: express.Router = express.Router();
-
-// ולידציה לאימייל
-const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-};
-
-// ולידציה לסיסמה
-const validatePassword = (password: string): { isValid: boolean; message: string } => {
-    if (password.length < 6) {
-        return { isValid: false, message: 'הסיסמה חייבת להיות לפחות 6 תווים' };
-    }
-    if (password.length > 50) {
-        return { isValid: false, message: 'הסיסמה לא יכולה להיות יותר מ-50 תווים' };
-    }
-    return { isValid: true, message: '' };
-};
 
 router.post('/', async (req: Request, res: Response) => {
     const { email, password } = req.body as { email: string; password: string };
@@ -50,7 +36,7 @@ router.post('/', async (req: Request, res: Response) => {
             console.log('Normalized email:', normalizedEmail);
         }
 
-        const user = await User.findOne({ email: normalizedEmail });
+        const user = await User.findOne({ email: normalizedEmail }).select('+password');
         if (process.env.NODE_ENV !== 'production' && process.env.DEBUG_AUTH === 'true') {
             console.log('User found:', user ? 'Yes' : 'No');
             if (user) {
@@ -79,16 +65,24 @@ router.post('/', async (req: Request, res: Response) => {
             });
         }
 
-        // לוגין מוצלח
+        const buildingId = (user as { buildingId?: string }).buildingId ?? (req.headers['x-building-id'] as string)?.trim() ?? 'default';
+        const sub = (user._id as { toString(): string }).toString();
+        const accessToken = createAccessToken({ sub, type: 'user', buildingId, email: user.email });
+        const { token: refreshToken, hash: tokenHash } = createRefreshTokenValue();
+        const expiresAt = getRefreshExpiresDate();
+        await RefreshToken.create({ subject: sub, type: 'user', buildingId, tokenHash, expiresAt });
+
         return res.status(200).json({
             message: 'התחברת בהצלחה',
             user: {
-                id: user._id,
+                id: (user._id as { toString?: () => string })?.toString?.() ?? String(user._id),
                 name: user.name,
-                email: user.email
-            }
+                email: user.email,
+                buildingId
+            },
+            accessToken,
+            refreshToken
         });
-
     } catch (error: unknown) {
         console.error('Error during login:', error);
         return res.status(500).json({

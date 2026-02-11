@@ -51,8 +51,16 @@
 
 .home-subtitle {
   font-size: 1.2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   color: #e2e8f0;
+}
+
+.home-cta {
+  margin-top: 1.5rem;
+}
+
+.home-cta .home-btn {
+  text-decoration: none;
 }
 
 .page-header {

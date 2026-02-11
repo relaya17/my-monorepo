@@ -1,4 +1,8 @@
 import { Request, Response, Router } from 'express';
+import Building from '../models/buildingModel.js';
+import Maintenance from '../models/maintenanceModel.js';
+import { tenantContext } from '../middleware/tenantMiddleware.js';
+import { authMiddleware } from '../middleware/authMiddleware.js';
 
 const router = Router();
 
@@ -115,6 +119,61 @@ const deleteResident = async (req: Request, res: Response) => {
     }
 };
 
+/** GET /residents/dashboard – building-scoped dashboard for resident (auth + x-building-id). */
+const getDashboard = async (_req: Request, res: Response) => {
+    try {
+        const store = tenantContext.getStore();
+        const buildingId = store?.buildingId ?? 'default';
+
+        const buildingDoc = await Building.findOne({ buildingId }).lean();
+        const buildingName =
+            (buildingDoc && (buildingDoc as { committeeName?: string }).committeeName) ||
+            (buildingDoc && (buildingDoc as { address?: string }).address) ||
+            buildingId;
+
+        const pulse = {
+            water: 'תקין',
+            electricity: 'תקין',
+            elevators: 'פעיל',
+            cleaner: 'לובי נוקה לאחרונה',
+            cameras: 'פעיל',
+        };
+
+        const maintenanceList = await Maintenance.find({ isDeleted: { $ne: true } })
+            .sort({ createdAt: -1 })
+            .limit(20)
+            .lean();
+
+        const feed = maintenanceList.map((m: { _id?: unknown; title?: string; description?: string; category?: string; createdAt?: Date }) => ({
+            id: String((m as { _id?: { toString?: () => string } })._id?.toString?.() ?? (m as { _id?: unknown })._id),
+            title: m.title ?? '',
+            body: m.description,
+            type: m.category ?? 'Other',
+            createdAt: m.createdAt ? new Date(m.createdAt).toISOString() : undefined,
+        }));
+
+        const urgentOpen = await Maintenance.findOne({
+            isDeleted: { $ne: true },
+            status: { $in: ['Open', 'In_Progress'] },
+            priority: 'Urgent',
+            category: { $in: ['Plumbing', 'Electrical'] },
+        }).lean();
+        const emergencyDetected = !!urgentOpen;
+
+        res.json({
+            buildingId,
+            buildingName,
+            pulse,
+            feed,
+            emergencyDetected,
+        });
+    } catch (error) {
+        console.error('Resident dashboard error:', error);
+        res.status(500).json({ error: 'שגיאה בטעינת דאשבורד' });
+    }
+};
+
+router.get('/dashboard', authMiddleware, getDashboard);
 router.get('/', getResidents);
 router.post('/', createResident);
 router.put('/:id/status', updateResidentStatus);

@@ -1,16 +1,44 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { apiRequestJson } from '../api';
+import { apiRequestJson, AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY, setBuildingId } from '../api';
+import ROUTES from '../routs/routes';
 import { safeSetItem } from '../utils/safeStorage';
+import { useAuth } from '../context/AuthContext';
 
 const AdminLogin: React.FC = () => {
+  const { refreshAuth } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [registerMsg, setRegisterMsg] = useState('');
   const navigate = useNavigate();
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setRegisterMsg('');
+    if (!username.trim() || !password.trim()) {
+      setRegisterMsg('יש להזין שם משתמש וסיסמה');
+      return;
+    }
+    try {
+      const { response, data } = await apiRequestJson<{ message?: string }>('admin/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username.trim(), password: password.trim() })
+      });
+      if (response.ok) {
+        setRegisterMsg('אדמין נוצר בהצלחה – כעת ניתן להתחבר');
+      } else {
+        setRegisterMsg(data?.message || 'שגיאה ברישום');
+      }
+    } catch {
+      setRegisterMsg('שגיאה בהתחברות לשרת');
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,11 +48,14 @@ const AdminLogin: React.FC = () => {
     try {
       const cleanUsername = username.trim();
       const cleanPassword = password.trim();
-      const { response, data } = await apiRequestJson<{ message?: string; admin?: { username: string; role: string } }>('admin/login', {
+      const { response, data } = await apiRequestJson<{
+        message?: string;
+        admin?: { username: string; role: string };
+        accessToken?: string;
+        refreshToken?: string;
+      }>('admin/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: cleanUsername, password: cleanPassword })
       });
 
@@ -32,7 +63,11 @@ const AdminLogin: React.FC = () => {
         safeSetItem('isAdminLoggedIn', 'true');
         safeSetItem('adminUsername', data.admin.username);
         safeSetItem('adminRole', data.admin.role);
-        navigate('/select-building');
+        if (data.accessToken) safeSetItem(AUTH_TOKEN_KEY, data.accessToken);
+        if (data.refreshToken) safeSetItem(REFRESH_TOKEN_KEY, data.refreshToken);
+        setBuildingId('default');
+        refreshAuth();
+        navigate(ROUTES.ADMIN_DASHBOARD);
       } else {
         setError(data?.message || 'שם משתמש או סיסמה שגויים');
       }
@@ -153,6 +188,22 @@ const AdminLogin: React.FC = () => {
               שם משתמש: admin &nbsp;|&nbsp; סיסמה: admin123
             </small>
           </div>
+
+          <div className="text-center mt-2">
+            <button type="button" className="btn btn-link btn-sm" onClick={() => setShowRegister(!showRegister)}>
+              {showRegister ? 'הסתר רישום' : 'רישום אדמין חדש (לבדיקה)'}
+            </button>
+          </div>
+          {showRegister && (
+            <div className="mt-3 p-3 border rounded" style={{ direction: 'rtl', textAlign: 'right' }}>
+              <form onSubmit={handleRegister}>
+                <input className="form-control mb-2" placeholder="שם משתמש (למשל: 2)" value={username} onChange={e => setUsername(e.target.value)} />
+                <input type="password" className="form-control mb-2" placeholder="סיסמה" value={password} onChange={e => setPassword(e.target.value)} />
+                <button type="submit" className="btn btn-outline-primary btn-sm">הרשם</button>
+                {registerMsg && <div className="mt-2 small text-muted">{registerMsg}</div>}
+              </form>
+            </div>
+          )}
 
           <div className="text-center mt-3">
             <button

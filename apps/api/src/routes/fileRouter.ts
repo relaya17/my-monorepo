@@ -1,68 +1,39 @@
 import { Router, Request } from 'express';
 import type { RequestHandler } from 'express';
 import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
+import { uploadBuffer, isCloudinaryConfigured } from '../services/cloudinaryUploadService.js';
 
 const router = Router();
 
-// Minimal response typing to avoid Express type-resolution issues in some setups.
 type JsonResponse = {
     status: (code: number) => JsonResponse;
     json: (body: unknown) => unknown;
 };
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');
-    },
-    filename: (_req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
-    }
-});
-
-const upload = multer({ storage });
-
-// NOTE: In some pnpm/CI layouts, Express types can be duplicated which causes
-// TS2769 ("No overload matches this call") when passing Multer middleware.
-// Casting here keeps runtime behavior identical while avoiding type conflicts.
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 const uploadSingle = upload.single('file') as unknown as RequestHandler;
 
-router.post('/upload', uploadSingle, (req: Request, res: JsonResponse) => {
-    // multer מוסיף את הfile לreq - לצורך TypeScript אפשר להתעלם מהטעות עם //@ts-ignore
-    // או להוסיף טיפוס מותאם
-    //@ts-ignore
-    const file = req.file;
-
-    if (!file) {
-        return res.status(400).json({ error: 'לא נבחר קובץ' }); // כאן השימוש ב status כ-callable תקין
+router.post('/upload', uploadSingle, async (req: Request, res: JsonResponse) => {
+    const file = (req as Request & { file?: { buffer: Buffer; originalname: string; mimetype: string } }).file;
+    if (!file) return res.status(400).json({ error: 'לא נבחר קובץ' });
+    if (!isCloudinaryConfigured()) return res.status(501).json({ error: 'העלאת קבצים לא מוגדרת (Cloudinary)' });
+    try {
+        const result = await uploadBuffer(file.buffer, { mimeType: file.mimetype });
+        return res.status(200).json({
+            message: 'הקובץ הועלה בהצלחה',
+            url: result.url,
+            secureUrl: result.secureUrl,
+            publicId: result.publicId,
+            originalname: file.originalname,
+        });
+    } catch (err) {
+        return res.status(500).json({ error: 'שגיאה בהעלאה ל-Cloudinary' });
     }
-
-    res.status(200).json({
-        message: 'הקובץ הועלה בהצלחה',
-        filename: file.filename,
-        originalname: file.originalname
-    });
 });
 
-router.get('/files', (req: Request, res: JsonResponse) => {
-    const uploadsDir = path.join(__dirname, '../../uploads');
-    fs.readdir(uploadsDir, (err, files) => {
-        if (err) {
-            return res.status(500).json({ error: 'שגיאה בקריאת קבצים' });
-        }
-        const fileList = files.map(filename => {
-            const filePath = path.join(uploadsDir, filename);
-            const stats = fs.statSync(filePath);
-            return {
-                id: filename,
-                name: filename,
-                url: `/uploads/${filename}`,
-                uploadedAt: stats.ctime
-            };
-        });
-        res.status(200).json(fileList);
-    });
+router.get('/files', (_req: Request, res: JsonResponse) => {
+    if (!isCloudinaryConfigured()) return res.status(501).json({ error: 'העלאת קבצים ל-Cloudinary לא מוגדרת' });
+    return res.status(200).json({ files: [], message: 'רשימת קבצים מתקבלת מ-Cloudinary בלבד' });
 });
 
 export default router;

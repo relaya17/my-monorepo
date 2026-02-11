@@ -992,3 +992,83 @@ body, html, .home-bg {
   .home-bg { padding-top: 0 !important; background-attachment: scroll !important; }
   .home-bg > .d-flex { margin-top: 16px; }
 }
+
+/* Ad Banner – פיד פרסומי בדייר */
+.ad-banner {
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, rgba(0, 242, 255, 0.06) 0%, rgba(52, 211, 153, 0.06) 100%);
+  border: 1px solid rgba(0, 242, 255, 0.2);
+  border-radius: 12px;
+}
+
+.ad-banner-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.ad-banner-text {
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.ad-banner-badge {
+  display: inline-block;
+  background: #007bff;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-inline-end: 0.5rem;
+}
+
+.ad-banner-trusted {
+  display: inline-flex;
+  align-items: center;
+  margin-inline-end: 0.5rem;
+}
+
+.ad-banner-trusted-check {
+  width: 20px;
+  height: 20px;
+  background: #22c55e;
+  color: #fff;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.ad-banner-supplier {
+  font-weight: 600;
+  color: #059669;
+}
+
+.ad-banner-discount {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.ad-banner-cta {
+  padding: 0.5rem 1rem;
+  background: #059669;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ad-banner-cta:hover {
+  background: #047857;
+}
+
+.ad-banner-emergency {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%);
+  border-color: rgba(239, 68, 68, 0.3);
+}

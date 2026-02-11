@@ -1,8 +1,10 @@
 import express, { Request, Response } from 'express';
 import Admin from '../models/adminModel.js';
+import RefreshToken from '../models/refreshTokenModel.js';
 import bcrypt from 'bcryptjs';
 import { loginRateLimiter } from '../middleware/securityMiddleware.js';
 import { tenantContext } from '../middleware/tenantMiddleware.js';
+import { createAccessToken, createRefreshTokenValue, getRefreshExpiresDate } from '../utils/jwt.js';
 
 const router: express.Router = express.Router();
 
@@ -10,8 +12,43 @@ const escapeRegex = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$
 
 // GET /api/admin/test - בדיקת חיבור
 router.get('/test', (req: Request, res: Response) => {
-    console.log('Admin route test endpoint hit');
     res.json({ message: 'Admin route is working' });
+});
+
+// GET /api/admin/check - בדיקה אם יש אדמין רשום (ללא פרטים)
+router.get('/check', async (_req: Request, res: Response) => {
+    try {
+        const count = await Admin.collection.countDocuments({});
+        res.json({ hasAdmin: count > 0, count });
+    } catch (err) {
+        res.status(500).json({ hasAdmin: false, error: 'שגיאה בבדיקה' });
+    }
+});
+
+// POST /api/admin/register - רישום אדמין חדש (לבדיקות)
+router.post('/register', loginRateLimiter, async (req: Request, res: Response) => {
+    const body = req.body as Record<string, unknown>;
+    const username = typeof body.username === 'string' ? body.username.trim() : '';
+    const password = typeof body.password === 'string' ? body.password.trim() : '';
+
+    if (!username || !password) {
+        return res.status(400).json({ message: 'יש להזין שם משתמש וסיסמה' });
+    }
+
+    try {
+        const created = await tenantContext.run({ buildingId: 'default' }, async () => {
+            const existing = await Admin.findOne({ username: new RegExp(`^${escapeRegex(username)}$`, 'i') });
+            if (existing) return false;
+            const hash = await bcrypt.hash(password, 10);
+            await Admin.create({ username, password: hash, role: 'admin' });
+            return true;
+        });
+        if (!created) return res.status(409).json({ message: 'שם משתמש כבר קיים' });
+        res.status(201).json({ message: 'אדמין נוצר בהצלחה', username });
+    } catch (err) {
+        console.error('Admin register error:', err);
+        res.status(500).json({ message: 'שגיאה בשרת' });
+    }
 });
 
 // POST /api/admin/login
@@ -32,9 +69,17 @@ router.post('/login', loginRateLimiter, async (req: Request, res: Response) => {
 
     try {
         // אדמין תמיד ב-buildingId default – חיפוש ב-default גם אם נשלח x-building-id אחר
-        const admin = await tenantContext.run({ buildingId: 'default' }, async () =>
-            Admin.findOne({ username: new RegExp(`^${escapeRegex(username)}$`, 'i') })
+        let admin: { password?: string; username?: string; role?: string } | null = await tenantContext.run(
+            { buildingId: 'default' },
+            async () => Admin.findOne({ username: new RegExp(`^${escapeRegex(username)}$`, 'i') })
         );
+        // Fallback: חיפוש ישיר ב-collection (עוקף plugin) – מוצא אדמין בכל buildingId
+        if (!admin) {
+            const raw = await Admin.collection.findOne({
+                username: { $regex: new RegExp(`^${escapeRegex(username)}$`, 'i') }
+            });
+            if (raw) admin = raw as { password?: string; username?: string; role?: string };
+        }
         console.log('Admin found:', !!admin);
 
         if (!admin) {
@@ -42,7 +87,8 @@ router.post('/login', loginRateLimiter, async (req: Request, res: Response) => {
             return res.status(401).json({ message: 'שם משתמש או סיסמה שגויים' });
         }
 
-        const isMatch = await bcrypt.compare(password, admin.password);
+        const pwd = admin.password;
+        const isMatch = typeof pwd === 'string' && (await bcrypt.compare(password, pwd));
         console.log('Password match:', isMatch);
 
         if (!isMatch) {
@@ -50,8 +96,21 @@ router.post('/login', loginRateLimiter, async (req: Request, res: Response) => {
             return res.status(401).json({ message: 'שם משתמש או סיסמה שגויים' });
         }
 
-        console.log('Admin login successful');
-        res.json({ message: 'התחברת בהצלחה', admin: { username: admin.username, role: admin.role } });
+        const usernameOut = admin.username ?? '';
+        const roleOut = admin.role ?? 'admin';
+        const adminId = (admin as { _id?: { toString(): string } })._id?.toString() ?? usernameOut;
+        const buildingId = 'default';
+        const accessToken = createAccessToken({ sub: adminId, type: 'admin', buildingId, username: usernameOut, role: roleOut });
+        const { token: refreshToken, hash: tokenHash } = createRefreshTokenValue();
+        const expiresAt = getRefreshExpiresDate();
+        await RefreshToken.create({ subject: adminId, type: 'admin', buildingId, tokenHash, expiresAt });
+
+        res.json({
+            message: 'התחברת בהצלחה',
+            admin: { username: usernameOut, role: roleOut },
+            accessToken,
+            refreshToken
+        });
     } catch (error) {
         console.error('Admin login error:', error);
         res.status(500).json({ message: 'שגיאה בשרת' });
