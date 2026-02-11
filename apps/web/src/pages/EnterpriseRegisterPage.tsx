@@ -2,6 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ROUTES from '../routs/routes';
+import SeoHead from '../components/SeoHead';
+import { SEO } from '../content/seo';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { getApiUrl } from '../api';
 import landingContent from '../content/landing-pages.json';
@@ -95,6 +97,7 @@ const EnterpriseRegisterPage: React.FC = () => {
 
   return (
     <div className="enterprise-register-page" dir={dir} lang={lang === 'he' ? 'he' : 'en'}>
+      <SeoHead title={SEO.b2b.title} description={SEO.b2b.description} />
       <header className="enterprise-register-header">
         <Link to={ROUTES.LANDING} className="enterprise-back-link">
           {content.backToLanding}

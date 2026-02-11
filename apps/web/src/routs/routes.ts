@@ -46,6 +46,10 @@ const ROUTES = {
   CONTRACTS_AND_LETTERS: "/contracts-letters",
   SAFE_ZONE: "/safe-zone",
   B2B_REGISTER: "/enterprise-register",
+  /** Friendly URL for SEO: vantera.co.il/contractors-join */
+  CONTRACTORS_JOIN: "/contractors-join",
+  /** Friendly URL for SEO: vantera.co.il/companies-management */
+  COMPANIES_MANAGEMENT: "/companies-management",
   SALES_TOOLKIT: "/sales-toolkit",
 };
 

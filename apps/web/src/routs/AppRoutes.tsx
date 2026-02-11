@@ -187,6 +187,8 @@ const AppRoutes: React.FC = () => {
         <Route path={ROUTES.CONTRACTS_AND_LETTERS} element={<ContractsAndLetters />} />
         <Route path={ROUTES.SAFE_ZONE} element={<SafeZonePage />} />
         <Route path={ROUTES.B2B_REGISTER} element={<EnterpriseRegisterPage />} />
+        <Route path={ROUTES.COMPANIES_MANAGEMENT} element={<EnterpriseRegisterPage />} />
+        <Route path={ROUTES.CONTRACTORS_JOIN} element={<LandingTechnician />} />
         <Route path={ROUTES.SALES_TOOLKIT} element={<SalesToolkitPage />} />
 
         {/* 404 – חייב להיות אחרון */}

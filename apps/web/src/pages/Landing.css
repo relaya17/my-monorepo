@@ -7,7 +7,7 @@
 .landing-page {
   min-height: 100vh;
   padding-top: 4rem;
-  background: transparent;
+  background: #1a1a1b;
   color: #e5e7eb;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   /* direction from dir attribute (rtl/ltr) - no hardcode */

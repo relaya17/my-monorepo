@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ROUTES from '../routs/routes';
+import SeoHead from '../components/SeoHead';
+import { SEO } from '../content/seo';
 import landingContent from '../content/landing-pages.json';
 import './Landing.css';
 
@@ -21,6 +23,7 @@ const content = landingContent as {
 const LandingTechnician: React.FC = () => {
   return (
     <div className="landing-page">
+      <SeoHead title={SEO.contractors.title} description={SEO.contractors.description} />
       <header className="landing-login-bar">
         <Link to={ROUTES.LANDING} className="landing-cta">{content.backToLanding ?? 'Back to Landing'}</Link>
       </header>

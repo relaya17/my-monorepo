@@ -1,18 +1,38 @@
-/* רקע מלא על כל הדף */
+/* רקע מלא על כל הדף – וידאו כרקע */
 .home-wrapper {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* Lightweight fallback background (hero image is attached later in JS). */
+  position: relative;
   background-color: #0f172a;
-  background-image: linear-gradient(135deg, rgba(15, 23, 42, 0.55), rgba(2, 6, 23, 0.35));
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  overflow-x: hidden; /* מונע סרגל צדדי */
+  overflow-x: hidden;
 }
 
-/* שכבת טשטוש שמכסה את כל הרקע */
+/* וידאו רקע – full screen */
+.home-bg-video {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.home-bg-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* שכבת כיסוי כהה מעל הוידאו (טקסט קריא) */
+.home-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  pointer-events: none;
+}
+
+/* שכבת תוכן */
 .home-overlay {
   flex: 1;
   display: flex;
@@ -22,7 +42,6 @@
   position: relative;
   z-index: 1;
   min-height: 100vh;
-  background: rgba(15, 23, 42, 0.45);
 }
 
 /* תוכן בתוך הרקע המטושטש */

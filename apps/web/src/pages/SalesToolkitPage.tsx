@@ -30,7 +30,7 @@ const SalesToolkitPage: React.FC = () => {
   const [showAddLead, setShowAddLead] = useState(false);
   const [newLead, setNewLead] = useState({ companyName: '', contactName: '', email: '', phone: '', notes: '' });
   const [copied, setCopied] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'profit' | 'letter' | 'punch' | 'leads' | 'model' | 'pitch'>('profit');
+  const [activeTab, setActiveTab] = useState<'profit' | 'letter' | 'elevator' | 'onboarding' | 'punch' | 'leads' | 'model' | 'pitch'>('profit');
 
   useEffect(() => {
     const isLoggedIn = safeGetItem('isAdminLoggedIn');
@@ -82,6 +82,8 @@ const SalesToolkitPage: React.FC = () => {
   };
 
   const letter = salesTemplates.salesLetter as { subject: string; to: string; title: string; body: string };
+  const elevator = salesTemplates.elevatorPitch as { goal: string; opening: string; valueProps: string; closing: string };
+  const onboarding = salesTemplates.onboardingEmail as { subject: string; body: string; ctaPlaceholder: string };
   const punch = salesTemplates.punchLetter as { subject: string; body: string };
   const widget = salesTemplates.profitWidget as { title: string; total: string; adsLabel: string; adsValue: string; serviceLabel: string; serviceValue: string; withdrawCta: string };
   const revenue = salesTemplates.revenueModel as { title: string; rows: Array<{ actor: string; gives: string; gets: string }>; insight: string };
@@ -103,6 +105,8 @@ const SalesToolkitPage: React.FC = () => {
         {[
           { id: 'profit', label: 'הכנסות מצטברות', icon: 'fa-wallet' },
           { id: 'letter', label: 'מכתב מכירה', icon: 'fa-envelope' },
+          { id: 'elevator', label: 'סקריפט שיחה', icon: 'fa-phone-alt' },
+          { id: 'onboarding', label: 'מייל דיירים', icon: 'fa-users' },
           { id: 'punch', label: 'מכתב מחץ', icon: 'fa-bolt' },
           { id: 'leads', label: 'מאגר לידים', icon: 'fa-address-book' },
           { id: 'model', label: 'מודל רווח', icon: 'fa-chart-pie' },
@@ -155,6 +159,54 @@ const SalesToolkitPage: React.FC = () => {
                   className="btn btn-warning"
                   onClick={() => openMailto('', fullLetterSubject, fullLetterBody)}
                 >
+                  <i className="fas fa-paper-plane me-2" aria-hidden /> פתח דואל לשליחה
+                </button>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {activeTab === 'elevator' && (
+          <section className="sales-letter-section">
+            <div className="sales-letter-card">
+              <h3><i className="fas fa-phone-alt me-2" aria-hidden /> Elevator Pitch – שיחה עם מנכ"ל</h3>
+              <p className="sales-letter-meta">{elevator.goal}</p>
+              <div className="sales-elevator-steps">
+                <div className="sales-elevator-block">
+                  <strong>הפתיחה:</strong>
+                  <pre>{elevator.opening}</pre>
+                </div>
+                <div className="sales-elevator-block">
+                  <strong>הערך המוסף:</strong>
+                  <pre>{elevator.valueProps}</pre>
+                </div>
+                <div className="sales-elevator-block">
+                  <strong>הסגירה:</strong>
+                  <pre>{elevator.closing}</pre>
+                </div>
+              </div>
+              <div className="sales-letter-actions">
+                <button type="button" className="btn btn-primary" onClick={() => copyToClipboard(`${elevator.opening}\n\n${elevator.valueProps}\n\n${elevator.closing}`, 'elevator')}>
+                  <i className="fas fa-copy me-2" aria-hidden /> {copied === 'elevator' ? 'הועתק!' : 'העתק סקריפט'}
+                </button>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {activeTab === 'onboarding' && (
+          <section className="sales-letter-section">
+            <div className="sales-letter-card">
+              <h3><i className="fas fa-users me-2" aria-hidden /> מערכת הדיוור – מייל ברוכים הבאים לדיירים</h3>
+              <p className="sales-letter-meta">נשלח אוטומטית ברגע שחברת הניהול מוסיפה רשימת דיירים לבניין</p>
+              <p className="sales-letter-meta">נושא: {onboarding.subject}</p>
+              <pre className="sales-letter-body">{onboarding.body}</pre>
+              <p className="small text-muted">החלף את [Link] בקישור להורדת האפליקציה (לפי בניין)</p>
+              <div className="sales-letter-actions">
+                <button type="button" className="btn btn-primary" onClick={() => copyToClipboard(onboarding.body.replace(onboarding.ctaPlaceholder, 'https://vantera.io/app'), 'onboarding')}>
+                  <i className="fas fa-copy me-2" aria-hidden /> {copied === 'onboarding' ? 'הועתק!' : 'העתק תוכן'}
+                </button>
+                <button type="button" className="btn btn-warning" onClick={() => openMailto('', onboarding.subject, onboarding.body.replace(onboarding.ctaPlaceholder, 'https://vantera.io/app'))}>
                   <i className="fas fa-paper-plane me-2" aria-hidden /> פתח דואל לשליחה
                 </button>
               </div>

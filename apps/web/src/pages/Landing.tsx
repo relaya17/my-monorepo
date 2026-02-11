@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import ROUTES from '../routs/routes';
+import SeoHead from '../components/SeoHead';
+import { SEO, SOFTWARE_APPLICATION_SCHEMA } from '../content/seo';
 import LiveStats from '../components/LiveStats';
 import SystemStatus from '../components/SystemStatus';
 import LiveTicker from '../components/LiveTicker';
@@ -1398,7 +1400,7 @@ function PillarsSection({
       <div className="pillars-grid" ref={ref}>
         {[
           { to: ROUTES.SELECT_BUILDING, ...content.pillars.ceo },
-          { to: ROUTES.LANDING_TECHNICIAN, ...content.pillars.technician },
+          { to: ROUTES.CONTRACTORS_JOIN, ...content.pillars.technician },
           { to: ROUTES.USER_LOGIN, ...content.pillars.resident },
         ].map((item, i) => (
           <motion.div
@@ -1473,6 +1475,7 @@ const Landing: React.FC = () => {
 
   return (
     <div className="landing-page" dir={dir} lang={lang === 'he' ? 'he' : 'en'}>
+      <SeoHead title={SEO.home.title} description={SEO.home.description} schemaJson={SOFTWARE_APPLICATION_SCHEMA} />
       <div className="landing-page-bg-video" aria-hidden>
         <video
           src={HERO_VIDEO_SRC}
@@ -1510,7 +1513,7 @@ const Landing: React.FC = () => {
               {content.hero.cta}
             </button>
             {content.hero.b2bCta && (
-              <Link to={ROUTES.B2B_REGISTER} className="landing-cta secondary">
+              <Link to={ROUTES.COMPANIES_MANAGEMENT} className="landing-cta secondary">
                 {content.hero.b2bCta}
               </Link>
             )}
@@ -1527,7 +1530,7 @@ const Landing: React.FC = () => {
                     {content.demoVideo.cta}
                   </a>
                 ) : (
-                  <Link to={ROUTES.LANDING_TECHNICIAN} className="landing-cta secondary">
+                  <Link to={ROUTES.CONTRACTORS_JOIN} className="landing-cta secondary">
                     {content.demoVideo.cta}
                   </Link>
                 );
