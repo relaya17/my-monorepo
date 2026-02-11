@@ -265,6 +265,24 @@ const AdminDashboard: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* כלי מכירה – שיווק ופרסום */}
+          <div className="col-12 col-sm-6 col-lg-4 col-xl-3">
+            <div className="card h-100 shadow-sm border-0 dashboard-card" style={{ backgroundColor: '#fff' }}>
+              <div className="card-body text-center d-flex flex-column">
+                <div className="mb-3 flex-grow-1 d-flex align-items-center justify-content-center">
+                  <i className="fas fa-bullhorn dashboard-icon" style={{ color: '#f1c40f', fontSize: 'clamp(2rem, 5vw, 3rem)' }} aria-hidden="true"></i>
+                </div>
+                <h5 className="card-title" style={{ color: '#374151', fontSize: 'clamp(1rem, 2.5vw, 1.25rem)' }}>כלי מכירה</h5>
+                <p className="card-text text-muted mb-3" style={{ fontSize: 'clamp(0.8rem, 2vw, 1rem)' }}>מכתב מכירה, מאגר לידים, שליחת מייל לחברות אחזקה</p>
+                <Link to={ROUTES.SALES_TOOLKIT} className="btn w-100 mt-auto" style={{ backgroundColor: '#f1c40f', color: '#1a1a1a', borderColor: '#f1c40f' }}>
+                  <i className="fas fa-paper-plane me-2" aria-hidden="true"></i>
+                  <span className="d-none d-sm-inline">כלי מכירה</span>
+                  <span className="d-sm-none">מכירה</span>
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* סטטיסטיקות מהירות */}

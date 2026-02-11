@@ -1,0 +1,281 @@
+/**
+ * כלי מכירה – Sales Toolkit
+ * צבעים: שחור פרימיום, זהב מטאלי, לבן
+ */
+.sales-toolkit-page {
+  min-height: 100vh;
+  background: #f8f9fa;
+  padding: 1rem;
+  padding-top: 5rem;
+}
+
+.sales-toolkit-header {
+  margin-bottom: 1.5rem;
+}
+
+.sales-toolkit-back {
+  display: inline-block;
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.sales-toolkit-back:hover {
+  color: #1a1a1a;
+}
+
+.sales-toolkit-header h1 {
+  font-size: 1.75rem;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.sales-toolkit-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sales-tab {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.sales-tab:hover {
+  background: #f3f4f6;
+}
+
+.sales-tab.active {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
+  color: #fff;
+  border-color: #1a1a1a;
+}
+
+.sales-toolkit-main {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* ווידג'ט הכנסות מצטברות */
+.sales-profit-widget {
+  margin-bottom: 2rem;
+}
+
+.profit-widget-card {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
+  color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.profit-widget-card h3 {
+  color: #f1c40f;
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.profit-total {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0.75rem 0;
+}
+
+.profit-breakdown {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.profit-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #bdc3c7;
+  margin-bottom: 0.25rem;
+}
+
+.profit-withdraw-btn {
+  width: 100%;
+  margin-top: 1.25rem;
+  background: #f1c40f;
+  color: #1a1a1a;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.profit-withdraw-btn:hover {
+  background: #f39c12;
+}
+
+/* מכתב מכירה */
+.sales-letter-section,
+.sales-punch-section {
+  margin-bottom: 2rem;
+}
+
+.sales-letter-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+}
+
+.sales-letter-card h3 {
+  margin: 0 0 0.75rem;
+  color: #1a1a1a;
+}
+
+.sales-letter-meta {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.sales-letter-body {
+  background: #f9fafb;
+  padding: 1rem;
+  border-radius: 10px;
+  white-space: pre-wrap;
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #374151;
+  margin-bottom: 1rem;
+}
+
+.sales-letter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* מאגר לידים */
+.sales-leads-section h3 {
+  margin: 0 0 1rem;
+  color: #1a1a1a;
+}
+
+.sales-leads-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.sales-add-lead-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.sales-add-lead-form input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.sales-leads-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sales-lead-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.sales-lead-info {
+  flex: 1;
+}
+
+.sales-lead-info a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.sales-lead-info a:hover {
+  text-decoration: underline;
+}
+
+.sales-lead-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* מודל רווח */
+.sales-model-section h3 {
+  margin: 0 0 1rem;
+  color: #1a1a1a;
+}
+
+.sales-model-table {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.sales-model-insight {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #fef3c7;
+  border-right: 4px solid #f59e0b;
+  border-radius: 8px;
+  color: #92400e;
+  font-weight: 500;
+}
+
+/* מצגת */
+.sales-pitch-section h3 {
+  margin: 0 0 1rem;
+  color: #1a1a1a;
+}
+
+.sales-pitch-slides {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sales-pitch-slide {
+  padding: 1rem;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.sales-pitch-hint {
+  display: block;
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-top: 0.35rem;
+}

@@ -66,6 +66,7 @@ const BuildingSelect = lazy(() => import("../pages/BuildingSelect"));
 const ContractsAndLetters = lazy(() => import("../pages/ContractsAndLetters"));
 const SafeZonePage = lazy(() => import("../pages/SafeZonePage"));
 const EnterpriseRegisterPage = lazy(() => import("../pages/EnterpriseRegisterPage"));
+const SalesToolkitPage = lazy(() => import("../pages/SalesToolkitPage"));
 
 // קומפוננטת עזר - עטיפת טופס דייר
 const ResidentFormWrapper: React.FC = () => {
@@ -186,6 +187,7 @@ const AppRoutes: React.FC = () => {
         <Route path={ROUTES.CONTRACTS_AND_LETTERS} element={<ContractsAndLetters />} />
         <Route path={ROUTES.SAFE_ZONE} element={<SafeZonePage />} />
         <Route path={ROUTES.B2B_REGISTER} element={<EnterpriseRegisterPage />} />
+        <Route path={ROUTES.SALES_TOOLKIT} element={<SalesToolkitPage />} />
 
         {/* 404 – חייב להיות אחרון */}
         <Route path="*" element={<Error404Page />} />

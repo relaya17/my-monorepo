@@ -46,6 +46,7 @@ const ROUTES = {
   CONTRACTS_AND_LETTERS: "/contracts-letters",
   SAFE_ZONE: "/safe-zone",
   B2B_REGISTER: "/enterprise-register",
+  SALES_TOOLKIT: "/sales-toolkit",
 };
 
 export default ROUTES;
