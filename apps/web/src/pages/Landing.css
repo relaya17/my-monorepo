@@ -1050,6 +1050,328 @@
   font-weight: 500;
 }
 
+/* דוח פוטנציאל רווח */
+.landing-profit-potential {
+  padding: 3rem 1.5rem 4rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.landing-profit-potential h2 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.landing-profit-subtitle {
+  font-size: 1rem;
+  color: #00F2FF;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.landing-profit-table {
+  padding: 1.25rem;
+  overflow-x: auto;
+}
+
+.landing-profit-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.landing-profit-table th,
+.landing-profit-table td {
+  padding: 0.6rem 0.75rem;
+  text-align: start;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.landing-profit-table th {
+  color: #00F2FF;
+  font-weight: 600;
+}
+
+.landing-profit-table td {
+  color: #d1d5db;
+}
+
+.landing-profit-total {
+  color: #22c55e !important;
+  font-weight: 600;
+}
+
+.landing-profit-table tfoot td {
+  border-bottom: none;
+  padding-top: 0.75rem;
+}
+
+.landing-profit-bottom {
+  margin: 1.25rem 0 0 !important;
+  padding: 0.75rem;
+  background: rgba(34, 197, 94, 0.15);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #9ca3af;
+}
+
+/* חוויית הדייר */
+.landing-resident-app {
+  padding: 3rem 1.5rem 4rem;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.landing-resident-app h2 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.landing-resident-subtitle {
+  font-size: 1rem;
+  color: #9ca3af;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.landing-resident-mockup {
+  padding: 1.5rem;
+  background: #fdfdfd;
+  color: #1a1a1a;
+  border-radius: 20px;
+}
+
+.landing-resident-security {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1.25rem;
+}
+
+.landing-resident-security small {
+  display: block;
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin-bottom: 0.25rem;
+}
+
+.landing-resident-security div {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2ecc71;
+}
+
+.landing-resident-mockup h4 {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  color: #2c3e50;
+}
+
+.landing-resident-supplier-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.landing-resident-avatar {
+  width: 45px;
+  height: 45px;
+  background: #ddd;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.landing-resident-supplier-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.landing-resident-supplier-info strong {
+  font-size: 0.9rem;
+  color: #2c3e50;
+}
+
+.landing-resident-supplier-info span {
+  font-size: 0.8rem;
+  color: #27ae60;
+}
+
+.landing-resident-order-btn {
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.landing-resident-feed {
+  font-size: 0.85rem;
+  color: #5a6c7d;
+  margin: 0;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+/* מערכת דירוג */
+.landing-rating-system {
+  padding: 3rem 1.5rem 4rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.landing-rating-system h2 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.landing-rating-tagline {
+  font-size: 0.95rem;
+  color: #00F2FF;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.landing-rating-points {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 560px) {
+  .landing-rating-points { grid-template-columns: repeat(3, 1fr); }
+}
+
+.landing-rating-point {
+  padding: 1rem 1.25rem;
+}
+
+.landing-rating-point h5 {
+  font-size: 0.95rem;
+  color: #00F2FF;
+  margin: 0 0 0.5rem;
+}
+
+.landing-rating-point p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #d1d5db;
+  line-height: 1.45;
+}
+
+.landing-completion-mockup {
+  padding: 1.5rem;
+  max-width: 400px;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.08);
+  text-align: center;
+}
+
+.landing-completion-mockup h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: #e5e7eb;
+}
+
+.landing-completion-mockup > p {
+  font-size: 0.9rem;
+  color: #9ca3af;
+  margin-bottom: 1rem;
+}
+
+.landing-completion-stars {
+  font-size: 1.5rem;
+  letter-spacing: 0.5rem;
+  margin: 1rem 0;
+}
+
+.landing-completion-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  text-align: start;
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+}
+
+.landing-completion-check label {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  cursor: pointer;
+}
+
+.landing-completion-cta {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  background: #2ecc71;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+/* הסכם שירות דיגיטלי */
+.landing-digital-agreement {
+  padding: 3rem 1.5rem 4rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.landing-digital-agreement h2 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.landing-agreement-points {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 560px) {
+  .landing-agreement-points { grid-template-columns: repeat(3, 1fr); }
+}
+
+.landing-agreement-point {
+  padding: 1rem 1.25rem;
+}
+
+.landing-agreement-point h5 {
+  font-size: 0.95rem;
+  color: #00F2FF;
+  margin: 0 0 0.5rem;
+}
+
+.landing-agreement-point p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #d1d5db;
+  line-height: 1.45;
+}
+
 /* סעיף שותפות עסקית */
 .landing-partnership {
   padding: 3rem 1.5rem 4rem;

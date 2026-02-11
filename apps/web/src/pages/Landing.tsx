@@ -190,6 +190,27 @@ type LandingContent = {
     cockpitTitle: string; cockpitCard1: string; cockpitCard1Name: string; cockpitCard1Dist: string; cockpitCard2: string; cockpitCard2Name: string; cockpitCard2Dist: string;
     hslCompareTitle: string; hslCompareDesc: string;
   };
+  profitPotentialSection?: {
+    title: string; subtitle: string; colSource: string; colVolume: string; colFee: string; colTotal: string;
+    row1Source: string; row1Volume: string; row1Fee: string; row1Total: string;
+    row2Source: string; row2Volume: string; row2Fee: string; row2Total: string;
+    row3Source: string; row3Volume: string; row3Fee: string; row3Total: string;
+    totalLabel: string; totalValue: string; bottomLine: string;
+  };
+  residentAppSection?: {
+    title: string; subtitle: string; securityStatus: string; securityProtected: string; securityNote: string;
+    availableTitle: string; supplierName: string; supplierMeta: string; orderCta: string; feedBanner: string;
+  };
+  ratingSystemSection?: {
+    title: string; tagline: string;
+    thresholdTitle: string; thresholdDesc: string; bonusTitle: string; bonusDesc: string;
+    verifiedTitle: string; verifiedDesc: string;
+    completionTitle: string; completionQuestion: string; securityCheckLabel: string; approveCta: string;
+  };
+  digitalAgreementSection?: {
+    title: string;
+    point1Title: string; point1Desc: string; point2Title: string; point2Desc: string; point3Title: string; point3Desc: string;
+  };
   revenueHubSection?: { title: string; cumulativeLabel: string; cumulativeValue: string; callsLabel: string; callsValue: string; activeVendorsLabel: string; vendors: Array<{ name: string; commission: string }>; proAccessTitle: string; proAccessPoints: string[] };
   programmerDeclaration?: { title: string; body: string; revenueSignature: string };
   residentValueSection?: { title: string; painTitle: string; painPoints: string[]; solutionTitle: string; solutionPoints: string[]; valueTitle: string; valuePoints: string[] };
@@ -698,6 +719,139 @@ function LiveStandardSection({ data }: { data: NonNullable<LandingContent['liveS
         <h4>{data.hslCompareTitle}</h4>
         <p>{data.hslCompareDesc}</p>
       </motion.div>
+    </section>
+  );
+}
+
+/** דוח פוטנציאל רווח – 50 בניינים. */
+function ProfitPotentialSection({ data }: { data: NonNullable<LandingContent['profitPotentialSection']> }) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const rows = [
+    { source: data.row1Source, volume: data.row1Volume, fee: data.row1Fee, total: data.row1Total },
+    { source: data.row2Source, volume: data.row2Volume, fee: data.row2Fee, total: data.row2Total },
+    { source: data.row3Source, volume: data.row3Volume, fee: data.row3Fee, total: data.row3Total },
+  ];
+  return (
+    <section className="landing-profit-potential" ref={ref} aria-labelledby="profit-heading">
+      <h2 id="profit-heading">{data.title}</h2>
+      <p className="landing-profit-subtitle">{data.subtitle}</p>
+      <motion.div className="landing-profit-table glass-card" initial={{ opacity: 0, y: 12 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.4 }}>
+        <table>
+          <thead>
+            <tr>
+              <th>{data.colSource}</th>
+              <th>{data.colVolume}</th>
+              <th>{data.colFee}</th>
+              <th>{data.colTotal}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r, i) => (
+              <tr key={i}>
+                <td>{r.source}</td>
+                <td>{r.volume}</td>
+                <td>{r.fee}</td>
+                <td className="landing-profit-total">{r.total}</td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan={3}><strong>{data.totalLabel}</strong></td>
+              <td className="landing-profit-total"><strong>{data.totalValue}</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+        <p className="landing-profit-bottom">{data.bottomLine}</p>
+      </motion.div>
+    </section>
+  );
+}
+
+/** חוויית הדייר – Resident App mockup. */
+function ResidentAppSection({ data }: { data: NonNullable<LandingContent['residentAppSection']> }) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <section className="landing-resident-app" ref={ref} aria-labelledby="resident-app-heading">
+      <h2 id="resident-app-heading">{data.title}</h2>
+      <p className="landing-resident-subtitle">{data.subtitle}</p>
+      <motion.div className="landing-resident-mockup glass-card" initial={{ opacity: 0, y: 12 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.4 }}>
+        <div className="landing-resident-security">
+          <small>{data.securityStatus}</small>
+          <div>{data.securityProtected}</div>
+        </div>
+        <h4>{data.availableTitle}</h4>
+        <div className="landing-resident-supplier-card">
+          <div className="landing-resident-avatar" aria-hidden />
+          <div className="landing-resident-supplier-info">
+            <strong>{data.supplierName}</strong>
+            <span>{data.supplierMeta}</span>
+          </div>
+          <button type="button" className="landing-resident-order-btn">{data.orderCta}</button>
+        </div>
+        <p className="landing-resident-feed">{data.feedBanner}</p>
+      </motion.div>
+    </section>
+  );
+}
+
+/** מערכת דירוג אקטיבית + אישור סיום עבודה. */
+function RatingSystemSection({ data }: { data: NonNullable<LandingContent['ratingSystemSection']> }) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const points = [
+    { title: data.thresholdTitle, desc: data.thresholdDesc },
+    { title: data.bonusTitle, desc: data.bonusDesc },
+    { title: data.verifiedTitle, desc: data.verifiedDesc },
+  ];
+  return (
+    <section className="landing-rating-system" ref={ref} aria-labelledby="rating-system-heading">
+      <h2 id="rating-system-heading">{data.title}</h2>
+      <p className="landing-rating-tagline">{data.tagline}</p>
+      <div className="landing-rating-points">
+        {points.map((p, i) => (
+          <motion.div key={p.title} className="landing-rating-point glass-card" initial={{ opacity: 0, y: 12 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.4, delay: i * 0.08 }}>
+            <h5>{p.title}</h5>
+            <p>{p.desc}</p>
+          </motion.div>
+        ))}
+      </div>
+      <motion.div className="landing-completion-mockup glass-card" initial={{ opacity: 0, y: 12 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.4, delay: 0.3 }}>
+        <h4>{data.completionTitle}</h4>
+        <p>{data.completionQuestion}</p>
+        <div className="landing-completion-stars" aria-hidden>⭐ ⭐ ⭐ ⭐ ⭐</div>
+        <div className="landing-completion-check">
+          <input type="checkbox" id="completion-sec" disabled aria-label={data.securityCheckLabel} />
+          <label htmlFor="completion-sec">{data.securityCheckLabel}</label>
+        </div>
+        <button type="button" className="landing-completion-cta">{data.approveCta}</button>
+      </motion.div>
+    </section>
+  );
+}
+
+/** הסכם השירות הדיגיטלי. */
+function DigitalAgreementSection({ data }: { data: NonNullable<LandingContent['digitalAgreementSection']> }) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const points = [
+    { title: data.point1Title, desc: data.point1Desc },
+    { title: data.point2Title, desc: data.point2Desc },
+    { title: data.point3Title, desc: data.point3Desc },
+  ];
+  return (
+    <section className="landing-digital-agreement" ref={ref} aria-labelledby="agreement-heading">
+      <h2 id="agreement-heading">{data.title}</h2>
+      <div className="landing-agreement-points">
+        {points.map((p, i) => (
+          <motion.div key={p.title} className="landing-agreement-point glass-card" initial={{ opacity: 0, y: 12 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.4, delay: i * 0.1 }}>
+            <h5>{p.title}</h5>
+            <p>{p.desc}</p>
+          </motion.div>
+        ))}
+      </div>
     </section>
   );
 }
@@ -1394,6 +1548,14 @@ const Landing: React.FC = () => {
       {content.aboutSection && <AboutSection data={content.aboutSection} />}
 
       {content.liveStandardSection && <LiveStandardSection data={content.liveStandardSection} />}
+
+      {content.profitPotentialSection && <ProfitPotentialSection data={content.profitPotentialSection} />}
+
+      {content.residentAppSection && <ResidentAppSection data={content.residentAppSection} />}
+
+      {content.ratingSystemSection && <RatingSystemSection data={content.ratingSystemSection} />}
+
+      {content.digitalAgreementSection && <DigitalAgreementSection data={content.digitalAgreementSection} />}
 
       {content.salesPitch && content.salesPitch.length > 0 && (
         <SalesPitchSection
