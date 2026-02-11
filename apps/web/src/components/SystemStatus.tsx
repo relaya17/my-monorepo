@@ -5,7 +5,7 @@ import React from 'react';
 
 const SystemStatus: React.FC = () => {
   return (
-    <div className="system-status" aria-label="סטטוס מערכת">
+    <div className="system-status" aria-label="System status">
       <span className="system-status-dot">
         <span className="system-status-ping" />
         <span className="system-status-dot-inner" />

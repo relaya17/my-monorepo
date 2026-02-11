@@ -1287,25 +1287,90 @@
   margin-top: 2rem;
 }
 
-/* כפתור כניסת מערכת (תמיד גלוי) */
+/* כפתור כניסת מערכת (תמיד גלוי) – רספונסיבי מאוד */
 .landing-login-bar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  padding: 0.75rem 1.5rem;
-  background: rgba(26, 26, 27, 0.9);
-  backdrop-filter: blur(8px);
+  padding: 0.5rem 1rem;
+  background: rgba(26, 26, 27, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   z-index: 100;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
 }
 
+.landing-nav-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem 1rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+  .landing-login-bar {
+    padding: 0.5rem 0.75rem;
+  }
+  .landing-nav-inner {
+    gap: 0.4rem 0.75rem;
+    justify-content: center;
+  }
+  .landing-nav-inner .system-status-text {
+    display: none;
+  }
+}
+
 .landing-login-bar .landing-cta {
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
+  padding: 0.45rem 0.9rem;
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+}
+
+/* Language switcher – compact for landing */
+.language-switcher--landing {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.lang-btn--landing {
+  min-width: 2.5rem;
+  padding: 0.35rem 0.6rem !important;
+  font-size: clamp(0.75rem, 2vw, 0.85rem) !important;
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: rgba(229, 231, 235, 0.9) !important;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.lang-btn--landing:hover,
+.lang-btn--landing:focus-visible {
+  background: rgba(0, 242, 255, 0.15) !important;
+  border-color: rgba(0, 242, 255, 0.4) !important;
+  color: #00F2FF !important;
+  outline: 2px solid rgba(0, 242, 255, 0.5);
+  outline-offset: 2px;
+}
+
+.lang-btn--landing.lang-btn--active {
+  background: rgba(0, 242, 255, 0.2) !important;
+  border-color: rgba(0, 242, 255, 0.5) !important;
+  color: #00F2FF !important;
+}
+
+.lang-sep {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.8rem;
+  user-select: none;
 }
 
 /* LiveStats בתוך דף נחיתה – כרטיסים זכוכית */

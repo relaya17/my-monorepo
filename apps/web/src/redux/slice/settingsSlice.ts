@@ -8,7 +8,7 @@ interface SettingsState {
 }
 
 const initialState: SettingsState = {
-  language: "he",
+  language: "en",
 };
 
 const settingsSlice = createSlice({

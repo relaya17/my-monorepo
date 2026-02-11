@@ -1093,12 +1093,18 @@ const Landing: React.FC = () => {
         <div className="landing-page-bg-overlay" />
       </div>
       <div className="landing-page-content">
-      <header className="landing-login-bar">
-        <SystemStatus />
-        <LanguageSwitcher />
-        <Link to={ROUTES.HOME} className="landing-cta" aria-label={content.loginCta ?? 'Sign In'}>
-          {content.loginCta ?? 'Sign In'}
-        </Link>
+      <header className="landing-login-bar" role="banner">
+        <div className="landing-nav-inner">
+          <SystemStatus />
+          <LanguageSwitcher variant="landing" />
+          <Link
+            to={ROUTES.HOME}
+            className="landing-cta"
+            aria-label={content.loginCta ?? 'Sign In'}
+          >
+            {content.loginCta ?? 'Sign In'}
+          </Link>
+        </div>
       </header>
 
       <section className="landing-hero">
