@@ -7,7 +7,7 @@
   min-height: 100vh;
   background: #f4f7f6;
   color: #2c3e50;
-  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-family);
 }
 
 .enterprise-register-header {

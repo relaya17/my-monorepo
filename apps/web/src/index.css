@@ -61,6 +61,8 @@
   --spacing-xl: 2rem;
   --spacing-xxl: 3rem;
   
+  /* Typography */
+  --font-family: 'Rubik', -apple-system, BlinkMacSystemFont, sans-serif;
   /* Font Sizes */
   --font-size-small: 0.875rem;
   --font-size-base: 1rem;
@@ -88,7 +90,7 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: var(--font-family);
   font-size: var(--font-size-base);
   background-color: var(--bg-primary);
   color: var(--text-primary);
@@ -496,6 +498,15 @@ h1 {
   border-bottom: 1px solid var(--border-light);
 }
 
+/* נאב – אותם צבעים ואפקט כמו הכרטיס המטושטש בדף הבית */
+.navbar-glass {
+  background: rgba(0, 0, 0, 0.35) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2) !important;
+}
+
 .navbar-brand {
   font-weight: 700;
   font-size: var(--font-size-xl);
@@ -900,6 +911,15 @@ body::before {
   color: #fff !important;
   border-bottom: 2px solid #1f2937 !important;
   z-index: 1000 !important;
+}
+
+/* נאב זכוכית – דורס את הרקע האפור */
+.navbar.navbar-glass {
+  background: rgba(0, 0, 0, 0.35) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2) !important;
 }
 
 .home-bg {
