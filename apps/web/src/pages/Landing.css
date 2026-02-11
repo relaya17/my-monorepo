@@ -845,6 +845,211 @@
   color: #9ca3af;
 }
 
+/* סעיף הסטנדרט החי – Pro-Radar */
+.landing-live-standard {
+  padding: 3rem 1.5rem 4rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.landing-live-standard h2 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.landing-live-tagline {
+  font-size: 1.05rem;
+  color: #00F2FF;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.landing-live-online-offline,
+.landing-live-pro-radar,
+.landing-live-hsl-compare {
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.landing-live-online-offline h4,
+.landing-live-pro-radar h4,
+.landing-live-hsl-compare h4 {
+  font-size: 1rem;
+  color: #00F2FF;
+  margin: 0 0 0.5rem;
+}
+
+.landing-live-online-offline p,
+.landing-live-pro-radar p,
+.landing-live-hsl-compare p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #d1d5db;
+  line-height: 1.55;
+}
+
+.landing-live-pillars {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 560px) {
+  .landing-live-pillars {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.landing-live-pillar {
+  padding: 1rem 1.25rem;
+}
+
+.landing-live-pillar h5 {
+  font-size: 0.95rem;
+  color: #00F2FF;
+  margin: 0 0 0.5rem;
+}
+
+.landing-live-pillar p {
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
+  color: #d1d5db;
+  line-height: 1.45;
+}
+
+.landing-live-result {
+  margin-top: 0.5rem !important;
+  font-weight: 600;
+  color: #22c55e !important;
+}
+
+.landing-live-radar-mockup {
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  border-inline-start: 4px solid #3498db;
+}
+
+.landing-radar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.landing-radar-header h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: #e5e7eb;
+}
+
+.landing-radar-pulse {
+  width: 10px;
+  height: 10px;
+  background: #2ecc71;
+  border-radius: 50%;
+  animation: landing-radar-pulse 1s infinite;
+}
+
+@keyframes landing-radar-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+.landing-radar-found {
+  border-inline-start: 3px solid #3498db;
+  padding-inline-start: 1rem;
+  margin-bottom: 1rem;
+}
+
+.landing-radar-found p {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+  color: #e5e7eb;
+}
+
+.landing-radar-meta {
+  font-size: 0.85rem !important;
+  color: #9ca3af !important;
+}
+
+.landing-radar-cta {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.landing-radar-cta:hover {
+  background: #2980b9;
+}
+
+.landing-live-cockpit {
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  border-inline-start: 6px solid #1a1a1a;
+}
+
+.landing-cockpit-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.landing-cockpit-dot {
+  width: 12px;
+  height: 12px;
+  background: #27ae60;
+  border-radius: 50%;
+  animation: landing-radar-pulse 2s infinite;
+}
+
+.landing-cockpit-header strong {
+  color: #e5e7eb;
+  font-size: 0.95rem;
+}
+
+.landing-cockpit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.landing-cockpit-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.landing-cockpit-label {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.landing-cockpit-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #e5e7eb;
+}
+
+.landing-cockpit-dist {
+  color: #22c55e;
+  font-weight: 500;
+}
+
 /* סעיף שותפות עסקית */
 .landing-partnership {
   padding: 3rem 1.5rem 4rem;

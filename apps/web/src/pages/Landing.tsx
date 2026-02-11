@@ -179,6 +179,17 @@ type LandingContent = {
     contractorTitle: string; digitalKeyTitle: string; digitalKeyDesc: string; blueprintTitle: string; blueprintDesc: string; zeroMarketingTitle: string; zeroMarketingDesc: string;
     escrowTitle: string; escrowStep1: string; escrowStep2: string; escrowStep3: string; escrowStep4: string; programmerNote: string;
   };
+  liveStandardSection?: {
+    title: string; tagline: string;
+    onlineOfflineTitle: string; onlineOfflineDesc: string;
+    proRadarTitle: string; proRadarDesc: string;
+    pillar1Title: string; pillar1Desc: string; pillar1Result: string;
+    pillar2Title: string; pillar2Desc: string; pillar2Result: string;
+    pillar3Title: string; pillar3Desc: string; pillar3Result: string;
+    radarSearchLabel: string; radarFoundLabel: string; radarFoundName: string; radarDistance: string; radarRating: string; radarCta: string;
+    cockpitTitle: string; cockpitCard1: string; cockpitCard1Name: string; cockpitCard1Dist: string; cockpitCard2: string; cockpitCard2Name: string; cockpitCard2Dist: string;
+    hslCompareTitle: string; hslCompareDesc: string;
+  };
   revenueHubSection?: { title: string; cumulativeLabel: string; cumulativeValue: string; callsLabel: string; callsValue: string; activeVendorsLabel: string; vendors: Array<{ name: string; commission: string }>; proAccessTitle: string; proAccessPoints: string[] };
   programmerDeclaration?: { title: string; body: string; revenueSignature: string };
   residentValueSection?: { title: string; painTitle: string; painPoints: string[]; solutionTitle: string; solutionPoints: string[]; valueTitle: string; valuePoints: string[] };
@@ -582,6 +593,110 @@ function AboutSection({ data }: { data: NonNullable<LandingContent['aboutSection
           ))}
         </ol>
         <p className="landing-about-note">{data.programmerNote}</p>
+      </motion.div>
+    </section>
+  );
+}
+
+/** סעיף הסטנדרט החי – Pro-Radar, Online/Offline, Live GPS. */
+function LiveStandardSection({ data }: { data: NonNullable<LandingContent['liveStandardSection']> }) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const pillars = [
+    { title: data.pillar1Title, desc: data.pillar1Desc, result: data.pillar1Result },
+    { title: data.pillar2Title, desc: data.pillar2Desc, result: data.pillar2Result },
+    { title: data.pillar3Title, desc: data.pillar3Desc, result: data.pillar3Result },
+  ];
+  return (
+    <section className="landing-live-standard" ref={ref} aria-labelledby="live-standard-heading">
+      <h2 id="live-standard-heading">{data.title}</h2>
+      <p className="landing-live-tagline">{data.tagline}</p>
+
+      <motion.div
+        className="landing-live-online-offline glass-card"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4 }}
+      >
+        <h4>{data.onlineOfflineTitle}</h4>
+        <p>{data.onlineOfflineDesc}</p>
+      </motion.div>
+
+      <motion.div
+        className="landing-live-pro-radar glass-card"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.08 }}
+      >
+        <h4>{data.proRadarTitle}</h4>
+        <p>{data.proRadarDesc}</p>
+      </motion.div>
+
+      <div className="landing-live-pillars">
+        {pillars.map((p, i) => (
+          <motion.div
+            key={p.title}
+            className="landing-live-pillar glass-card"
+            initial={{ opacity: 0, y: 12 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.4, delay: 0.12 + i * 0.06 }}
+          >
+            <h5>{p.title}</h5>
+            <p>{p.desc}</p>
+            <p className="landing-live-result">{p.result}</p>
+          </motion.div>
+        ))}
+      </div>
+
+      <motion.div
+        className="landing-live-radar-mockup glass-card"
+        initial={{ opacity: 0, y: 16 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.35 }}
+        aria-label="Live radar demo"
+      >
+        <div className="landing-radar-header">
+          <h4>🔎 {data.radarSearchLabel}</h4>
+          <span className="landing-radar-pulse" aria-hidden />
+        </div>
+        <div className="landing-radar-found">
+          <p><b>{data.radarFoundLabel}</b> {data.radarFoundName}</p>
+          <p className="landing-radar-meta">📍 {data.radarDistance}</p>
+          <p className="landing-radar-meta">⭐ {data.radarRating}</p>
+        </div>
+        <button type="button" className="landing-radar-cta">{data.radarCta}</button>
+      </motion.div>
+
+      <motion.div
+        className="landing-live-cockpit glass-card"
+        initial={{ opacity: 0, y: 16 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.42 }}
+      >
+        <div className="landing-cockpit-header">
+          <span className="landing-cockpit-dot" aria-hidden />
+          <strong>{data.cockpitTitle}</strong>
+        </div>
+        <div className="landing-cockpit-grid">
+          <div className="landing-cockpit-card">
+            <span className="landing-cockpit-label">{data.cockpitCard1}</span>
+            <span className="landing-cockpit-name">{data.cockpitCard1Name} <span className="landing-cockpit-dist">({data.cockpitCard1Dist})</span></span>
+          </div>
+          <div className="landing-cockpit-card">
+            <span className="landing-cockpit-label">{data.cockpitCard2}</span>
+            <span className="landing-cockpit-name">{data.cockpitCard2Name} <span className="landing-cockpit-dist">({data.cockpitCard2Dist})</span></span>
+          </div>
+        </div>
+      </motion.div>
+
+      <motion.div
+        className="landing-live-hsl-compare glass-card"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.5 }}
+      >
+        <h4>{data.hslCompareTitle}</h4>
+        <p>{data.hslCompareDesc}</p>
       </motion.div>
     </section>
   );
@@ -1277,6 +1392,8 @@ const Landing: React.FC = () => {
       <PillarsSection content={content} />
 
       {content.aboutSection && <AboutSection data={content.aboutSection} />}
+
+      {content.liveStandardSection && <LiveStandardSection data={content.liveStandardSection} />}
 
       {content.salesPitch && content.salesPitch.length > 0 && (
         <SalesPitchSection
