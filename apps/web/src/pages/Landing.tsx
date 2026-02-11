@@ -171,7 +171,14 @@ type LandingContent = {
   technicianQuote?: string;
   mockupPlaceholder?: string;
   partnershipSection?: { title: string; body: string; revenueShareTitle: string; revenueShareBody: string };
-  vendorPortalSection?: { title: string; subtitle: string; labelBusiness: string; placeholderBusiness: string; labelSpecialty: string; options: string[]; tip: string; cta: string; smartMatching: string };
+  vendorPortalSection?: { title: string; subtitle: string; labelBusiness: string; placeholderBusiness: string; labelSpecialty: string; options: string[]; tip: string; cta: string; smartMatching: string; documentUploadLabel?: string; documentUploadNote?: string; securityCheckLabel?: string };
+  aboutSection?: {
+    title: string; tagline: string; intro: string;
+    coreTitle: string; shieldTitle: string; shieldDesc: string; encryptionTitle: string; encryptionDesc: string; latencyTitle: string; latencyDesc: string;
+    profitTitle: string; profitIntro: string; cpcCpaTitle: string; cpcCpaDesc: string; splitTitle: string; split70: string; split20: string; split10: string;
+    contractorTitle: string; digitalKeyTitle: string; digitalKeyDesc: string; blueprintTitle: string; blueprintDesc: string; zeroMarketingTitle: string; zeroMarketingDesc: string;
+    escrowTitle: string; escrowStep1: string; escrowStep2: string; escrowStep3: string; escrowStep4: string; programmerNote: string;
+  };
   revenueHubSection?: { title: string; cumulativeLabel: string; cumulativeValue: string; callsLabel: string; callsValue: string; activeVendorsLabel: string; vendors: Array<{ name: string; commission: string }>; proAccessTitle: string; proAccessPoints: string[] };
   programmerDeclaration?: { title: string; body: string; revenueSignature: string };
   residentValueSection?: { title: string; painTitle: string; painPoints: string[]; solutionTitle: string; solutionPoints: string[]; valueTitle: string; valuePoints: string[] };
@@ -489,6 +496,97 @@ function SecurityShieldSection({ data }: { data: NonNullable<LandingContent['sec
   );
 }
 
+/** סעיף אודות Vantera – תוכן שיווקי-טכנולוגי מלא. */
+function AboutSection({ data }: { data: NonNullable<LandingContent['aboutSection']> }) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const coreItems = [
+    { title: data.shieldTitle, desc: data.shieldDesc },
+    { title: data.encryptionTitle, desc: data.encryptionDesc },
+    { title: data.latencyTitle, desc: data.latencyDesc },
+  ];
+  const contractorItems = [
+    { title: data.digitalKeyTitle, desc: data.digitalKeyDesc },
+    { title: data.blueprintTitle, desc: data.blueprintDesc },
+    { title: data.zeroMarketingTitle, desc: data.zeroMarketingDesc },
+  ];
+  const escrowSteps = [data.escrowStep1, data.escrowStep2, data.escrowStep3, data.escrowStep4];
+  return (
+    <section className="landing-about" ref={ref} aria-labelledby="about-heading">
+      <h2 id="about-heading">{data.title}</h2>
+      <p className="landing-about-tagline">{data.tagline}</p>
+      <motion.p
+        className="landing-about-intro"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4 }}
+      >
+        {data.intro}
+      </motion.p>
+
+      <motion.div
+        className="landing-about-core glass-card"
+        initial={{ opacity: 0, y: 16 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.08 }}
+      >
+        <h4>{data.coreTitle}</h4>
+        <ul>
+          {coreItems.map((item, i) => (
+            <li key={i}><strong>{item.title}:</strong> {item.desc}</li>
+          ))}
+        </ul>
+      </motion.div>
+
+      <motion.div
+        className="landing-about-profit glass-card"
+        initial={{ opacity: 0, y: 16 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.15 }}
+      >
+        <h4>{data.profitTitle}</h4>
+        <p>{data.profitIntro}</p>
+        <p><strong>{data.cpcCpaTitle}:</strong> {data.cpcCpaDesc}</p>
+        <div className="landing-about-split">
+          <span>{data.splitTitle}</span>
+          <span>{data.split70}</span>
+          <span>{data.split20}</span>
+          <span>{data.split10}</span>
+        </div>
+      </motion.div>
+
+      <motion.div
+        className="landing-about-contractor glass-card"
+        initial={{ opacity: 0, y: 16 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.22 }}
+      >
+        <h4>{data.contractorTitle}</h4>
+        <ul>
+          {contractorItems.map((item, i) => (
+            <li key={i}><strong>{item.title}:</strong> {item.desc}</li>
+          ))}
+        </ul>
+      </motion.div>
+
+      <motion.div
+        className="landing-about-escrow glass-card"
+        initial={{ opacity: 0, y: 16 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.3 }}
+      >
+        <h4>{data.escrowTitle}</h4>
+        <ol>
+          {escrowSteps.map((step, i) => (
+            <li key={i}>{step}</li>
+          ))}
+        </ol>
+        <p className="landing-about-note">{data.programmerNote}</p>
+      </motion.div>
+    </section>
+  );
+}
+
 /** סעיף שותפות עסקית – לא רק תוכנה. */
 function PartnershipSection({ data }: { data: NonNullable<LandingContent['partnershipSection']> }) {
   const ref = React.useRef(null);
@@ -517,10 +615,11 @@ function PartnershipSection({ data }: { data: NonNullable<LandingContent['partne
   );
 }
 
-/** סעיף פורטל ספקים – רישום קבלנים. */
+/** סעיף פורטל ספקים – רישום קבלנים (Pro-Filter). */
 function VendorPortalSection({ data, onRequestDemo }: { data: NonNullable<LandingContent['vendorPortalSection']>; onRequestDemo: () => void }) {
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
+  const [securityChecked, setSecurityChecked] = React.useState(false);
   return (
     <section className="landing-vendor-portal" ref={ref} aria-labelledby="vendor-heading">
       <h2 id="vendor-heading">{data.title}</h2>
@@ -534,7 +633,31 @@ function VendorPortalSection({ data, onRequestDemo }: { data: NonNullable<Landin
         <label>{data.labelBusiness}</label>
         <input type="text" placeholder={data.placeholderBusiness} readOnly />
         <label>{data.labelSpecialty}</label>
-        <select disabled><option>{data.options[0]}</option></select>
+        <select disabled aria-label={data.labelSpecialty}>
+          {data.options.map((opt, i) => (
+            <option key={i} value={opt}>{opt}</option>
+          ))}
+        </select>
+        {data.documentUploadLabel && (
+          <div className="landing-vendor-upload">
+            <p>{data.documentUploadLabel}</p>
+            <div className="landing-vendor-upload-zone" aria-label={data.documentUploadLabel}>
+              <span>{data.documentUploadNote}</span>
+            </div>
+          </div>
+        )}
+        {data.securityCheckLabel && (
+          <div className="landing-vendor-security-check">
+            <input
+              type="checkbox"
+              id="vendor-sec-check"
+              checked={securityChecked}
+              onChange={e => setSecurityChecked(e.target.checked)}
+              aria-label={data.securityCheckLabel}
+            />
+            <label htmlFor="vendor-sec-check">{data.securityCheckLabel}</label>
+          </div>
+        )}
         <div className="landing-vendor-tip">
           <span>💡</span> {data.tip}
         </div>
@@ -1152,6 +1275,8 @@ const Landing: React.FC = () => {
       </section>
 
       <PillarsSection content={content} />
+
+      {content.aboutSection && <AboutSection data={content.aboutSection} />}
 
       {content.salesPitch && content.salesPitch.length > 0 && (
         <SalesPitchSection

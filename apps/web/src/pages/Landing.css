@@ -750,6 +750,101 @@
   font-weight: 600;
 }
 
+/* סעיף אודות Vantera */
+.landing-about {
+  padding: 3rem 1.5rem 4rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.landing-about h2 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.landing-about-tagline {
+  font-size: 1.05rem;
+  color: #00F2FF;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.landing-about-intro {
+  font-size: 1rem;
+  color: #d1d5db;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.landing-about-core,
+.landing-about-profit,
+.landing-about-contractor,
+.landing-about-escrow {
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.landing-about-core h4,
+.landing-about-profit h4,
+.landing-about-contractor h4,
+.landing-about-escrow h4 {
+  font-size: 1rem;
+  color: #00F2FF;
+  margin: 0 0 0.75rem;
+}
+
+.landing-about-core ul,
+.landing-about-contractor ul,
+.landing-about-escrow ol {
+  margin: 0;
+  padding-inline-start: 1.25rem;
+}
+
+.landing-about-core li,
+.landing-about-contractor li,
+.landing-about-escrow li {
+  margin-bottom: 0.5rem;
+  color: #e5e7eb;
+  line-height: 1.5;
+}
+
+.landing-about-profit p {
+  margin: 0 0 0.5rem;
+  color: #d1d5db;
+  font-size: 0.95rem;
+}
+
+.landing-about-split {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(0, 242, 255, 0.08);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.landing-about-split span:first-child {
+  width: 100%;
+  font-weight: 600;
+  color: #00F2FF;
+}
+
+.landing-about-note {
+  margin: 1rem 0 0 !important;
+  padding: 0.75rem;
+  background: rgba(34, 197, 94, 0.1);
+  border-inline-start: 4px solid #22c55e;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #9ca3af;
+}
+
 /* סעיף שותפות עסקית */
 .landing-partnership {
   padding: 3rem 1.5rem 4rem;
@@ -823,6 +918,45 @@
   border-radius: 8px;
   background: rgba(255,255,255,0.05);
   color: #fff;
+}
+
+.landing-vendor-upload {
+  margin-top: 1rem;
+}
+
+.landing-vendor-upload p {
+  font-size: 0.9rem;
+  color: #d1d5db;
+  margin: 0 0 0.5rem;
+}
+
+.landing-vendor-upload-zone {
+  border: 2px dashed rgba(52, 211, 153, 0.5);
+  padding: 1.25rem;
+  text-align: center;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.landing-vendor-security-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.landing-vendor-security-check input[type="checkbox"] {
+  width: auto;
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.landing-vendor-security-check label {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #9ca3af;
+  cursor: pointer;
 }
 
 .landing-vendor-tip {
