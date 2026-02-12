@@ -1,5 +1,5 @@
 [build]
-command = "corepack enable pnpm && pnpm install && pnpm --filter web run build"
+command = "corepack enable pnpm && pnpm install && pnpm turbo run build --filter=web"
 publish = "apps/web/dist"
 
 [build.environment]

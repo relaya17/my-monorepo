@@ -61,6 +61,17 @@
 
 ---
 
+## Netlify – וידוא עדכון אוטומטי
+
+| צ'ק | תיאור |
+|-----|--------|
+| ☐ | Netlify מחובר ל-GitHub על `main` – Deploy מתבצע בכל push |
+| ☐ | Build: `corepack enable pnpm && pnpm install && pnpm turbo run build --filter=web` |
+| ☐ | Publish: `apps/web/dist` |
+| ☐ | אם הדף לא מתעדכן: Site settings → Build & deploy → **Clear cache and deploy site** |
+
+---
+
 ## קבצים רלוונטיים
 
 - `apps/api/src/routes/voneChatRoutes.ts` – זיהוי כוונה + תגובת AI
