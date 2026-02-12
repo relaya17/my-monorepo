@@ -22,6 +22,10 @@ import aiAnalyticsRoute from './aiAnalyticsRoute.js';
 import aiNotificationsRoute from './aiNotificationsRoute.js';
 import buildingsRoute from './buildingsRoute.js';
 import auditReportRoutes from './auditReportRoutes.js';
+import userStatusRoute from './userStatusRoute.js';
+import feedbackRoutes from './feedbackRoutes.js';
+import vendorScoreRoutes from './vendorScoreRoutes.js';
+import voneChatRoutes from './voneChatRoutes.js';
 
 const router = Router();
 
@@ -50,5 +54,9 @@ router.use('/ai-analytics', aiAnalyticsRoute);
 router.use('/ai-notifications', aiNotificationsRoute);
 router.use('/buildings', buildingsRoute);
 router.use('/audit-reports', auditReportRoutes);
+router.use('/user', userStatusRoute);
+router.use('/feedback', feedbackRoutes);
+router.use('/vendors', vendorScoreRoutes);
+router.use('/vone', voneChatRoutes);
 
 export default router;

@@ -137,7 +137,7 @@ const AdminLogin: React.FC = () => {
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="הזן סיסמה (למשל: admin123)"
+                  placeholder="הזן סיסמה"
                   required
                   autoComplete="current-password"
                   enterKeyHint="done"
@@ -185,7 +185,7 @@ const AdminLogin: React.FC = () => {
           <div className="text-center mt-4">
             <small className="text-muted d-block">
               <i className="fas fa-info-circle ms-1" aria-hidden="true"></i>
-              שם משתמש: admin &nbsp;|&nbsp; סיסמה: admin123
+              השתמש בפרטי ההתחברות שניתנו לך
             </small>
           </div>
 

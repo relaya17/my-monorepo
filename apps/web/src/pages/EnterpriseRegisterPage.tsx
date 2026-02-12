@@ -11,7 +11,7 @@ import type { RootState } from '../redux/store';
 import { RTL_LANGS } from '../i18n/translations';
 import './EnterpriseRegisterPage.css';
 
-type LangKey = 'he' | 'en';
+type LangKey = 'he' | 'en' | 'fr';
 
 type EnterpriseContent = {
   title: string;
@@ -55,8 +55,8 @@ const rawContent = landingContent as Record<LangKey, { enterpriseRegister: Enter
  */
 const EnterpriseRegisterPage: React.FC = () => {
   const appLang = useSelector((state: RootState) => state.settings.language);
-  const lang: LangKey = RTL_LANGS.includes(appLang as 'he' | 'ar') || appLang === 'he' ? 'he' : 'en';
-  const content = useMemo(() => rawContent[lang]?.enterpriseRegister ?? rawContent.he.enterpriseRegister, [lang]);
+  const lang: LangKey = RTL_LANGS.includes(appLang as 'he' | 'ar') || appLang === 'he' ? 'he' : appLang === 'fr' ? 'fr' : 'en';
+  const content = useMemo(() => rawContent[lang]?.enterpriseRegister ?? rawContent.en?.enterpriseRegister ?? rawContent.he.enterpriseRegister, [lang]);
   const dir = lang === 'he' ? 'rtl' : 'ltr';
 
   const [form, setForm] = useState({ companyName: '', buildingCount: 1, phone: '' });
@@ -97,7 +97,7 @@ const EnterpriseRegisterPage: React.FC = () => {
   ];
 
   return (
-    <div className="enterprise-register-page" dir={dir} lang={lang === 'he' ? 'he' : 'en'}>
+    <div className="enterprise-register-page" dir={dir} lang={lang === 'he' ? 'he' : lang === 'fr' ? 'fr' : 'en'}>
       <SeoHead title={SEO.b2b.title} description={SEO.b2b.description} />
       <header className="enterprise-register-header">
         <Link to={ROUTES.LANDING} className="enterprise-back-link">

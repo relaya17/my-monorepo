@@ -9,7 +9,7 @@ const STORAGE_KEY = 'app_lang';
 
 function getStoredLang(): LangCode | null {
   const v = safeGetItem(STORAGE_KEY);
-  if (v && (v === 'he' || v === 'en' || v === 'ar' || v === 'ru' || v === 'es')) return v as LangCode;
+  if (v && (v === 'he' || v === 'en' || v === 'ar' || v === 'ru' || v === 'es' || v === 'fr')) return v as LangCode;
   return null;
 }
 

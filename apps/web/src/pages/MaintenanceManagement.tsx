@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import NavigationBar from './SecondNavbar';
 import { apiRequestJson } from '../api';
 import { useAuth } from '../context/AuthContext';
+import { useLocale } from '../i18n/useLocale';
 
 interface MaintenanceTask {
   id: string;
@@ -37,6 +38,7 @@ const MaintenanceManagement: React.FC = () => {
   const [alertVariant, setAlertVariant] = useState<'success' | 'danger'>('success');
   const [duplicateExistingId, setDuplicateExistingId] = useState<string | null>(null);
   const { user } = useAuth();
+  const { formatDate } = useLocale();
 
   type ApiStatus = 'Open' | 'In_Progress' | 'Waiting_For_Parts' | 'Resolved' | 'Closed';
   const statusToUi = (s: ApiStatus): MaintenanceTask['status'] => {
@@ -323,7 +325,7 @@ const MaintenanceManagement: React.FC = () => {
                     <td><strong>{task.title}</strong></td>
                     <td>{task.description}</td>
                     <td>{getStatusBadge(task.status)}</td>
-                    <td>{task.updatedAt}</td>
+                    <td>{task.updatedAt ? formatDate(task.updatedAt) : '-'}</td>
                     <td>{task.assignedTo}</td>
                     <td>{getPriorityBadge(task.priority)}</td>
                     <td>

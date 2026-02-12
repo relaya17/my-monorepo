@@ -24,7 +24,6 @@ const ROUTES = {
   USER_DETAILS: "/user-details/:id",
   USERS_LIST: "/users-list",
   USER_MANAGEMENT: "/user-management",
-  CHANGE_ADMIN_PASSWORD: "/change-admin-password",
   SIGN_UP: "/sign-up",
   CHECK_OUT: "/check-out",
   ADMIN_DASHBOARD: "/admin-dashboard",
@@ -37,6 +36,7 @@ const ROUTES = {
   RECEIPT: "/receipt",
   VOTING: "/voting",
   RESIDENT_HOME: "/resident-home",
+  REPORT_FAULT: "/report-fault",
   COMMUNITY_WALL: "/community-wall",
   AI_DASHBOARD: "/ai-dashboard",
   PAYMENT_MANAGEMENT: "/payment-management",
@@ -62,6 +62,15 @@ const ROUTES = {
   BLOG: "/blog",
   /** מאמר בודד */
   BLOG_ARTICLE: "/blog/:slug",
+  /** דף נחיתה צרפתי – vantera.fr/fr */
+  LANDING_FR: "/fr",
+  /** דפים משפטיים צרפתיים (CNIL, Loi Élan) */
+  MENTIONS_LEGALES: "/mentions-legales",
+  POLITIQUE_CONFIDENTIALITE: "/politique-confidentialite",
+  CGU: "/cgu",
+  /** דף חוקים ומדיניות לפי מדינה – נראה מלכותי */
+  LEGAL: "/legal",
+  LEGAL_COUNTRY: "/legal/:country",
 };
 
 export default ROUTES;

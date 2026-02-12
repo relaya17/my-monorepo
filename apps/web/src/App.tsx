@@ -4,6 +4,8 @@ import Navbar from './components/Navbar';
 import AppRoutes from './routs/AppRoutes';
 import Footer from './components/Footer';
 import AccessibilityPanel from './components/AccessibilityPanel';
+import CookieBanner from './components/CookieBanner';
+import VOneWidget from './components/VOneWidget';
 import ErrorBoundary from './components/ErrorBoundary';
 import { AnalyticsProvider, useAnalyticsScripts } from './components/AnalyticsProvider';
 import { initStoredLanguage } from './i18n/useTranslation';
@@ -19,7 +21,7 @@ function AppContent() {
   }, [dispatch]);
   useEffect(() => {
     const dir = RTL_LANGS.includes(language as 'he' | 'ar') ? 'rtl' : 'ltr';
-    const lang = language === 'he' ? 'he' : language === 'ar' ? 'ar' : 'en';
+    const lang = language === 'he' ? 'he' : language === 'ar' ? 'ar' : language === 'fr' ? 'fr' : language === 'es' ? 'es' : 'en';
     document.documentElement.dir = dir;
     document.documentElement.lang = lang;
   }, [language]);
@@ -31,7 +33,9 @@ function AppContent() {
         <AppRoutes />
       </main>
       <Footer />
+      <VOneWidget />
       <AccessibilityPanel />
+      <CookieBanner />
     </div>
   );
 }

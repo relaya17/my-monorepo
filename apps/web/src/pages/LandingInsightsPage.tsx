@@ -41,7 +41,7 @@ import {
 } from './Landing';
 import './Landing.css';
 
-type LangKey = 'he' | 'en';
+type LangKey = 'he' | 'en' | 'fr';
 
 /** כתובת וידאו רקע לדף הנתונים – שים כאן את הקישור לווידאו שלך */
 const INSIGHTS_VIDEO_SRC = 'https://res.cloudinary.com/dora8sxcb/video/upload/v1770835423/motion2Fast_mp4_bwq9kf.mp4';
@@ -50,8 +50,8 @@ const rawContent = landingContent as Record<LangKey, LandingContent>;
 
 const LandingInsightsPage: React.FC = () => {
   const appLang = useSelector((state: RootState) => state.settings.language);
-  const lang: LangKey = appLang === 'he' || appLang === 'ar' ? 'he' : 'en';
-  const content = useMemo(() => rawContent[lang] ?? rawContent.he, [lang]);
+  const lang: LangKey = appLang === 'he' || appLang === 'ar' ? 'he' : appLang === 'fr' ? 'fr' : 'en';
+  const content = useMemo(() => rawContent[lang] ?? rawContent.en ?? rawContent.he, [lang]);
   const dir = lang === 'he' ? 'rtl' : 'ltr';
 
   const [demoOpen, setDemoOpen] = useState(false);
@@ -87,10 +87,10 @@ const LandingInsightsPage: React.FC = () => {
   const closeModal = () => setDemoOpen(false);
 
   return (
-    <div className="landing-page" dir={dir} lang={lang}>
+    <div className="landing-page" dir={dir} lang={lang === 'he' ? 'he' : lang === 'fr' ? 'fr' : 'en'}>
       <SeoHead
-        title={`${content.insightsPage?.heroTitle ?? (lang === 'he' ? 'נתונים, השוואות והכנסות' : 'Data, Comparisons & Revenue')} | ${SEO.home.title}`}
-        description={lang === 'he' ? 'השוואות טכנולוגיות, סטטיסטיקות צפייה, דוחות רווח ומודל הכנסות – כל המידע הטכני על Vantera.' : 'Technology comparisons, viewing stats, profit reports and revenue model – all technical information about Vantera.'}
+        title={`${content.insightsPage?.heroTitle ?? (lang === 'he' ? 'נתונים, השוואות והכנסות' : lang === 'fr' ? 'Données, comparaisons et revenus' : 'Data, Comparisons & Revenue')} | ${SEO.home.title}`}
+        description={lang === 'he' ? 'השוואות טכנולוגיות, סטטיסטיקות צפייה, דוחות רווח ומודל הכנסות – כל המידע הטכני על Vantera.' : lang === 'fr' ? 'Comparaisons techniques, statistiques de visionnage, rapports de profit et modèle de revenus – toute l\'information technique sur Vantera.' : 'Technology comparisons, viewing stats, profit reports and revenue model – all technical information about Vantera.'}
       />
       <div className="landing-page-bg-video" aria-hidden>
         <video
@@ -108,15 +108,15 @@ const LandingInsightsPage: React.FC = () => {
         <header className="landing-login-bar" role="banner">
           <div className="landing-nav-inner">
             <LanguageSwitcher variant="landing" />
-            <Link to={ROUTES.LANDING} className="landing-cta" aria-label={content.insightsPage?.backToLanding ?? (lang === 'he' ? 'חזרה לדף הנחיתה' : 'Back to Landing')}>
-              {content.insightsPage?.backToLanding ?? (lang === 'he' ? 'חזרה לדף הנחיתה' : 'Back to Landing')}
+            <Link to={ROUTES.LANDING} className="landing-cta" aria-label={content.insightsPage?.backToLanding ?? (lang === 'he' ? 'חזרה לדף הנחיתה' : lang === 'fr' ? 'Retour à l\'accueil' : 'Back to Landing')}>
+              {content.insightsPage?.backToLanding ?? (lang === 'he' ? 'חזרה לדף הנחיתה' : lang === 'fr' ? 'Retour à l\'accueil' : 'Back to Landing')}
             </Link>
           </div>
         </header>
 
         <section className="landing-hero" style={{ minHeight: '40vh', paddingTop: '2rem' }}>
-          <h1>{content.insightsPage?.heroTitle ?? (lang === 'he' ? 'נתונים, השוואות והכנסות' : 'Data, Comparisons & Revenue')}</h1>
-          <p className="hero-subtitle">{content.insightsPage?.heroSubtitle ?? (lang === 'he' ? 'כל המידע הטכני – מאורגן ומסודר' : 'All technical information – organized and structured')}</p>
+          <h1>{content.insightsPage?.heroTitle ?? (lang === 'he' ? 'נתונים, השוואות והכנסות' : lang === 'fr' ? 'Données, comparaisons et revenus' : 'Data, Comparisons & Revenue')}</h1>
+          <p className="hero-subtitle">{content.insightsPage?.heroSubtitle ?? (lang === 'he' ? 'כל המידע הטכני – מאורגן ומסודר' : lang === 'fr' ? 'Toute l\'information technique – organisée et structurée' : 'All technical information – organized and structured')}</p>
         </section>
 
         <section className="landing-pulse">
@@ -178,7 +178,7 @@ const LandingInsightsPage: React.FC = () => {
 
         <section className="landing-pulse" style={{ marginTop: '2rem' }}>
           <Link to={ROUTES.LANDING} className="landing-cta">
-            {content.insightsPage?.backToLanding ?? (lang === 'he' ? 'חזרה לדף הנחיתה' : 'Back to Landing')}
+            {content.insightsPage?.backToLanding ?? (lang === 'he' ? 'חזרה לדף הנחיתה' : lang === 'fr' ? 'Retour à l\'accueil' : 'Back to Landing')}
           </Link>
         </section>
       </div>

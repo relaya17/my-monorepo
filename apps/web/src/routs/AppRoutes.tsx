@@ -1,6 +1,11 @@
 import { Suspense, lazy, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import ROUTES from "../routs/routes";
+import LandingFrWrapper from "../pages/LandingFrWrapper";
+import MentionsLegales from "../pages/seqerty/MentionsLegales";
+import PolitiqueConfidentialiteFR from "../pages/seqerty/PolitiqueConfidentialiteFR";
+import CGU from "../pages/seqerty/CGU";
+import LegalHubPage from "../pages/LegalHubPage";
 
 // Route-level code splitting to reduce initial bundle size.
 const Home = lazy(() => import("../pages/Home"));
@@ -14,6 +19,7 @@ const ThankYouPage = lazy(() => import("../pages/thankyou/Thankyou"));
 const ResidentForm = lazy(() => import("../pages/ResidentForm"));
 const NewResidentApproval = lazy(() => import("../pages/NewResidentApproval"));
 const ResidentHome = lazy(() => import("../pages/ResidentHome"));
+const ReportFaultPage = lazy(() => import("../pages/ReportFaultPage"));
 
 const Gardening = lazy(() => import("../pages/Gardening"));
 const RepairTracking = lazy(() => import("../pages/RepairTracking"));
@@ -27,13 +33,11 @@ const PrivacyPolicy = lazy(() => import("../pages/seqerty/PrivacyPolicy"));
 const TermsAndConditions = lazy(() => import("../pages/seqerty/TermsAndConditions"));
 const Accessibility = lazy(() => import("../pages/seqerty/Accessibility"));
 const SecurityPolicy = lazy(() => import("../pages/seqerty/SecurityPolicy"));
-
 const SignUpPage = lazy(() => import("../pages/users/UI/SignUpPage"));
 const UsersListPage = lazy(() => import("../pages/users/UI/UsersListPage"));
 const UserDetailsPage = lazy(() => import("../pages/users/UI/UserDetailsPage"));
 const UserManagement = lazy(() => import("../pages/users/UI/UserManagement"));
 const CreateAdminPassword = lazy(() => import("../pages/users/UI/CreateAdminPassword"));
-const ChangeAdminPassword = lazy(() => import("../pages/users/UI/ChangeAdminPassword"));
 
 const CheckOutPage = lazy(() => import("../pages/CheckOutPage"));
 const PaymentPage = lazy(() => import("../pages/PaymentPage"));
@@ -110,6 +114,7 @@ const AppRoutes: React.FC = () => {
         <Route path={ROUTES.BLOG} element={<MarketingBlogPage />} />
         <Route path={ROUTES.BLOG_ARTICLE} element={<BlogArticlePage />} />
         <Route path={ROUTES.LANDING} element={<Landing />} />
+        <Route path={ROUTES.LANDING_FR} element={<LandingFrWrapper />} />
         <Route path={ROUTES.LANDING_INSIGHTS} element={<LandingInsightsPage />} />
         <Route path={ROUTES.LANDING_TECHNICIAN} element={<LandingTechnician />} />
         <Route path={ROUTES.LANDING_RESIDENT} element={<LandingResident />} />
@@ -118,6 +123,7 @@ const AppRoutes: React.FC = () => {
 
         {/* דף הבית של הדיירים */}
         <Route path={ROUTES.RESIDENT_HOME} element={<ResidentHome />} />
+        <Route path={ROUTES.REPORT_FAULT} element={<ReportFaultPage />} />
 
         {/* דיירים */}
         <Route path={ROUTES.RESIDENT_FORM} element={<ResidentFormWrapper />} />
@@ -140,7 +146,6 @@ const AppRoutes: React.FC = () => {
         <Route path={ROUTES.USER_DETAILS} element={<UserDetailsPage />} />
         <Route path={ROUTES.USER_MANAGEMENT} element={<UserManagement />} />
         <Route path={ROUTES.CREATE_ADMIN_PASSWORD} element={<CreateAdminPassword />} />
-        <Route path={ROUTES.CHANGE_ADMIN_PASSWORD} element={<ChangeAdminPassword />} />
 
         {/* תשלום */}
         <Route path={ROUTES.CHECK_OUT} element={<CheckOutPage />} />
@@ -151,7 +156,6 @@ const AppRoutes: React.FC = () => {
         <Route path={ROUTES.SELECT_BUILDING} element={<BuildingSelect />} />
         <Route path={ROUTES.ADMIN_DASHBOARD} element={<AdminDashboard />} />
         <Route path={ROUTES.CHANGE_PASSWORD} element={<ChangePassword />} />
-        <Route path={ROUTES.USER_DETAILS} element={<UserDetailsPage />} />
 
         {/* משתמשים */}
         <Route path={ROUTES.USER_LOGIN} element={<UserLogin />} />
@@ -181,6 +185,12 @@ const AppRoutes: React.FC = () => {
         <Route path={ROUTES.TERMS_AND_CONDITIONS} element={<TermsAndConditions />} />
         <Route path={ROUTES.ACCESSIBILITY} element={<Accessibility />} />
         <Route path={ROUTES.SECURITY_POLICY} element={<SecurityPolicy />} />
+        {/* דפים משפטיים צרפתיים (Mentions Légales, CGU, CNIL) */}
+        <Route path={ROUTES.MENTIONS_LEGALES} element={<MentionsLegales />} />
+        <Route path={ROUTES.POLITIQUE_CONFIDENTIALITE} element={<PolitiqueConfidentialiteFR />} />
+        <Route path={ROUTES.CGU} element={<CGU />} />
+        <Route path={ROUTES.LEGAL} element={<Navigate to="/legal/IL" replace />} />
+        <Route path={ROUTES.LEGAL_COUNTRY} element={<LegalHubPage />} />
 
         {/* תודה */}
         <Route path={ROUTES.THANK_YOU} element={<ThankYouPage />} />

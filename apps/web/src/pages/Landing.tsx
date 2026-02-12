@@ -5,8 +5,6 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import ROUTES from '../routs/routes';
 import SeoHead from '../components/SeoHead';
 import { SEO, SOFTWARE_APPLICATION_SCHEMA } from '../content/seo';
-import SystemStatus from '../components/SystemStatus';
-import LanguageSwitcher from '../components/LanguageSwitcher';
 import { getApiUrl } from '../api';
 import landingContent from '../content/landing-pages.json';
 import type { RootState } from '../redux/store';
@@ -14,10 +12,10 @@ import { RTL_LANGS } from '../i18n/translations';
 import { LANDING_VIDEO_SRC } from '../config/media';
 import './Landing.css';
 
-type LangKey = 'he' | 'en';
+type LangKey = 'he' | 'en' | 'fr';
 
 export type LandingContent = {
-  hero: { title: string; subtitle: string; subtitleLong?: string; cta: string; b2bCta?: string };
+  hero: { title: string; subtitle: string; subtitleLong?: string; tagline?: string; cta: string; b2bCta?: string };
   pillars: { ceo: { title: string; description: string }; technician: { title: string; description: string }; resident: { title: string; description: string } };
   pillarsSectionTitle?: string;
   salesPitchSectionTitle?: string;
@@ -218,6 +216,21 @@ export type LandingContent = {
     heroSubtitle: string;
     backToLanding: string;
   };
+  frValueProps?: {
+    title: string;
+    prop1Title: string; prop1Desc: string;
+    prop2Title: string; prop2Desc: string;
+    prop3Title: string; prop3Desc: string;
+  };
+  pitchDeckSection?: {
+    title: string;
+    tagline: string;
+    slide1Title: string; slide1Subtitle: string; slide1Points: string[]; slide1Result: string;
+    slide2Title: string; slide2Subtitle: string; slide2Points: string[];
+    slide3Title: string; slide3Subtitle: string; slide3Points: string[];
+    slide4Title: string; slide4Subtitle: string; slide4Points: string[];
+    slide5Title: string; slide5Subtitle: string; slide5Points: string[];
+  };
 };
 
 const rawContent = landingContent as Record<LangKey, LandingContent>;
@@ -255,6 +268,57 @@ function SalesPitchSection({
           >
             <h3>{item.title}</h3>
             <p>{item.pitch}</p>
+          </motion.article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/** 5 שקופיות הפיץ׳ דק – למשקיעים וועדי בית */
+function PitchDeckSection({
+  data,
+}: {
+  data: {
+    title: string;
+    tagline: string;
+    slide1Title: string; slide1Subtitle: string; slide1Points: string[]; slide1Result: string;
+    slide2Title: string; slide2Subtitle: string; slide2Points: string[];
+    slide3Title: string; slide3Subtitle: string; slide3Points: string[];
+    slide4Title: string; slide4Subtitle: string; slide4Points: string[];
+    slide5Title: string; slide5Subtitle: string; slide5Points: string[];
+  };
+}) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const slides: Array<{ title: string; subtitle: string; points: string[]; result?: string }> = [
+    { title: data.slide1Title, subtitle: data.slide1Subtitle, points: data.slide1Points, result: data.slide1Result },
+    { title: data.slide2Title, subtitle: data.slide2Subtitle, points: data.slide2Points },
+    { title: data.slide3Title, subtitle: data.slide3Subtitle, points: data.slide3Points },
+    { title: data.slide4Title, subtitle: data.slide4Subtitle, points: data.slide4Points },
+    { title: data.slide5Title, subtitle: data.slide5Subtitle, points: data.slide5Points },
+  ];
+  return (
+    <section className="landing-pitch-deck" ref={ref} aria-labelledby="pitch-deck-heading">
+      <h2 id="pitch-deck-heading">{data.title}</h2>
+      <p className="pitch-deck-tagline">{data.tagline}</p>
+      <div className="pitch-deck-slides">
+        {slides.map((slide, i) => (
+          <motion.article
+            key={slide.title}
+            className="glass-card pitch-deck-slide"
+            initial={{ opacity: 0, y: 24 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+            transition={{ duration: 0.4, delay: i * 0.08 }}
+          >
+            <h3 className="pitch-slide-title">{slide.title}</h3>
+            <p className="pitch-slide-subtitle">{slide.subtitle}</p>
+            <ul>
+              {slide.points.map((pt) => (
+                <li key={pt}>{pt}</li>
+              ))}
+            </ul>
+            {slide.result && <p className="pitch-slide-result">{slide.result}</p>}
           </motion.article>
         ))}
       </div>
@@ -1429,8 +1493,8 @@ function PillarsSection({
  */
 const Landing: React.FC = () => {
   const appLang = useSelector((state: RootState) => state.settings.language);
-  const lang: LangKey = RTL_LANGS.includes(appLang as 'he' | 'ar') || appLang === 'he' ? 'he' : 'en';
-  const content = useMemo(() => rawContent[lang] ?? rawContent.he, [lang]);
+  const lang: LangKey = RTL_LANGS.includes(appLang as 'he' | 'ar') || appLang === 'he' ? 'he' : appLang === 'fr' ? 'fr' : 'en';
+  const content = useMemo(() => rawContent[lang] ?? rawContent.en ?? rawContent.he, [lang]);
   const dir = lang === 'he' ? 'rtl' : 'ltr';
 
   const [demoOpen, setDemoOpen] = useState(false);
@@ -1476,7 +1540,7 @@ const Landing: React.FC = () => {
   };
 
   return (
-    <div className="landing-page" dir={dir} lang={lang === 'he' ? 'he' : 'en'}>
+    <div className="landing-page" dir={dir} lang={lang === 'he' ? 'he' : lang === 'fr' ? 'fr' : 'en'}>
       <SeoHead title={SEO.home.title} description={SEO.home.description} schemaJson={SOFTWARE_APPLICATION_SCHEMA} />
       <div className="landing-page-bg-video" aria-hidden>
         <video
@@ -1491,59 +1555,67 @@ const Landing: React.FC = () => {
         <div className="landing-page-bg-overlay" />
       </div>
       <div className="landing-page-content">
-      <header className="landing-login-bar" role="banner">
-        <div className="landing-nav-inner">
-          <SystemStatus />
-          <LanguageSwitcher variant="landing" />
-          <Link
-            to={ROUTES.HOME}
-            className="landing-cta"
-            aria-label={content.loginCta ?? 'Sign In'}
-          >
-            {content.loginCta ?? 'Sign In'}
-          </Link>
-        </div>
-      </header>
-
       <section className="landing-hero">
         <div className="hero-video-overlay" aria-hidden />
         <motion.div className="landing-hero-content" style={{ opacity: heroOpacity }}>
           <h1>{content.hero.title}</h1>
+          {content.hero.tagline && <p className="hero-tagline">{content.hero.tagline}</p>}
           <p className="hero-subtitle">{content.hero.subtitle}</p>
           {content.hero.subtitleLong && <p className="hero-subtitle-long">{content.hero.subtitleLong}</p>}
           <div className="landing-hero-ctas">
-            <button type="button" className="landing-cta" onClick={() => setDemoOpen(true)}>
+            <button type="button" className="landing-cta primary" onClick={() => setDemoOpen(true)}>
               {content.hero.cta}
             </button>
-            {content.hero.b2bCta && (
-              <Link to={ROUTES.COMPANIES_MANAGEMENT} className="landing-cta secondary">
-                {content.hero.b2bCta}
-              </Link>
-            )}
-            {content.demoVideo && (
-              (() => {
-                const demoUrl = (import.meta.env.VITE_DEMO_VIDEO_URL as string) || content.demoVideo?.url;
-                return demoUrl ? (
-                  <a
-                    href={demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="landing-cta secondary"
-                  >
-                    {content.demoVideo.cta}
-                  </a>
-                ) : (
-                  <Link to={ROUTES.CONTRACTORS_JOIN} className="landing-cta secondary">
-                    {content.demoVideo.cta}
-                  </Link>
-                );
-              })()
-            )}
+            <div className="landing-hero-cta-links">
+              {content.demoVideo && (
+                (() => {
+                  const demoUrl = (import.meta.env.VITE_DEMO_VIDEO_URL as string) || content.demoVideo?.url;
+                  return demoUrl ? (
+                    <a href={demoUrl} target="_blank" rel="noopener noreferrer" className="landing-cta secondary">
+                      {content.demoVideo.cta}
+                    </a>
+                  ) : (
+                    <Link to={ROUTES.CONTRACTORS_JOIN} className="landing-cta secondary">
+                      {content.demoVideo.cta}
+                    </Link>
+                  );
+                })()
+              )}
+              {content.hero.b2bCta && (
+                <Link to={ROUTES.COMPANIES_MANAGEMENT} className="landing-cta secondary">
+                  {content.hero.b2bCta}
+                </Link>
+              )}
+            </div>
           </div>
         </motion.div>
       </section>
 
+      {lang === 'fr' && content.frValueProps && (
+        <section className="landing-sales-pitch" aria-labelledby="fr-value-props-heading">
+          <h2 id="fr-value-props-heading">{content.frValueProps.title}</h2>
+          <div className="sales-pitch-grid">
+            <motion.article className="glass-card sales-pitch-card" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+              <h3>{content.frValueProps.prop1Title}</h3>
+              <p>{content.frValueProps.prop1Desc}</p>
+            </motion.article>
+            <motion.article className="glass-card sales-pitch-card" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}>
+              <h3>{content.frValueProps.prop2Title}</h3>
+              <p>{content.frValueProps.prop2Desc}</p>
+            </motion.article>
+            <motion.article className="glass-card sales-pitch-card" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.2 }}>
+              <h3>{content.frValueProps.prop3Title}</h3>
+              <p>{content.frValueProps.prop3Desc}</p>
+            </motion.article>
+          </div>
+        </section>
+      )}
+
       <PillarsSection content={content} />
+
+      {content.pitchDeckSection && (
+        <PitchDeckSection data={content.pitchDeckSection} />
+      )}
 
       {content.salesPitch && content.salesPitch.length > 0 && (
         <SalesPitchSection
@@ -1554,16 +1626,26 @@ const Landing: React.FC = () => {
 
       <section className="landing-insights-cta">
         <Link to={ROUTES.LANDING_INSIGHTS} className="glass-card landing-insights-link">
-          <h3>{content.insightsPage?.ctaTitle ?? (lang === 'he' ? 'נתונים, השוואות והכנסות' : 'Data, Comparisons & Revenue')}</h3>
-          <p>{content.insightsPage?.ctaDesc ?? (lang === 'he' ? 'השוואות טכנולוגיות, סטטיסטיקות, דוחות רווח וכל המידע הטכני – מסודר ומאורגן' : 'Technology comparisons, statistics, profit reports and all technical information – organized and structured')}</p>
-          <span className="landing-cta">{content.insightsPage?.ctaLink ?? (lang === 'he' ? 'לכל הנתונים →' : 'View all data →')}</span>
+          <h3>{content.insightsPage?.ctaTitle ?? (lang === 'he' ? 'נתונים, השוואות והכנסות' : lang === 'fr' ? 'Données, comparaisons et revenus' : 'Data, Comparisons & Revenue')}</h3>
+          <p>{content.insightsPage?.ctaDesc ?? (lang === 'he' ? 'השוואות טכנולוגיות, סטטיסטיקות, דוחות רווח וכל המידע הטכני – מסודר ומאורגן' : lang === 'fr' ? 'Comparaisons techniques, statistiques, rapports de profit et toute l\'information technique – organisés et structurés' : 'Technology comparisons, statistics, profit reports and all technical information – organized and structured')}</p>
+          <span className="landing-cta">{content.insightsPage?.ctaLink ?? (lang === 'he' ? 'לכל הנתונים →' : lang === 'fr' ? 'Voir toutes les données →' : 'View all data →')}</span>
         </Link>
       </section>
 
       <footer className="landing-footer py-3 text-center text-muted small">
-        <Link to={ROUTES.BLOG} className="me-3">{lang === 'he' ? 'בלוג' : 'Blog'}</Link>
-        <Link to={ROUTES.PRIVACY_POLICY} className="me-3">מדיניות פרטיות</Link>
-        <Link to={ROUTES.TERMS_AND_CONDITIONS}>תנאי שימוש</Link>
+        <Link to={ROUTES.BLOG} className="me-3">{lang === 'he' ? 'בלוג' : lang === 'fr' ? 'Blog' : 'Blog'}</Link>
+        {lang === 'fr' ? (
+          <>
+            <Link to={ROUTES.MENTIONS_LEGALES} className="me-3">Mentions Légales</Link>
+            <Link to={ROUTES.POLITIQUE_CONFIDENTIALITE} className="me-3">Politique de confidentialité</Link>
+            <Link to={ROUTES.CGU}>CGU</Link>
+          </>
+        ) : (
+          <>
+            <Link to={ROUTES.PRIVACY_POLICY} className="me-3">{lang === 'he' ? 'מדיניות פרטיות' : 'Privacy Policy'}</Link>
+            <Link to={ROUTES.TERMS_AND_CONDITIONS}>{lang === 'he' ? 'תנאי שימוש' : 'Terms'}</Link>
+          </>
+        )}
       </footer>
 
       </div>

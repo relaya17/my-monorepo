@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addRepair } from '../redux/slice/repairTrackingSlice';
+import DateSelector from '../components/DateSelector';
 
 const RepairTracking = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const RepairTracking = () => {
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="date" className="form-label">תאריך</label>
-          <input type="date" className="form-control" id="date" value={date} onChange={(e) => setDate(e.target.value)} />
+          <DateSelector id="date" value={date} onChange={setDate} className="form-control" />
         </div>
         <div className="mb-3">
           <label htmlFor="task" className="form-label">משימה</label>

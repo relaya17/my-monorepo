@@ -3,12 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../../routs/routes';
 
 const UserManagement: React.FC = () => {
-  const [adminPassword, setAdminPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // בדיקה אם המשתמש מחובר כאדמין
     const isLoggedIn = localStorage.getItem('isAdminLoggedIn');
     if (!isLoggedIn) {
       navigate('/admin-login');
@@ -16,19 +14,6 @@ const UserManagement: React.FC = () => {
       setIsAuthenticated(true);
     }
   }, [navigate]);
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAdminPassword(e.target.value);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (adminPassword === 'admin123') {
-      setIsAuthenticated(true);
-    } else {
-      alert('סיסמה שגויה');
-    }
-  };
 
   const goToChangePassword = () => {
     navigate(ROUTES.CHANGE_PASSWORD);
@@ -50,45 +35,9 @@ const UserManagement: React.FC = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="container-fluid d-flex justify-content-center align-items-center" 
-           style={{ 
-             minHeight: '100vh', 
-             background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)',
-             direction: 'rtl'
-           }}>
-        <div className="card shadow-lg" style={{ maxWidth: '400px', width: '100%' }}>
-          <div className="card-body p-5" style={{ textAlign: 'right' }}>
-            <div className="text-center mb-4">
-              <i className="fas fa-users fa-3x mb-3" style={{ color: '#6b7280' }}></i>
-              <h2 className="card-title" style={{ color: '#374151' }}>
-                ניהול משתמשים
-              </h2>
-              <p className="text-muted">הזן סיסמת מנהל</p>
-            </div>
-
-            <form onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <label htmlFor="adminPassword" className="form-label">
-                  <i className="fas fa-lock ms-2"></i>
-                  סיסמת מנהל
-                </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="adminPassword"
-                  value={adminPassword}
-                  onChange={handlePasswordChange}
-                  placeholder="הזן סיסמת מנהל"
-                  required
-                  style={{ textAlign: 'right' }}
-                />
-              </div>
-              <button type="submit" className="btn btn-primary w-100">
-                <i className="fas fa-sign-in-alt ms-2"></i>
-                התחבר
-              </button>
-            </form>
-          </div>
+      <div className="container-fluid d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">טוען...</span>
         </div>
       </div>
     );

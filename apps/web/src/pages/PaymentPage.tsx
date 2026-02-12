@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Button, Form, Alert } from 'react-bootstrap';
 import { getApiUrl, getApiHeaders } from '../api';
 import { useBuilding } from '../context/BuildingContext';
+import PriceDisplay from '../components/PriceDisplay';
 
 const PaymentPage: React.FC = () => {
   const { buildingName } = useBuilding();
@@ -74,7 +75,7 @@ const PaymentPage: React.FC = () => {
                 />
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>סכום</Form.Label>
+                <Form.Label>סכום {amount > 0 && <PriceDisplay amount={amount} className="text-muted" />}</Form.Label>
                 <Form.Control
                   type="number"
                   value={amount}

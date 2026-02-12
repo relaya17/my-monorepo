@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { apiRequestJson } from '../api';
 
 const ChangePassword: React.FC = () => {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -37,24 +38,27 @@ const ChangePassword: React.FC = () => {
       return;
     }
 
-    // בדיקה שהסיסמה הנוכחית נכונה (בפועל זה יהיה מול השרת)
-    if (currentPassword !== 'admin123') {
-      setError('הסיסמה הנוכחית שגויה');
+    // קריאה ל-API לשינוי סיסמה – אין לאמת סיסמה בצד הלקוח
+    try {
+      const { response, data } = await apiRequestJson<{ message?: string }>('admin/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      if (!response.ok) {
+        setError((data?.message) || 'שינוי הסיסמה נכשל');
+        setIsLoading(false);
+        return;
+      }
+      setSuccess('הסיסמה שונתה בהצלחה!');
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+    } catch {
+      setError('שגיאת תקשורת. נסה שוב מאוחר יותר.');
+    } finally {
       setIsLoading(false);
-      return;
     }
-
-    // כאן בפועל תהיה קריאה לשרת לשינוי הסיסמה
-    // כרגע נשמור ב-localStorage לדוגמה
-    localStorage.setItem('adminPassword', newPassword);
-    
-    setSuccess('הסיסמה שונתה בהצלחה!');
-    setIsLoading(false);
-    
-    // ניקוי השדות
-    setCurrentPassword('');
-    setNewPassword('');
-    setConfirmPassword('');
   };
 
   const handleBack = () => {

@@ -43,33 +43,37 @@ cd apps/api && pnpm dev
 cd apps/web && pnpm dev
 ```
 
-## 📁 מבנה הפרויקט המשופר
+## 📁 מבנה הפרויקט – Monorepo (M&A Ready)
 
 ```
 my-monorepo-app/
 ├── apps/
-│   ├── web/                # React Web
+│   ├── web/                # React Web – Vite + TypeScript
 │   │   ├── src/
-│   │   │   ├── components/ # קומפוננטות React
+│   │   │   ├── components/ # קומפוננטות (VOneWidget, PriceDisplay, DateSelector, CountrySwitcher)
 │   │   │   ├── pages/      # דפי האפליקציה
-│   │   │   ├── redux/      # ניהול state
-│   │   │   └── routs/      # ניתוב
-│   ├── api/                # Node.js API
+│   │   │   ├── i18n/       # locale, formatters, useLocale, featureFlags (Global Scale)
+│   │   │   ├── redux/     # ניהול state
+│   │   │   └── routs/     # ניתוב
+│   ├── api/                # Node.js API – Express + Mongoose
 │   │   ├── src/
-│   │   │   ├── controllers/# לוגיקה עסקית
-│   │   │   ├── models/     # מודלים של מסד נתונים
-│   │   │   ├── routes/     # נתיבי API
-│   │   │   ├── middleware/ # middleware מתקדם
-│   │   │   ├── utils/      # כלי עזר וניטור
-│   │   │   └── types/      # הגדרות טיפוסים
+│   │   │   ├── models/     # Building, Maintenance, User, Payment...
+│   │   │   ├── routes/     # נתיבי API (vone, maintenance, payments...)
+│   │   │   ├── middleware/ # auth, validation
+│   │   │   ├── utils/      # voneContext, multiTenancy
+│   │   │   └── services/   # vision, stripe
 │   └── native/             # אפליקציה נייטיבית (placeholder)
 ├── packages/
+│   ├── config/             # @vantera/config – locales, currencies, units (he-IL, en-US)
+│   ├── i18n/               # @vantera/i18n – JSON תרגומים (he.json, en.json, es.json)
 │   └── shared/             # קוד משותף בין האפליקציות
-├── docs/                   # תיעוד וסטנדרטים (ראה docs/README.md לאינדקס)
-├── scripts/                # סקריפטים (גיבוי, אוטומציה, ניטור – ראה להלן)
+├── docs/                   # תיעוד (US_EXPANSION_STRATEGY, M_A_READY_EXIT_STRATEGY, LAUNCH_API_ENDPOINTS)
+├── scripts/                # גיבוי, אוטומציה, ניטור
 ├── uploads/                # קבצים שהועלו
 └── logs/                   # לוגים (נוצר אוטומטית)
 ```
+
+**תיעוד מפתח:** `docs/README.md` | `docs/M_A_READY_EXIT_STRATEGY.md` | `docs/US_EXPANSION_STRATEGY.md`
 
 ### סקריפטים (`scripts/`)
 

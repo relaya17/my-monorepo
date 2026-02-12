@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addMaintenance } from '../redux/slice/poolMaintenanceSlice';
+import DateSelector from '../components/DateSelector';
 
 const PoolMaintenance = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const PoolMaintenance = () => {
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="date" className="form-label">תאריך</label>
-          <input type="date" className="form-control" id="date" value={date} onChange={(e) => setDate(e.target.value)} />
+          <DateSelector id="date" value={date} onChange={setDate} className="form-control" />
         </div>
         <div className="mb-3">
           <label htmlFor="maintenanceTask" className="form-label">משימת תחזוקה</label>

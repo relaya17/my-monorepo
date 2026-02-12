@@ -231,6 +231,24 @@ importers:
         specifier: ^5.4.19
         version: 5.4.21(@types/node@20.19.33)
 
+  packages/config:
+    devDependencies:
+      rimraf:
+        specifier: ^6.1.2
+        version: 6.1.2
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+
+  packages/i18n:
+    devDependencies:
+      rimraf:
+        specifier: ^6.1.2
+        version: 6.1.2
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+
   packages/shared:
     devDependencies:
       rimraf:

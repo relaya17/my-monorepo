@@ -58,7 +58,7 @@ const UserLogin: React.FC = () => {
     try {
       const { response, data } = await apiRequestJson<{
         message?: string;
-        user?: { id: string; name: string; email: string };
+        user?: { id: string; name: string; email: string; buildingId?: string };
         accessToken?: string;
         refreshToken?: string;
       }>('login', {
@@ -73,6 +73,7 @@ const UserLogin: React.FC = () => {
         safeSetItem('userName', data.user.name);
         safeSetItem('userId', data.user.id.toString());
         safeSetItem('user', JSON.stringify(data.user));
+        if (data.user.buildingId) setBuildingId(data.user.buildingId);
         if (data.accessToken) safeSetItem(AUTH_TOKEN_KEY, data.accessToken);
         if (data.refreshToken) safeSetItem(REFRESH_TOKEN_KEY, data.refreshToken);
         refreshAuth();

@@ -3,6 +3,7 @@ import Admin from '../models/adminModel.js';
 import RefreshToken from '../models/refreshTokenModel.js';
 import bcrypt from 'bcryptjs';
 import { loginRateLimiter } from '../middleware/securityMiddleware.js';
+import { authMiddleware } from '../middleware/authMiddleware.js';
 import { tenantContext } from '../middleware/tenantMiddleware.js';
 import { createAccessToken, createRefreshTokenValue, getRefreshExpiresDate } from '../utils/jwt.js';
 
@@ -113,6 +114,51 @@ router.post('/login', loginRateLimiter, async (req: Request, res: Response) => {
         });
     } catch (error) {
         console.error('Admin login error:', error);
+        res.status(500).json({ message: 'שגיאה בשרת' });
+    }
+});
+
+// POST /api/admin/change-password – שינוי סיסמת אדמין (דורש JWT)
+router.post('/change-password', authMiddleware, loginRateLimiter, async (req: Request, res: Response) => {
+    const auth = (req as Request & { auth?: { sub: string; type: string; username?: string } }).auth;
+    if (!auth || auth.type !== 'admin') {
+        return res.status(403).json({ message: 'גישה לאדמינים בלבד' });
+    }
+    const body = req.body as Record<string, unknown>;
+    const currentPassword = typeof body.currentPassword === 'string' ? body.currentPassword.trim() : '';
+    const newPassword = typeof body.newPassword === 'string' ? body.newPassword.trim() : '';
+
+    if (!currentPassword || !newPassword) {
+        return res.status(400).json({ message: 'יש להזין סיסמה נוכחית וסיסמה חדשה' });
+    }
+    if (newPassword.length < 6) {
+        return res.status(400).json({ message: 'הסיסמה החדשה חייבת להכיל לפחות 6 תווים' });
+    }
+
+    try {
+        let admin: { _id?: { toString(): string }; password?: string; username?: string } | null = await tenantContext.run(
+            { buildingId: 'default' },
+            async () => Admin.findById(auth.sub)
+        );
+        if (!admin) {
+            const raw = await Admin.collection.findOne({ _id: auth.sub } as Record<string, unknown>);
+            if (raw) admin = raw as { _id?: { toString(): string }; password?: string; username?: string };
+        }
+        if (!admin) {
+            return res.status(404).json({ message: 'אדמין לא נמצא' });
+        }
+        const pwd = admin.password;
+        const isMatch = typeof pwd === 'string' && (await bcrypt.compare(currentPassword, pwd));
+        if (!isMatch) {
+            return res.status(401).json({ message: 'הסיסמה הנוכחית שגויה' });
+        }
+        const hash = await bcrypt.hash(newPassword, 10);
+        await tenantContext.run({ buildingId: 'default' }, async () => {
+            await Admin.updateOne({ _id: auth!.sub }, { $set: { password: hash } });
+        });
+        res.json({ message: 'הסיסמה שונתה בהצלחה' });
+    } catch (err) {
+        console.error('Admin change-password error:', err);
         res.status(500).json({ message: 'שגיאה בשרת' });
     }
 });

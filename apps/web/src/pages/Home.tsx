@@ -82,7 +82,7 @@ const Home: React.FC = () => {
           </div>
             <div className="home-cta home-cta-bottom">
               <Link
-                to={ROUTES.COMPANIES_MANAGEMENT}
+                to={ROUTES.LANDING}
                 className="home-btn btn btn-primary btn-lg home-btn-cta"
                 aria-label="חברות ומשקיעים בלבד – גילוי ההזדמנות"
               >

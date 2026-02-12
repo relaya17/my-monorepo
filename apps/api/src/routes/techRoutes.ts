@@ -3,6 +3,7 @@
  */
 import express, { Request, Response } from 'express';
 import Maintenance from '../models/maintenanceModel.js';
+import MaintenanceFeedback from '../models/maintenanceFeedbackModel.js';
 import { tenantContext } from '../middleware/tenantMiddleware.js';
 import { resolveTechnicianToken, invalidateTechnicianToken } from '../services/technicianAccessService.js';
 import { createTransaction } from '../services/transactionService.js';
@@ -60,6 +61,21 @@ router.patch('/work-order/:token', async (req: Request, res: Response) => {
         category: category ?? 'Other',
         description: title ?? 'Maintenance',
       }).catch(() => {});
+    }
+    const reporterId = (updated as { reporterId?: { toString?: () => string } }).reporterId;
+    const contractorName = (updated as { assignedContractor?: { name?: string } }).assignedContractor?.name;
+    if (reporterId) {
+      await tenantContext.run({ buildingId }, async () => {
+        const existing = await MaintenanceFeedback.findOne({ maintenanceId, residentId: reporterId });
+        if (!existing) {
+          await MaintenanceFeedback.create({
+            maintenanceId,
+            residentId: reporterId,
+            status: 'pending',
+            contractorName: contractorName || undefined,
+          });
+        }
+      }).catch((err) => console.error('MaintenanceFeedback create error:', err));
     }
   }
   res.json(updated);

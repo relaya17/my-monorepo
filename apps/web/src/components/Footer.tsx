@@ -10,6 +10,7 @@ const LANG_OPTIONS: { code: LangCode; labelKey: string }[] = [
   { code: 'ar', labelKey: 'lang_ar' },
   { code: 'ru', labelKey: 'lang_ru' },
   { code: 'es', labelKey: 'lang_es' },
+  { code: 'fr', labelKey: 'lang_fr' },
 ];
 
 const Footer: React.FC = () => {
@@ -26,11 +27,22 @@ const Footer: React.FC = () => {
         <div className="row align-items-center justify-content-center text-center">
           <div className="col-12 col-md-auto mb-2 mb-md-0">
             <nav aria-label="Footer navigation">
-              <Link to={ROUTES.HOME} className="text-light me-2 me-md-3">{t('footer_home')}</Link>
-              <Link to={ROUTES.PRIVACY_POLICY} className="text-light me-2 me-md-3">{t('footer_privacy')}</Link>
-              <Link to={ROUTES.TERMS_AND_CONDITIONS} className="text-light me-2 me-md-3">{t('footer_terms')}</Link>
-              <Link to={ROUTES.ACCESSIBILITY} className="text-light me-2 me-md-3">{t('footer_accessibility')}</Link>
-              <Link to={ROUTES.SECURITY_POLICY} className="text-light me-2 me-md-3">{t('footer_security')}</Link>
+              <Link to={lang === 'fr' ? ROUTES.LANDING_FR : ROUTES.HOME} className="text-light me-2 me-md-3">{t('footer_home')}</Link>
+              {lang === 'fr' ? (
+                <>
+                  <Link to={ROUTES.MENTIONS_LEGALES} className="text-light me-2 me-md-3">Mentions Légales</Link>
+                  <Link to={ROUTES.POLITIQUE_CONFIDENTIALITE} className="text-light me-2 me-md-3">Politique de confidentialité</Link>
+                  <Link to={ROUTES.CGU} className="text-light me-2 me-md-3">CGU</Link>
+                  <Link to={ROUTES.ACCESSIBILITY} className="text-light me-2 me-md-3">{t('footer_accessibility')}</Link>
+                </>
+              ) : (
+                <>
+                  <Link to={ROUTES.PRIVACY_POLICY} className="text-light me-2 me-md-3">{t('footer_privacy')}</Link>
+                  <Link to={ROUTES.TERMS_AND_CONDITIONS} className="text-light me-2 me-md-3">{t('footer_terms')}</Link>
+                  <Link to={ROUTES.ACCESSIBILITY} className="text-light me-2 me-md-3">{t('footer_accessibility')}</Link>
+                  <Link to={ROUTES.SECURITY_POLICY} className="text-light me-2 me-md-3">{t('footer_security')}</Link>
+                </>
+              )}
             </nav>
           </div>
           <div className="col-12 col-md-auto mb-2 mb-md-0">

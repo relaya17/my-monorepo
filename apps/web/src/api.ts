@@ -1,4 +1,5 @@
 import { safeGetItem, safeRemoveItem, safeSetItem } from './utils/safeStorage.js';
+import { getStoredCountry, inferCountry } from './i18n/locale';
 
 export const AUTH_TOKEN_KEY = 'authToken';
 export const REFRESH_TOKEN_KEY = 'refreshToken';
@@ -49,9 +50,11 @@ export function getApiUrl(path: string): string {
   return joinUrl(ENV_BASE || FALLBACK_BASE, path);
 }
 
-/** Headers to send with non-JSON requests (e.g. blob): x-building-id and optionally Authorization. */
+/** Headers to send with non-JSON requests (e.g. blob): x-building-id, x-country-code, optionally Authorization. */
 export function getApiHeaders(includeAuth = true): Record<string, string> {
   const h: Record<string, string> = { 'x-building-id': getBuildingId() };
+  const country = getStoredCountry() ?? inferCountry();
+  if (country && country !== 'default') h['x-country-code'] = country;
   if (includeAuth) {
     const token = safeGetItem(AUTH_TOKEN_KEY);
     if (token) h['Authorization'] = `Bearer ${token}`;
@@ -78,6 +81,8 @@ export async function apiRequestJson<T>(
   const buildingId = getBuildingId();
   const headers = new Headers(init?.headers);
   if (!headers.has('x-building-id')) headers.set('x-building-id', buildingId);
+  const country = getStoredCountry() ?? inferCountry();
+  if (country && country !== 'default' && !headers.has('x-country-code')) headers.set('x-country-code', country);
 
   // Don't send Authorization on login/register/refresh
   const isAuthEndpoint = /^\/(admin\/login|admin\/register|login|signup|auth\/refresh)/.test(path.startsWith('/') ? path : `/${path}`);

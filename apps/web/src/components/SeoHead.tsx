@@ -9,9 +9,11 @@ export type SeoHeadProps = {
   description: string;
   /** Schema.org JSON-LD – לדוגמה SoftwareApplication */
   schemaJson?: object;
+  /** noindex,nofollow – לדפים משפטיים (Mentions Légales, CGU, etc.) */
+  noIndex?: boolean;
 };
 
-const SeoHead: React.FC<SeoHeadProps> = ({ title, description, schemaJson }) => {
+const SeoHead: React.FC<SeoHeadProps> = ({ title, description, schemaJson, noIndex }) => {
   useEffect(() => {
     document.title = title;
     const metaDesc = document.querySelector('meta[name="description"]');
@@ -26,7 +28,19 @@ const SeoHead: React.FC<SeoHeadProps> = ({ title, description, schemaJson }) => 
     if (twTitle) twTitle.setAttribute('content', title);
     const twDesc = document.querySelector('meta[name="twitter:description"]');
     if (twDesc) twDesc.setAttribute('content', description);
-  }, [title, description]);
+
+    let robots = document.querySelector('meta[name="robots"]');
+    if (noIndex) {
+      if (!robots) {
+        robots = document.createElement('meta');
+        robots.setAttribute('name', 'robots');
+        document.head.appendChild(robots);
+      }
+      robots.setAttribute('content', 'noindex, nofollow');
+    } else if (robots && robots.getAttribute('content') === 'noindex, nofollow') {
+      robots.remove();
+    }
+  }, [title, description, noIndex]);
 
   // Schema.org JSON-LD
   useEffect(() => {

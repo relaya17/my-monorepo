@@ -20,7 +20,7 @@ const content = landingContent as {
  */
 const TrustBadge: React.FC = () => (
   <div className="trust-badge glass-card" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', marginBottom: '1rem' }}>
-    <span style={{ color: '#00F2FF' }} aria-hidden>✓</span>
+    <span style={{ color: '#007AFF' }} aria-hidden>✓</span>
     <span>{content.residentPage.trustBadge}</span>
   </div>
 );

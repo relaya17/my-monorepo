@@ -5,7 +5,7 @@ import type { RootState } from "../redux/store";
 import { setLanguage } from "../redux/slice/settingsSlice";
 import { useTranslation } from "../i18n/useTranslation";
 
-type LangOption = "en" | "he" | "es" | "ar" | "ru";
+type LangOption = "en" | "he" | "es" | "ar" | "ru" | "fr";
 
 interface LanguageSwitcherProps {
   /** Compact EN/HE toggle for landing navbar */
@@ -73,6 +73,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ variant = "default"
       {btn("ar", "العربية", "Switch to Arabic")}
       {btn("ru", "Русский", "Switch to Russian")}
       {btn("es", "Español", "Switch to Spanish")}
+      {btn("fr", "Français", "Passer au français")}
     </div>
   );
 };

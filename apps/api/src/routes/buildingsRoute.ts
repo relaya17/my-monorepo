@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Building, { type IBuilding } from '../models/buildingModel.js';
 
-type BuildingLean = Pick<IBuilding, 'buildingId' | 'address' | 'buildingNumber' | 'committeeName' | 'stripeAccountId' | 'stripeOnboardingComplete'>;
+type BuildingLean = Pick<IBuilding, 'buildingId' | 'address' | 'buildingNumber' | 'committeeName' | 'stripeAccountId' | 'stripeOnboardingComplete' | 'country' | 'currency' | 'timezone' | 'units'>;
 
 async function listBuildings(_req: Request, res: Response): Promise<void> {
   try {
@@ -37,6 +37,10 @@ async function listBuildings(_req: Request, res: Response): Promise<void> {
       committeeName: byId[id]?.committeeName ?? '',
       stripeAccountId: byId[id]?.stripeAccountId ?? undefined,
       stripeOnboardingComplete: byId[id]?.stripeOnboardingComplete ?? false,
+      country: byId[id]?.country,
+      currency: byId[id]?.currency,
+      timezone: byId[id]?.timezone,
+      units: byId[id]?.units,
     }));
 
     res.json({ buildings });

@@ -11,7 +11,7 @@ export type MaintenanceSource = 'RESIDENT' | 'AI_VISION' | 'SATELLITE' | 'IOT_SE
 export interface IMaintenance extends Document {
   title: string;
   description: string;
-  category: 'Elevator' | 'Plumbing' | 'Electrical' | 'Cleaning' | 'Security' | 'Other';
+  category: 'Elevator' | 'Plumbing' | 'Electrical' | 'Cleaning' | 'Security' | 'Other' | 'Dishwasher' | 'GarbageDisposal';
   priority: 'Low' | 'Medium' | 'High' | 'Urgent';
   status: 'Open' | 'In_Progress' | 'Waiting_For_Parts' | 'Resolved' | 'Closed';
   reporterId?: mongoose.Types.ObjectId | null;
@@ -55,7 +55,7 @@ const maintenanceSchema = new Schema<IMaintenance>(
     description: { type: String, required: true },
     category: {
       type: String,
-      enum: ['Elevator', 'Plumbing', 'Electrical', 'Cleaning', 'Security', 'Other'],
+      enum: ['Elevator', 'Plumbing', 'Electrical', 'Cleaning', 'Security', 'Other', 'Dishwasher', 'GarbageDisposal'],
       required: true,
     },
     priority: { type: String, enum: ['Low', 'Medium', 'High', 'Urgent'], default: 'Medium' },

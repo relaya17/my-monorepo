@@ -1,0 +1,98 @@
+/**
+ * דף חוקים – עיצוב מלכותי, Dark Mode
+ */
+.legal-hub-page {
+  min-height: 100vh;
+  padding: 4rem 1.5rem 3rem;
+  background: #0A0E17;
+  color: #F5F5F7;
+  position: relative;
+}
+
+.legal-hub-bg {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 50% at 50% 30%,
+    rgba(0, 122, 255, 0.06) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.legal-hub-content {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.legal-hub-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 0.75rem;
+}
+
+.legal-hub-subtitle {
+  font-size: 1rem;
+  color: #86868B;
+  margin-bottom: 2.5rem;
+  line-height: 1.5;
+}
+
+.legal-hub-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.legal-hub-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: #F5F5F7;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.legal-hub-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(0, 122, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 122, 255, 0.1);
+}
+
+.legal-hub-card-label {
+  font-weight: 500;
+}
+
+.legal-hub-card-arrow {
+  font-size: 0.75rem;
+  color: #007AFF;
+  opacity: 0.8;
+}
+
+.legal-hub-back {
+  display: inline-block;
+  margin-top: 2rem;
+  color: #86868B;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.legal-hub-back:hover {
+  color: #007AFF;
+}
+
+.legal-hub-country-switch {
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}

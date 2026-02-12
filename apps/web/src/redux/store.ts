@@ -5,13 +5,11 @@ import usersReducer from './slice/usersSlice';
 import userDetailsReducer from './slice/userDetailsSlice';
 import usersListReducer from './slice/usersListSlice';
 import signUpReducer from './slice/signUpSlice';
-import blogReducer from './slice/blogSlice';
 import employeesReducer from './slice/employeesSlice';
 import filesReducer from './slice/filesSlice';
 import forRentReducer from './slice/forRentSlice';
 import forSaleReducer from './slice/forSaleSlice';
 import gardeningReducer from './slice/gardeningSlice';
-import managementReducer from './slice/ManagementSlice';
 import newResidentApprovalReducer from './slice/newResidentApprovalSlice';
 import paymentReducer from './slice/PaymentSlice';
 import poolMaintenanceReducer from './slice/poolMaintenanceSlice';
@@ -30,13 +28,11 @@ export const store = configureStore({
     userDetails: userDetailsReducer,
     usersList: usersListReducer,
     signUp: signUpReducer,
-    blog: blogReducer,
     employees: employeesReducer,
     files: filesReducer,
     forRent: forRentReducer,
     forSale: forSaleReducer,
     gardening: gardeningReducer,
-    management: managementReducer,
     newResidentApproval: newResidentApprovalReducer,
     payment: paymentReducer,
     poolMaintenance: poolMaintenanceReducer,

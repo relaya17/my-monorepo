@@ -4,6 +4,7 @@ import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveMenu } from '../redux/slice/SecondNavbar';
 import type { AppDispatch, RootState } from '../redux/store';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 // Define NavItem locally instead of importing from server
 interface NavItem {
@@ -229,6 +230,10 @@ const NavigationBar: React.FC = () => {
             </NavLink>
           </Nav>
           
+          {/* שפות האתר */}
+          <Nav className="d-flex align-items-center me-3">
+            <LanguageSwitcher variant="default" />
+          </Nav>
           {/* כפתור יציאה */}
           <Nav>
             <button 
