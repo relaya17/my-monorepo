@@ -47,7 +47,11 @@ const env = parsed.data;
 
 if (env.NODE_ENV === 'production') {
   if (!env.JWT_SECRET || env.JWT_SECRET.length < 32)
-    throw new Error('In production JWT_SECRET must be set and at least 32 characters');
+    throw new Error(
+      'In production JWT_SECRET must be set and at least 32 characters. ' +
+        'Render: Dashboard → Your Service → Environment → Add JWT_SECRET (32+ chars). ' +
+        'Generate: openssl rand -base64 32'
+    );
 }
 
 export const config = {
