@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { BuildingProvider } from './context/BuildingContext';
+import { ThemeProvider } from './context/ThemeContext';
 import ErrorBoundary from './components/ErrorBoundary';
 
 const rootEl = document.getElementById('root');
@@ -20,11 +21,13 @@ if (!rootEl) {
     <ErrorBoundary>
       <Provider store={store}>
         <AuthProvider>
-          <BuildingProvider>
-            <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-              <App />
-            </Router>
-          </BuildingProvider>
+          <ThemeProvider>
+            <BuildingProvider>
+              <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+                <App />
+              </Router>
+            </BuildingProvider>
+          </ThemeProvider>
         </AuthProvider>
       </Provider>
     </ErrorBoundary>

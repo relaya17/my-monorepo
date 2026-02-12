@@ -5,6 +5,7 @@
 | קובץ | תיאור |
 |------|--------|
 | **[TECHNICAL_SPECIFICATION.md](TECHNICAL_SPECIFICATION.md)** | מפרט טכני מלא בעברית – מבנה הפרויקט, ארכיטקטורה, API, אבטחה. המסמך המרכזי להנדסה. |
+| **[API_DOCUMENTATION.md](API_DOCUMENTATION.md)** | **תיעוד API מלא** – כל ה-endpoints לפי דומיין. Due Diligence – הקוד מסודר כמו ספר. |
 | **[HSLL_SPEC.md](HSLL_SPEC.md)** | מפרט ורודמאפ באנגלית (מאוחד) – ארכיטקטורה, Backend, AI, תחזוקה, CEO Dashboard, צ'קליסט לפני השקה, מפת קבצים. |
 | **[MASTER_TECHNICAL_BLUEPRINT.md](MASTER_TECHNICAL_BLUEPRINT.md)** | **הפרומפט הטכני המרכזי לבינה** – Multi-tenant, AI Peacekeeper, Vision/Satellite, Magic Link + Voice, CEO Dashboard. כולל מצב Monorepo נוכחי והנחיה לשלב הבא. |
 | **[DATABASE_SCHEMA_APPROVAL.md](DATABASE_SCHEMA_APPROVAL.md)** | אישור מבנה DB – טבלאות קיימות, טבלת HSLL_Event, שדות אופציונליים. לחתימה לפני יישום. |

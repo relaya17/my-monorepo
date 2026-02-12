@@ -1,5 +1,10 @@
 /* ===== CSS Variables - Color Palette ===== */
 :root {
+  /* White-Label Theme Engine – overridden by ThemeProvider from Building.branding */
+  --brand-primary: #007AFF;
+  --brand-secondary: #5856D6;
+  --brand-logo: none;
+
   /* Primary Colors - Soft and Pleasant */
   --primary-color: #6b7280;      /* Soft Gray */
   --primary-light: #9ca3af;      /* Light Gray */

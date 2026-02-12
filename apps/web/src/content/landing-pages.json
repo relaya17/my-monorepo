@@ -137,6 +137,12 @@
       "technician": { "title": "הטכנאי (ביצוע)", "description": "קישורי Magic לדיווח קולי – בלי אפליקציה, אפס ניירת.", "ctaTarget": "technician_page" },
       "resident": { "title": "הדייר (שקיפות)", "description": "שקיפות מלאה על כל שקל. דירוג AAA לאמון וניהול.", "ctaTarget": "portal" }
     },
+    "visualEvidenceSection": {
+      "title": "אנחנו רואים את התקלה לפני שהדייר מרגיש אותה",
+      "leftLabel": "מצלמה רגילה",
+      "rightLabel": "Vantera AI",
+      "alertText": "Alert: Water detected in B2 Parking - Maintenance dispatched."
+    },
     "pillarsSectionTitle": "עמודי התווך",
     "pitchDeckSection": {
       "title": "Vantera: The Building Operating System",
@@ -189,6 +195,26 @@
         "משחק הנתונים: בניית מסד הנתונים הגרנולרי ביותר בעולם לבריאות בניינים – שווקים משניים לביטוח ותכנון עירוני."
       ],
       "cta": "בקש סיכום למשקיעים"
+    },
+    "technicalOnePagerSection": {
+      "title": "Vantera OS | Technical Executive Summary",
+      "tagline": "מערכת ההפעלה מבוססת AI לנכסי נדל\"ן מודרניים",
+      "pillar1Title": "Vision & Core Value Proposition",
+      "pillar1Desc": "Vantera OS היא תשתית קניינית מבוססת AI שמחליפה ניהול מסורתי באופטימיזציה אוטונומית של נכסים. הפחתת עד 60% בעומס התפעולי והעלאת NOI (הכנסה תפעולית נטו) באמצעות תחזוקה חיזוית ויחסי דיירים אוטומטיים.",
+      "pillar2Title": "Technology Stack & Intellectual Property",
+      "pillar2Desc": "מנוע V-One AI קנייני, ארכיטקטורה cloud-native ו-microservices (Node.js, AWS), מנוע White-Label רב-דייר שמאפשר פריסה תחת המותג השותפי תוך דקות.",
+      "pillar3Title": "Key Strategic Assets",
+      "pillar3Desc": "מסגרת תחזוקה חיזוית, Data Sovereignty – אגם נתונים מובנה ל-Big Data ודיווח מוסדי. עמידה רגולטורית: GDPR, Loi Élan (צרפת), תקני נדל\"ן אמריקאיים.",
+      "pillar4Title": "Commercial Exit Pathways",
+      "pillar4Desc": "רכישת IP מלאה | בלעדיות אזורית | רישוי White-Label אסטרטגי.",
+      "acquisitionTitle": "אפשרויות רכישה",
+      "option1Title": "Full IP Acquisition",
+      "option1Desc": "העברת קוד מקור וזכויות בלעדיות גלובליות למיזוג מוסדי",
+      "option2Title": "Regional Exclusivity",
+      "option2Desc": "רישיון בלעדי לשווקים ספציפיים (למשל צרפת / צפון אמריקה)",
+      "option3Title": "Strategic White-Label Licensing",
+      "option3Desc": "יישום כמנוע ליבה לחברות ניהול נדל\"ן גלובליות",
+      "cta": "בקש Technical Executive Summary"
     },
     "shieldSection": {
       "title": "מה שהופך אותנו לסטארט-אפ",
@@ -589,6 +615,12 @@
       "technician": { "title": "The Technician (Execution)", "description": "Magic Links for voice reporting—no app, zero paperwork.", "ctaTarget": "technician_page" },
       "resident": { "title": "The Resident (Transparency)", "description": "Full transparency on every dollar. AAA rating for trust and management.", "ctaTarget": "portal" }
     },
+    "visualEvidenceSection": {
+      "title": "We see the fault before the resident feels it",
+      "leftLabel": "Regular camera",
+      "rightLabel": "Vantera AI",
+      "alertText": "Alert: Water detected in B2 Parking - Maintenance dispatched."
+    },
     "pillarsSectionTitle": "Core Pillars",
     "pitchDeckSection": {
       "title": "Vantera: The Building Operating System",
@@ -641,6 +673,26 @@
         "The Data Play: Building the world's most granular database of building health—secondary markets for insurance and urban planning."
       ],
       "cta": "Request Investor Summary"
+    },
+    "technicalOnePagerSection": {
+      "title": "Vantera OS | Technical Executive Summary",
+      "tagline": "The AI-Driven Operating System for Modern Real Estate Assets",
+      "pillar1Title": "Vision & Core Value Proposition",
+      "pillar1Desc": "Vantera OS is a proprietary, AI-native infrastructure designed to transform traditional property management into autonomous asset optimization. By integrating advanced V-One AI logic, the system reduces operational overhead by up to 60% and increases Net Operating Income (NOI) through predictive maintenance and automated resident relations.",
+      "pillar2Title": "Technology Stack & Intellectual Property (IP)",
+      "pillar2Desc": "Proprietary V-One AI Engine: custom-layered LLM architecture for real estate logistics, compliance, and multi-language communication (French, English, Hebrew). Scalable cloud-native microservices (Node.js, AWS). Multi-Tenant White-Label Theme Engine for brand deployment in minutes.",
+      "pillar3Title": "Key Strategic Assets",
+      "pillar3Desc": "Predictive Maintenance Framework: algorithmic failure detection before occurrence – lowers insurance premiums and emergency repair costs. Data Sovereignty: structured data lake ready for Big Data analytics. Regulatory Ready: GDPR (EU), Loi Élan (France), US real estate data standards.",
+      "pillar4Title": "Commercial Exit Pathways",
+      "pillar4Desc": "Full IP Acquisition | Regional Exclusivity | Strategic White-Label Licensing.",
+      "acquisitionTitle": "Commercial Exit Pathways",
+      "option1Title": "Full IP Acquisition",
+      "option1Desc": "Transfer of source code and exclusive global rights for institutional integration",
+      "option2Title": "Regional Exclusivity",
+      "option2Desc": "Exclusive licensing for specific markets (e.g., France / North America)",
+      "option3Title": "Strategic White-Label Licensing",
+      "option3Desc": "Implementation as the core engine for global property management corporations",
+      "cta": "Request Technical Executive Summary"
     },
     "shieldSection": {
       "title": "What Makes Us a Startup",
@@ -1050,6 +1102,12 @@
       "technician": { "title": "Le technicien (Exécution)", "description": "Liens Magic pour le signalement vocal – sans app, zéro paperasse.", "ctaTarget": "technician_page" },
       "resident": { "title": "Le résident (Transparence)", "description": "Transparence totale sur chaque euro. Notation AAA pour confiance et gestion.", "ctaTarget": "portal" }
     },
+    "visualEvidenceSection": {
+      "title": "Nous voyons la panne avant que le résident ne la ressente",
+      "leftLabel": "Caméra standard",
+      "rightLabel": "Vantera AI",
+      "alertText": "Alerte : Eau détectée au parking B2 - Maintenance envoyée."
+    },
     "pillarsSectionTitle": "Piliers fondamentaux",
     "pitchDeckSection": {
       "title": "Vantera : Le système d'exploitation du bâtiment",
@@ -1102,6 +1160,26 @@
         "Le jeu des données : construction de la base la plus granulaire au monde sur la santé des bâtiments – marchés secondaires assurance et planification urbaine."
       ],
       "cta": "Demander le résumé investisseurs"
+    },
+    "technicalOnePagerSection": {
+      "title": "Vantera OS | Technical Executive Summary",
+      "tagline": "Le système d'exploitation IA pour actifs immobiliers modernes",
+      "pillar1Title": "Vision & Proposition de valeur",
+      "pillar1Desc": "Vantera OS est une infrastructure propriétaire native IA qui transforme la gestion immobilière traditionnelle en optimisation autonome des actifs. Réduction jusqu'à 60% de la charge opérationnelle et hausse du NOI (Revenu d'exploitation net) via maintenance prédictive et relations résidents automatisées.",
+      "pillar2Title": "Stack technologique & Propriété intellectuelle",
+      "pillar2Desc": "Moteur V-One AI propriétaire pour logistique immobilière, conformité et communication multilingue (français, anglais, hébreu). Architecture cloud-native scalable (Node.js, AWS). Theme Engine White-Label multi-tenant pour déploiement sous marque en minutes.",
+      "pillar3Title": "Actifs stratégiques clés",
+      "pillar3Desc": "Cadre de maintenance prédictive. Souveraineté des données : lac structuré prêt pour Big Data. Conformité réglementaire : RGPD (UE), Loi Élan (France) – adapté au marché français dès le premier jour – et standards US.",
+      "pillar4Title": "Chemins de sortie commerciaux",
+      "pillar4Desc": "Acquisition IP complète | Exclusivité régionale | Licence White-Label stratégique.",
+      "acquisitionTitle": "Chemins de sortie commerciaux",
+      "option1Title": "Acquisition IP complète",
+      "option1Desc": "Transfert du code source et droits exclusifs mondiaux pour intégration institutionnelle",
+      "option2Title": "Exclusivité régionale",
+      "option2Desc": "Licence exclusive pour marchés spécifiques (ex : France / Amérique du Nord)",
+      "option3Title": "Licence White-Label stratégique",
+      "option3Desc": "Implémentation comme moteur central pour sociétés de gestion immobilière mondiales",
+      "cta": "Demander le Technical Executive Summary"
     },
     "shieldSection": {
       "title": "Ce qui fait de nous une startup",

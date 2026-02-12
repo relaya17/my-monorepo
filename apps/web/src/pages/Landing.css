@@ -178,6 +178,74 @@
   box-shadow: 0 0 24px rgba(0, 122, 255, 0.15);
 }
 
+/* Visual Evidence – mockup מצלמה vs AI נזילה (VISION_SATELLITE_SPEC §4) */
+.landing-visual-evidence {
+  padding: 4rem 1.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.landing-visual-evidence-title {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 700;
+  color: #FFFFFF;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.landing-visual-evidence-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 640px) {
+  .landing-visual-evidence-split { grid-template-columns: 1fr; }
+}
+.landing-visual-evidence-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.landing-visual-evidence-label {
+  font-size: 0.85rem;
+  color: #86868B;
+  font-weight: 600;
+}
+.landing-visual-evidence-mock {
+  aspect-ratio: 16/10;
+  background: linear-gradient(135deg, #1a1d28 0%, #0d1018 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  position: relative;
+}
+.landing-visual-evidence-mock--alert {
+  overflow: hidden;
+}
+.landing-visual-evidence-box {
+  position: absolute;
+  top: 35%;
+  left: 25%;
+  width: 45%;
+  height: 35%;
+  border: 4px solid #ef4444;
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+}
+.landing-visual-evidence-alert {
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.5rem 1rem;
+  background: rgba(239, 68, 68, 0.9);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 6px;
+  white-space: nowrap;
+  max-width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* CTA מרכזי – כחול חשמלי #007AFF בלבד */
 .landing-cta.primary {
   background: rgba(0, 122, 255, 0.25);
@@ -2090,6 +2158,94 @@
 
 .landing-investor-cta {
   margin-top: 2rem;
+}
+
+/* Technical One-Pager – Due Diligence */
+.landing-technical-one-pager {
+  padding: 3rem 1.5rem 4rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.landing-technical-one-pager-inner {
+  text-align: center;
+}
+
+.landing-technical-one-pager-title {
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.landing-technical-one-pager-tagline {
+  font-size: 0.95rem;
+  color: #007AFF;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.landing-technical-one-pager-pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.landing-technical-pillar {
+  padding: 1.25rem;
+  text-align: left;
+}
+
+.landing-technical-pillar h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #007AFF;
+  margin-bottom: 0.5rem;
+}
+
+.landing-technical-pillar p {
+  font-size: 0.87rem;
+  color: #9ca3af;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.landing-technical-one-pager-acquisition h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.landing-technical-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.landing-technical-options article {
+  padding: 1.25rem;
+  text-align: left;
+}
+
+.landing-technical-options h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #007AFF;
+  margin-bottom: 0.5rem;
+}
+
+.landing-technical-options p {
+  font-size: 0.87rem;
+  color: #9ca3af;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.landing-technical-one-pager-cta {
+  margin-top: 1.5rem;
 }
 
 /* כפתור כניסת מערכת (תמיד גלוי) – רספונסיבי מאוד */

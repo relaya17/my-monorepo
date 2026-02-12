@@ -8,7 +8,7 @@
 
 | טענה | איפה בודקים | סטטוס |
 |------|-------------|--------|
-| "Middleware גלובלי מוסיף buildingId לכל בקשה" | `apps/api/src/index.ts` שורה 91: `app.use('/api', tenantMiddleware, routes)` | ✅ |
+| "Middleware גלובלי מוסיף buildingId לכל בקשה" | [apps/api/src/index.ts](../apps/api/src/index.ts) – `app.use('/api', tenantMiddleware, routes)` | ✅ |
 | "קריאת x-building-id + AsyncLocalStorage" | `apps/api/src/middleware/tenantMiddleware.ts` – header, `tenantContext.run({ buildingId }, …)` | ✅ |
 | "JWT מול header – מניעת Tenant Hopping, 403 + AuditLog" | `tenantMiddleware.ts` – השוואת `auth.buildingId` ל-header, `logActivity(…, 'UNAUTHORIZED_ACCESS_ATTEMPT')` | ✅ |
 | "כל שאילתה מסוננת אוטומטית לפי buildingId" | `apps/api/src/utils/multiTenancy.ts` – pre-hooks על find/findOne/aggregate/save | ✅ |
@@ -59,15 +59,16 @@
 
 ## 6. מסמכי Blueprint ואימות מנכ"לית
 
-| מסמך | שימוש לטכנאי |
-|------|----------------|
-| `MASTER_TECHNICAL_BLUEPRINT.md` | פרומפט מרכזי לבינה; מצב Monorepo נוכחי (Express, Vite). |
-| `HSLL_DATABASE_SCHEMA.md` | סכמת Building, Ticket, VisionLog, Ledger; הערות CTO (buildingId, compound indexes, Peacekeeper 30d). |
-| `DATABASE_SCHEMA_APPROVAL.md` | אישור מבנה DB לפני שינויים. |
-| `CEO_VERIFICATION_CHECKLIST.md` | ארבעת מוקדי אימות + צ'קליסט לפני עלייה (SSL, פרטיות, נחיתה < 2s). |
-| `FIRST_WEEK_SPRINT.md` | משימות שבוע ראשון – סטטוס והפנייה לקבצים. |
+| מסמך | שימוש לטכנאי | קישור |
+|------|----------------|--------|
+| MASTER_TECHNICAL_BLUEPRINT | פרומפט מרכזי; מצב Monorepo (Express, Vite) | [docs/MASTER_TECHNICAL_BLUEPRINT.md](MASTER_TECHNICAL_BLUEPRINT.md) |
+| HSLL_DATABASE_SCHEMA | סכמת Building, Ticket, VisionLog, Ledger | [docs/HSLL_DATABASE_SCHEMA.md](HSLL_DATABASE_SCHEMA.md) |
+| DATABASE_SCHEMA_APPROVAL | אישור מבנה DB לפני שינויים | [docs/DATABASE_SCHEMA_APPROVAL.md](DATABASE_SCHEMA_APPROVAL.md) |
+| CEO_VERIFICATION_CHECKLIST | ארבעת מוקדי אימות + SSL, פרטיות, נחיתה < 2s | [docs/CEO_VERIFICATION_CHECKLIST.md](CEO_VERIFICATION_CHECKLIST.md) |
+| FIRST_WEEK_SPRINT | משימות שבוע ראשון – סטטוס | [docs/FIRST_WEEK_SPRINT.md](FIRST_WEEK_SPRINT.md) |
+| PENDING_REQUESTS_CONSOLIDATED | רשימת בקשות שטרם יושמו | [docs/PENDING_REQUESTS_CONSOLIDATED.md](PENDING_REQUESTS_CONSOLIDATED.md) |
 
-מודלים חדשים (למשל VisionLog) – לוודא `multiTenancyPlugin` ו-`buildingId` באינדקס. הודעת כפילות תקלה: "נמצאה תקלה דומה. האם תרצי להתחבר אליה או לפתוח חדשה?" – ממומשת ב-`maintenanceRoutes.ts` (409 + existingId).
+**קוד מרכזי:** `apps/api/src/index.ts` (tenantMiddleware) | `apps/api/src/utils/multiTenancy.ts` | `apps/api/src/routes/maintenanceRoutes.ts` (409 + existingId)
 
 ---
 

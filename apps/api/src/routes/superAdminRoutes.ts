@@ -8,6 +8,8 @@ import Building from '../models/buildingModel.js';
 import BuildingStats from '../models/buildingStatsModel.js';
 import User from '../models/userModel.js';
 import VisionLog from '../models/visionLogModel.js';
+import Transaction from '../models/transactionModel.js';
+import MaintenanceFeedback from '../models/maintenanceFeedbackModel.js';
 import { tenantContext } from '../middleware/tenantMiddleware.js';
 import { verifySuperAdmin } from '../middleware/authMiddleware.js';
 import { getOrSetCache } from '../utils/cache.js';
@@ -146,6 +148,69 @@ router.get('/reconcile', verifySuperAdmin, async (req: Request, res: Response) =
     res.json(result);
   } catch (err) {
     res.status(500).json({ error: 'שגיאה בפיוס' });
+  }
+});
+
+/** Global Ledger – דוח תנועות כסף לכל בניין (Transaction per building). */
+router.get('/global-ledger', verifySuperAdmin, async (req: Request, res: Response) => {
+  try {
+    const limit = Math.min(Number(req.query.limit) || 50, 200);
+    const raw = await tenantContext.run({ buildingId: '*' }, async () =>
+      Transaction.find({})
+        .sort({ createdAt: -1 })
+        .limit(limit)
+        .select('buildingId type amount category description createdAt')
+        .lean()
+    );
+    const buildingIds = [...new Set((raw as { buildingId?: string }[]).map((r) => r.buildingId).filter(Boolean))];
+    const buildingDocs = await Building.find({ buildingId: { $in: buildingIds } }).lean();
+    const byId = Object.fromEntries(
+      buildingDocs.map((b) => [
+        (b as { buildingId: string }).buildingId,
+        (b as { committeeName?: string }).committeeName || (b as { address?: string }).address || (b as { buildingId: string }).buildingId,
+      ])
+    );
+    const items = (raw as { buildingId?: string; type?: string; amount?: number; category?: string; description?: string; createdAt?: Date }[]).map((r) => ({
+      buildingId: r.buildingId ?? 'default',
+      buildingName: byId[r.buildingId ?? ''] ?? r.buildingId ?? '-',
+      type: r.type,
+      amount: r.amount,
+      category: r.category,
+      description: r.description,
+      createdAt: r.createdAt,
+    }));
+    const byBuilding = items.reduce(
+      (acc, t) => {
+        const id = t.buildingId;
+        if (!acc[id]) acc[id] = { buildingId: id, buildingName: t.buildingName, totalIncome: 0, totalExpense: 0, transactionCount: 0 };
+        if (t.type === 'income') acc[id].totalIncome += t.amount ?? 0;
+        else acc[id].totalExpense += t.amount ?? 0;
+        acc[id].transactionCount += 1;
+        return acc;
+      },
+      {} as Record<string, { buildingId: string; buildingName: string; totalIncome: number; totalExpense: number; transactionCount: number }>
+    );
+    res.json({ items: Object.values(byBuilding) });
+  } catch (err) {
+    res.status(500).json({ error: 'שגיאה בשליפת דוח תנועות' });
+  }
+});
+
+/** Transparency Ledger – קבלנים מתחת ל־4.2 גלובלית (למנכ"לית) */
+router.get('/vendor-alerts', verifySuperAdmin, async (_req: Request, res: Response) => {
+  try {
+    const THRESHOLD = 4.2;
+    const raw = await tenantContext.run({ buildingId: '*' }, async () =>
+      MaintenanceFeedback.aggregate([
+        { $match: { status: 'submitted', rating: { $exists: true }, contractorName: { $exists: true, $nin: [null, ''] } } },
+        { $group: { _id: { contractor: '$contractorName', building: '$buildingId' }, avg: { $avg: '$rating' }, count: { $sum: 1 } } },
+        { $match: { avg: { $lt: THRESHOLD }, count: { $gte: 1 } } },
+        { $project: { contractorName: '$_id.contractor', buildingId: '$_id.building', avgRating: { $round: ['$avg', 2] }, count: 1, _id: 0 } },
+      ])
+    );
+    res.json({ alerts: raw, threshold: THRESHOLD });
+  } catch (err) {
+    res.status(500).json({ error: 'שגיאה בשליפת התראות קבלנים' });
   }
 });
 

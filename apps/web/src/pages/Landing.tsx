@@ -17,6 +17,7 @@ type LangKey = 'he' | 'en' | 'fr';
 export type LandingContent = {
   hero: { title: string; subtitle: string; subtitleLong?: string; tagline?: string; cta: string; b2bCta?: string };
   pillars: { ceo: { title: string; description: string }; technician: { title: string; description: string }; resident: { title: string; description: string } };
+  visualEvidenceSection?: { title: string; leftLabel: string; rightLabel: string; alertText: string };
   pillarsSectionTitle?: string;
   salesPitchSectionTitle?: string;
   salesPitch?: Array<{ title: string; pitch: string }>;
@@ -133,6 +134,26 @@ export type LandingContent = {
     qualityScoreTitle: string;
     qualityScoreDesc: string;
     dashboardCta?: string;
+  };
+  technicalOnePagerSection?: {
+    title: string;
+    tagline: string;
+    pillar1Title: string;
+    pillar1Desc: string;
+    pillar2Title: string;
+    pillar2Desc: string;
+    pillar3Title: string;
+    pillar3Desc: string;
+    pillar4Title: string;
+    pillar4Desc: string;
+    acquisitionTitle: string;
+    option1Title: string;
+    option1Desc: string;
+    option2Title: string;
+    option2Desc: string;
+    option3Title: string;
+    option3Desc: string;
+    cta: string;
   };
   investorSection?: {
     title: string;
@@ -334,6 +355,9 @@ export function ShieldSection({
     title: string;
     taglines: string[];
     comparisonTitle: string;
+    colParam?: string;
+    colRegular?: string;
+    colOurs?: string;
     comparisonRows: Array<{ param: string; regular: string; ours: string }>;
     safeZoneTitle: string;
     safeZoneDesc: string;
@@ -1143,6 +1167,7 @@ export function SelfFundingSection({
     targetingDesc: string;
     revenueShareTitle: string;
     revenueShareDesc: string;
+    adDemoLabel?: string;
     adDemoTitle?: string;
     adDemoDesc?: string;
     adDemoCta?: string;
@@ -1270,9 +1295,14 @@ export function DashboardSection({
     aiMapTitle: string;
     aiMapDesc: string;
     revenueTableTitle: string;
+    colSupplier?: string;
+    colExposures?: string;
+    colClicks?: string;
+    colProfit?: string;
     revenueTableRows: Array<{ supplier: string; exposures: string; clicks: string; profit: string }>;
     qualityScoreTitle: string;
     qualityScoreDesc: string;
+    dashboardCta?: string;
   };
   onRequestDemo: () => void;
 }) {
@@ -1361,6 +1391,100 @@ export function DashboardSection({
 }
 
 /** סעיף משקיעים ושותפים אסטרטגיים – Vision, Problem, Advantage, Market. */
+/** Technical One-Pager – 4 pillars + 3 acquisition options for investors. */
+export function TechnicalOnePagerSection({
+  data,
+  onRequestDD,
+}: {
+  data: {
+    title: string;
+    tagline: string;
+    pillar1Title: string;
+    pillar1Desc: string;
+    pillar2Title: string;
+    pillar2Desc: string;
+    pillar3Title: string;
+    pillar3Desc: string;
+    pillar4Title: string;
+    pillar4Desc: string;
+    acquisitionTitle: string;
+    option1Title: string;
+    option1Desc: string;
+    option2Title: string;
+    option2Desc: string;
+    option3Title: string;
+    option3Desc: string;
+    cta: string;
+  };
+  onRequestDD: () => void;
+}) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <section className="landing-technical-one-pager" ref={ref} aria-labelledby="technical-one-pager-heading">
+      <div className="landing-technical-one-pager-inner">
+        <h2 id="technical-one-pager-heading" className="landing-technical-one-pager-title">{data.title}</h2>
+        <p className="landing-technical-one-pager-tagline">{data.tagline}</p>
+        <motion.div
+          className="landing-technical-one-pager-pillars"
+          initial={{ opacity: 0, y: 12 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4 }}
+        >
+          <article className="glass-card landing-technical-pillar">
+            <h3>💎 {data.pillar1Title}</h3>
+            <p>{data.pillar1Desc}</p>
+          </article>
+          <article className="glass-card landing-technical-pillar">
+            <h3>🧩 {data.pillar2Title}</h3>
+            <p>{data.pillar2Desc}</p>
+          </article>
+          <article className="glass-card landing-technical-pillar">
+            <h3>🔒 {data.pillar3Title}</h3>
+            <p>{data.pillar3Desc}</p>
+          </article>
+          <article className="glass-card landing-technical-pillar">
+            <h3>⚖️ {data.pillar4Title}</h3>
+            <p>{data.pillar4Desc}</p>
+          </article>
+        </motion.div>
+        <motion.div
+          className="landing-technical-one-pager-acquisition"
+          initial={{ opacity: 0, y: 12 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4, delay: 0.15 }}
+        >
+          <h3>{data.acquisitionTitle}</h3>
+          <div className="landing-technical-options">
+            <article className="glass-card">
+              <h4>💰 {data.option1Title}</h4>
+              <p>{data.option1Desc}</p>
+            </article>
+            <article className="glass-card">
+              <h4>📜 {data.option2Title}</h4>
+              <p>{data.option2Desc}</p>
+            </article>
+            <article className="glass-card">
+              <h4>🌍 {data.option3Title}</h4>
+              <p>{data.option3Desc}</p>
+            </article>
+          </div>
+        </motion.div>
+        <motion.div
+          className="landing-technical-one-pager-cta"
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.3, delay: 0.3 }}
+        >
+          <button type="button" className="landing-cta" onClick={onRequestDD}>
+            {data.cta}
+          </button>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 export function InvestorSection({
   data,
   onRequestSummary,
@@ -1607,6 +1731,25 @@ const Landing: React.FC = () => {
               <h3>{content.frValueProps.prop3Title}</h3>
               <p>{content.frValueProps.prop3Desc}</p>
             </motion.article>
+          </div>
+        </section>
+      )}
+
+      {content.visualEvidenceSection && (
+        <section className="landing-visual-evidence" aria-labelledby="visual-evidence-heading">
+          <h2 id="visual-evidence-heading" className="landing-visual-evidence-title">{content.visualEvidenceSection.title}</h2>
+          <div className="landing-visual-evidence-split">
+            <div className="landing-visual-evidence-panel">
+              <span className="landing-visual-evidence-label">{content.visualEvidenceSection.leftLabel}</span>
+              <div className="landing-visual-evidence-mock" aria-hidden />
+            </div>
+            <div className="landing-visual-evidence-panel landing-visual-evidence-panel--ai">
+              <span className="landing-visual-evidence-label">{content.visualEvidenceSection.rightLabel}</span>
+              <div className="landing-visual-evidence-mock landing-visual-evidence-mock--alert" aria-hidden>
+                <div className="landing-visual-evidence-box" />
+                <span className="landing-visual-evidence-alert">{content.visualEvidenceSection.alertText}</span>
+              </div>
+            </div>
           </div>
         </section>
       )}

@@ -13,6 +13,9 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true, select: false },
     apartmentNumber: { type: String, index: true },
     role: { type: String, enum: ['tenant', 'committee', 'admin'], default: 'tenant' },
+    /** דייר לא בבית – Manual או אוטומטי לפי חוסר פעילות (PUSH_NOTIFICATIONS_SPEC) */
+    notAtHome: { type: Boolean, default: false },
+    awayUntil: { type: Date, default: null },
     securityQuestions: [
       { question: { type: String, required: true }, answerHash: { type: String, required: true } }
     ],

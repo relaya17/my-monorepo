@@ -26,6 +26,7 @@ import userStatusRoute from './userStatusRoute.js';
 import feedbackRoutes from './feedbackRoutes.js';
 import vendorScoreRoutes from './vendorScoreRoutes.js';
 import voneChatRoutes from './voneChatRoutes.js';
+import webhookRoutes from './webhookRoutes.js';
 
 const router = Router();
 
@@ -34,6 +35,7 @@ router.use(tenantLimiter);
 router.use(validateInput);
 
 router.use('/super-admin', superAdminRoutes);
+router.use('/super-admin/webhooks', webhookRoutes);
 router.use('/maintenance', maintenanceRoutes);
 router.use('/transactions', transactionRoutes);
 router.use('/payments', paymentRoutes);

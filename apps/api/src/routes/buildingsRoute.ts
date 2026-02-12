@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Building, { type IBuilding } from '../models/buildingModel.js';
 
-type BuildingLean = Pick<IBuilding, 'buildingId' | 'address' | 'buildingNumber' | 'committeeName' | 'stripeAccountId' | 'stripeOnboardingComplete' | 'country' | 'currency' | 'timezone' | 'units'>;
+type BuildingLean = Pick<IBuilding, 'buildingId' | 'address' | 'buildingNumber' | 'committeeName' | 'stripeAccountId' | 'stripeOnboardingComplete' | 'country' | 'currency' | 'timezone' | 'units' | 'branding'>;
 
 async function listBuildings(_req: Request, res: Response): Promise<void> {
   try {
@@ -41,6 +41,7 @@ async function listBuildings(_req: Request, res: Response): Promise<void> {
       currency: byId[id]?.currency,
       timezone: byId[id]?.timezone,
       units: byId[id]?.units,
+      branding: byId[id]?.branding ?? undefined,
     }));
 
     res.json({ buildings });
@@ -50,6 +51,20 @@ async function listBuildings(_req: Request, res: Response): Promise<void> {
   }
 }
 
+/** GET /api/buildings/branding?buildingId=xxx – White-Label Theme Engine. Returns logo, colors for current tenant. */
+async function getBranding(req: Request, res: Response): Promise<void> {
+  try {
+    const buildingId = String(req.query.buildingId ?? 'default').trim() || 'default';
+    const doc = await Building.findOne({ buildingId }).select('branding').lean();
+    const branding = doc?.branding ?? undefined;
+    res.json({ buildingId, branding });
+  } catch (err) {
+    console.error('Branding error:', err);
+    res.status(500).json({ error: 'Failed to fetch branding' });
+  }
+}
+
 const router = Router();
 router.get('/', listBuildings);
+router.get('/branding', getBranding);
 export default router;

@@ -24,6 +24,13 @@ export interface IBuilding extends Document {
   state?: string;
   zipCode?: string;
   county?: string;
+  /** White-Label Theme Engine – logo, colors. Swap in 5 minutes. */
+  branding?: {
+    logoUrl?: string;
+    primaryColor?: string;
+    secondaryColor?: string;
+    customDomain?: string;
+  };
 }
 
 const buildingSchema = new Schema<IBuilding>({
@@ -41,6 +48,12 @@ const buildingSchema = new Schema<IBuilding>({
   state: { type: String },
   zipCode: { type: String },
   county: { type: String },
+  branding: {
+    logoUrl: { type: String },
+    primaryColor: { type: String },
+    secondaryColor: { type: String },
+    customDomain: { type: String },
+  },
 });
 
 // Building לא משתמש ב-multiTenancy – זה המודל שמגדיר את הבניינים

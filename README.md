@@ -1,13 +1,15 @@
-# פרויקט ניהול דיירים ותשלומים - גרסה משופרת
+# Vantera OS | Building Operating System
 
-פרויקט React + Node.js + TypeScript מתקדם לניהול דיירים, תשלומים וניהול קהילה עם אבטחה מתקדמת וניטור ביצועים.
+פרויקט React + Node.js + TypeScript – מערכת הפעלה לנכסי נדל"ן. Monorepo מוכן ל-M&A (Due Diligence).
+
+---
 
 ## 🚀 התקנה והפעלה
 
 ### דרישות מקדימות
-- Node.js (גרסה 18 ומעלה)
-- pnpm
-- MongoDB
+- **Node.js** 18+
+- **pnpm**
+- **MongoDB**
 
 ### התקנה מהירה
 ```bash
@@ -21,26 +23,41 @@ cd apps/web && pnpm install
 cd ../api && pnpm install
 ```
 
-### הגדרת משתני סביבה
-צור קובץ `.env` בתיקיית `apps/api`:
-```env
-NODE_ENV=development
-PORT=3008
-MONGO_URI=mongodb://localhost:27017/payments_db
-JWT_SECRET=your-super-secret-jwt-key
-ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173,http://localhost:5174
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX_REQUESTS=100
-LOGIN_RATE_LIMIT_MAX=5
+### משתני סביבה
+
+העתק `apps/api/.env.example` ל־`apps/api/.env` והשלם ערכים. פרטים: `docs/SECURITY.md`.
+
+```bash
+cp apps/api/.env.example apps/api/.env
+# ערוך .env – MONGO_URI, JWT_SECRET (מינימום 32 תווים) חובה
 ```
 
 ### הפעלה
-```bash
-# הפעלת השרת
-cd apps/api && pnpm dev
 
-# הפעלת ה-Web (בטרמינל נפרד)
-cd apps/web && pnpm dev
+```bash
+# API (טרמינל 1)
+pnpm --filter api dev
+# או: cd apps/api && pnpm dev
+# ברירת מחדל: http://localhost:3008
+
+# Web (טרמינל 2)
+pnpm --filter web dev
+# או: cd apps/web && pnpm dev
+# ברירת מחדל: http://localhost:5173
+```
+
+**מ-Root (הכל יחד):**
+```bash
+pnpm dev
+```
+
+### ארכיטקטורה (M&A Ready)
+
+```
+apps/api     → Express + Mongoose, Multi-Tenant (tenantMiddleware, multiTenancyPlugin)
+apps/web     → React + Vite, i18n (he/en/fr), Landing (3 שפות)
+packages/    → @vantera/config, i18n, shared
+docs/        → API_DOCUMENTATION.md, TECHNICAL_EXECUTIVE_SUMMARY.md, DUE_DILIGENCE_KIT.md
 ```
 
 ## 📁 מבנה הפרויקט – Monorepo (M&A Ready)
@@ -73,7 +90,7 @@ my-monorepo-app/
 └── logs/                   # לוגים (נוצר אוטומטית)
 ```
 
-**תיעוד מפתח:** `docs/README.md` | `docs/M_A_READY_EXIT_STRATEGY.md` | `docs/US_EXPANSION_STRATEGY.md`
+**תיעוד מפתח:** `docs/README.md` | **[docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md)** | `docs/MULTI_TENANT_SECURITY.md` | `docs/TECHNICAL_EXECUTIVE_SUMMARY.md`
 
 ### סקריפטים (`scripts/`)
 
@@ -179,30 +196,18 @@ my-monorepo-app/
 - ניהול קבצים סטטיים
 - לוגים וניטור אפליקטיבי
 
-## 📊 API Endpoints מתקדמים
+## 📊 API Documentation
 
-### משתמשים
-- `POST /api/signup` - הרשמה
-- `POST /api/login` - התחברות
-- `GET /api/users` - רשימת משתמשים
-- `PUT /api/users/:id` - עדכון משתמש
+**תיעוד מלא:** [docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md) – כל ה-endpoints מסודרים לפי דומיין (Public, Auth, Maintenance, V-One, Super-Admin, Webhooks, Stripe…).
 
-### תשלומים
-- `POST /api/payments` - יצירת תשלום
-- `GET /api/payments` - רשימת תשלומים
-- `GET /api/payments/:id` - פרטי תשלום
-- `GET /api/receipt/:id` - קבלה
-
-### אדמין
-- `POST /api/admin/login` - התחברות אדמין
-- `GET /api/admin/dashboard` - דשבורד אדמין
-- `GET /api/ai-analytics/*` - נתוני AI
-
-### ניטור ובריאות
-- `GET /api/health` - בדיקת בריאות
-- `GET /api/health/detailed` - בדיקה מפורטת
-- `GET /api/ready` - בדיקת מוכנות
-- `GET /api/ai-notifications/smart-notifications` - התראות AI
+| דומיין | דוגמה | הערות |
+|--------|-------|-------|
+| Public | `GET /api/public/stats` | ללא auth |
+| Auth | `POST /api/login`, `/api/admin/login` | JWT |
+| Maintenance | `GET/POST /api/maintenance` | AI Peacekeeper, Predictive |
+| V-One | `POST /api/vone/chat` | AI Chat |
+| Super-Admin | `GET /api/super-admin/global-ledger` | CEO Dashboard |
+| Tech | `GET /api/tech/work-order/:token` | Magic Link לטכנאי |
 
 ## 🚨 פתרון בעיות
 
@@ -326,6 +331,4 @@ MONGO_URI=mongodb://localhost:27017/your_db
 
 ---
 
-**נכתב על ידי:** AI Assistant  
-**תאריך עדכון:** $(date)  
-**גרסה:** 2.0 - משופרת
+**גרסה:** 2.1 | **M&A Ready:** README + API Documentation מסודרים ל-Due Diligence

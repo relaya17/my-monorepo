@@ -38,6 +38,7 @@ import {
   RevenueSection,
   DashboardSection,
   InvestorSection,
+  TechnicalOnePagerSection,
 } from './Landing';
 import './Landing.css';
 
@@ -170,6 +171,11 @@ const LandingInsightsPage: React.FC = () => {
         {/* 7. משקיעים */}
         {content.investorSection && (
           <InvestorSection data={content.investorSection} onRequestSummary={() => setDemoOpen(true)} />
+        )}
+
+        {/* 7b. Technical One-Pager – Due Diligence */}
+        {content.technicalOnePagerSection && (
+          <TechnicalOnePagerSection data={content.technicalOnePagerSection} onRequestDD={() => setDemoOpen(true)} />
         )}
 
         {/* 8. דמואים ויזואליים */}

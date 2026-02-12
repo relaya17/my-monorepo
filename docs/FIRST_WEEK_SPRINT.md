@@ -31,8 +31,8 @@
 | # | משימה | מקום | סטטוס |
 |---|--------|------|--------|
 | 9 | Pulse: קאונטר "כסף שנחסך" חי – נתונים מ-BuildingStats/aggregate | GET /api/super-admin/global-stats (totalMoneySaved, preventedFailures) | ✅ endpoint מוכן |
-| 10 | Anomaly Feed: רשימת VisionLog עם thumbnail | GET /api/super-admin/vision-logs | ✅ endpoint מוכן; UI בדאשבורד 🔲 |
-| 11 | Global Ledger: דוח תנועות כסף לכל בניין (Transaction/Ledger) | super-admin routes + UI | 🔲 |
+| 10 | Anomaly Feed: רשימת VisionLog עם thumbnail | GET /api/super-admin/vision-logs | ✅ endpoint + UI בדאשבורד |
+| 11 | Global Ledger: דוח תנועות כסף לכל בניין (Transaction/Ledger) | super-admin routes + UI | ✅ |
 
 ---
 
@@ -40,7 +40,7 @@
 
 | # | משימה | מקום | סטטוס |
 |---|--------|------|--------|
-| 12 | ריצה על CEO_VERIFICATION_CHECKLIST (ארבעת המוקדים) | docs/CEO_VERIFICATION_CHECKLIST.md | 🔲 |
+| 12 | ריצה על CEO_VERIFICATION_CHECKLIST (ארבעת המוקדים) | docs/CEO_VERIFICATION_CHECKLIST.md | ✅ כרטיס בדאשבורד עם קישורים |
 | 13 | צ'קליסט לפני עלייה: SSL, טשטוש פנים, נחיתה < 2s | CEO_VERIFICATION_CHECKLIST | 🔲 |
 | 14 | עדכון VERIFICATION_CHECKLIST (טכנאי) עם קישורים למסמכים החדשים | VERIFICATION_CHECKLIST.md | 🔲 |
 
