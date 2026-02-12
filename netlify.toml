@@ -1,11 +1,13 @@
 [build]
+base = "."
 command = "corepack enable pnpm && pnpm install && pnpm turbo run build --filter=web"
 publish = "apps/web/dist"
+# Force rebuild on every push (Netlify skip-build can miss monorepo changes)
+ignore = "exit 1"
 
 [build.environment]
   NODE_VERSION = "20"
   CI = "true"
-  # אם Netlify לא מתעדכן: Site settings → Build & deploy → Trigger deploy → "Clear cache and deploy site"
 
 # Allow Google Fonts (Playfair Display) - CSP
 [[headers]]

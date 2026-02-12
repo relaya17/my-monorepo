@@ -70,6 +70,13 @@
 | ☐ | Publish: `apps/web/dist` |
 | ☐ | אם הדף לא מתעדכן: Site settings → Build & deploy → **Clear cache and deploy site** |
 
+### Netlify לא רואה שינויים – צעדים:
+1. **Netlify Dashboard** → בחר את האתר → **Deploys**
+2. בדוק אם יש Deploy כושל (Failed) – אם כן, לחץ עליו וראה את הלוג
+3. **Trigger deploy** → **Clear cache and deploy site** – זה מנקה cache ועושה build מחדש
+4. וודא **Production branch** = `main` (Site settings → Build & deploy → Continuous deployment)
+5. אם מחובר ל-repo אחר או branch אחר – תקן ב-Site configuration
+
 ---
 
 ## קבצים רלוונטיים

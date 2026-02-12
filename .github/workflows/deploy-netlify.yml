@@ -1,0 +1,34 @@
+# Deploy to Netlify – גיבוי, רץ בכל push ל-main (ללא lint/test)
+name: Deploy to Netlify
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm turbo run build --filter=web
+
+      - uses: nwtgck/actions-netlify@v2
+        with:
+          publish-dir: apps/web/dist
+          production-branch: main
+          deploy-message: Deployed from GitHub Actions
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
