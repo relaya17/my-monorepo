@@ -70,7 +70,7 @@
   background: rgba(0, 0, 0, 0.35) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  padding: 2.5rem;
+  padding: 1.75rem 2rem;
   border-radius: 1.5rem;
   text-align: center;
   max-width: 600px;
@@ -83,7 +83,6 @@
   pointer-events: auto;
   display: flex;
   flex-direction: column;
-  min-height: 200px;
 }
 
 /* מסך קטן – ריווח מותאם */
@@ -142,7 +141,7 @@
 .home-wrapper .home-title {
   font-family: 'Syne', sans-serif;
   font-size: clamp(1.5rem, 4.5vw, 2.4rem);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -199,8 +198,8 @@
 }
 
 .home-subtitle-wrap {
-  margin-bottom: 1rem;
-  min-height: 4.5em;
+  margin-bottom: 0.75rem;
+  min-height: 3.2em;
 }
 .home-wrapper .home-subtitle {
   font-size: clamp(0.9rem, 2.2vw, 1.15rem);
@@ -241,11 +240,11 @@
 }
 
 .home-cta {
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
 }
 .home-cta-bottom {
   margin-top: auto;
-  padding-top: 1.5rem;
+  padding-top: 1.25rem;
 }
 .home-wrapper .home-btn-cta {
   font-weight: 600;

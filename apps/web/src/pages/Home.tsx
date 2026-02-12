@@ -80,7 +80,6 @@ const Home: React.FC = () => {
                 </motion.p>
               </AnimatePresence>
               <span className="home-subtitle-underline" aria-hidden="true" />
-            <p className="home-subtitle home-subtitle-services">דור הבא של ניהול ואחזקה דיגיטלית</p>
           </div>
             <div className="home-cta home-cta-bottom">
               <Link
