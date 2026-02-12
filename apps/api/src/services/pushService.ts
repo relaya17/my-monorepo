@@ -1,7 +1,7 @@
 /**
  * Push Notifications Service – "הספק בלובי"
  *
- * מפרט: docs/PUSH_NOTIFICATIONS_SPEC.md
+ * מפרט: docs/vantera/PUSH_NOTIFICATIONS_SPEC.md
  *
  * TODO: הטמעה מלאה
  * - FCM (Firebase Cloud Messaging) / OneSignal / Web Push API

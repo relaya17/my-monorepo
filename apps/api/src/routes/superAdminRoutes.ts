@@ -10,6 +10,7 @@ import User from '../models/userModel.js';
 import VisionLog from '../models/visionLogModel.js';
 import Transaction from '../models/transactionModel.js';
 import MaintenanceFeedback from '../models/maintenanceFeedbackModel.js';
+import RealEstateLead from '../models/realEstateLeadModel.js';
 import { tenantContext } from '../middleware/tenantMiddleware.js';
 import { verifySuperAdmin } from '../middleware/authMiddleware.js';
 import { getOrSetCache } from '../utils/cache.js';
@@ -211,6 +212,71 @@ router.get('/vendor-alerts', verifySuperAdmin, async (_req: Request, res: Respon
     res.json({ alerts: raw, threshold: THRESHOLD });
   } catch (err) {
     res.status(500).json({ error: 'שגיאה בשליפת התראות קבלנים' });
+  }
+});
+
+/** Real Estate Opportunities – Revenue Share Ecosystem. לידים מ-V-One (מכירה/השכרה). */
+router.get('/real-estate-leads', verifySuperAdmin, async (req: Request, res: Response) => {
+  try {
+    const limit = Math.min(Number(req.query.limit) || 50, 200);
+    const status = (req.query.status as string)?.trim();
+    const raw = await tenantContext.run({ buildingId: '*' }, async () => {
+      const q: Record<string, unknown> = {};
+      if (status && ['new', 'in_progress', 'closed'].includes(status)) q.status = status;
+      return RealEstateLead.find(q)
+        .sort({ createdAt: -1 })
+        .limit(limit)
+        .select('apartmentNumber residentName residentEmail residentPhone dealType status buildingId createdAt')
+        .lean();
+    });
+    const buildingIds = [...new Set((raw as { buildingId?: string }[]).map((r) => r.buildingId).filter(Boolean))];
+    const buildingDocs = await Building.find({ buildingId: { $in: buildingIds } }).lean();
+    const byId = Object.fromEntries(
+      buildingDocs.map((b) => [
+        (b as { buildingId: string }).buildingId,
+        (b as { committeeName?: string }).committeeName || (b as { address?: string }).address || (b as { buildingId: string }).buildingId,
+      ])
+    );
+    const items = (raw as { _id?: unknown; apartmentNumber?: string; residentName?: string; residentEmail?: string; residentPhone?: string; dealType?: string; status?: string; buildingId?: string; createdAt?: Date }[]).map((r) => ({
+      id: String((r as { _id?: { toString?: () => string } })._id?.toString?.() ?? ''),
+      apartmentNumber: r.apartmentNumber ?? '',
+      residentName: r.residentName ?? '',
+      residentEmail: r.residentEmail ?? '',
+      residentPhone: r.residentPhone,
+      dealType: r.dealType ?? 'sale',
+      status: r.status ?? 'new',
+      buildingId: r.buildingId ?? 'default',
+      buildingName: byId[r.buildingId ?? ''] ?? r.buildingId ?? '-',
+      createdAt: r.createdAt,
+    }));
+    const countThisMonth = await tenantContext.run({ buildingId: '*' }, async () => {
+      const start = new Date();
+      start.setDate(1);
+      start.setHours(0, 0, 0, 0);
+      return RealEstateLead.countDocuments({ createdAt: { $gte: start } });
+    });
+    res.json({ items, countThisMonth });
+  } catch (err) {
+    console.error('Real estate leads error:', err);
+    res.status(500).json({ error: 'שגיאה בשליפת לידים נדל"ן' });
+  }
+});
+
+/** PATCH real estate lead status */
+router.patch('/real-estate-leads/:id', verifySuperAdmin, async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const { status } = req.body as { status?: string };
+    if (!status || !['new', 'in_progress', 'closed'].includes(status)) {
+      return res.status(400).json({ error: 'סטטוס לא תקין (new, in_progress, closed)' });
+    }
+    const updated = await tenantContext.run({ buildingId: '*' }, async () =>
+      RealEstateLead.findByIdAndUpdate(id, { $set: { status, ...(status === 'closed' ? { closedAt: new Date() } : {}) } }, { new: true }).lean()
+    );
+    if (!updated) return res.status(404).json({ error: 'ליד לא נמצא' });
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: 'שגיאה בעדכון ליד' });
   }
 });
 

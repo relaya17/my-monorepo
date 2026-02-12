@@ -340,5 +340,5 @@ Middleware גלובלי: `validateInput`, `rateLimiter`; בנתיבי auth: `log
 ---
 
 **סוף המפרט הטכני.**  
-לפרטי אבטחה מלאים – `docs/SECURITY.md`.  
+לפרטי אבטחה מלאים – `docs/vantera/SECURITY.md`.  
 להתקנה והפעלה – `README.md` ברמת הפרויקט.

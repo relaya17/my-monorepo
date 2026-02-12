@@ -40,7 +40,7 @@
 
 | # | משימה | מקום | סטטוס |
 |---|--------|------|--------|
-| 12 | ריצה על CEO_VERIFICATION_CHECKLIST (ארבעת המוקדים) | docs/CEO_VERIFICATION_CHECKLIST.md | ✅ כרטיס בדאשבורד עם קישורים |
+| 12 | ריצה על CEO_VERIFICATION_CHECKLIST (ארבעת המוקדים) | docs/vantera/CEO_VERIFICATION_CHECKLIST.md | ✅ כרטיס בדאשבורד עם קישורים |
 | 13 | צ'קליסט לפני עלייה: SSL, טשטוש פנים, נחיתה < 2s | CEO_VERIFICATION_CHECKLIST | ✅ דף /ceo-pre-launch + כרטיס בלוח CEO |
 | 14 | עדכון VERIFICATION_CHECKLIST (טכנאי) עם קישורים למסמכים החדשים | [VERIFICATION_CHECKLIST.md](VERIFICATION_CHECKLIST.md) | ✅ קישורים ל־code, COMPLIANCE_CHECKLIST, TRUST_PRIVACY, DUE_DILIGENCE |
 
@@ -56,8 +56,8 @@
 | Vision | apps/api/src/models/visionLogModel.ts, services/vision.ts |
 | פרונט API | apps/web/src/api.ts |
 | נתיבים | apps/web/src/routs/routes.ts, AppRoutes.tsx |
-| סכמת DB | docs/HSLL_DATABASE_SCHEMA.md |
-| אימות מנכ"לית | docs/CEO_VERIFICATION_CHECKLIST.md |
+| סכמת DB | docs/vantera/HSLL_DATABASE_SCHEMA.md |
+| אימות מנכ"לית | docs/vantera/CEO_VERIFICATION_CHECKLIST.md |
 
 ---
 

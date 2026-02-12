@@ -132,4 +132,4 @@
 - **ספקים כ-Connect accounts:** הרשמת ספק כ-Stripe Connect (Express), ואז העברת כסף מחשבון הבניין לחשבון הספק (Transfers / Payment Intents עם `transfer_data`).
 - או: **Payouts** – הוועד מושך מהאפליקציה ל-bank account (כבר נתמך ב-Stripe Express).
 
-המימוש של "Pay Supplier" יוגדר בשלב Fintech הבא (ראו `docs/STRATEGY_X_FACTOR_AND_ENGINEERING_ROADMAP.md`).
+המימוש של "Pay Supplier" יוגדר בשלב Fintech הבא (ראו `docs/vantera/STRATEGY_X_FACTOR_AND_ENGINEERING_ROADMAP.md`).

@@ -25,7 +25,7 @@ cd ../api && pnpm install
 
 ### משתני סביבה
 
-העתק `apps/api/.env.example` ל־`apps/api/.env` והשלם ערכים. פרטים: `docs/SECURITY.md`.
+העתק `apps/api/.env.example` ל־`apps/api/.env` והשלם ערכים. פרטים: `docs/vantera/SECURITY.md`.
 
 ```bash
 cp apps/api/.env.example apps/api/.env
@@ -90,7 +90,7 @@ my-monorepo-app/
 └── logs/                   # לוגים (נוצר אוטומטית)
 ```
 
-**תיעוד מפתח:** `docs/README.md` | **[docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md)** | `docs/MULTI_TENANT_SECURITY.md` | `docs/TECHNICAL_EXECUTIVE_SUMMARY.md`
+**תיעוד מפתח:** `docs/README.md` | **[docs/vantera/API_DOCUMENTATION.md](docs/vantera/API_DOCUMENTATION.md)** | `docs/vantera/MULTI_TENANT_SECURITY.md` | `docs/vantera/TECHNICAL_EXECUTIVE_SUMMARY.md`
 
 ### סקריפטים (`scripts/`)
 
@@ -198,7 +198,7 @@ my-monorepo-app/
 
 ## 📊 API Documentation
 
-**תיעוד מלא:** [docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md) – כל ה-endpoints מסודרים לפי דומיין (Public, Auth, Maintenance, V-One, Super-Admin, Webhooks, Stripe…).
+**תיעוד מלא:** [docs/vantera/API_DOCUMENTATION.md](docs/vantera/API_DOCUMENTATION.md) – כל ה-endpoints מסודרים לפי דומיין (Public, Auth, Maintenance, V-One, Super-Admin, Webhooks, Stripe…).
 
 | דומיין | דוגמה | הערות |
 |--------|-------|-------|
@@ -323,10 +323,10 @@ MONGO_URI=mongodb://localhost:27017/your_db
 
 תיעוד מדיניות וסטנדרטים ברמת המאגר:
 - **[docs/README.md](docs/README.md)** – אינדקס כל התיעוד (מפרטים טכניים, פריסה, פתרון בעיות)
-- [SECURITY.md](docs/SECURITY.md)
-- [ACCESSIBILITY.md](docs/ACCESSIBILITY.md)
-- [CONTRIBUTING.md](docs/CONTRIBUTING.md)
-- [CODE_OF_CONDUCT.md](docs/CODE_OF_CONDUCT.md)
+- [SECURITY.md](docs/vantera/SECURITY.md)
+- [ACCESSIBILITY.md](docs/vantera/ACCESSIBILITY.md)
+- [CONTRIBUTING.md](docs/vantera/CONTRIBUTING.md)
+- [CODE_OF_CONDUCT.md](docs/vantera/CODE_OF_CONDUCT.md)
 - [LICENSE](LICENSE)
 
 ---

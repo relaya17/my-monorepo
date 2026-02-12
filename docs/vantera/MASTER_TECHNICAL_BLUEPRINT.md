@@ -114,7 +114,7 @@ You are a **Senior Full-Stack Engineer and AI Specialist**. Your task is to arch
 | **Public API** | `GET /api/public-stats`, `GET /api/public/impact-metrics` – aggregate from `BuildingStats` only. No auth. |
 | **RBAC** | JWT + roles (admin/super-admin, user with buildingId). Roles: resident, committee, technician, admin. Map to SUPER_ADMIN / BUILDING_MANAGER / TECHNICIAN / RESIDENT as needed. |
 | **Technician** | Magic-link flow exists: `technicianAccessService.ts`, `techRoutes.ts` – time-limited token, no login. |
-| **Vision** | Stub: `apps/api/src/services/vision.ts` (TODO: RTSP, anomaly detection). See `docs/VISION_SATELLITE_SPEC.md`. |
+| **Vision** | Stub: `apps/api/src/services/vision.ts` (TODO: RTSP, anomaly detection). See `docs/vantera/VISION_SATELLITE_SPEC.md`. |
 | **AI Peacekeeper** | Duplicate check by category exists in maintenance flow. **Semantic similarity (embeddings) not yet implemented.** |
 
 **Instruction to AI:**  

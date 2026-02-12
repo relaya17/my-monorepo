@@ -35,7 +35,7 @@
 |------|-------------|-------------|
 | `MULTI_TENANT_SECURITY.md` | Middleware + Plugin, למה "סינון ב-DB" לבד מסוכן | תואם ל-`tenantMiddleware.ts` + `multiTenancy.ts` + רשימת המודלים עם plugin |
 | `HSLL_SPEC.md` | ארכיטקטורה, רשימת דרישות, מפת קבצים | תואם – Tenant Context, Config, Maintenance, CEO, וכו' |
-| `docs/README.md` | אינדקס תיעוד | מפנה ל-MULTI_TENANT_SECURITY, HSLL_SPEC, ושאר המסמכים |
+| `docs/README.md` | אינדקס תיעוד | מפנה ל-docs/vantera/ – MULTI_TENANT_SECURITY, HSLL_SPEC, ושאר המסמכים |
 
 ---
 
@@ -61,16 +61,16 @@
 
 | מסמך | שימוש לטכנאי | קישור |
 |------|----------------|--------|
-| MASTER_TECHNICAL_BLUEPRINT | פרומפט מרכזי; מצב Monorepo (Express, Vite) | [docs/MASTER_TECHNICAL_BLUEPRINT.md](MASTER_TECHNICAL_BLUEPRINT.md) |
-| HSLL_DATABASE_SCHEMA | סכמת Building, Ticket, VisionLog, Ledger | [docs/HSLL_DATABASE_SCHEMA.md](HSLL_DATABASE_SCHEMA.md) |
-| DATABASE_SCHEMA_APPROVAL | אישור מבנה DB לפני שינויים | [docs/DATABASE_SCHEMA_APPROVAL.md](DATABASE_SCHEMA_APPROVAL.md) |
-| CEO_VERIFICATION_CHECKLIST | ארבעת מוקדי אימות + SSL, פרטיות, נחיתה < 2s | [docs/CEO_VERIFICATION_CHECKLIST.md](CEO_VERIFICATION_CHECKLIST.md) |
-| FIRST_WEEK_SPRINT | משימות שבוע ראשון – סטטוס | [docs/FIRST_WEEK_SPRINT.md](FIRST_WEEK_SPRINT.md) |
-| PENDING_REQUESTS_CONSOLIDATED | רשימת בקשות שטרם יושמו | [docs/PENDING_REQUESTS_CONSOLIDATED.md](PENDING_REQUESTS_CONSOLIDATED.md) |
+| MASTER_TECHNICAL_BLUEPRINT | פרומפט מרכזי; מצב Monorepo (Express, Vite) | [MASTER_TECHNICAL_BLUEPRINT.md](MASTER_TECHNICAL_BLUEPRINT.md) |
+| HSLL_DATABASE_SCHEMA | סכמת Building, Ticket, VisionLog, Ledger | [HSLL_DATABASE_SCHEMA.md](HSLL_DATABASE_SCHEMA.md) |
+| DATABASE_SCHEMA_APPROVAL | אישור מבנה DB לפני שינויים | [DATABASE_SCHEMA_APPROVAL.md](DATABASE_SCHEMA_APPROVAL.md) |
+| CEO_VERIFICATION_CHECKLIST | ארבעת מוקדי אימות + SSL, פרטיות, נחיתה < 2s | [CEO_VERIFICATION_CHECKLIST.md](CEO_VERIFICATION_CHECKLIST.md) |
+| FIRST_WEEK_SPRINT | משימות שבוע ראשון – סטטוס | [FIRST_WEEK_SPRINT.md](FIRST_WEEK_SPRINT.md) |
+| PENDING_REQUESTS_CONSOLIDATED | רשימת בקשות שטרם יושמו | [PENDING_REQUESTS_CONSOLIDATED.md](PENDING_REQUESTS_CONSOLIDATED.md) |
 
-**קוד מרכזי:** [index.ts](../apps/api/src/index.ts) (tenantMiddleware) | [multiTenancy.ts](../apps/api/src/utils/multiTenancy.ts) | [maintenanceRoutes.ts](../apps/api/src/routes/maintenanceRoutes.ts) (409 + existingId)
+**קוד מרכזי:** [index.ts](../../apps/api/src/index.ts) (tenantMiddleware) | [multiTenancy.ts](../../apps/api/src/utils/multiTenancy.ts) | [maintenanceRoutes.ts](../../apps/api/src/routes/maintenanceRoutes.ts) (409 + existingId)
 
-**מסמכי אימות נוספים:** [COMPLIANCE_CHECKLIST.md](COMPLIANCE_CHECKLIST.md) | [TRUST_PRIVACY_STATEMENT.md](TRUST_PRIVACY_STATEMENT.md) | [DUE_DILIGENCE_KIT.md](DUE_DILIGENCE_KIT.md) | [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md)
+**מסמכי אימות נוספים:** [COMPLIANCE_CHECKLIST.md](COMPLIANCE_CHECKLIST.md) | [TRUST_PRIVACY_STATEMENT.md](TRUST_PRIVACY_STATEMENT.md) | [DUE_DILIGENCE_KIT.md](DUE_DILIGENCE_KIT.md) | [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) | [VISION_SATELLITE_BOT_FLOW.md](VISION_SATELLITE_BOT_FLOW.md)
 
 ---
 

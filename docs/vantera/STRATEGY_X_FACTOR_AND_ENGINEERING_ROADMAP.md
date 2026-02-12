@@ -99,11 +99,11 @@
 1. **Webhooks של Stripe** – עדכונים בזמן אמת כשדייר משלם; עדכון אוטומטי ל-Dashboard.
 2. **Payment Flow מאובטח עם Stripe Connect** – אפשרות לוועד לשלם לספקים ישירות מהאפליקציה; **גביית עמלות** = הפיכת האפליקציה לרווחית.
 
-**מימוש:** זרימת Stripe Connect + Webhooks הוגדרה. ראו **`docs/STRIPE_CONNECT_AND_WEBHOOKS.md`** – Onboarding, Login, Status, Checkout, ו-Webhooks (checkout.session.completed, payment_intent.succeeded, account.updated).
+**מימוש:** זרימת Stripe Connect + Webhooks הוגדרה. ראו **`docs/vantera/STRIPE_CONNECT_AND_WEBHOOKS.md`** – Onboarding, Login, Status, Checkout, ו-Webhooks (checkout.session.completed, payment_intent.succeeded, account.updated).
 
 ---
 
 **מסמכים קשורים:**  
-- `docs/TECHNICAL_SPECIFICATION.md` – מפרט טכני מלא.  
-- `docs/MULTI_TENANT_SECURITY.md` – אבטחת Multi-Tenant.  
-- `docs/VANTERA_2026_STRATEGY_AND_ROADMAP.md` – אסטרטגיה ורבעונים.
+- `docs/vantera/TECHNICAL_SPECIFICATION.md` – מפרט טכני מלא.  
+- `docs/vantera/MULTI_TENANT_SECURITY.md` – אבטחת Multi-Tenant.  
+- `docs/vantera/VANTERA_2026_STRATEGY_AND_ROADMAP.md` – אסטרטגיה ורבעונים.

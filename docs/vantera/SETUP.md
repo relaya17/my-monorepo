@@ -108,6 +108,6 @@ pnpm run build
 
 ## הפניות
 
-- **SEO:** `docs/SEO_CHECKLIST.md`
-- **Launch:** `docs/LAUNCH_STRATEGY.md`
-- **Push:** `docs/PUSH_NOTIFICATIONS_SPEC.md`
+- **SEO:** `docs/vantera/SEO_CHECKLIST.md`
+- **Launch:** `docs/vantera/LAUNCH_STRATEGY.md`
+- **Push:** `docs/vantera/PUSH_NOTIFICATIONS_SPEC.md`

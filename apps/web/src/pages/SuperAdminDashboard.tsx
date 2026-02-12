@@ -2,11 +2,31 @@
  * CEO Dashboard מאוחד – סטטיסטיקות גלובליות, מעקב הורדות, יומן פעילות, Anomaly Feed.
  * מוצג רק ל-super-admin.
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ROUTES from '../routs/routes';
 import { apiRequestJson } from '../api';
 import { safeGetItem } from '../utils/safeStorage';
+
+/** Play subtle alert sound for new Real Estate lead (demo). */
+function playNewLeadSound(): void {
+  try {
+    const ctx = typeof AudioContext !== 'undefined' ? new AudioContext() : null;
+    if (ctx) {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.value = 880;
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.2);
+    }
+  } catch {
+    /* ignore */
+  }
+}
 
 type GlobalStats = { totalRevenue?: number; activeBuildings?: number; totalMoneySaved?: number; preventedFailures?: number };
 type AdoptionItem = { buildingId: string; buildingName: string; appDownloadedCount: number };
@@ -19,6 +39,8 @@ type LedgerBuilding = { buildingId: string; buildingName: string; totalIncome: n
 type LedgerData = { items: LedgerBuilding[] };
 type VendorAlert = { contractorName?: string; buildingId?: string; avgRating?: number; count?: number };
 type VendorAlertsData = { alerts: VendorAlert[]; threshold?: number };
+type RealEstateLeadItem = { id: string; apartmentNumber: string; residentName: string; residentEmail: string; residentPhone?: string; dealType: string; status: string; buildingId: string; buildingName: string; createdAt?: string };
+type RealEstateData = { items: RealEstateLeadItem[]; countThisMonth?: number };
 
 const SuperAdminDashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -28,6 +50,8 @@ const SuperAdminDashboard: React.FC = () => {
   const [vision, setVision] = useState<VisionData | null>(null);
   const [ledger, setLedger] = useState<LedgerData | null>(null);
   const [vendorAlerts, setVendorAlerts] = useState<VendorAlertsData | null>(null);
+  const [realEstateLeads, setRealEstateLeads] = useState<RealEstateData | null>(null);
+  const [newLeadToast, setNewLeadToast] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -43,13 +67,14 @@ const SuperAdminDashboard: React.FC = () => {
       setLoading(true);
       setError('');
       try {
-        const [statsRes, adoptionRes, activityRes, visionRes, ledgerRes, vendorRes] = await Promise.all([
+        const [statsRes, adoptionRes, activityRes, visionRes, ledgerRes, vendorRes, realEstateRes] = await Promise.all([
           apiRequestJson<GlobalStats>('super-admin/global-stats'),
           apiRequestJson<AdoptionData>('super-admin/resident-adoption'),
           apiRequestJson<ActivityData>('super-admin/activity-stream?limit=10'),
           apiRequestJson<VisionData>('super-admin/vision-logs?limit=20'),
           apiRequestJson<LedgerData>('super-admin/global-ledger?limit=50'),
           apiRequestJson<VendorAlertsData>('super-admin/vendor-alerts'),
+          apiRequestJson<RealEstateData>('super-admin/real-estate-leads?limit=20'),
         ]);
 
         if (statsRes.response.ok) setStats(statsRes.data ?? null);
@@ -58,6 +83,7 @@ const SuperAdminDashboard: React.FC = () => {
         if (visionRes.response.ok) setVision(visionRes.data ?? null);
         if (ledgerRes.response.ok) setLedger(ledgerRes.data ?? null);
         if (vendorRes.response.ok) setVendorAlerts(vendorRes.data ?? null);
+        if (realEstateRes.response.ok) setRealEstateLeads(realEstateRes.data ?? null);
 
         if (!statsRes.response.ok && statsRes.response.status === 403) setError('אין הרשאה');
       } catch {
@@ -69,8 +95,40 @@ const SuperAdminDashboard: React.FC = () => {
     fetchAll();
   }, [navigate]);
 
+  const prevLeadCountRef = useRef(0);
+  useEffect(() => {
+    if (!realEstateLeads?.items?.length || loading) return;
+    const count = realEstateLeads.items.length;
+    if (count > prevLeadCountRef.current && prevLeadCountRef.current > 0) {
+      playNewLeadSound();
+      const latest = realEstateLeads.items[0];
+      setNewLeadToast(latest ? `ליד חדש – דירה ${latest.apartmentNumber || '?'} (${latest.dealType === 'rent' ? 'השכרה' : 'מכירה'})` : 'ליד נדל"ן חדש');
+      setTimeout(() => setNewLeadToast(null), 6000);
+    }
+    prevLeadCountRef.current = count;
+  }, [realEstateLeads?.items?.length, loading, realEstateLeads?.items]);
+
+  const fetchRealEstateLeads = async () => {
+    try {
+      const { response, data } = await apiRequestJson<RealEstateData>('super-admin/real-estate-leads?limit=20');
+      if (response.ok && data) setRealEstateLeads(data);
+    } catch {
+      /* ignore */
+    }
+  };
+  useEffect(() => {
+    const isAdmin = safeGetItem('isAdminLoggedIn');
+    const role = safeGetItem('adminRole');
+    if (!isAdmin || role !== 'super-admin') return;
+    const interval = setInterval(fetchRealEstateLeads, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const newestNewLead = realEstateLeads?.items?.find((l) => l.status === 'new');
+  const countThisMonth = realEstateLeads?.countThisMonth ?? 0;
+
   return (
-    <div style={{ minHeight: '100vh', direction: 'rtl', padding: '2rem', backgroundColor: '#f8f9fa' }}>
+    <div style={{ minHeight: '100vh', direction: 'rtl', padding: 'clamp(1rem, 4vw, 2rem)', backgroundColor: '#f8f9fa' }}>
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h1>
@@ -85,6 +143,16 @@ const SuperAdminDashboard: React.FC = () => {
 
         {loading && <p className="text-muted">טוען...</p>}
         {error && <div className="alert alert-danger">{error}</div>}
+        {newLeadToast && (
+          <div
+            className="alert alert-success d-flex align-items-center shadow position-fixed top-0 start-50 translate-middle-x mt-3"
+            style={{ zIndex: 1050, animation: 're-blink 1.5s ease-in-out 2' }}
+            role="alert"
+          >
+            <i className="fas fa-bell me-2" aria-hidden />
+            {newLeadToast}
+          </div>
+        )}
 
         {!loading && !error && (
           <>
@@ -172,6 +240,15 @@ const SuperAdminDashboard: React.FC = () => {
                   <div className="card-body text-center">
                     <p className="text-muted mb-1">תקלות שמונעו</p>
                     <h4 className="text-warning">{stats?.preventedFailures ?? 0}</h4>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-3 col-lg-2">
+                <div className="card border-success shadow-sm h-100" style={{ borderWidth: 2 }}>
+                  <div className="card-body text-center py-3">
+                    <p className="text-muted mb-1 small">Partner Commission</p>
+                    <h4 className="text-success mb-0">₪{countThisMonth * 10}</h4>
+                    <small className="text-muted d-block mt-1">{countThisMonth} לידים × $10</small>
                   </div>
                 </div>
               </div>
@@ -275,6 +352,92 @@ const SuperAdminDashboard: React.FC = () => {
                             </div>
                           </div>
                         ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* NEW REAL ESTATE OPPORTUNITY – התראה אדומה מהבהבת (דמו) */}
+              {newestNewLead && (
+                <div className="col-12">
+                  <div
+                    className="alert alert-danger d-flex align-items-center justify-content-between mb-0 animate__animated animate__pulse"
+                    role="alert"
+                    style={{
+                      animation: 're-blink 1.5s ease-in-out infinite',
+                    }}
+                  >
+                    <strong>
+                      <i className="fas fa-bell me-2" aria-hidden />
+                      NEW REAL ESTATE OPPORTUNITY – UNIT {newestNewLead.apartmentNumber || '?'}
+                    </strong>
+                    <span className="badge bg-danger">{newestNewLead.residentName} • {newestNewLead.dealType === 'rent' ? 'השכרה' : 'מכירה'}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Real Estate Opportunities – Revenue Share Ecosystem */}
+              <div className="col-12">
+                <div className="card shadow-sm border-success">
+                  <div className="card-header bg-success bg-opacity-10 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <strong>
+                      <i className="fas fa-home me-1" aria-hidden />
+                      Real Estate Opportunities – לידים חמים
+                    </strong>
+                    <div className="d-flex align-items-center gap-2">
+                      <span className="badge bg-success">{countThisMonth} החודש</span>
+                      <span className="badge bg-secondary">Partner Commission: ₪{countThisMonth * 10}</span>
+                    </div>
+                  </div>
+                  <div className="card-body">
+                    {(realEstateLeads?.items ?? []).length === 0 ? (
+                      <p className="text-muted mb-0">
+                        כשדייר יאמר ל-V-One "רוצה למכור" או "להשכיר" – הליד יופיע כאן. הליד מועבר למנהל הנכס + חיוב $10/10₪.
+                      </p>
+                    ) : (
+                      <div className="table-responsive">
+                        <table className="table table-sm">
+                          <thead>
+                            <tr>
+                              <th>דירה</th>
+                              <th>דייר</th>
+                              <th>סוג</th>
+                              <th>סטטוס</th>
+                              <th>בניין</th>
+                              <th>צור קשר</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {realEstateLeads?.items?.slice(0, 15).map((l) => (
+                              <tr key={l.id}>
+                                <td>{l.apartmentNumber || '-'}</td>
+                                <td>{l.residentName}</td>
+                                <td>
+                                  <span className={`badge ${l.dealType === 'rent' ? 'bg-info' : 'bg-primary'}`}>
+                                    {l.dealType === 'rent' ? 'השכרה' : 'מכירה'}
+                                  </span>
+                                </td>
+                                <td>
+                                  <span className={`badge ${l.status === 'new' ? 'bg-warning' : l.status === 'closed' ? 'bg-secondary' : 'bg-info'}`}>
+                                    {l.status === 'new' ? 'חדש' : l.status === 'closed' ? 'נסגר' : 'בטיפול'}
+                                  </span>
+                                </td>
+                                <td>{l.buildingName}</td>
+                                <td>
+                                  <a href={`mailto:${l.residentEmail}?subject=${encodeURIComponent(`בניין ${l.buildingName} – ${l.dealType === 'rent' ? 'השכרה' : 'מכירה'}`)}`} className="btn btn-sm btn-outline-primary me-1" title="שלח מייל">
+                                    <i className="fas fa-envelope" aria-hidden />
+                                  </a>
+                                  {l.residentPhone ? (
+                                    <a href={`https://wa.me/${l.residentPhone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-outline-success" title="WhatsApp">
+                                      <i className="fab fa-whatsapp" aria-hidden />
+                                    </a>
+                                  ) : null}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
                     )}
                   </div>

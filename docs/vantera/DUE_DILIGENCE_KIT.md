@@ -16,7 +16,7 @@
    - מפרט ה-Prompt Engineering הייחודי
 
 2. **מסמכים קיימים**
-   - `docs/V_ONE_IP_DOCUMENTATION.md` – תיעוד מלא
+   - `docs/vantera/V_ONE_IP_DOCUMENTATION.md` – תיעוד מלא
    - `apps/api/src/utils/voneContext.ts` – System Context per region
    - `apps/api/src/routes/voneChatRoutes.ts` – Chat logic + keywords
    - `apps/api/src/services/maintenanceAiService.ts` – Predictive AI
@@ -35,7 +35,7 @@
 1. **מערכת Multi-Tenant קיימת**
    - `tenantMiddleware` – כל request עם `x-building-id`
    - `multiTenancyPlugin` – סינון אוטומטי בבסיס הנתונים
-   - ראה: `docs/MULTI_TENANT_SECURITY.md`
+   - ראה: `docs/vantera/MULTI_TENANT_SECURITY.md`
 
 2. **Theme Engine** ✅ (מיושם)
    - `Building.branding`: { logoUrl, primaryColor, secondaryColor, customDomain }
@@ -55,8 +55,8 @@
 ### הנחיות לטכנאי
 
 1. **נתונים מובנים (Structured Data)**
-   - ראה: `docs/HSLL_DATABASE_SCHEMA.md`
-   - `docs/DATABASE_SCHEMA_APPROVAL.md` (אם קיים)
+   - ראה: `docs/vantera/HSLL_DATABASE_SCHEMA.md`
+   - `docs/vantera/DATABASE_SCHEMA_APPROVAL.md` (אם קיים)
 
 2. **מפרט DB Schema**
    - היסטוריית תקלות: `Maintenance` עם `aiAnalysis`, `source`, `evidence`, `technicianReport`
@@ -82,12 +82,12 @@
    - Legal Hub: `apps/web/src/pages/LegalHubPage.tsx` – FR/IL/US/GB
 
 2. **SOC2 (ארה"ב – אבטחת מידע)**
-   - תיעוד: `docs/TRUST_PRIVACY_STATEMENT.md`
+   - תיעוד: `docs/vantera/TRUST_PRIVACY_STATEMENT.md`
    - AES-256, Audit logs, Data isolation per tenant
 
 3. **Penetration Test**
    - להריץ בדיקת חדירות בסיסית (OWASP ZAP או שירות חיצוני)
-   - לתעד תוצאות ב-`docs/COMPLIANCE_CHECKLIST.md`
+   - לתעד תוצאות ב-`docs/vantera/COMPLIANCE_CHECKLIST.md`
 
 ---
 
@@ -105,8 +105,8 @@
 
 ## הצעד הבא: Technical Executive Summary
 
-**מסמך מקור:** `docs/TECHNICAL_EXECUTIVE_SUMMARY.md` – התוכן המקצועי המלא (שפת M&A).  
-**הנחיה למנכ"לית:** `docs/CEO_EXECUTIVE_BRIEFING_GUIDANCE.md` – איך להדגיש לפי קהל (צרפת→Loi Élan, ארה"ב→NOI, טכנאי→README).
+**מסמך מקור:** `docs/vantera/TECHNICAL_EXECUTIVE_SUMMARY.md` – התוכן המקצועי המלא (שפת M&A).  
+**הנחיה למנכ"לית:** `docs/vantera/CEO_EXECUTIVE_BRIEFING_GUIDANCE.md` – איך להדגיש לפי קהל (צרפת→Loi Élan, ארה"ב→NOI, טכנאי→README).
 
 **בדף הנחיתה/Insights** – סקשן `technicalOnePagerSection` ב-`landing-pages.json` (he/en/fr).
 

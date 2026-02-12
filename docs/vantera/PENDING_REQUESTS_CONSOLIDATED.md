@@ -42,7 +42,7 @@
 |---|--------|--------|--------|
 | 12 | **Vision Pipeline** | ✅ Stub | visionService.ts – processFrame, startStreamListener (TODO: CV provider) |
 | 13 | **Satellite Hook** | 🔲 Roadmap | Mapbox/Google Satellite, quarterly roof condition tracking |
-| 14 | **Alert → AI Peacekeeper** | 🔲 Roadmap | Vision anomaly → System Generated ticket + CEO badge "Visual Evidence" |
+| 14 | **Alert → AI Peacekeeper** | ✅ | visionService.saveAnomalyToVisionLog – VisionLog + Peacekeeper (30d) + ticket source: AI_VISION |
 | 15 | **Landing Visual Evidence** | ✅ | Mockup: מצלמה יבשה vs AI מסמן נזילה בריבוע אדום |
 
 ---
@@ -83,7 +83,7 @@
 | 29 | **COMPLIANCE_CHECKLIST.md** | ✅ | GDPR, SOC2, Pen Test – טבלת סטטוס |
 | 30 | **Technical One-Pager** | ✅ | סקשן בדף Insights – 4 pillars + 3 acquisition options |
 | 31 | **Theme Engine** | ✅ | Building.branding, GET /api/buildings/branding, ThemeProvider, CSS vars |
-| 32 | **README + API Documentation** | ✅ | README מעודכן (ארכיטקטורה, הרצה, env). docs/API_DOCUMENTATION.md – תיעוד מלא לכל endpoints. |
+| 32 | **README + API Documentation** | ✅ | README מעודכן (ארכיטקטורה, הרצה, env). docs/vantera/API_DOCUMENTATION.md – תיעוד מלא לכל endpoints. |
 
 ---
 

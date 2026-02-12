@@ -1,6 +1,5 @@
 /**
- * GET /api/user/status – V-One: פרטי דייר מותאמים אישית
- * דורש JWT מסוג user (דייר)
+ * /api/user/* – סטטוס דייר, מחיקת חשבון (GDPR Right to be Forgotten)
  */
 import express, { Request, Response } from 'express';
 import User from '../models/userModel.js';
@@ -8,8 +7,11 @@ import Building from '../models/buildingModel.js';
 import Payment from '../models/paymentModel.js';
 import Maintenance from '../models/maintenanceModel.js';
 import MaintenanceFeedback from '../models/maintenanceFeedbackModel.js';
+import VisionLog from '../models/visionLogModel.js';
+import BuildingStats from '../models/buildingStatsModel.js';
 import { authMiddleware } from '../middleware/authMiddleware.js';
 import { tenantContext } from '../middleware/tenantMiddleware.js';
+import { anonymizeUserAndDeleteSessions } from '../services/gdprDeletionService.js';
 
 const router = express.Router();
 
@@ -62,6 +64,20 @@ router.get('/status', authMiddleware, async (req: Request, res: Response) => {
         maintenanceId: String((f.maintenanceId as { toString?: () => string })?.toString?.() ?? ''),
         title: maintMap.get(String(f.maintenanceId)) ?? 'תקלה',
       }));
+
+      const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+      const [openCount, urgentOpen, visionAlerts, stats] = await Promise.all([
+        Maintenance.countDocuments({ reporterId: auth.sub, isDeleted: { $ne: true }, status: { $in: ['Open', 'In_Progress'] } }),
+        Maintenance.findOne({ isDeleted: { $ne: true }, status: { $in: ['Open', 'In_Progress'] }, priority: 'Urgent', category: { $in: ['Plumbing', 'Electrical'] } }).select('_id').lean(),
+        VisionLog.find({ resolved: false, timestamp: { $gte: sevenDaysAgo } }).sort({ timestamp: -1 }).limit(5).select('eventType cameraId timestamp').lean(),
+        BuildingStats.findOne({ buildingId }).select('moneySavedByAI').lean(),
+      ]);
+      const recentVisionAlerts = (visionAlerts as { eventType?: string; cameraId?: string; timestamp?: Date }[]).map((v) => ({
+        eventType: v.eventType,
+        cameraId: v.cameraId,
+        timestamp: v.timestamp,
+      }));
+
       return {
         firstName: getFirstName(u.name ?? ''),
         name: u.name ?? '',
@@ -73,6 +89,7 @@ router.get('/status', authMiddleware, async (req: Request, res: Response) => {
         paymentStatus: p ? 'paid' : 'unknown',
         lastPaymentAmount: p?.amount,
         lastPaymentDate: p?.createdAt,
+        openTicketsCount: openCount,
         openTickets: openTickets.map((t: { _id?: unknown; title?: string; category?: string; status?: string; priority?: string; createdAt?: Date }) => ({
           id: String((t as { _id?: { toString?: () => string } })._id?.toString?.() ?? ''),
           title: t.title,
@@ -82,6 +99,9 @@ router.get('/status', authMiddleware, async (req: Request, res: Response) => {
           createdAt: t.createdAt,
         })),
         pendingFeedbacks,
+        emergencyDetected: !!urgentOpen,
+        recentVisionAlerts,
+        moneySaved: (stats as { moneySavedByAI?: number } | null)?.moneySavedByAI ?? 0,
       };
     });
     if (!result) return res.status(404).json({ message: 'משתמש לא נמצא' });
@@ -89,6 +109,25 @@ router.get('/status', authMiddleware, async (req: Request, res: Response) => {
   } catch (err) {
     console.error('User status error:', err);
     res.status(500).json({ message: 'שגיאה בשרת' });
+  }
+});
+
+/** DELETE /api/user/account – GDPR Right to be Forgotten (COMPLIANCE_CHECKLIST) */
+router.delete('/account', authMiddleware, async (req: Request, res: Response) => {
+  const auth = (req as Request & { auth?: { sub: string; type: string; buildingId?: string } }).auth;
+  if (!auth || auth.type !== 'user') {
+    return res.status(403).json({ message: 'גישה לדיירים בלבד' });
+  }
+  try {
+    const buildingId = (req.headers['x-building-id'] as string)?.trim() || auth.buildingId || 'default';
+    const result = await anonymizeUserAndDeleteSessions(auth.sub, buildingId);
+    if (!result.success) {
+      return res.status(404).json({ message: result.message });
+    }
+    res.status(200).json({ message: 'חשבונך הוסר. הנתונים האישיים עברו אנונימיזציה.' });
+  } catch (err) {
+    console.error('GDPR deletion error:', err);
+    res.status(500).json({ message: 'שגיאה במחיקת החשבון' });
   }
 });
 

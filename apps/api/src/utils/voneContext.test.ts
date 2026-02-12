@@ -30,4 +30,30 @@ describe('buildVOneSystemContext', () => {
     const ctx = buildVOneSystemContext({ country: 'IL', timezone: 'America/New_York' });
     expect(ctx).toContain('America/New_York');
   });
+
+  it('includes extended context when openTicketsCount > 0', () => {
+    const ctx = buildVOneSystemContext({ country: 'IL', extended: { openTicketsCount: 2 } });
+    expect(ctx).toContain('2 open maintenance ticket');
+  });
+
+  it('includes emergency warning when emergencyDetected', () => {
+    const ctx = buildVOneSystemContext({ country: 'IL', extended: { emergencyDetected: true } });
+    expect(ctx).toContain('Emergency detected');
+    expect(ctx).toContain('CRITICAL');
+  });
+
+  it('includes recent Vision alerts when present', () => {
+    const ctx = buildVOneSystemContext({
+      country: 'IL',
+      extended: { recentVisionAlerts: [{ eventType: 'FLOOD_DETECTION', cameraId: 'B2' }] },
+    });
+    expect(ctx).toContain('Vision alerts');
+    expect(ctx).toContain('FLOOD_DETECTION');
+  });
+
+  it('includes money saved when > 0', () => {
+    const ctx = buildVOneSystemContext({ country: 'IL', extended: { moneySaved: 1500 } });
+    expect(ctx).toContain('1500');
+    expect(ctx).toContain('saved');
+  });
 });

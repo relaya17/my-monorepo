@@ -1,6 +1,6 @@
 /**
  * AI Vision Logs – for CEO Dashboard & Anomaly Detection.
- * Schema: docs/HSLL_DATABASE_SCHEMA.md (VisionLogSchema).
+ * Schema: docs/vantera/HSLL_DATABASE_SCHEMA.md (VisionLogSchema).
  */
 import mongoose, { Document, Schema } from 'mongoose';
 import { multiTenancyPlugin } from '../utils/multiTenancy.js';

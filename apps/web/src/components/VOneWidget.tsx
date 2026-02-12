@@ -46,12 +46,26 @@ type UserStatus = {
   firstName: string;
   buildingName: string;
   pendingFeedbacks?: { id: string; title: string }[];
+  openTicketsCount?: number;
+  emergencyDetected?: boolean;
+  recentVisionAlerts?: { eventType: string; cameraId?: string; timestamp?: string }[];
+  moneySaved?: number;
 };
 
-const OPENING_TEMPLATE = (firstName: string, buildingName: string) =>
-  `שלום ${firstName || 'שם'}${firstName ? ',' : ''} איזה כיף לראות אותך! 🌟
-
-אני V-One, העוזר האישי שלך כאן ב-Vantera. אני לא סתם צ'אט – אני מחובר ישירות ל'לב' של הבניין שלך${buildingName ? ` ב${buildingName}` : ''}.
+const OPENING_TEMPLATE = (
+  firstName: string,
+  buildingName: string,
+  ctx?: { openTicketsCount?: number; emergencyDetected?: boolean; recentVisionAlerts?: number; moneySaved?: number }
+) => {
+  let header = `שלום ${firstName || 'שם'}${firstName ? ',' : ''} איזה כיף לראות אותך! 🌟`;
+  if (ctx?.emergencyDetected) {
+    header = `⚠️ שים לב: יש אירוע חירום בבניין. הישאר מחוץ לאזורים המושפעים.\n\n${header}`;
+  } else if (ctx?.openTicketsCount && ctx.openTicketsCount > 0) {
+    header = `יש לך ${ctx.openTicketsCount} תקלה/ות פתוחות. אם צריך עזרה – אני כאן.\n\n${header}`;
+  } else if (ctx?.recentVisionAlerts && ctx.recentVisionAlerts > 0) {
+    header = `מצלמות ה-AI זיהו אירועים – פתחנו כרטיסים. הכל תחת מעקב.\n\n${header}`;
+  }
+  let body = `אני V-One, העוזר האישי שלך כאן ב-Vantera. אני לא סתם צ'אט – אני מחובר ישירות ל'לב' של הבניין שלך${buildingName ? ` ב${buildingName}` : ''}.
 
 מה אני יכול לעשות בשבילך כבר עכשיו?
 
@@ -59,11 +73,17 @@ const OPENING_TEMPLATE = (firstName: string, buildingName: string) =>
 
 🔧 דיווח מהיר: יש תקלה בקומה? רק תגיד לי ואני כבר מזמין טכנאי.
 
-🤖 מעקב AI: אני משגיח על המעליות והמשאבות 24/7 כדי למנוע תקלות לפני שהן קורות.
+🤖 מעקב AI: אני משגיח על המעליות והמשאבות 24/7 כדי למנוע תקלות לפני שהן קורות.`;
+  if (ctx?.moneySaved && ctx.moneySaved > 0) {
+    body += `\n\nהבניין חסך ₪${ctx.moneySaved} הודות ל-AI – אנחנו עובדים כדי לתת לך יותר ערך.`;
+  }
+  body += `
 
 אם קשה לך להקליד, פשוט לחץ על כפתור המיקרופון ודבר איתי. אני כאן כדי להפוך את המגורים בבניין לשקטים וחכמים יותר.
 
 אז... איך אני יכול לעזור לך היום?`;
+  return header + body;
+};
 
 const VOneWidget: React.FC = () => {
   const { isUserLoggedIn } = useAuth();
@@ -97,13 +117,23 @@ const VOneWidget: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!isUserLoggedIn) return;
+    if (!isUserLoggedIn || !isOpen) return;
     fetchStatus();
-  }, [isUserLoggedIn, fetchStatus]);
+  }, [isUserLoggedIn, isOpen, fetchStatus]);
 
   useEffect(() => {
     if (!isOpen || !userStatus) return;
-    const fullText = OPENING_TEMPLATE(userStatus.firstName, userStatus.buildingName);
+    const ctx =
+      userStatus.emergencyDetected
+        ? { emergencyDetected: true, moneySaved: userStatus.moneySaved }
+        : userStatus.openTicketsCount && userStatus.openTicketsCount > 0
+          ? { openTicketsCount: userStatus.openTicketsCount, moneySaved: userStatus.moneySaved }
+          : userStatus.recentVisionAlerts?.length
+            ? { recentVisionAlerts: userStatus.recentVisionAlerts.length, moneySaved: userStatus.moneySaved }
+            : userStatus.moneySaved
+              ? { moneySaved: userStatus.moneySaved }
+              : undefined;
+    const fullText = OPENING_TEMPLATE(userStatus.firstName, userStatus.buildingName, ctx);
     setMessage('');
     setIsTyping(true);
     let i = 0;
@@ -123,6 +153,7 @@ const VOneWidget: React.FC = () => {
     (action: string) => {
       if (action === 'account') navigate('/payment-page');
       else if (action === 'report') navigate('/report-fault');
+      else if (action === 'real_estate') navigate('/apartments');
       else if (action === 'who') setMessage((m) => m + '\n\nאני V-One, העוזר האישי שלך ב-Vantera. אני מחובר לכל המערכות של הבניין ויכול לעזור עם תשלומים, תקלות ומעקב 24/7.');
     },
     [navigate]
@@ -171,6 +202,7 @@ const VOneWidget: React.FC = () => {
     if (/\bתקלה|נזיל|חשמל|מעלית|דווח\b/.test(lower)) handleQuickReply('report');
     else if (/\bחשבון|תשלום|כסף\b/.test(lower)) handleQuickReply('account');
     else if (/\bמי אתה|v-one|בוט\b/.test(lower)) handleQuickReply('who');
+    else if (/\bמכור|למכור|מכירה|להשכיר|השכרה|הערכת שווי|מעבר דירה|חוזה שכירות|מחפש קונה|sell|rent|vendre|louer\b/.test(lower)) handleQuickReply('real_estate');
   }, [voiceTranscript, isListening, handleQuickReply]);
 
   const handleSendChat = useCallback(async () => {
@@ -180,7 +212,7 @@ const VOneWidget: React.FC = () => {
     setChatInput('');
     setVoiceTranscript('');
     try {
-      const { response, data } = await apiRequestJson<{ reply?: string; action?: string }>('vone/chat', {
+      const { response, data } = await apiRequestJson<{ reply?: string; action?: string; dealType?: string }>('vone/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text }),
@@ -189,6 +221,8 @@ const VOneWidget: React.FC = () => {
         setChatReplies((r) => [...r, data.reply!]);
         if (data.action === 'report') navigate('/report-fault');
         else if (data.action === 'account') navigate('/payment-page');
+        else if (data.action === 'real_estate_lead' && data.dealType === 'rent') navigate('/for-rent');
+        else if (data.action === 'real_estate_lead' && data.dealType === 'sale') navigate('/for-sale');
       }
     } catch {
       setChatReplies((r) => [...r, 'מצטער, אירעה שגיאה. נסה שוב.']);
@@ -296,6 +330,9 @@ const VOneWidget: React.FC = () => {
               </button>
               <button type="button" className="vone-quick-btn" onClick={() => handleQuickReply('report')}>
                 🔧 דווח על תקלה חדשה
+              </button>
+              <button type="button" className="vone-quick-btn" onClick={() => setChatInput('רוצה למכור את הדירה שלי')}>
+                🏠 מכירה/השכרה
               </button>
               <button type="button" className="vone-quick-btn" onClick={() => handleQuickReply('who')}>
                 🤖 מי אתה V-One?

@@ -82,6 +82,7 @@ aiAnalysis: {
 
 המערכת בונה system prompt לפי:
 - `country`, `timezone`, `lang`
+- `extended` (VOneExtendedContext): openTicketsCount, emergencyDetected, recentVisionAlerts, moneySaved – מוזרם מ־userStatus ו־voneChat
 - הכללים מוזרקים כ-system message כשיש חיבור OpenAI Assistants (מתוכנן)
 
 ### 4.2 Keywords Fallback (ללא OpenAI)

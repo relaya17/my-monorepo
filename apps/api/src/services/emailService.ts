@@ -74,3 +74,54 @@ export async function sendOnboardingEmail(
     return false;
   }
 }
+
+/** Revenue Share – "Hot Real Estate Lead Found" – Real-time Alert to property manager */
+const REAL_ESTATE_LEAD_SUBJECT = 'Hot Real Estate Lead Found';
+const REAL_ESTATE_LEAD_BODY = (
+  buildingName: string,
+  apartmentNumber: string,
+  residentName: string,
+  dealType: 'sale' | 'rent'
+) =>
+  `A resident in your building has expressed interest in ${dealType === 'rent' ? 'renting' : 'selling'} their apartment.
+
+Building: ${buildingName}
+Apartment: ${apartmentNumber}
+Resident: ${residentName}
+
+Contact them now through the Vantera CEO Dashboard – Real Estate Opportunities tab.
+
+— Vantera OS`;
+
+export async function sendRealEstateLeadAlert(
+  to: string,
+  buildingName: string,
+  apartmentNumber: string,
+  residentName: string,
+  dealType: 'sale' | 'rent'
+): Promise<boolean> {
+  const body = REAL_ESTATE_LEAD_BODY(buildingName, apartmentNumber, residentName, dealType);
+
+  if (!resend) {
+    logger.info('[Email] Real Estate Lead (no Resend):', { to, buildingName, subject: REAL_ESTATE_LEAD_SUBJECT });
+    return true;
+  }
+
+  try {
+    const { error } = await resend.emails.send({
+      from: config.emailFrom,
+      to: to.trim(),
+      subject: REAL_ESTATE_LEAD_SUBJECT,
+      text: body,
+    });
+    if (error) {
+      logger.error('[Email] Real Estate Lead failed', { to, error });
+      return false;
+    }
+    logger.info('[Email] Real Estate Lead sent', { to, buildingName, apartmentNumber });
+    return true;
+  } catch (err) {
+    logger.error('[Email] Real Estate Lead exception', { to, err });
+    return false;
+  }
+}

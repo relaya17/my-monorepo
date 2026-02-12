@@ -41,7 +41,7 @@
 
 ### Global Core
 - Monorepo תומך במולטי-שפה ומטבע (i18n, multi-currency) ✅
-- ראה `docs/US_EXPANSION_STRATEGY.md`
+- ראה `docs/vantera/US_EXPANSION_STRATEGY.md`
 
 ### Protection (IP)
 - רישום **סימן מסחרי (Trademark)** על Vantera ועל V-One

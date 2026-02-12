@@ -4,7 +4,7 @@
  */
 import mongoose, { Document, Schema } from 'mongoose';
 
-export type WebhookEventType = 'building_pulse' | 'anomaly_alert' | 'maintenance_status' | 'ledger_milestone';
+export type WebhookEventType = 'building_pulse' | 'anomaly_alert' | 'maintenance_status' | 'ledger_milestone' | 'real_estate_lead';
 
 export interface IWebhookSubscription extends Document {
   url: string;
@@ -24,7 +24,7 @@ const schema = new Schema<IWebhookSubscription>(
     url: { type: String, required: true },
     apiKeyHash: { type: String, required: true },
     buildingIds: { type: [String], default: [] },
-    events: { type: [String], enum: ['building_pulse', 'anomaly_alert', 'maintenance_status', 'ledger_milestone'], default: [] },
+    events: { type: [String], enum: ['building_pulse', 'anomaly_alert', 'maintenance_status', 'ledger_milestone', 'real_estate_lead'], default: [] },
     secret: { type: String },
     active: { type: Boolean, default: true },
     lastDeliveryAt: { type: Date },

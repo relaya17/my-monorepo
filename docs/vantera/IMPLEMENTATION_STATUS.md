@@ -99,8 +99,8 @@
 
 | פריט | סטטוס | הערה |
 |------|--------|------|
-| Data Retention Policy | ⏳ | להגדיר – איזה מידע נשמר ובמשך כמה זמן |
-| Right to be Forgotten | ⏳ | להוסיף endpoint למחיקת משתמש מלאה |
+| Data Retention Policy | ✅ | `docs/vantera/DATA_RETENTION_POLICY.md` |
+| Right to be Forgotten | ✅ | `DELETE /api/user/account`, gdprDeletionService |
 | 2FA / MFA | ⏳ | מתוכנן |
 | Penetration Test | ⏳ | לבצע – OWASP ZAP או שירות חיצוני |
 
@@ -131,11 +131,29 @@
 
 ---
 
-## 6. שינויים שבוצעו במהלך האימות
+## 6. Vision → Bot Flow (VISION_SATELLITE_BOT_FLOW)
+
+| רכיב | מיקום | סטטוס |
+|------|--------|--------|
+| userStatusRoute | openTicketsCount, emergencyDetected, recentVisionAlerts, moneySaved | ✅ |
+| voneContext | VOneExtendedContext, buildVOneSystemContext(extended) | ✅ |
+| voneChatRoutes | extended context, hints ב-fallback, getOrSetCache ל-Building | ✅ |
+| VOneWidget | fetch רק כש-isOpen, הצגת hints בפתיחה | ✅ |
+| visionService.saveAnomalyToVisionLog | VisionLog + Peacekeeper + ticket | ✅ |
+| visionService.processFrame | Stub – מחכה ל-CV provider | ⏳ |
+
+---
+
+## 7. שינויים שבוצעו במהלך האימות
 
 | תאריך | תיקון |
 |-------|--------|
 | פברואר 2026 | Legal Hub FR – קישור "חזרה" עודכן מ-LANDING ל-LANDING_FR |
+| פברואר 2026 | Vision/Bot – הזרמת openTicketsCount, emergencyDetected, recentVisionAlerts, moneySaved; עדכון VISION_SATELLITE_BOT_FLOW |
+| פברואר 2026 | voneContext – 4 טסטים נוספים ל-extended context; PENDING_REQUESTS – Alert→Peacekeeper ✅; visionService JSDoc |
+| פברואר 2026 | GDPR – Right to be Forgotten (DELETE /api/user/account), Data Retention Policy, gdprDeletionService |
+| פברואר 2026 | ארגון תיעוד – כל המסמכים הועברו ל-`docs/vantera/` |
+| פברואר 2026 | Revenue Share Ecosystem – RealEstateLead, V-One Intent (מכירה/השכרה), דשבורד Real Estate Opportunities |
 
 ---
 

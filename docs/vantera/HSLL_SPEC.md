@@ -59,7 +59,7 @@ Single Source of Truth, zero code duplication.
 | 3. Committee | Approve → TechnicianLink | ✅ POST `/maintenance/:id/send-technician`. |
 | 4. Technician | Time-limited magic link; GPS + photo upload | ✅ `technicianAccessService.ts`, `techRoutes.ts` – GET/PATCH `/api/tech/work-order/:token`. |
 | 5. Inventory | Auto-deduction on tech close | ✅ `inventoryService.consumeItem` + audit. |
-| **Accessibility** | ARIA, high-contrast | 📄 `docs/ACCESSIBILITY.md`. |
+| **Accessibility** | ARIA, high-contrast | 📄 `docs/vantera/ACCESSIBILITY.md`. |
 
 ### Voice-to-Insight (optional)
 
@@ -85,7 +85,7 @@ Single Source of Truth, zero code duplication.
 
 | Requirement | Status |
 |-------------|--------|
-| CI/CD (Render/Vercel/AWS) | 📄 `docs/DEPLOYMENT.md`; `render.yaml`, Netlify. |
+| CI/CD (Render/Vercel/AWS) | 📄 `docs/vantera/DEPLOYMENT.md`; `render.yaml`, Netlify. |
 | Monitoring (Winston, Slack/Discord) | ✅ Logger, `errorAlertMiddleware`. 🔲 Sentry/LogRocket optional. |
 | MongoDB Atlas, backups, indexes on `buildingId` | ✅ Mongoose; multiTenancy; indexes. |
 
@@ -100,7 +100,7 @@ Single Source of Truth, zero code duplication.
 | Performance | Redis caching (financial, AI dashboards) | [x] |
 | Responsive | Mobile-first, iOS/Android | [ ] |
 | Files | Uploads to Cloudinary only | [x] |
-| Accessibility | WCAG (contrast, font sizes) | [ ] See `docs/ACCESSIBILITY.md` |
+| Accessibility | WCAG (contrast, font sizes) | [ ] See `docs/vantera/ACCESSIBILITY.md` |
 
 ---
 

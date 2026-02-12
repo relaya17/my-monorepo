@@ -11,8 +11,8 @@
 | מדיניות פרטיות | ✅ | `PolitiqueConfidentialiteFR.tsx` (צרפת), דפי Privacy |
 | Cookie Banner (CNIL) | ✅ | `CookieBanner.tsx` – הסכמה, סירוב, העדפות |
 | Legal Hub | ✅ | `LegalHubPage.tsx` – FR/IL/US/GB |
-| Data Retention Policy | ⏳ | להגדיר – איזה מידע נשמר ובמשך כמה זמן |
-| Right to be Forgotten | ⏳ | להוסיף endpoint למחיקת משתמש מלאה |
+| Data Retention Policy | ✅ | `docs/vantera/DATA_RETENTION_POLICY.md` – תקופות, Right to be Forgotten |
+| Right to be Forgotten | ✅ | `DELETE /api/user/account` – gdprDeletionService, אנונימיזציה |
 
 ---
 
@@ -53,7 +53,8 @@
 
 | קובץ | תיאור |
 |------|-------|
+| `DATA_RETENTION_POLICY.md` | שמירת נתונים, Right to be Forgotten |
 | `TRUST_PRIVACY_STATEMENT.md` | אמון, פרטיות, Privacy by Design |
 | `apps/web/src/components/CookieBanner.tsx` | CNIL compliant |
 | `apps/web/src/pages/seqerty/PolitiqueConfidentialiteFR.tsx` | RGPD/CNIL |
-| `docs/MULTI_TENANT_SECURITY.md` | בידוד נתונים בין tenants |
+| `docs/vantera/MULTI_TENANT_SECURITY.md` | בידוד נתונים בין tenants |

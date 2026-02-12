@@ -1,6 +1,6 @@
 /**
  * צ'קליסט CEO לפני עלייה לאוויר – SSL, פרטיות, מהירות.
- * מקור: docs/CEO_VERIFICATION_CHECKLIST.md
+ * מקור: docs/vantera/CEO_VERIFICATION_CHECKLIST.md
  */
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -17,7 +17,7 @@ const PreLaunchChecklistPage: React.FC = () => {
             <strong>צ'קליסט לפני עלייה לאוויר</strong>
           </div>
           <div className="card-body">
-            <p className="text-muted small mb-4">מתוך docs/CEO_VERIFICATION_CHECKLIST.md – שלוש בדיקות חובה לפני השקה.</p>
+            <p className="text-muted small mb-4">מתוך docs/vantera/CEO_VERIFICATION_CHECKLIST.md – שלוש בדיקות חובה לפני השקה.</p>
 
             <div className="mb-4">
               <div className="d-flex align-items-start gap-2 mb-2">
@@ -57,7 +57,7 @@ const PreLaunchChecklistPage: React.FC = () => {
 
             <hr />
             <p className="small mb-0">
-              <strong>מסמך מלא:</strong> docs/CEO_VERIFICATION_CHECKLIST.md ב־repository. כולל ארבעת מוקדי האימות (Peacekeeper, CEO View, Technician Evidence, Vision).
+              <strong>מסמך מלא:</strong> docs/vantera/CEO_VERIFICATION_CHECKLIST.md ב־repository. כולל ארבעת מוקדי האימות (Peacekeeper, CEO View, Technician Evidence, Vision).
             </p>
           </div>
           <div className="card-footer">

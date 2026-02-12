@@ -1,5 +1,5 @@
 /**
- * HSLL Vision Service – CCTV AI Integration (Spec: docs/VISION_SATELLITE_SPEC.md)
+ * HSLL Vision Service – CCTV AI Integration (Spec: docs/vantera/VISION_SATELLITE_SPEC.md)
  *
  * TODO Task 1: Vision Processing Pipeline
  * - Consume RTSP streams (pull frame every X seconds).

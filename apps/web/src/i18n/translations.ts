@@ -67,7 +67,7 @@ export const translations: Record<LangCode, Record<string, string>> = {
     security_principles: 'עקרונות מרכזיים',
     security_list: 'הצפנת נתונים רגישים (AES-256) בשעת אחסון ובשידור (TLS); הפרדה מלאה בין נתוני בניינים; בקרת גישה לפי הרשאות ו-role-based access; ניטור אירועי אבטחה ועדכון רכיבים שוטף; אחסון ב-AWS מאובטח.',
     security_report: 'דיווח פגיעות',
-    security_report_text: 'אם זיהית פגיעות אבטחה, אנא פנה אלינו במייל: security@vantera.io. נטפל בבקשה בדחיפות ונעדכן אותך בהתקדמות. ראה גם docs/SECURITY.md.',
+    security_report_text: 'אם זיהית פגיעות אבטחה, אנא פנה אלינו במייל: security@vantera.io. נטפל בבקשה בדחיפות ונעדכן אותך בהתקדמות. ראה גם docs/vantera/SECURITY.md.',
   },
   en: {
     footer_home: 'Home',
@@ -122,7 +122,7 @@ export const translations: Record<LangCode, Record<string, string>> = {
     security_principles: 'Core security measures',
     security_list: 'AES-256 encryption at rest and TLS in transit; full tenant isolation (no cross-building data access); role-based access control (RBAC); security event monitoring and alerting; regular dependency updates and vulnerability scanning; secure hosting on AWS with MFA.',
     security_report: 'Vulnerability disclosure',
-    security_report_text: 'If you discover a security vulnerability, please report it to security@vantera.io. We will respond promptly and appreciate responsible disclosure. See also docs/SECURITY.md.',
+    security_report_text: 'If you discover a security vulnerability, please report it to security@vantera.io. We will respond promptly and appreciate responsible disclosure. See also docs/vantera/SECURITY.md.',
   },
   ar: {
     footer_home: 'الرئيسية',

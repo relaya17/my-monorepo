@@ -24,6 +24,9 @@ export interface IBuilding extends Document {
   state?: string;
   zipCode?: string;
   county?: string;
+  /** קואורדינטות לניתוח לווין (VISION_SATELLITE_SPEC) – Mapbox/Google Satellite */
+  lat?: number;
+  lng?: number;
   /** White-Label Theme Engine – logo, colors. Swap in 5 minutes. */
   branding?: {
     logoUrl?: string;
@@ -48,6 +51,8 @@ const buildingSchema = new Schema<IBuilding>({
   state: { type: String },
   zipCode: { type: String },
   county: { type: String },
+  lat: { type: Number },
+  lng: { type: Number },
   branding: {
     logoUrl: { type: String },
     primaryColor: { type: String },

@@ -205,6 +205,13 @@ server {
 ### Netlify – כתובת API
 ב-Netlify הגדר `VITE_API_URL=https://your-api.onrender.com` (ללא `/api` בסוף). האפליקציה אוטומטית משתמשת ב-Render כשמוגדר `/api` ורצה ב-Netlify.
 
+### Netlify – האתר לא מתעדכן אחרי push
+אם העדכונים לא מופיעים בייצור:
+1. **Clear cache and deploy:** Netlify Dashboard → Deploys → **Trigger deploy** → **Clear cache and deploy site**
+2. **בדיקת branch:** Site settings → Build & deploy → Continuous deployment → Branch to deploy = `main` (או הענף הנכון)
+3. **בדיקת build:** Deploys → לחץ על ה-deploy האחרון → בדוק את ה-build log (אם נכשל – תיקון שגיאות)
+4. **netlify.toml:** הקובץ מגדיר `command` ו-`publish`. וודא שאין override בהגדרות האתר.
+
 ## 📊 ניטור ובקרה
 
 ### ניטור עם PM2

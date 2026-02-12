@@ -54,7 +54,7 @@
 | **Dashboard מעקב** | מסך: כמה דיירים הורידו אפליקציה בכל בניין – "פוש" שיווקי | ✅ `GET /api/super-admin/resident-adoption` |
 | **לוח CEO מאוחד** | סטטיסטיקות גלובליות, יומן פעילות, Anomaly Feed – `/ceo` | ✅ SuperAdminDashboard |
 | **בלוג שיווקי** | 3 מאמרים לסמכות דומיין – `/blog`, `/blog/:slug` | ✅ MarketingBlogPage, BlogArticlePage |
-| **Push התראות** | קבלן בלובי, דייר לא בבית → "הספק נמצא בלובי, האם לאפשר כניסה מרחוק?" | 📋 Stub: `pushService.ts` + מפרט: `docs/PUSH_NOTIFICATIONS_SPEC.md` |
+| **Push התראות** | קבלן בלובי, דייר לא בבית → "הספק נמצא בלובי, האם לאפשר כניסה מרחוק?" | 📋 Stub: `pushService.ts` + מפרט: `docs/vantera/PUSH_NOTIFICATIONS_SPEC.md` |
 
 ---
 
@@ -67,7 +67,7 @@
 | כלי מכירה ו-SEO | ✅ יש |
 | Alt-Text, GA, Clarity | ✅ מוכן – הוסף ID ב-.env.production |
 | תוכנית השקה ואוטומציה | ✅ Webhook + Dashboard + CEO + בלוג | Push: stub + מפרט |
-| תיעוד התקנה | ✅ `docs/SETUP.md` – env, התקנה, Super-Admin |
+| תיעוד התקנה | ✅ `docs/vantera/SETUP.md` – env, התקנה, Super-Admin |
 
 ---
 

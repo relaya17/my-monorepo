@@ -152,6 +152,12 @@ Post-repair feedback (sentiment, rating). V-One Quality Control.
 
 User status for V-One personalization (notAtHome, awayUntil, etc.).
 
+### DELETE /api/user/account
+
+GDPR Right to be Forgotten. Anonymizes user PII and deletes all RefreshTokens. Resident JWT required.
+
+**Response:** `200` – "חשבונך הוסר. הנתונים האישיים עברו אנונימיזציה."
+
 ---
 
 ## 5. Super-Admin (CEO Dashboard)
@@ -185,6 +191,20 @@ Global financial ledger – movements per building.
 ### GET /api/super-admin/vendor-alerts
 
 Vendors below 4.2 rating (Transparency Ledger).
+
+### GET /api/super-admin/real-estate-leads
+
+Revenue Share Ecosystem – לידים חמים מדיירים שמעוניינים למכור/להשכיר (V-One Intent Detection).
+
+**Query:** `limit`, `status` (new|in_progress|closed)
+
+**Response:** `{ items: [...], countThisMonth }` – apartmentNumber, residentName, residentEmail, dealType, status, buildingName.
+
+### PATCH /api/super-admin/real-estate-leads/:id
+
+עדכון סטטוס ליד (new, in_progress, closed).
+
+**Body:** `{ status }`
 
 ### GET /api/super-admin/resident-adoption
 
@@ -357,4 +377,4 @@ Create checkout session.
 All `/api/*` (except `/api/public`, `/api/webhooks/stripe`, `/api/tech`) pass through `tenantMiddleware`.  
 Header **`x-building-id`** is required. JWT `buildingId` must match (prevents tenant hopping).
 
-See: `docs/MULTI_TENANT_SECURITY.md`
+See: `docs/vantera/MULTI_TENANT_SECURITY.md`

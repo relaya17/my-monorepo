@@ -4,6 +4,8 @@ publish = "apps/web/dist"
 
 [build.environment]
   NODE_VERSION = "20"
+  CI = "true"
+  # אם Netlify לא מתעדכן: Site settings → Build & deploy → Trigger deploy → "Clear cache and deploy site"
 
 # Allow Google Fonts (Playfair Display) - CSP
 [[headers]]
