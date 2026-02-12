@@ -7,16 +7,16 @@
   background: #0A0E17;
   color: #F5F5F7;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .legal-hub-bg {
   position: fixed;
   inset: 0;
-  background: radial-gradient(
-    ellipse 80% 50% at 50% 30%,
-    rgba(0, 122, 255, 0.06) 0%,
-    transparent 60%
-  );
+  background: url('https://res.cloudinary.com/dora8sxcb/image/upload/v1770849678/ideogram-v3.0.mp4_wrev6l.png') center/cover no-repeat;
   pointer-events: none;
   z-index: 0;
 }
@@ -24,9 +24,17 @@
 .legal-hub-content {
   position: relative;
   z-index: 1;
-  max-width: 640px;
+  max-width: 780px;
+  width: 100%;
   margin: 0 auto;
+  margin-top: 6.5rem;
   text-align: center;
+  padding: 2.5rem;
+  background: rgba(10, 14, 23, 0.35);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
 .legal-hub-title {

@@ -64,7 +64,7 @@
 
 | רכיב | סטטוס |
 |------|--------|
-| Vision pipeline (`vision.ts`) | 🔲 Stub + TODO |
+| Vision pipeline (`visionService.ts`) | ✅ Stub + TODO |
 | Satellite hook | 🔲 Roadmap |
 | Alert → AI Peacekeeper / Ticket | 🔲 Roadmap |
 | Landing mockup (Visual Evidence) | ✅ UI placeholder |

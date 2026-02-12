@@ -37,11 +37,11 @@
    - `multiTenancyPlugin` – סינון אוטומטי בבסיס הנתונים
    - ראה: `docs/MULTI_TENANT_SECURITY.md`
 
-2. **Theme Engine** ✅
+2. **Theme Engine** ✅ (מיושם)
    - `Building.branding`: { logoUrl, primaryColor, secondaryColor, customDomain }
    - `GET /api/buildings/branding?buildingId=xxx` – מחזיר הגדרות Theme
    - `ThemeProvider` + `applyBranding()` – מפעיל CSS variables: `--brand-primary`, `--brand-secondary`, `--brand-logo`
-   - קובץ: `apps/web/src/config/themeEngine.ts`, `context/ThemeContext.tsx`
+   - קובץ: `apps/web/src/config/themeEngine.ts`, `apps/web/src/context/ThemeContext.tsx`
 
 3. **ערך לנציג**
    - הופך את Vantera למוצר שחברות ניהול ענקיות יכולות למכור תחת השם שלהן (Private Label).
@@ -120,7 +120,7 @@
 | `MULTI_TENANT_SECURITY.md` | ארכיטקטורת Multi-Tenant |
 | `HSLL_DATABASE_SCHEMA.md` | מפרט DB Schema |
 | `TRUST_PRIVACY_STATEMENT.md` | אמון, פרטיות, GDPR |
-| `themeEngine` (לבנות) | White-Label – לוגו, צבעים, דומיין |
+| `themeEngine.ts` + `ThemeContext.tsx` | White-Label – לוגו, צבעים, דומיין (מיושם) |
 | `COMPLIANCE_CHECKLIST.md` | GDPR, SOC2, Pen Test |
 | `TECHNICAL_EXECUTIVE_SUMMARY.md` | סיכום טכני מקצועי (M&A) |
 | `CEO_EXECUTIVE_BRIEFING_GUIDANCE.md` | הנחיה למנכ"לית – דגשים לפי קהל |

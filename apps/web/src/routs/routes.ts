@@ -71,6 +71,8 @@ const ROUTES = {
   /** דף חוקים ומדיניות לפי מדינה – נראה מלכותי */
   LEGAL: "/legal",
   LEGAL_COUNTRY: "/legal/:country",
+  /** צ'קליסט CEO לפני עלייה – SSL, פרטיות, מהירות */
+  CEO_PRE_LAUNCH: "/ceo-pre-launch",
 };
 
 export default ROUTES;

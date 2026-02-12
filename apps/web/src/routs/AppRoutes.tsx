@@ -75,6 +75,7 @@ const SalesToolkitPage = lazy(() => import("../pages/SalesToolkitPage"));
 const ResidentAdoptionPage = lazy(() => import("../pages/ResidentAdoptionPage"));
 const ResidentInvitePage = lazy(() => import("../pages/ResidentInvitePage"));
 const SuperAdminDashboard = lazy(() => import("../pages/SuperAdminDashboard"));
+const CEOPreLaunchChecklistPage = lazy(() => import("../pages/CEOPreLaunchChecklistPage"));
 const MarketingBlogPage = lazy(() => import("../pages/MarketingBlogPage"));
 const BlogArticlePage = lazy(() => import("../pages/BlogArticlePage"));
 
@@ -212,6 +213,7 @@ const AppRoutes: React.FC = () => {
         <Route path={ROUTES.RESIDENT_ADOPTION} element={<ResidentAdoptionPage />} />
         <Route path={ROUTES.RESIDENT_INVITE} element={<ResidentInvitePage />} />
         <Route path={ROUTES.SUPER_ADMIN_DASHBOARD} element={<SuperAdminDashboard />} />
+        <Route path={ROUTES.CEO_PRE_LAUNCH} element={<CEOPreLaunchChecklistPage />} />
 
         {/* 404 – חייב להיות אחרון */}
         <Route path="*" element={<Error404Page />} />

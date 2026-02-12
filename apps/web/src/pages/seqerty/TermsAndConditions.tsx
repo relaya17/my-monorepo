@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from '../../i18n/useTranslation';
+import './LegalPolicyPages.css';
 
 const TermsAndConditions: React.FC = () => {
   const { t, dir } = useTranslation();
@@ -9,11 +10,12 @@ const TermsAndConditions: React.FC = () => {
   }, [dir]);
 
   return (
-    <div
-      className="d-flex flex-column align-items-center justify-content-center container mt-5 py-4"
-      style={{ minHeight: '70vh', maxWidth: '800px' }}
-      dir={dir}
-    >
+    <div className="legal-policy-page">
+      <div
+        className="d-flex flex-column align-items-center justify-content-center container mt-5 py-4"
+        style={{ minHeight: '70vh', maxWidth: '800px' }}
+        dir={dir}
+      >
       <h1 className="mb-4 text-center">{t('terms_title')}</h1>
       <p className="text-center mb-4">{t('terms_intro')}</p>
 
@@ -41,6 +43,7 @@ const TermsAndConditions: React.FC = () => {
         <h4>{t('terms_contact')}</h4>
         <p>{t('terms_contact_text')}</p>
       </section>
+      </div>
     </div>
   );
 };

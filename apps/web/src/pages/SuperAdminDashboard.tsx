@@ -133,7 +133,10 @@ const SuperAdminDashboard: React.FC = () => {
                     <li><strong>טשטוש פנים</strong> – AI Vision מטשטש פנים בצילומים</li>
                     <li><strong>נחיתה &lt;2s</strong> – דף /landing נטען תוך פחות מ־2 שניות</li>
                   </ul>
-                  <code className="d-block mt-1">docs/CEO_VERIFICATION_CHECKLIST.md</code>
+                  <Link to={ROUTES.CEO_PRE_LAUNCH} className="btn btn-sm btn-outline-primary mt-2">
+                    <i className="fas fa-clipboard-check me-1" aria-hidden />
+                    פרטים והנחיות
+                  </Link>
                 </div>
               </div>
             </div>

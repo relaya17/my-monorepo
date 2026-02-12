@@ -57,6 +57,11 @@ const PolitiqueConfidentialiteFR: React.FC = () => {
         <p>Le traitement repose sur : l'exécution du contrat (gestion de la copropriété) et, le cas échéant, votre consentement pour les cookies non essentiels.</p>
       </section>
 
+      <section className="mb-4">
+        <h2 className="h5">6. Conformité Loi Élan et documents</h2>
+        <p>Vantera met à disposition un extranet permettant l'accès aux documents de copropriété conformément à la Loi Élan (obligation d'extranet pour les syndics). Les documents sont accessibles 24/7 et sécurisés. Aucun transfert de données hors UE sans votre consentement.</p>
+      </section>
+
       <nav className="mt-4 pt-3 border-top">
         <Link to={ROUTES.LANDING_FR}>Retour à l'accueil</Link>
         {' · '}

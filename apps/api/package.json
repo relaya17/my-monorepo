@@ -11,7 +11,8 @@
     "lint": "eslint . --ext .ts",
     "format": "prettier --write .",
     "clean": "rimraf dist",
-    "type-check": "node ../../node_modules/typescript/bin/tsc --noEmit"
+    "type-check": "node ../../node_modules/typescript/bin/tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
@@ -54,6 +55,7 @@
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.20.3",
-    "typescript": "^5.4.0"
+    "typescript": "^5.4.0",
+    "vitest": "^4.0.18"
   }
 }

@@ -4,10 +4,13 @@
  */
 import React, { useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import SeoHead from '../components/SeoHead';
 import ROUTES from '../routs/routes';
 import { setStoredCountry } from '../i18n/locale';
 import type { CountryCode } from '../i18n/locale';
+import { setLanguage } from '../redux/slice/settingsSlice';
+import { safeSetItem } from '../utils/safeStorage';
 import './LegalHubPage.css';
 
 const COUNTRY_CONFIG: Record<string, {
@@ -62,20 +65,31 @@ const COUNTRY_CONFIG: Record<string, {
   },
 };
 
+const COUNTRY_TO_LANG: Record<string, 'he' | 'en' | 'fr'> = {
+  IL: 'he',
+  US: 'en',
+  GB: 'en',
+  FR: 'fr',
+};
+
 const LegalHubPage: React.FC = () => {
   const { country } = useParams<{ country: string }>();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const code = (country?.toUpperCase() ?? 'IL') as string;
   const config = COUNTRY_CONFIG[code] ?? COUNTRY_CONFIG.IL;
 
   useEffect(() => {
-    if (config.setLocale && ['IL', 'US', 'GB'].includes(code)) {
+    if (['IL', 'US', 'GB'].includes(code)) {
       setStoredCountry(code as CountryCode);
       window.dispatchEvent(new Event('localechange'));
     }
+    const lang = COUNTRY_TO_LANG[code] ?? 'he';
+    dispatch(setLanguage(lang));
+    safeSetItem('app_lang', lang);
     document.documentElement.setAttribute('dir', code === 'FR' ? 'ltr' : 'rtl');
     document.documentElement.setAttribute('lang', code === 'FR' ? 'fr' : code === 'US' || code === 'GB' ? 'en' : 'he');
-  }, [code, config.setLocale]);
+  }, [code, dispatch]);
 
   return (
     <div className="legal-hub-page">
@@ -96,7 +110,10 @@ const LegalHubPage: React.FC = () => {
             </Link>
           ))}
         </div>
-        <Link to={ROUTES.LANDING} className="legal-hub-back">
+        <Link
+          to={code === 'FR' ? ROUTES.LANDING_FR : ROUTES.LANDING}
+          className="legal-hub-back"
+        >
           ← {code === 'FR' ? "Retour à l'accueil" : code === 'US' || code === 'GB' ? 'Back to Home' : 'חזרה לדף הנחיתה'}
         </Link>
         <div className="legal-hub-country-switch mt-4">

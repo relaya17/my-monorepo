@@ -1,0 +1,18 @@
+/**
+ * דפי מדיניות – רקע כהה תואם ל-Legal Hub
+ */
+.legal-policy-page {
+  min-height: 100vh;
+  background: #0A0E17;
+  color: #F5F5F7;
+  padding: 4rem 1.5rem 3rem;
+}
+
+.legal-policy-page h1,
+.legal-policy-page h4 {
+  color: #FFFFFF;
+}
+
+.legal-policy-page p {
+  color: #E5E5E7;
+}

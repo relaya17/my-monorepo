@@ -8,6 +8,7 @@ import { HOME_VIDEO_SRC } from '../config/media';
 import './Home.css';
 
 const PRAISE_PHRASES = [
+  'דור הבא של ניהול ואחזקה דיגיטלית',
   'ניטור AI + לוויין – טכנולוגיה שלא תמצא אצל אחרים',
   'אבטחה ברמת בנק – הצפנה ושקיפות מלאה',
   'מודל Revenue Share – הבניין ממומן ומייצר רווח',
@@ -62,7 +63,8 @@ const Home: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={noMotion ? { duration: 0 } : { duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
             >
-              אחזקת מבנים חכמה ומקצועית
+              <span className="home-title-main">VANTERA</span>
+              <span className="home-title-tail">AI</span>
             </motion.h1>
             <div className="home-subtitle-wrap">
               <AnimatePresence mode="wait">
@@ -78,7 +80,7 @@ const Home: React.FC = () => {
                 </motion.p>
               </AnimatePresence>
               <span className="home-subtitle-underline" aria-hidden="true" />
-            <p className="home-subtitle home-subtitle-services">ניהול, גבייה ותחזוקה שוטפת</p>
+            <p className="home-subtitle home-subtitle-services">דור הבא של ניהול ואחזקה דיגיטלית</p>
           </div>
             <div className="home-cta home-cta-bottom">
               <Link

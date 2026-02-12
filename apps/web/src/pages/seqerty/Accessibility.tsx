@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from '../../i18n/useTranslation';
+import './LegalPolicyPages.css';
 
 const Accessibility: React.FC = () => {
   const { t, dir } = useTranslation();
@@ -9,7 +10,8 @@ const Accessibility: React.FC = () => {
   }, [dir]);
 
   return (
-    <div className="container mt-5 py-4" dir={dir} style={{ maxWidth: '800px' }}>
+    <div className="legal-policy-page">
+      <div className="container mt-5 py-4" dir={dir} style={{ maxWidth: '800px' }}>
       <div className="d-flex flex-column align-items-center">
         <h1 className="text-center mb-4">{t('accessibility_title')}</h1>
         <div className="w-100 mb-4">
@@ -24,6 +26,7 @@ const Accessibility: React.FC = () => {
           <p className="text-center">{t('accessibility_contact_text')}</p>
         </div>
       </div>
+    </div>
     </div>
   );
 };

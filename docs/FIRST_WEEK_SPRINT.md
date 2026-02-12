@@ -41,8 +41,8 @@
 | # | משימה | מקום | סטטוס |
 |---|--------|------|--------|
 | 12 | ריצה על CEO_VERIFICATION_CHECKLIST (ארבעת המוקדים) | docs/CEO_VERIFICATION_CHECKLIST.md | ✅ כרטיס בדאשבורד עם קישורים |
-| 13 | צ'קליסט לפני עלייה: SSL, טשטוש פנים, נחיתה < 2s | CEO_VERIFICATION_CHECKLIST | 🔲 |
-| 14 | עדכון VERIFICATION_CHECKLIST (טכנאי) עם קישורים למסמכים החדשים | VERIFICATION_CHECKLIST.md | 🔲 |
+| 13 | צ'קליסט לפני עלייה: SSL, טשטוש פנים, נחיתה < 2s | CEO_VERIFICATION_CHECKLIST | ✅ דף /ceo-pre-launch + כרטיס בלוח CEO |
+| 14 | עדכון VERIFICATION_CHECKLIST (טכנאי) עם קישורים למסמכים החדשים | [VERIFICATION_CHECKLIST.md](VERIFICATION_CHECKLIST.md) | ✅ קישורים ל־code, COMPLIANCE_CHECKLIST, TRUST_PRIVACY, DUE_DILIGENCE |
 
 ---
 

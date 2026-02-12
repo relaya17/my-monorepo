@@ -345,7 +345,6 @@ h1 {
 .navbar.navbar-transparent .navbar-toggler,
 .navbar.navbar-transparent .btn-outline-light,
 .navbar.navbar-transparent .brand-slogan,
-.navbar.navbar-transparent .system-status-text,
 .navbar.navbar-transparent .lang-btn--landing {
   color: #fff !important;
 }
@@ -430,6 +429,11 @@ h1 {
 .navbar-lang-dropdown-item.active {
   background: rgba(0, 122, 255, 0.2);
   color: #007AFF;
+}
+
+/* כפתור תקנים – אייקון בלבד */
+.nav-btn-standards {
+  padding: 0.5rem 0.65rem !important;
 }
 
 /* המבורגר: אדמין, דייר, שפה (en קטן) */
@@ -609,7 +613,7 @@ h1 {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .navbar, .navbar-responsive {
     max-width: 400px;
     margin: 0 auto;

@@ -22,7 +22,11 @@
 | **[TRUST_PRIVACY_STATEMENT.md](TRUST_PRIVACY_STATEMENT.md)** | **אמון ופרטיות** – Privacy by Design, טשטוש (Anonymization), AES-256, שקיפות (AAA Ledger), GDPR/CCPA. נוסח להצגה ללקוחות ולוועדים. |
 | **[ONBOARDING_CHECKLIST.md](ONBOARDING_CHECKLIST.md)** | **צ'ק-ליסט הצטרפות** – Vision Setup (CCTV, מפת בניין, Assets), User Management, Financial, Kick-off. בסיס לטופס דיגיטלי עם Progress Bar. |
 | **[MULTI_TENANT_SECURITY.md](MULTI_TENANT_SECURITY.md)** | בידוד רב-דייר – Middleware גלובלי + Data Access Layer (Mongoose plugin). למה "סינון ב-DB" לבד מסוכן ואיך HSLL מונע דליפה. |
-| **[VERIFICATION_CHECKLIST.md](VERIFICATION_CHECKLIST.md)** | צ'קליסט אימות – קישור בין תשובות מקצועיות (תיעוד/JD) למימוש בקוד. הטכנאי מוודא שהכל מגובש. |
+| **[VERIFICATION_CHECKLIST.md](VERIFICATION_CHECKLIST.md)** | צ'קליסט אימות – קישור בין תשובות מקצועיות (תיעוד/JD) למימוש בקוד. קישורים לקוד ולמסמכי Compliance. |
+| **[DUE_DILIGENCE_KIT.md](DUE_DILIGENCE_KIT.md)** | הנחיה לטכנאי – Core IP, White-Label, Data Sovereignty, Compliance. רשימת קבצים לבדיקה. |
+| **[COMPLIANCE_CHECKLIST.md](COMPLIANCE_CHECKLIST.md)** | GDPR, SOC2, Pen Test – טבלת סטטוס והנחיות לטכנאי. |
+| **[TECHNICAL_EXECUTIVE_SUMMARY.md](TECHNICAL_EXECUTIVE_SUMMARY.md)** | סיכום טכני מקצועי (שפת M&A). |
+| **[CEO_EXECUTIVE_BRIEFING_GUIDANCE.md](CEO_EXECUTIVE_BRIEFING_GUIDANCE.md)** | הנחיה למנכ"לית – דגשים לפי קהל (צרפת, ארה"ב, טכנאי). |
 | **[DATA_SEPARATION.md](DATA_SEPARATION.md)** | הפרדת נתונים – Public (דף נחיתה) מול Private (אפליקציה). רשימת endpoints ציבוריים ומקור הנתונים. |
 | **[VISION_SATELLITE_SPEC.md](VISION_SATELLITE_SPEC.md)** | מפרט Vision & Satellite – CCTV AI (RTSP, anomaly detection), לווין (Change Detection), לוגיקת התראות ל־CEO. |
 

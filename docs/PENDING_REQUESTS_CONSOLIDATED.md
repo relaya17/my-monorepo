@@ -40,7 +40,7 @@
 
 | # | משימה | סטטוס | תיאור |
 |---|--------|--------|--------|
-| 12 | **Vision Pipeline** | 🔲 Stub | RTSP streams, Computer Vision, Water/Obstruction/Human detection, anonymize faces |
+| 12 | **Vision Pipeline** | ✅ Stub | visionService.ts – processFrame, startStreamListener (TODO: CV provider) |
 | 13 | **Satellite Hook** | 🔲 Roadmap | Mapbox/Google Satellite, quarterly roof condition tracking |
 | 14 | **Alert → AI Peacekeeper** | 🔲 Roadmap | Vision anomaly → System Generated ticket + CEO badge "Visual Evidence" |
 | 15 | **Landing Visual Evidence** | ✅ | Mockup: מצלמה יבשה vs AI מסמן נזילה בריבוע אדום |
@@ -58,7 +58,7 @@
 | 20 | **HTTPS בפרודקשן** | חשוב | הגדרת SSL |
 | 21 | **גיבויים אוטומטיים** | חשוב | הגדרת schedule |
 | 22 | **2FA** | מומלץ | Two-Factor Authentication |
-| 23 | **Automated Testing** | מומלץ | Unit + E2E |
+| 23 | **Automated Testing** | ✅ התחלה | vitest ב-API, voneContext.test.ts (4 tests) |
 | 24 | **CI/CD Pipeline** | מומלץ | GitHub Actions מלא |
 | 25 | **Performance Monitoring** | מומלץ | ניטור ביצועים מתקדם |
 

@@ -6,8 +6,6 @@ import { toggleNavbar, closeNavbar } from '../redux/slice/navbarSlice';
 import { setLanguage } from '../redux/slice/settingsSlice';
 import type { RootState } from '../redux/store';
 import ROUTES from '../routs/routes';
-import CountrySwitcher from './CountrySwitcher';
-import SystemStatus from './SystemStatus';
 
 const IS_LANDING = (path: string) =>
   path === ROUTES.LANDING ||
@@ -26,6 +24,7 @@ const LANG_OPTIONS: { code: LangCode; label: string }[] = [
 
 const Navbar: React.FC = () => {
   const { pathname } = useLocation();
+  const isLanding = IS_LANDING(pathname);
   const dispatch = useDispatch();
   const isOpen = useSelector((state: RootState) => state.navbar.isOpen);
   const language = useSelector((state: RootState) => state.settings.language) as LangCode;
@@ -94,6 +93,17 @@ const Navbar: React.FC = () => {
               </div>
             )}
           </div>
+          {isLanding && (
+            <Link
+              className="nav-link nav-btn-standards d-flex align-items-center"
+              to={ROUTES.LEGAL}
+              onClick={handleCloseNavbar}
+              aria-label="תקנים וחוקים"
+              title="תקנים וחוקים"
+            >
+              <i className="fas fa-certificate" aria-hidden />
+            </Link>
+          )}
           <button
             className="navbar-toggler"
             type="button"
@@ -120,12 +130,19 @@ const Navbar: React.FC = () => {
                 דייר
               </Link>
             </li>
-            <li className="nav-item">
-              <SystemStatus />
-            </li>
-            <li className="nav-item">
-              <CountrySwitcher variant="compact" />
-            </li>
+            {!isLanding && (
+              <li className="nav-item">
+                <Link
+                  className="nav-link nav-btn-standards d-flex align-items-center"
+                  to={ROUTES.LEGAL}
+                  onClick={handleCloseNavbar}
+                  aria-label="תקנים וחוקים"
+                  title="תקנים וחוקים"
+                >
+                  <i className="fas fa-certificate" aria-hidden />
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>
