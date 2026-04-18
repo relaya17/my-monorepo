@@ -1,0 +1,42 @@
+.community-wall-auth {
+  direction: rtl;
+}
+
+.community-wall-lock-icon,
+.community-wall-heading-icon,
+.community-wall-avatar-icon,
+.community-wall-comment-author {
+  color: #6b7280;
+}
+
+.community-wall-restricted-title,
+.community-wall-heading {
+  color: #374151;
+}
+
+.community-wall-container {
+  direction: rtl;
+  padding-top: 80px;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+}
+
+.community-wall-lead {
+  color: #6b7280;
+}
+
+.community-wall-post-image {
+  max-height: 300px;
+  object-fit: cover;
+}
+
+.community-wall-upload-preview {
+  max-height: 200px;
+}
+
+.community-wall-modal-image {
+  max-height: 70vh;
+}
+
+.community-wall-info-alert {
+  z-index: 1000;
+}

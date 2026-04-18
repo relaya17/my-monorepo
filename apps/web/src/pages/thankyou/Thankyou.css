@@ -1,0 +1,9 @@
+.thankyou-card {
+  max-width: 500px;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.thankyou-title {
+  color: #4caf50;
+}

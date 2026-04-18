@@ -1,0 +1,14 @@
+.users-list-page {
+  direction: rtl;
+  background-color: #f8f9fa;
+}
+
+.users-list-title {
+  margin: 0;
+  color: #374151;
+  font-weight: 700;
+}
+
+.users-list-name {
+  color: #2c3e50;
+}

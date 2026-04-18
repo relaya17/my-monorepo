@@ -1,0 +1,26 @@
+.user-login-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+}
+
+.user-login-card {
+  max-width: 420px;
+  width: 100%;
+}
+
+.user-login-card-body {
+  direction: rtl;
+  text-align: right;
+}
+
+.user-login-icon {
+  color: #6b7280;
+}
+
+.user-login-title {
+  color: #374151;
+}
+
+.user-login-input {
+  text-align: right;
+}

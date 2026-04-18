@@ -1,0 +1,473 @@
+/* רקע מלא על כל הדף – וידאו כרקע */
+.home-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: #0a0a0b;
+  overflow-x: hidden;
+}
+
+/* וידאו רקע – full screen */
+.home-bg-video {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.home-bg-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+/* מסך בינוני וגדול – ממוקד במרכז */
+@media (min-width: 769px) {
+  .home-bg-video video {
+    object-position: center center;
+  }
+}
+
+/* מסך קטן/צר – הצג את צד הווידאו (לא המרכז) */
+@media (max-width: 768px) {
+  .home-bg-video video {
+    object-position: 75% 50%;
+  }
+}
+@media (max-width: 480px) {
+  .home-bg-video video {
+    object-position: 82% 50%;
+  }
+}
+
+/* שכבת כיסוי כהה מעל הוידאו (טקסט קריא) */
+.home-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+/* שכבת תוכן */
+.home-wrapper .home-overlay {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) clamp(3rem, 8vh, 5rem);
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  background: none !important;
+}
+
+/* תוכן בתוך הרקע – זכוכית מטושטשת ושקוף */
+.home-wrapper .home-content {
+  background: rgba(0, 0, 0, 0.35) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 1.75rem 2rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.08);
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* מסך קטן – ריווח מותאם */
+@media (max-width: 576px) {
+  .home-wrapper .home-content {
+    padding: 1.5rem 1rem;
+    max-width: 95vw;
+    margin: 0 auto;
+  }
+  .home-wrapper .home-overlay {
+    padding: 0.75rem;
+  }
+  .home-wrapper .home-title {
+    font-size: 1.5rem;
+    letter-spacing: 0.05em;
+  }
+  .home-wrapper .home-subtitle {
+    font-size: 0.95rem;
+  }
+}
+
+/* מסך קטן מאוד – נגישות מלאה */
+@media (max-width: 360px) {
+  .home-wrapper .home-content {
+    padding: 1rem 0.75rem;
+    max-width: 98vw;
+  }
+  .home-wrapper .home-title {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .home-wrapper .home-subtitle {
+    font-size: 0.875rem;
+  }
+  .home-wrapper .home-cta .home-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    min-height: 44px;
+  }
+}
+
+/* מצב תמיכה ב-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .home-wrapper .home-title {
+    transition: none;
+  }
+}
+
+/* פוקוס לנגישות מקלדת */
+.home-wrapper .home-cta .home-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* כותרת – פונט ייחודי, מוטת אחורה עם צל מאחור */
+.home-wrapper .home-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.5rem, 4.5vw, 2.4rem);
+  margin-bottom: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff !important;
+  background: none !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  /* צל מאחורי הכותרת – אפקט "מוטת אחורה" */
+  text-shadow:
+    0.04em 0.06em 0.02em rgba(0,0,0,0.9),
+    0.08em 0.12em 0.15em rgba(0,0,0,0.7),
+    0.15em 0.2em 0.4em rgba(0,0,0,0.5);
+  transform: perspective(400px) rotateX(-3deg);
+  line-height: 1.2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+.home-wrapper .home-title-main {
+  display: block;
+}
+.home-wrapper .home-title-tail {
+  display: block;
+  position: relative;
+  padding-bottom: 0.6rem;
+}
+/* קו אופקי מתחת ל-AI */
+.home-wrapper .home-title-tail::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.85) 20%, rgba(255,255,255,0.85) 80%, transparent 100%);
+}
+/* קווים אנכיים יורדים מהקצוות */
+.home-wrapper .home-title-tail {
+  --line-color: rgba(255,255,255,0.6);
+}
+.home-wrapper .home-title-tail::before {
+  content: '';
+  position: absolute;
+  bottom: -0.55rem;
+  left: 50%;
+  width: 1px;
+  height: 0.45rem;
+  background: linear-gradient(180deg, var(--line-color), transparent);
+  transform: translateX(-50%);
+  box-shadow: 0.35em 0 0 0 var(--line-color), -0.35em 0 0 0 var(--line-color);
+}
+
+.home-subtitle-wrap {
+  margin-bottom: 0.75rem;
+  min-height: 3.2em;
+}
+.home-wrapper .home-subtitle {
+  font-size: clamp(0.9rem, 2.2vw, 1.15rem);
+  margin-bottom: 0;
+  color: #f1f5f9;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  line-height: 1.5;
+}
+.home-subtitle-praise {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 500;
+}
+.home-subtitle-underline {
+  display: block;
+  height: 2px;
+  width: 100%;
+  max-width: 200px;
+  margin: 0.25rem auto 0.5rem;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+  animation: home-underline-pulse 2s ease-in-out infinite;
+  transform-origin: center;
+}
+@keyframes home-underline-pulse {
+  0%, 100% { opacity: 0.5; transform: scaleX(0.7); }
+  50% { opacity: 1; transform: scaleX(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-subtitle-underline {
+    animation: none;
+    opacity: 0.8;
+  }
+}
+.home-subtitle-services {
+  font-size: clamp(0.85rem, 2vw, 1.05rem);
+  color: #e2e8f0;
+  margin-top: 0.5rem;
+}
+
+.home-cta {
+  margin-top: 1.25rem;
+}
+.home-cta-bottom {
+  margin-top: auto;
+  padding-top: 1.25rem;
+}
+.home-wrapper .home-btn-cta {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: normal;
+  line-height: 1.4;
+}
+
+.home-wrapper .home-cta .home-btn {
+  text-decoration: none;
+  background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.25) 100%) !important;
+  border: 1px solid rgba(255,255,255,0.5);
+  box-shadow: 
+    0 0 20px rgba(255,255,255,0.15),
+    0 4px 20px rgba(0,0,0,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #fff !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+}
+.home-wrapper .home-cta .home-btn:hover {
+  background: linear-gradient(135deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.35) 100%) !important;
+  border-color: rgba(255,255,255,0.65);
+  box-shadow: 0 0 28px rgba(255,255,255,0.2), 0 6px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.7);
+  color: #fff !important;
+}
+
+.page-header {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+  letter-spacing: 0.5px;
+  font-family: inherit;
+}
+
+.page-subtitle {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #444;
+  margin-bottom: 1.5rem;
+  font-family: inherit;
+}
+
+/* קבוצה של כפתורים */
+.button-group {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* כפתורים */
+.home-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 0.6rem;
+  transition: background-color 0.3s ease;
+  font-weight: 500;
+  min-width: 160px;
+}
+
+.home-btn:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+/* פוטר תמיד למטה */
+footer {
+  margin-top: auto;
+}
+
+/* עיצוב כללי לכרטיסים בדפי דירות להשכרה/מכירה */
+.apartment-card {
+  border: 1.5px solid #1976d2;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+  margin: 1rem;
+  transition: box-shadow 0.2s;
+}
+.apartment-card:hover {
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.18);
+}
+
+.cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin: 2rem 0 1.5rem 0;
+  color: #1976d2;
+  letter-spacing: 1px;
+  font-family: inherit;
+}
+
+.details-btn {
+  background-color: #1976d2 !important;
+  border: none !important;
+  color: #fff !important;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  transition: background 0.2s;
+}
+.details-btn:hover {
+  background-color: #125ea2 !important;
+}
+
+.forrent-container, .forsale-container {
+  background-image: none;
+  background-size: initial;
+  background-position: initial;
+  min-height: 100vh;
+  padding-bottom: 2rem;
+}
+
+.page-footer {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #222;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.5px;
+  font-family: inherit;
+}
+
+.apartment-card .card-img-top {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+  border-radius: 10px;
+  max-width: 90%;
+  max-height: 180px;
+  object-fit: contain;
+  background: #f7f7f7;
+}
+
+.apartment-card .card-title {
+  /* הסרתי רקע תמונה */
+  color: #222;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  background: none;
+}
+.apartment-card .card-title::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  border-radius: 8px;
+  z-index: 0;
+}
+.apartment-card .card-title span, .apartment-card .card-title {
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.apartment-img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+  border-radius: 10px;
+  max-width: 90%;
+  max-height: 180px;
+  object-fit: contain;
+  background: #f7f7f7;
+}
+
+@media (max-width: 700px) {
+  .cards-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .apartment-card {
+    width: 95% !important;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+  }
+  .apartment-card .card-img-top {
+    max-height: 100px;
+    margin-top: 0.5rem;
+  }
+  .apartment-card .card-title {
+    font-size: 1rem;
+  }
+  .apartment-card .card-text {
+    font-size: 0.95rem;
+  }
+  .details-btn {
+    font-size: 0.95rem;
+    padding: 0.4rem 0.8rem;
+  }
+  .page-title {
+    font-size: 1.6rem;
+  }
+  .page-header {
+    font-size: 1.1rem;
+  }
+  .apartment-img {
+    max-height: 100px;
+    margin-top: 0.5rem;
+  }
+}

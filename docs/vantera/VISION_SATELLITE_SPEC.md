@@ -1,0 +1,70 @@
+# HSLL Vision & Satellite – מפרט טכני (Addendum)
+
+**תיאור:** חיבור מצלמות (CCTV) וניתוח לווין לדאשבורד המנכ"לית – זיהוי אירועים ופגיעה בתשתיות.
+
+---
+
+## 1. חיבור מצלמות (CCTV AI Integration)
+
+- **לא** נשמור הקלטות וידאו בשרת (עלות ומשפטיות). נשתמש ב־**Edge Computing**.
+- **חיבור:** פרוטוקול RTSP מול ה־NVR/DVR הקיים בבניין.
+- **ניתוח בזמן אמת:** השרת מושך **פריים** אחת לכל X שניות ומעביר דרך מודל Computer Vision (YOLO / AWS Rekognition וכו').
+- **זיהוי אירועים:** שלושה תרחישים קריטיים:
+  - **Water Detection** – השתקפויות חריגות על הרצפה (הצפה).
+  - **Obstruction** – חסימת פתחי חירום או הצטברות אשפה.
+  - **Human Presence** – תנועה באזורים אסורים (חדר משאבות/גג) בשעות לא שגרתיות.
+- **פרטיות:** anonymize faces **locally** לפני עיבוד (תאימות רגולציה).
+
+### Task 1: Vision Processing Pipeline
+
+- **מיקום:** `apps/api/src/services/vision.ts`
+- **תפקיד:** consume RTSP streams, שליחת פריימים ל־Computer Vision provider (OpenCV או Cloud AI).
+- **דרישה:** Anomaly Detection + anonymization לפני עיבוד.
+
+---
+
+## 2. ניתוח לווין (Satellite Insight)
+
+- **מקור:** API של Sentinel-2 או Google Earth Engine.
+- **משימה:** השוואת תמונות תקופתית (Change Detection).
+- **ערך למנכ"לית:** התראה על "התעייפות" הגג, הצטברות מים עומדים אחרי גשם, פגיעה בתשתיות חיצוניות שלא נראות מהקרקע.
+
+### Task 2: Satellite Hook
+
+- **אינטגרציה:** Mapbox Static Images API או Google Satellite – שליפת תצוגות מלמעלה (quarterly) לפי קואורדינטות בניין רשום.
+- **לוגיקה:** שמירת מטא־דאטה על מצב הגג (roof condition) למעקב אחרי הידרדרות לאורך זמן.
+
+---
+
+## 3. לוגיקת התראות (Alert Logic)
+
+- כש־Vision AI מזהה אנומליה (למשל הצפה):
+  1. **AI Peacekeeper** מחפש דוחות קיימים (building + location).
+  2. אם אין דוח – יוצר כרטיס **"System Generated"** בעדיפות גבוהה.
+  3. דאשבורד המנכ"לית מקבל התראה עם badge אדום **"Visual Evidence"**.
+
+### Task 3: Alert Integration
+
+- חיבור בין `vision.ts` (או job שמעבד אירועים) ל־maintenance/ticket flow.
+- יצירת ticket אוטומטי + עדכון CEO Dashboard (red badge).
+
+---
+
+## 4. דף הנחיתה – ויזואל
+
+- **המלצה:** סרטון/ockup מסך מחולק:
+  - **שמאל:** צילום מצלמת אבטחה "יבש".
+  - **ימין:** ה־AI של HSLL מסמן בריבוע אדום נזילה עם הכיתוב:  
+    *"Alert: Water detected in B2 Parking - Maintenance dispatched."*
+- **מסר:** "אנחנו רואים את התקלה לפני שהדייר מרגיש אותה."
+
+---
+
+## סטטוס מימוש
+
+| רכיב | סטטוס |
+|------|--------|
+| Vision pipeline (`visionService.ts`) | ✅ Stub + TODO |
+| Satellite hook | 🔲 Roadmap |
+| Alert → AI Peacekeeper / Ticket | 🔲 Roadmap |
+| Landing mockup (Visual Evidence) | ✅ UI placeholder |

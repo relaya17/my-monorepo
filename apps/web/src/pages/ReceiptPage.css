@@ -1,0 +1,14 @@
+.receipt-page-loading {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  direction: rtl;
+}
+.receipt-page-container {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  direction: rtl;
+}
+.receipt-page-card-sm { max-width: 400px; width: 100%; }
+.receipt-page-card-lg { max-width: 600px; width: 100%; }
+.receipt-page-card-body { text-align: right; }
+.receipt-page-title { color: #2c3e50; }
+.receipt-page-warning-icon { color: #f59e0b; }
