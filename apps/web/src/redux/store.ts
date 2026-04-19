@@ -16,6 +16,8 @@ import repairTrackingReducer from './slice/repairTrackingSlice';
 import residentsReducer from './slice/residentsSlice';
 import settingsReducer from './slice/settingsSlice';
 import votingReducer from './slice/votingSlice';
+import visionReducer from './slice/visionSlice';
+import ceoReducer from './slice/ceoSlice';
 
 export const store = configureStore({
   reducer: {
@@ -36,6 +38,8 @@ export const store = configureStore({
     residents: residentsReducer,
     settings: settingsReducer,
     voting: votingReducer,
+    vision: visionReducer,
+    ceo: ceoReducer,
   },
 });
 

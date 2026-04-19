@@ -36,6 +36,7 @@ import visionRoutes from './visionRoutes.js';
 import voneChatRoutes from './voneChatRoutes.js';
 import webhookRoutes from './webhookRoutes.js';
 import aiServicesRoute from './aiServicesRoute.js';
+import techRoutes from './techRoutes.js';
 
 const router = Router();
 
@@ -78,5 +79,6 @@ router.use('/ads', adRoutes);
 router.use('/vision', visionRoutes);
 router.use('/vone', voneChatRoutes);
 router.use('/ai-services', aiServicesRoute);
+router.use('/tech', techRoutes);
 
 export default router;

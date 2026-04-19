@@ -87,6 +87,8 @@ const ROUTES = {
   VISION_LOGS: "/vision-logs",
   /** לוח בקרה קבלן – סטטוס, GPS */
   CONTRACTOR_DASHBOARD: "/contractor-dashboard",
+  /** קישור עבודה לטכנאי — Magic Link + GPS */
+  TECH_WORK_ORDER: "/tech/work-order/:token",
 };
 
 export default ROUTES;

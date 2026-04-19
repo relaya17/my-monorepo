@@ -28,6 +28,16 @@
   animation: re-blink 1.5s ease-in-out infinite;
 }
 
+/* Security Pulse pulsing dot */
+.super-admin-pulse-dot {
+  display: inline-block;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: #dc3545;
+  animation: re-blink 0.9s ease-in-out infinite;
+}
+
 @keyframes re-blink {
   0%,
   100% {

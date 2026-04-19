@@ -2,23 +2,31 @@
  * Vision routes — NVR/DVR camera event intake + admin VisionLog viewer.
  *
  * Camera pushes events via REST (no RTSP dependency on backend).
- * processFrame() in visionService.ts handles DB + auto-ticket creation.
+ * saveAnomalyToVisionLog() in visionService.ts handles DB + auto-ticket creation.
  *
- * POST /api/vision/event       – camera/agent pushes anomaly event (secured by API key)
- * GET  /api/vision/logs        – admin: list vision log entries
- * PATCH /api/vision/:id/resolve – admin: mark resolved
+ * POST /api/vision/event              – camera/agent pushes anomaly event (secured by API key)
+ * GET  /api/vision/logs               – admin: list vision log entries
+ * PATCH /api/vision/:id/resolve       – admin: mark resolved
+ * GET  /api/vision/floor-schedule     – return default sensitive-floor schedule
  */
 import { Request, Response, Router } from 'express';
 import { authMiddleware } from '../middleware/authMiddleware.js';
 import { tenantContext } from '../middleware/tenantMiddleware.js';
 import { saveAnomalyToVisionLog, type VisionAnomaly } from '../services/visionService.js';
-import VisionLog from '../models/visionLogModel.js';
-import type { VisionLogEventType } from '../models/visionLogModel.js';
+import { DEFAULT_SENSITIVE_SCHEDULE } from '../services/floorAttentionService.js';
+import VisionLog, { type VisionLogEventType, type IFloorContext, type IDetectedObject, DetectedObjectClass } from '../models/visionLogModel.js';
 
 const router = Router();
 const CAMERA_API_KEY_ENV = process.env.CAMERA_API_KEY ?? '';
 
-const VALID_EVENTS: VisionLogEventType[] = ['FLOOD_DETECTION', 'OBSTRUCTION', 'UNAUTHORIZED_ENTRY'];
+const VALID_EVENTS: VisionLogEventType[] = [
+  'FLOOD_DETECTION',
+  'OBSTRUCTION',
+  'UNAUTHORIZED_ENTRY',
+  'CHILD_ARRIVAL',
+  'PACKAGE_DELIVERY',
+  'LOITERING',
+];
 
 function getBuildingId(req: Request): string {
   return (req.headers['x-building-id'] as string)?.trim() || req.auth?.buildingId || 'default';
@@ -27,7 +35,7 @@ function getBuildingId(req: Request): string {
 /**
  * Authenticate camera devices using an API key header.
  * Camera hardware or NVR agent sends: `x-camera-key: <CAMERA_API_KEY>`
- * Falls back to standard auth middleware for browser/admin clients.
+ * Falls back to standard JWT auth middleware for admin clients.
  */
 function cameraOrAdminAuth(req: Request, res: Response, next: () => void): void {
   const cameraKey = req.headers['x-camera-key'] as string | undefined;
@@ -35,20 +43,55 @@ function cameraOrAdminAuth(req: Request, res: Response, next: () => void): void 
     next();
     return;
   }
-  // Fall through to JWT auth (admin push via dashboard)
   authMiddleware(req, res, next);
 }
+
+// ─── Validation helpers ───────────────────────────────────────────
+
+function parseFloorContext(raw: unknown): IFloorContext | undefined {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const obj = raw as Record<string, unknown>;
+  const floorNumber = Number(obj.floorNumber);
+  if (!Number.isFinite(floorNumber)) return undefined;
+  return {
+    floorNumber,
+    isSensitive: Boolean(obj.isSensitive),
+    floorLabel: typeof obj.floorLabel === 'string' ? obj.floorLabel.trim() : undefined,
+  };
+}
+
+function parseDetectedObjects(raw: unknown): IDetectedObject[] {
+  if (!Array.isArray(raw)) return [];
+  const validClasses = new Set<string>(Object.values(DetectedObjectClass));
+  return raw
+    .filter(
+      (item): item is Record<string, unknown> =>
+        typeof item === 'object' && item !== null
+    )
+    .filter((item) => validClasses.has(item.objectClass as string))
+    .map((item) => ({
+      objectClass: item.objectClass as DetectedObjectClass,
+      confidence: Number(item.confidence ?? 1),
+      boundingBox: Array.isArray(item.boundingBox) && item.boundingBox.length === 4
+        ? (item.boundingBox as [number, number, number, number])
+        : undefined,
+    }));
+}
+
+// ─── POST /api/vision/event ───────────────────────────────────────
 
 /** POST /api/vision/event — camera/NVR pushes anomaly */
 router.post('/event', cameraOrAdminAuth, async (req: Request, res: Response) => {
   try {
     const buildingId = getBuildingId(req);
-    const { cameraId, eventType, confidence, frameUrl, timestamp } = req.body as {
+    const { cameraId, eventType, confidence, frameUrl, timestamp, floorContext, detectedObjects } = req.body as {
       cameraId?: string;
       eventType?: string;
       confidence?: number;
       frameUrl?: string;
       timestamp?: string;
+      floorContext?: unknown;
+      detectedObjects?: unknown;
     };
 
     if (!cameraId?.trim() || !eventType) {
@@ -69,6 +112,8 @@ router.post('/event', cameraOrAdminAuth, async (req: Request, res: Response) => 
       confidence: conf,
       timestamp: timestamp ? new Date(timestamp) : new Date(),
       frameUrl: frameUrl?.trim(),
+      floorContext: parseFloorContext(floorContext),
+      detectedObjects: parseDetectedObjects(detectedObjects),
     };
 
     const result = await saveAnomalyToVisionLog(anomaly);
@@ -125,6 +170,11 @@ router.patch('/:id/resolve', authMiddleware, async (req: Request, res: Response)
   } catch {
     res.status(500).json({ error: 'שגיאה בעדכון האירוע' });
   }
+});
+
+/** GET /api/vision/floor-schedule — return default sensitive-floor attention schedule */
+router.get('/floor-schedule', authMiddleware, (_req: Request, res: Response) => {
+  res.json({ schedule: DEFAULT_SENSITIVE_SCHEDULE });
 });
 
 export default router;

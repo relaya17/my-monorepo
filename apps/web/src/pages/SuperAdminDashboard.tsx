@@ -1,5 +1,6 @@
 /**
- * CEO Dashboard מאוחד – סטטיסטיקות גלובליות, מעקב הורדות, יומן פעילות, Anomaly Feed.
+ * CEO Dashboard מאוחד – סטטיסטיקות גלובליות, מעקב הורדות, יומן פעילות, Anomaly Feed,
+ * Security Pulse (Vision KPIs + critical events table).
  * מוצג רק ל-super-admin.
  */
 import React, { useEffect, useState, useRef } from 'react';
@@ -7,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ROUTES from '../routs/routes';
 import { apiRequestJson } from '../api';
 import { safeGetItem } from '../utils/safeStorage';
+import ChainAuditor from '../components/ChainAuditor';
 import './SuperAdminDashboard.css';
 
 /** Play subtle alert sound for new Real Estate lead (demo). */
@@ -43,6 +45,26 @@ type VendorAlertsData = { alerts: VendorAlert[]; threshold?: number };
 type RealEstateLeadItem = { id: string; apartmentNumber: string; residentName: string; residentEmail: string; residentPhone?: string; dealType: string; status: string; buildingId: string; buildingName: string; createdAt?: string };
 type RealEstateData = { items: RealEstateLeadItem[]; countThisMonth?: number };
 
+interface SecurityPulseStats {
+  totalEvents: number;
+  unrecognizedStrangers: number;
+  childrenArrivals: number;
+  criticalAlerts: number;
+}
+interface SecurityCriticalEvent {
+  id: string;
+  buildingId: string;
+  buildingName: string;
+  floor: number;
+  floorLabel?: string;
+  type: string;
+  securityLevel: string;
+  cameraId: string;
+  timestamp: string;
+  resolved: boolean;
+}
+type SecurityPulseData = { stats: SecurityPulseStats; recentCriticalEvents: SecurityCriticalEvent[] };
+
 const SuperAdminDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [stats, setStats] = useState<GlobalStats | null>(null);
@@ -52,6 +74,7 @@ const SuperAdminDashboard: React.FC = () => {
   const [ledger, setLedger] = useState<LedgerData | null>(null);
   const [vendorAlerts, setVendorAlerts] = useState<VendorAlertsData | null>(null);
   const [realEstateLeads, setRealEstateLeads] = useState<RealEstateData | null>(null);
+  const [securityPulse, setSecurityPulse] = useState<SecurityPulseData | null>(null);
   const [newLeadToast, setNewLeadToast] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -68,7 +91,7 @@ const SuperAdminDashboard: React.FC = () => {
       setLoading(true);
       setError('');
       try {
-        const [statsRes, adoptionRes, activityRes, visionRes, ledgerRes, vendorRes, realEstateRes] = await Promise.all([
+        const [statsRes, adoptionRes, activityRes, visionRes, ledgerRes, vendorRes, realEstateRes, pulseRes] = await Promise.all([
           apiRequestJson<GlobalStats>('super-admin/global-stats'),
           apiRequestJson<AdoptionData>('super-admin/resident-adoption'),
           apiRequestJson<ActivityData>('super-admin/activity-stream?limit=10'),
@@ -76,6 +99,7 @@ const SuperAdminDashboard: React.FC = () => {
           apiRequestJson<LedgerData>('super-admin/global-ledger?limit=50'),
           apiRequestJson<VendorAlertsData>('super-admin/vendor-alerts'),
           apiRequestJson<RealEstateData>('super-admin/real-estate-leads?limit=20'),
+          apiRequestJson<SecurityPulseData>('super-admin/global-security-pulse'),
         ]);
 
         if (statsRes.response.ok) setStats(statsRes.data ?? null);
@@ -85,6 +109,7 @@ const SuperAdminDashboard: React.FC = () => {
         if (ledgerRes.response.ok) setLedger(ledgerRes.data ?? null);
         if (vendorRes.response.ok) setVendorAlerts(vendorRes.data ?? null);
         if (realEstateRes.response.ok) setRealEstateLeads(realEstateRes.data ?? null);
+        if (pulseRes.response.ok) setSecurityPulse(pulseRes.data ?? null);
 
         if (!statsRes.response.ok && statsRes.response.status === 403) setError('אין הרשאה');
       } catch {
@@ -255,6 +280,103 @@ const SuperAdminDashboard: React.FC = () => {
             </div>
 
             <div className="row g-4">
+              {/* ── Chain Auditor — Hash-Chain Integrity ── */}
+              <div className="col-12">
+                <ChainAuditor />
+              </div>
+
+              {/* ── Security Pulse — CEO Bird's Eye View ── */}
+              <div className="col-12">
+                <div className="card shadow-sm border-danger">
+                  <div className="card-header bg-danger bg-opacity-10 d-flex align-items-center gap-2">
+                    <span className="super-admin-pulse-dot" aria-hidden="true" />
+                    <strong>Security Pulse – מבט על בזמן אמת</strong>
+                    {(securityPulse?.stats.criticalAlerts ?? 0) > 0 && (
+                      <span className="badge bg-danger ms-auto">
+                        {securityPulse?.stats.criticalAlerts} התראות פעילות
+                      </span>
+                    )}
+                  </div>
+                  <div className="card-body">
+                    {/* KPI row */}
+                    <div className="row g-3 mb-3">
+                      <div className="col-6 col-md-3">
+                        <div className="card border-0 bg-light text-center py-2">
+                          <p className="text-muted small mb-1">סה"כ אירועים</p>
+                          <h4 className="mb-0">{securityPulse?.stats.totalEvents ?? 0}</h4>
+                        </div>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <div className="card border-0 bg-danger bg-opacity-10 text-center py-2">
+                          <p className="text-muted small mb-1">זרים שזוהו</p>
+                          <h4 className="mb-0 text-danger">{securityPulse?.stats.unrecognizedStrangers ?? 0}</h4>
+                        </div>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <div className="card border-0 bg-success bg-opacity-10 text-center py-2">
+                          <p className="text-muted small mb-1">הגעת ילדים</p>
+                          <h4 className="mb-0 text-success">{securityPulse?.stats.childrenArrivals ?? 0}</h4>
+                        </div>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <div className="card border-0 bg-warning bg-opacity-10 text-center py-2">
+                          <p className="text-muted small mb-1">התראות קריטיות</p>
+                          <h4 className="mb-0 text-warning">{securityPulse?.stats.criticalAlerts ?? 0}</h4>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Critical events table */}
+                    {(securityPulse?.recentCriticalEvents ?? []).length === 0 ? (
+                      <p className="text-muted mb-0 small">אין אירועי HIGH/CRITICAL פעילים – הכל תקין ✓</p>
+                    ) : (
+                      <div className="table-responsive">
+                        <table className="table table-sm table-hover align-middle mb-0">
+                          <thead className="table-light">
+                            <tr>
+                              <th>בניין</th>
+                              <th>קומה</th>
+                              <th>סוג אירוע</th>
+                              <th>רמת אבטחה</th>
+                              <th>מצלמה</th>
+                              <th>זמן</th>
+                              <th>סטטוס</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {securityPulse?.recentCriticalEvents.slice(0, 15).map((ev) => (
+                              <tr key={ev.id}>
+                                <td><strong>{ev.buildingName}</strong></td>
+                                <td>{ev.floorLabel ?? `קומה ${ev.floor}`}</td>
+                                <td>
+                                  <span className={`badge ${ev.type === 'unauthorized_entry' || ev.type === 'loitering' ? 'bg-danger' : 'bg-secondary'}`}>
+                                    {ev.type}
+                                  </span>
+                                </td>
+                                <td>
+                                  <span className={`badge ${ev.securityLevel === 'CRITICAL' ? 'bg-danger' : 'bg-warning text-dark'}`}>
+                                    {ev.securityLevel}
+                                  </span>
+                                </td>
+                                <td className="text-muted small">{ev.cameraId}</td>
+                                <td className="text-muted small">
+                                  {new Date(ev.timestamp).toLocaleString('he-IL', { dateStyle: 'short', timeStyle: 'short' })}
+                                </td>
+                                <td>
+                                  {ev.resolved
+                                    ? <span className="text-success small">✓ טופל</span>
+                                    : <span className="text-warning small">● בטיפול</span>}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
               {/* Transparency Ledger – קבלנים מתחת ל־סטנדרט */}
               <div className="col-lg-6">
                 <div className="card shadow-sm h-100 border-warning">

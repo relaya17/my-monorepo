@@ -7,7 +7,7 @@ import Payment from '../models/paymentModel.js';
 import Building from '../models/buildingModel.js';
 import BuildingStats from '../models/buildingStatsModel.js';
 import User from '../models/userModel.js';
-import VisionLog from '../models/visionLogModel.js';
+import VisionLog, { verifyVisionChain } from '../models/visionLogModel.js';
 import Transaction from '../models/transactionModel.js';
 import MaintenanceFeedback from '../models/maintenanceFeedbackModel.js';
 import RealEstateLead from '../models/realEstateLeadModel.js';
@@ -337,6 +337,141 @@ router.get('/transparency', verifySuperAdmin, async (req: Request, res: Response
     });
   } catch (err) {
     res.status(500).json({ error: 'שגיאה בבדיקת שרשרת הביקורת' });
+  }
+});
+
+/**
+ * GET /api/super-admin/global-security-pulse
+ * Aggregates VisionLog across ALL tenants and returns security KPIs for the CEO dashboard.
+ * Uses $facet pipeline — one round-trip, all counts.
+ */
+router.get('/global-security-pulse', verifySuperAdmin, async (_req: Request, res: Response) => {
+  try {
+    type FacetResult = {
+      total: Array<{ count: number }>;
+      strangers: Array<{ count: number }>;
+      children: Array<{ count: number }>;
+      critical: Array<{ count: number }>;
+      recentCritical: Array<{
+        _id: unknown;
+        buildingId: string;
+        cameraId: string;
+        eventType: string;
+        securityLevel: string;
+        timestamp: Date;
+        resolved: boolean;
+        floorContext?: { floorNumber: number; floorLabel?: string };
+      }>;
+    };
+
+    const [facet] = await VisionLog.collection
+      .aggregate<FacetResult>([
+        {
+          $facet: {
+            total: [{ $count: 'count' }],
+            strangers: [
+              {
+                $match: {
+                  $or: [
+                    { 'detectedObjects.objectClass': 'PERSON_UNKNOWN' },
+                    { eventType: 'UNAUTHORIZED_ENTRY' },
+                  ],
+                },
+              },
+              { $count: 'count' },
+            ],
+            children: [
+              {
+                $match: {
+                  $or: [
+                    { 'detectedObjects.objectClass': 'PERSON_CHILD' },
+                    { eventType: 'CHILD_ARRIVAL' },
+                  ],
+                },
+              },
+              { $count: 'count' },
+            ],
+            critical: [
+              { $match: { securityLevel: { $in: ['HIGH', 'CRITICAL'] }, resolved: false } },
+              { $count: 'count' },
+            ],
+            recentCritical: [
+              { $match: { securityLevel: { $in: ['HIGH', 'CRITICAL'] } } },
+              { $sort: { timestamp: -1 } },
+              { $limit: 20 },
+              {
+                $project: {
+                  buildingId: 1,
+                  cameraId: 1,
+                  eventType: 1,
+                  securityLevel: 1,
+                  timestamp: 1,
+                  resolved: 1,
+                  floorContext: 1,
+                },
+              },
+            ],
+          },
+        },
+      ])
+      .toArray();
+
+    // Enrich recentCritical with building names
+    const buildingIds = [...new Set(facet.recentCritical.map((e) => e.buildingId).filter(Boolean))];
+    const buildingDocs = await Building.find({ buildingId: { $in: buildingIds } }).lean();
+    const byId = Object.fromEntries(
+      buildingDocs.map((b) => [
+        (b as { buildingId: string }).buildingId,
+        (b as { committeeName?: string }).committeeName || (b as { address?: string }).address || (b as { buildingId: string }).buildingId,
+      ])
+    );
+
+    const recentCriticalEvents = facet.recentCritical.map((e) => ({
+      id: String(e._id),
+      buildingId: e.buildingId,
+      buildingName: byId[e.buildingId] ?? e.buildingId ?? '-',
+      floor: e.floorContext?.floorNumber ?? 0,
+      floorLabel: e.floorContext?.floorLabel,
+      type: e.eventType.toLowerCase(),
+      securityLevel: e.securityLevel,
+      cameraId: e.cameraId,
+      timestamp: e.timestamp,
+      resolved: e.resolved,
+    }));
+
+    res.json({
+      stats: {
+        totalEvents: facet.total[0]?.count ?? 0,
+        unrecognizedStrangers: facet.strangers[0]?.count ?? 0,
+        childrenArrivals: facet.children[0]?.count ?? 0,
+        criticalAlerts: facet.critical[0]?.count ?? 0,
+      },
+      recentCriticalEvents,
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'שגיאה בשליפת סטטיסטיקות אבטחה גלובליות' });
+  }
+});
+
+// ─── GET /api/super-admin/verify-ledger ───────────────────────────
+/**
+ * Verify the SHA-256 hash-chain integrity of the VisionLog ledger.
+ * Returns a summary: valid, checkedCount, and (if broken) the first tampered entry.
+ */
+router.get('/verify-ledger', verifySuperAdmin, async (_req: Request, res: Response) => {
+  try {
+    const result = await verifyVisionChain();
+    res.json({
+      valid: result.valid,
+      checkedCount: result.checkedCount,
+      brokenAt: result.brokenAt ?? null,
+      verifiedAt: new Date().toISOString(),
+      message: result.valid
+        ? 'Chain integrity verified. No tampering detected.'
+        : `CRITICAL: Data tampering detected at entry ${result.brokenAt?.id ?? 'unknown'}`,
+    });
+  } catch {
+    res.status(500).json({ error: 'שגיאה בבדיקת תקינות השרשרת' });
   }
 });
 

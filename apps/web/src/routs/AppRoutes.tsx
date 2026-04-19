@@ -58,6 +58,9 @@ const CommunityWall = lazy(() => import("../pages/CommunityWall"));
 
 const AIDashboard = lazy(() => import("../pages/AIDashboard"));
 
+// Global real-time security widget — always mounted, polls /api/vision/logs
+import VOneVisionWidget from "../components/VOneVisionWidget";
+
 const PaymentManagement = lazy(() => import("../pages/PaymentManagement"));
 
 const ApartmentManagement = lazy(() => import("../pages/ApartmentManagement"));
@@ -85,6 +88,7 @@ const BlueprintPage = lazy(() => import("../pages/BlueprintPage"));
 const WhiteLabelSettingsPage = lazy(() => import("../pages/WhiteLabelSettingsPage"));
 const VisionLogsPage = lazy(() => import("../pages/VisionLogsPage"));
 const ContractorDashboardPage = lazy(() => import("../pages/ContractorDashboardPage"));
+const TechWorkOrder = lazy(() => import("../pages/TechWorkOrder"));
 
 // קומפוננטת עזר - עטיפת טופס דייר
 const ResidentFormWrapper: React.FC = () => {
@@ -115,8 +119,9 @@ const ResidentFormWrapper: React.FC = () => {
 
 const AppRoutes: React.FC = () => {
   return (
-    <Suspense fallback={<div className="container py-4 text-center">טוען...</div>}>
-      <Routes>
+    <>
+      <Suspense fallback={<div className="container py-4 text-center">טוען...</div>}>
+        <Routes>
         {/* דף הבית – מוצג אחרי רענון/רסטרט כשנכנסים לשורש */}
         <Route path={ROUTES.HOME} element={<Home />} />
         <Route path={ROUTES.BLOG} element={<MarketingBlogPage />} />
@@ -228,11 +233,15 @@ const AppRoutes: React.FC = () => {
         <Route path={ROUTES.RESIDENT_INVITE} element={<ResidentInvitePage />} />
         <Route path={ROUTES.SUPER_ADMIN_DASHBOARD} element={<SuperAdminDashboard />} />
         <Route path={ROUTES.CEO_PRE_LAUNCH} element={<CEOPreLaunchChecklistPage />} />
+        <Route path={ROUTES.TECH_WORK_ORDER} element={<TechWorkOrder />} />
 
         {/* 404 – חייב להיות אחרון */}
         <Route path="*" element={<Error404Page />} />
       </Routes>
     </Suspense>
+    {/* Real-time security alert widget — always active, renders outside route tree */}
+    <VOneVisionWidget />
+  </>
   );
 };
 
