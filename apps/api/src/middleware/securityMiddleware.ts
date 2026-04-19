@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import rateLimit from 'express-rate-limit';
+import { logger } from '../utils/logger.js';
 
 // Rate limiting מיוחד להתחברות
 export const loginRateLimiter = rateLimit({
@@ -56,7 +57,7 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction) =
     const url = req.url;
     const ip = req.ip || req.connection.remoteAddress;
 
-    console.log(`[${timestamp}] ${method} ${url} - IP: ${ip}`);
+    logger.info(`[${timestamp}] ${method} ${url} - IP: ${ip}`);
 
     next();
 };

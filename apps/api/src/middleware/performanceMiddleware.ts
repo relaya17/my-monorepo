@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { logger } from '../utils/logger.js';
 
 // Performance monitoring middleware
 export const performanceMonitor = (req: Request, res: Response, next: NextFunction) => {
@@ -19,7 +20,7 @@ export const performanceMonitor = (req: Request, res: Response, next: NextFuncti
         };
 
         // Log performance metrics
-        console.log(`[PERFORMANCE] ${req.method} ${req.url} - ${responseTime}ms - Memory: ${Math.round(memoryDiff.heapUsed / 1024)}KB`);
+        logger.info(`[PERFORMANCE] ${req.method} ${req.url} - ${responseTime}ms - Memory: ${Math.round(memoryDiff.heapUsed / 1024)}KB`);
 
         // Add performance headers
         res.setHeader('X-Response-Time', `${responseTime}ms`);
@@ -27,12 +28,12 @@ export const performanceMonitor = (req: Request, res: Response, next: NextFuncti
 
         // Alert for slow responses
         if (responseTime > 1000) {
-            console.warn(`[SLOW RESPONSE] ${req.method} ${req.url} took ${responseTime}ms`);
+            logger.warn(`[SLOW RESPONSE] ${req.method} ${req.url} took ${responseTime}ms`);
         }
 
         // Alert for high memory usage
         if (memoryDiff.heapUsed > 50 * 1024 * 1024) { // 50MB
-            console.warn(`[HIGH MEMORY] ${req.method} ${req.url} used ${Math.round(memoryDiff.heapUsed / 1024 / 1024)}MB`);
+            logger.warn(`[HIGH MEMORY] ${req.method} ${req.url} used ${Math.round(memoryDiff.heapUsed / 1024 / 1024)}MB`);
         }
 
         return originalEnd(chunk as never, encoding as never);
@@ -74,7 +75,7 @@ export const databaseMonitor = (req: Request, res: Response, next: NextFunction)
         result.then(() => {
             const queryTime = Date.now() - queryStart;
             if (queryTime > 100) {
-                console.warn(`[SLOW QUERY] find() took ${queryTime}ms on collection: ${this.model.collection.name}`);
+                logger.warn(`[SLOW QUERY] find() took ${queryTime}ms on collection: ${this.model.collection.name}`);
             }
         });
 
@@ -89,7 +90,7 @@ export const databaseMonitor = (req: Request, res: Response, next: NextFunction)
         result.then(() => {
             const queryTime = Date.now() - queryStart;
             if (queryTime > 50) {
-                console.warn(`[SLOW QUERY] findOne() took ${queryTime}ms on collection: ${this.model.collection.name}`);
+                logger.warn(`[SLOW QUERY] findOne() took ${queryTime}ms on collection: ${this.model.collection.name}`);
             }
         });
 
@@ -104,7 +105,7 @@ export const databaseMonitor = (req: Request, res: Response, next: NextFunction)
         result.then(() => {
             const saveTime = Date.now() - saveStart;
             if (saveTime > 200) {
-                console.warn(`[SLOW SAVE] save() took ${saveTime}ms on collection: ${this.constructor.collection.name}`);
+                logger.warn(`[SLOW SAVE] save() took ${saveTime}ms on collection: ${this.constructor.collection.name}`);
             }
         });
 
@@ -126,7 +127,7 @@ export const errorTracker = (err: Error, req: Request, res: Response, next: Next
         ip: req.ip || req.connection.remoteAddress
     };
 
-    console.error('[ERROR]', JSON.stringify(errorInfo, null, 2));
+    logger.error('[ERROR]', JSON.stringify(errorInfo, null, 2));
 
     // Send error response
     res.status(500).json({
@@ -149,7 +150,7 @@ export const apiAnalytics = (req: Request, res: Response, next: NextFunction) =>
     };
 
     // Log API usage (you can send this to analytics service)
-    console.log('[API_USAGE]', JSON.stringify(analytics));
+    logger.info('[API_USAGE]', JSON.stringify(analytics));
 
     next();
 }; 

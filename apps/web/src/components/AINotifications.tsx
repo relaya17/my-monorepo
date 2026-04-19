@@ -104,7 +104,6 @@ const AINotifications: React.FC = () => {
   };
 
   const handleAction = (action: string, data: Record<string, unknown> | null) => {
-    console.log('Executing action:', action, data);
     // כאן אפשר להוסיף לוגיקה לביצוע פעולות
     switch (action) {
       case 'review_overdue_payments':

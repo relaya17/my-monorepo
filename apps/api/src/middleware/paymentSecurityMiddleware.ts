@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import rateLimit from 'express-rate-limit';
+import { logger } from '../utils/logger.js';
 
 // Rate limiting מיוחד לתשלומים
 export const paymentRateLimiter = rateLimit({
@@ -97,7 +98,7 @@ export const checkSuspiciousIP = (req: Request, res: Response, next: NextFunctio
     ];
 
     if (clientIP && suspiciousIPs.includes(clientIP)) {
-        console.warn(`Suspicious IP detected: ${clientIP}`);
+        logger.warn(`Suspicious IP detected: ${clientIP}`);
         return res.status(403).json({
             error: 'גישה נחסמה',
             hebrew: 'הגישה נחסמה מטעמי אבטחה'
@@ -117,7 +118,7 @@ export const checkPaymentFrequency = (req: Request, res: Response, next: NextFun
     // לדוגמה: בדיקה אם המשתמש ביצע יותר מדי תשלומים בזמן קצר
 
     // TODO: להוסיף בדיקה מול מסד נתונים
-    console.log(`Payment attempt from IP: ${clientIP}, User: ${userId}`);
+    logger.info(`Payment attempt from IP: ${clientIP}, User: ${userId}`);
 
     next();
 };
@@ -155,11 +156,11 @@ export const checkUnusualAmount = (req: Request, res: Response, next: NextFuncti
     };
 
     if (typeof amount === 'number' && amount < unusualThresholds.small) {
-        console.warn(`Unusually small payment: ${amount} from user ${userId}`);
+        logger.warn(`Unusually small payment: ${amount} from user ${userId}`);
     }
 
     if (typeof amount === 'number' && amount > unusualThresholds.large) {
-        console.warn(`Unusually large payment: ${amount} from user ${userId}`);
+        logger.warn(`Unusually large payment: ${amount} from user ${userId}`);
         // אפשר להוסיף התראה או חסימה
     }
 
@@ -192,7 +193,7 @@ export const paymentLogger = (req: Request, res: Response, next: NextFunction) =
         status: 'attempt'
     };
 
-    console.log('Payment attempt:', JSON.stringify(logEntry, null, 2));
+    logger.info('Payment attempt', logEntry);
 
     // שמירה ללוג קובץ
     // TODO: להוסיף שמירה לקובץ לוג

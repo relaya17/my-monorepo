@@ -6,6 +6,7 @@ import RealEstateLead from '../models/realEstateLeadModel.js';
 import User from '../models/userModel.js';
 import Building from '../models/buildingModel.js';
 import { tenantContext } from '../middleware/tenantMiddleware.js';
+import { logger } from '../utils/logger.js';
 
 export type DealType = 'sale' | 'rent';
 
@@ -70,7 +71,7 @@ async function notifyManagerOnLead(lead: CreateLeadResult, buildingId: string): 
       const { sendRealEstateLeadAlert } = await import('./emailService.js');
       await sendRealEstateLeadAlert(contact, name, lead.apartmentNumber, lead.residentName, lead.dealType);
     } else if (contact) {
-      console.log(`[RealEstateLead] Hot lead: ${lead.residentName} apt ${lead.apartmentNumber} (${lead.dealType}) → contact ${contact} (add email to committeeContact for auto-notify)`);
+      logger.info(`[RealEstateLead] Hot lead: apt ${lead.apartmentNumber} (${lead.dealType}) → contact configured (add email to committeeContact for auto-notify)`);
     }
     // Emit webhook for integrations
     const { emitWebhookEvent } = await import('./webhookService.js');
@@ -92,7 +93,7 @@ async function recordLeadForBilling(buildingId: string): Promise<void> {
     // TODO: Stripe Billing – report usage to metered subscription
     // const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
     // await stripe.subscriptionItems.createUsageRecord(itemId, { quantity: 1, timestamp: Math.floor(Date.now()/1000) });
-    console.log(`[RealEstateLead] Billing: +1 lead for building ${buildingId} (Stripe metered – TODO)`);
+    logger.info(`[RealEstateLead] Billing: +1 lead for building ${buildingId} (Stripe metered – TODO)`);
   } catch {
     // Non-blocking
   }
