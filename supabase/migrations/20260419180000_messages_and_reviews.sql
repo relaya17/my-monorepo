@@ -1,3 +1,6 @@
+-- PostgreSQL / Supabase migration (NOT MSSQL)
+-- Creates: messages (real-time chat) + reviews (ratings) tables with RLS
+
 -- Messages table for real-time chat between matched users
 CREATE TABLE public.messages (
   id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
