@@ -1,258 +1,139 @@
-/**
- * Safe-Zone – ליווי מצלמות וירטואלי.
- * MVP: דייר (הורים, נשים שחוזרות מאוחר) מבקש ליווי מהכניסה לבניין עד לדלת הדירה.
- * המערכת יוצרת session ב-DB ועוקבת אחר הסטטוס.
- */
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import ROUTES from '../routs/routes';
-import { getApiUrl, getApiHeaders } from '../api';
-import './SafeZonePage.css';
+﻿// components/Voting.tsx
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState, AppDispatch } from '../redux/store';
+import { fetchVotes, castVote } from '../redux/slice/votingSlice';
 
-interface Session {
-  _id: string;
-  status: 'requested' | 'active' | 'completed' | 'failed';
-}
+const Voting: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { votes, loading, error, castLoading } = useSelector((state: RootState) => state.voting);
 
-const SafeZonePage: React.FC = () => {
-  const navigate = useNavigate();
-  const [residentName, setResidentName] = useState('');
-  const [apartmentNumber, setApartmentNumber] = useState('');
-  const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    dispatch(fetchVotes('Open'));
+  }, [dispatch]);
 
-  const handleRequestEscort = async () => {
-    if (!residentName.trim() || !apartmentNumber.trim()) {
-      setError('נא למלא שם ומספר דירה');
-      return;
-    }
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch(getApiUrl('safe-zone/request'), {
-        method: 'POST',
-        headers: getApiHeaders(),
-        body: JSON.stringify({
-          residentName: residentName.trim(),
-          apartmentNumber: apartmentNumber.trim(),
-        }),
-      });
-      if (!res.ok) {
-        const data = (await res.json()) as { error?: string };
-        throw new Error(data.error ?? 'שגיאה בבקשת הליווי');
-      }
-      const data = (await res.json()) as Session;
-      setSession(data);
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'שגיאה בבקשת הליווי');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleComplete = async () => {
-    if (!session) return;
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch(getApiUrl(`safe-zone/${session._id}/complete`), {
-        method: 'PATCH',
-        headers: getApiHeaders(),
-      });
-      if (!res.ok) throw new Error('שגיאה בסיום הליווי');
-      const data = (await res.json()) as Session;
-      setSession(data);
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'שגיאה בסיום הליווי');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleCancel = async () => {
-    if (!session) return;
-    setLoading(true);
-    try {
-      await fetch(getApiUrl(`safe-zone/${session._id}/fail`), {
-        method: 'PATCH',
-        headers: getApiHeaders(),
-      });
-    } catch { /* silent */ }
-    setSession(null);
-    setLoading(false);
+  const handleVote = (voteId: string, optionIndex: number) => {
+    dispatch(castVote({ voteId, optionIndex }));
   };
 
   return (
-    <div className="safe-zone-page container py-5">
-      <div className="card shadow-lg border-0">
-        <div className="card-header text-center safe-zone-header">
-          <h4 className="mb-0">
-            <i className="fas fa-shield-alt me-2" aria-hidden="true" />
-            Safe-Zone
-          </h4>
-        </div>
-        <div className="card-body p-4">
-          <p className="text-muted mb-4">
-            ליווי מצלמות וירטואלי מהכניסה לבניין ועד לפתח הדירה. מיועד להורים לילדים ונשים שחוזרות מאוחר – המערכת עוקבת ומוודאת כניסה בשלום.
+    <div className="container-fluid d-flex justify-content-center align-items-center" 
+         style={{ 
+           minHeight: '100vh', 
+           background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)',
+           direction: 'rtl'
+         }}>
+      <div className="container py-5">
+        <div className="text-center mb-5">
+          <i className="fas fa-vote-yea fa-3x text-white mb-3"></i>
+          <h1 className="text-white mb-3" style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
+            ׳”׳¦׳‘׳¢׳•׳× ׳“׳™׳™׳¨׳™׳
+          </h1>
+          <p className="text-white-50 fs-5">
+            ׳”׳©׳×׳×׳£ ׳‘׳”׳—׳׳˜׳•׳× ׳”׳§׳”׳™׳׳” - ׳”׳¦׳‘׳¢ ׳¢׳ ׳”׳ ׳•׳©׳׳™׳ ׳”׳—׳©׳•׳‘׳™׳ ׳׳
           </p>
+        </div>
 
-          {error && (
-            <div className="alert alert-danger" role="alert">{error}</div>
-          )}
+        {error && (
+          <div className="alert alert-danger text-center" role="alert">
+            {error}
+          </div>
+        )}
 
-          {!session && (
-            <div className="mb-3">
-              <div className="mb-3">
-                <label className="form-label" htmlFor="sz-name">שמך המלא</label>
-                <input
-                  id="sz-name"
-                  type="text"
-                  className="form-control"
-                  value={residentName}
-                  onChange={(e) => setResidentName(e.target.value)}
-                  placeholder="ישראל ישראלי"
-                  disabled={loading}
-                />
+        {loading ? (
+          <div className="text-center">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">׳˜׳•׳¢׳...</span>
+            </div>
+          </div>
+        ) : votes.length === 0 ? (
+          <div className="text-center">
+            <div className="card shadow-lg" style={{ maxWidth: '500px', margin: '0 auto' }}>
+              <div className="card-body p-5">
+                <i className="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+                <h3 className="text-muted">׳׳™׳ ׳”׳¦׳‘׳¢׳•׳× ׳₪׳×׳•׳—׳•׳× ׳›׳¨׳’׳¢</h3>
+                <p className="text-muted">׳‘׳“׳•׳§ ׳©׳•׳‘ ׳׳׳•׳—׳¨ ׳™׳•׳×׳¨ ׳׳• ׳₪׳ ׳” ׳׳׳ ׳”׳ ׳”׳׳¢׳¨׳›׳×</p>
               </div>
-              <div className="mb-3">
-                <label className="form-label" htmlFor="sz-apt">מספר דירה</label>
-                <input
-                  id="sz-apt"
-                  type="text"
-                  className="form-control"
-                  value={apartmentNumber}
-                  onChange={(e) => setApartmentNumber(e.target.value)}
-                  placeholder="15"
-                  disabled={loading}
-                />
+            </div>
+          </div>
+        ) : (
+          <div className="row g-4">
+            {votes.map((vote, voteIndex) => (
+              <div key={vote._id} className="col-12 col-lg-8 mx-auto">
+                <div className="card shadow-lg border-0" style={{ borderRadius: '15px' }}>
+                  <div className="card-header bg-primary text-white text-center py-3" 
+                       style={{ borderRadius: '15px 15px 0 0' }}>
+                    <h4 className="mb-0">
+                      <i className="fas fa-question-circle ms-2"></i>
+                      ׳”׳¦׳‘׳¢׳” {voteIndex + 1}
+                    </h4>
+                  </div>
+                  <div className="card-body p-4">
+                    <h5 className="card-title text-center mb-2" style={{ color: '#2c3e50', fontSize: '1.3rem' }}>
+                      {vote.title}
+                    </h5>
+                    {vote.description && (
+                      <p className="text-muted text-center mb-4">{vote.description}</p>
+                    )}
+                    {vote.deadline && (
+                      <p className="text-center text-secondary small mb-3">
+                        <i className="fas fa-clock ms-1"></i>
+                        ׳׳•׳¢׳“ ׳׳—׳¨׳•׳: {new Date(vote.deadline).toLocaleDateString('he-IL')}
+                      </p>
+                    )}
+                    
+                    <div className="row g-3">
+                      {vote.options.map((option, index) => (
+                        <div key={index} className="col-12">
+                          <div className="d-flex justify-content-between align-items-center p-3 border rounded"
+                               style={{ backgroundColor: '#f8f9fa', borderColor: '#e9ecef' }}>
+                            <div className="d-flex align-items-center">
+                              <div className="me-3">
+                                <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
+                                     style={{ width: '40px', height: '40px', fontSize: '1.2rem', fontWeight: 'bold' }}>
+                                  {String.fromCharCode(65 + index)}
+                                </div>
+                              </div>
+                              <span className="fs-5" style={{ color: '#495057' }}>
+                                {option.text}
+                              </span>
+                            </div>
+                            
+                            <button 
+                              className="btn btn-outline-primary"
+                              style={{ borderRadius: '25px', padding: '8px 20px', fontWeight: 'bold' }}
+                              disabled={castLoading}
+                              onClick={() => handleVote(vote._id, index)}
+                            >
+                              {castLoading ? (
+                                <span className="spinner-border spinner-border-sm" role="status" />
+                              ) : (
+                                <>
+                                  <i className="fas fa-vote-yea ms-2"></i>
+                                  ׳”׳¦׳‘׳¢
+                                </>
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
-              <button
-                type="button"
-                className="btn btn-lg w-100 safe-zone-btn"
-                onClick={() => { void handleRequestEscort(); }}
-                disabled={loading}
-                aria-label="בקש ליווי מצלמות"
-              >
-                {loading ? (
-                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
-                ) : (
-                  <i className="fas fa-play me-2" aria-hidden="true" />
-                )}
-                בקש ליווי
-              </button>
-            </div>
-          )}
+            ))}
+          </div>
+        )}
 
-          {session?.status === 'requested' && (
-            <div className="text-center py-3">
-              <div className="spinner-border text-success" role="status" aria-label="ממתין">
-                <span className="visually-hidden">ממתין...</span>
-              </div>
-              <p className="mt-2 mb-0 text-muted">הבקשה נשלחה – מתחבר למצלמות הבניין...</p>
-              <button
-                type="button"
-                className="btn btn-sm btn-outline-danger mt-3"
-                onClick={() => { void handleComplete(); }}
-                disabled={loading}
-              >
-                <i className="fas fa-check me-1" aria-hidden="true" />
-                הגעתי בשלום
-              </button>
-              <button
-                type="button"
-                className="btn btn-sm btn-outline-secondary mt-3 ms-2"
-                onClick={() => { void handleCancel(); }}
-                disabled={loading}
-              >
-                ביטול
-              </button>
-            </div>
-          )}
-
-          {session?.status === 'active' && (
-            <div className="text-center py-3">
-              <i className="fas fa-eye fa-2x text-success mb-2" aria-hidden="true" />
-              <p className="mb-0 fw-bold">הליווי פעיל</p>
-              <p className="small text-muted">המצלמות עוקבות – לחץ כשהגעת לדלת</p>
-              <button
-                type="button"
-                className="btn btn-success mt-3"
-                onClick={() => { void handleComplete(); }}
-                disabled={loading}
-              >
-                <i className="fas fa-check me-2" aria-hidden="true" />
-                הגעתי בשלום
-              </button>
-            </div>
-          )}
-
-          {session?.status === 'completed' && (
-            <div className="text-center py-3">
-              <i className="fas fa-check-circle fa-2x text-success mb-2" aria-hidden="true" />
-              <p className="mb-0 fw-bold">נכנסת בשלום</p>
-              <p className="small text-muted">הליווי הושלם. הבניין מאובטח.</p>
-              <button
-                type="button"
-                className="btn btn-outline-primary mt-3"
-                onClick={() => { setSession(null); setResidentName(''); setApartmentNumber(''); }}
-              >
-                ליווי חדש
-              </button>
-            </div>
-          )}
-
-          <button
-            type="button"
-            className="btn btn-outline-secondary w-100 mt-3"
-            onClick={() => navigate(ROUTES.RESIDENT_HOME)}
-          >
-            <i className="fas fa-arrow-right me-2" aria-hidden="true" />
-            חזרה לדף הבית
-          </button>
+        <div className="text-center mt-5">
+          <div className="alert alert-info d-inline-block" style={{ maxWidth: '600px' }}>
+            <i className="fas fa-info-circle ms-2"></i>
+            <strong>׳׳™׳“׳¢ ׳—׳©׳•׳‘:</strong> ׳›׳ ׳“׳™׳™׳¨ ׳™׳›׳•׳ ׳׳”׳¦׳‘׳™׳¢ ׳₪׳¢׳ ׳׳—׳× ׳‘׳׳‘׳“ ׳‘׳›׳ ׳”׳¦׳‘׳¢׳”
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default SafeZonePage;
-
-              <div className="spinner-border text-success" role="status" aria-label="טוען">
-                <span className="visually-hidden">מתחבר...</span>
-              </div>
-              <p className="mt-2 mb-0 text-muted">מתחבר למצלמות הבניין...</p>
-            </div>
-          )}
-
-          {status === 'active' && (
-            <div className="text-center py-3">
-              <i className="fas fa-eye fa-2x text-success mb-2" aria-hidden="true" />
-              <p className="mb-0 fw-bold">הליווי פעיל</p>
-              <p className="small text-muted">מעבירים אותך בבטחה...</p>
-            </div>
-          )}
-
-          {status === 'success' && (
-            <div className="text-center py-3">
-              <i className="fas fa-check-circle fa-2x text-success mb-2" aria-hidden="true" />
-              <p className="mb-0 fw-bold">נכנסת בשלום</p>
-              <p className="small text-muted">הליווי הושלם.</p>
-            </div>
-          )}
-
-          <button
-            type="button"
-            className="btn btn-outline-secondary w-100 mt-3"
-            onClick={() => navigate(ROUTES.RESIDENT_HOME)}
-          >
-            <i className="fas fa-arrow-right me-2" aria-hidden="true" />
-            חזרה לדף הבית
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default SafeZonePage;
+export default Voting;
