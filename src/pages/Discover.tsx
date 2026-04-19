@@ -101,7 +101,10 @@ const Discover = () => {
       swiped_id: target.user_id,
       liked,
     });
-    if (error) return console.error(error);
+    if (error) {
+      toast({ title: "שגיאה בשמירת סווייפ", description: error.message, variant: "destructive" });
+      return;
+    }
 
     if (liked) {
       const { data: reciprocal } = await supabase

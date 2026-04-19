@@ -18,6 +18,7 @@ export interface Filters {
   services: string[];
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const DEFAULT_FILTERS: Filters = {
   maxDistance: 50,
   maxPrice: 500,

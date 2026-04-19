@@ -30,6 +30,10 @@ const Auth = () => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (displayName.trim().length < 2) {
+      toast({ title: "שם קצר מדי", description: "שם מלא חייב לפחות 2 תווים", variant: "destructive" });
+      return;
+    }
     if (password !== confirmPassword) {
       toast({ title: "הסיסמאות אינן תואמות", variant: "destructive" });
       return;

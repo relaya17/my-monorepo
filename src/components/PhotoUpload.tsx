@@ -20,6 +20,11 @@ const PhotoUpload = ({ userId, avatarUrl, photos, onChange }: Props) => {
   const [uploading, setUploading] = useState<"avatar" | "photo" | null>(null);
 
   const upload = async (file: File, kind: "avatar" | "photo") => {
+    const ALLOWED = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+    if (!ALLOWED.includes(file.type)) {
+      toast({ title: "סוג קובץ לא נתמך", description: "יש להעלות JPEG, PNG, WebP או GIF", variant: "destructive" });
+      return;
+    }
     if (file.size > 5 * 1024 * 1024) {
       toast({ title: "הקובץ גדול מדי", description: "מקסימום 5MB", variant: "destructive" });
       return;
