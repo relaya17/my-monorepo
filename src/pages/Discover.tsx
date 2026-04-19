@@ -1,15 +1,16 @@
 import { useEffect, useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import SwipeCard from "@/components/SwipeCard";
 import MapView from "@/components/MapView";
 import MatchModal, { MatchInfo } from "@/components/MatchModal";
 import FilterDrawer, { Filters, DEFAULT_FILTERS } from "@/components/FilterDrawer";
-import { Heart, X, Sparkles, Users, LogOut, Loader2, Map as MapIcon, Layers, RefreshCw } from "lucide-react";
+import { Heart, X, Sparkles, Users, LogOut, Loader2, Map as MapIcon, Layers, RefreshCw, UserPlus } from "lucide-react";
 import { MAX_CANDIDATES, DEFAULT_CENTER } from "@/lib/constants";
 
 interface Profile {
@@ -41,6 +42,8 @@ const haversine = (lat1: number, lon1: number, lat2: number, lon2: number) => {
 
 const Discover = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const isGuest = searchParams.get("guest") === "true";
   const { user, loading, signOut } = useAuth();
   const { toast } = useToast();
   const [myProfile, setMyProfile] = useState<Profile | null>(null);
@@ -52,12 +55,24 @@ const Discover = () => {
   const [showHint, setShowHint] = useState(true);
 
   useEffect(() => {
-    if (!loading && !user) navigate("/");
-  }, [user, loading, navigate]);
+    if (!loading && !user && !isGuest) navigate("/");
+  }, [user, loading, navigate, isGuest]);
 
   const loadData = useCallback(async () => {
-    if (!user) return;
+    if (!user && !isGuest) return;
     setLoadingCards(true);
+
+    // Guest mode: load cleaners directly without profile
+    if (isGuest) {
+      const { data: list } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("role", "cleaner")
+        .limit(MAX_CANDIDATES);
+      setCandidates((list || []) as Profile[]);
+      setLoadingCards(false);
+      return;
+    }
     const { data: me } = await supabase.from("profiles").select("*").eq("user_id", user.id).maybeSingle();
     if (!me) {
       navigate("/profile-setup");
@@ -88,10 +103,25 @@ const Discover = () => {
   }, [user, navigate]);
 
   useEffect(() => {
-    if (user) loadData();
-  }, [user, loadData]);
+    if (user || isGuest) loadData();
+  }, [user, isGuest, loadData]);
 
   const handleSwipe = async (liked: boolean) => {
+    if (isGuest) {
+      if (liked) {
+        toast({
+          title: "רוצה להמשיך?",
+          description: "הירשם בחינם כדי ללייק ולקבל התאמות",
+          action: (
+            <ToastAction altText="הירשם" onClick={() => navigate("/auth?role=client")}>
+              הירשם
+            </ToastAction>
+          ),
+        });
+      }
+      setCandidates((c) => c.slice(1));
+      return;
+    }
     if (!user || candidates.length === 0) return;
     const target = candidates[0];
     setCandidates((c) => c.slice(1));
@@ -163,29 +193,62 @@ const Discover = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5">
       <header className="flex items-center justify-between p-4 max-w-md mx-auto">
-        <Button variant="ghost" size="icon" onClick={() => navigate("/profile-setup")} title="הפרופיל שלי" aria-label="הפרופיל שלי">
-          <img
-            src={myProfile?.avatar_url || "/cleaner-placeholder.svg"}
-            alt="הפרופיל שלי"
-            className="w-9 h-9 rounded-full object-cover"
-          />
-        </Button>
+        {isGuest ? (
+          <div className="w-9 h-9" />
+        ) : (
+          <Button variant="ghost" size="icon" onClick={() => navigate("/profile-setup")} title="הפרופיל שלי" aria-label="הפרופיל שלי">
+            <img
+              src={myProfile?.avatar_url || "/cleaner-placeholder.svg"}
+              alt="הפרופיל שלי"
+              className="w-9 h-9 rounded-full object-cover"
+            />
+          </Button>
+        )}
         <div className="flex items-center gap-2">
-          <Sparkles className="w-6 h-6 text-primary" />
+          <img src="/logo.png" alt="CleanMatch" className="h-7 w-auto" />
           <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">CleanMatch</h1>
         </div>
         <div className="flex gap-1">
-          <FilterDrawer filters={filters} onChange={setFilters} />
-          <Button variant="ghost" size="icon" onClick={() => navigate("/matches")} title="ההתאמות שלי" aria-label="ההתאמות שלי">
-            <Users className="w-5 h-5" />
-          </Button>
-          <Button variant="ghost" size="icon" onClick={() => signOut().then(() => navigate("/"))} title="התנתק" aria-label="התנתק">
-            <LogOut className="w-5 h-5" />
-          </Button>
+          {isGuest ? (
+            <div className="flex gap-1">
+              <FilterDrawer filters={filters} onChange={setFilters} />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => navigate("/auth?role=client")}
+                className="gap-1 text-xs border-primary text-primary hover:bg-primary/5"
+                aria-label="הירשם או התחבר"
+              >
+                <UserPlus className="w-4 h-4" />
+                הירשם
+              </Button>
+            </div>
+          ) : (
+            <>
+              <FilterDrawer filters={filters} onChange={setFilters} />
+              <Button variant="ghost" size="icon" onClick={() => navigate("/matches")} title="ההתאמות שלי" aria-label="ההתאמות שלי">
+                <Users className="w-5 h-5" />
+              </Button>
+              <Button variant="ghost" size="icon" onClick={() => signOut().then(() => navigate("/"))} title="התנתק" aria-label="התנתק">
+                <LogOut className="w-5 h-5" />
+              </Button>
+            </>
+          )}
         </div>
       </header>
 
       <main className="max-w-md mx-auto px-4">
+        {isGuest && (
+          <div className="mb-3 flex items-center justify-between gap-3 rounded-xl bg-primary/10 px-4 py-2.5 text-sm">
+            <span className="text-foreground/80">גולש כאורח — לייק ישמר רק לאחר הרשמה</span>
+            <button
+              onClick={() => navigate("/auth?role=client")}
+              className="shrink-0 rounded bg-primary px-3 py-1 text-xs text-white font-medium hover:opacity-90"
+            >
+              הירשם בחינם
+            </button>
+          </div>
+        )}
         <Tabs value={view} onValueChange={(v) => setView(v as "cards" | "map")} className="w-full">
           <TabsList className="grid grid-cols-2 w-full mb-3">
             <TabsTrigger value="cards"><Layers className="w-4 h-4 ml-2" />כרטיסיות</TabsTrigger>
@@ -194,7 +257,7 @@ const Discover = () => {
 
           <TabsContent value="cards">
             <div className="text-center mb-3 text-sm text-muted-foreground">
-              {myProfile?.role === "cleaner" ? "מצא לקוחות שזקוקים לך" : "מצא את המנקה המושלם"}
+              {myProfile?.role === "cleaner" ? "מצא לקוחות שזקוקים לך" : "מצא את ה-Service Specialist המושלם"}
               {filteredCandidates.length > 0 && (
                 <span className="mr-2 text-primary font-medium">({filteredCandidates.length})</span>
               )}

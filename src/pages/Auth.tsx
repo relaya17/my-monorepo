@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,7 +22,27 @@ const Auth = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [forgotMode, setForgotMode] = useState(false);
   const justSignedUp = useRef(false);
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) {
+      toast({ title: "הכנס אימייל", description: "יש להזין כתובת אימייל לאיפוס סיסמה", variant: "destructive" });
+      return;
+    }
+    setLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth?reset=true`,
+    });
+    setLoading(false);
+    if (error) {
+      toast({ title: "שגיאה", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: "נשלח!", description: "בדוק את האימייל שלך לקישור לאיפוס הסיסמה" });
+    setForgotMode(false);
+  };
 
   useEffect(() => {
     if (user && !justSignedUp.current) navigate("/app");
@@ -78,6 +98,39 @@ const Auth = () => {
     // navigation handled by useEffect via onAuthStateChange
   };
 
+  if (forgotMode) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-primary/10 via-background to-secondary/10">
+        <Card className="w-full max-w-md shadow-2xl border-0">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl">איפוס סיסמה</CardTitle>
+            <CardDescription>הכנס את האימייל שלך ונשלח לך קישור לאיפוס</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleForgotPassword} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="forgot-email">אימייל</Label>
+                <Input
+                  id="forgot-email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <Button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-primary to-secondary">
+                שלח קישור לאיפוס
+              </Button>
+              <Button type="button" variant="ghost" className="w-full" onClick={() => setForgotMode(false)}>
+                חזור להתחברות
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-primary/10 via-background to-secondary/10">
       <Card className="w-full max-w-md shadow-2xl border-0">
@@ -86,10 +139,10 @@ const Auth = () => {
             <Sparkles className="w-8 h-8 text-primary-foreground" />
           </div>
           <CardTitle className="text-2xl">
-            {role === "cleaner" ? "אזור מנקים" : "אזור לקוחות"}
+            {role === "cleaner" ? "אזור Service Specialists" : "אזור לקוחות"}
           </CardTitle>
           <CardDescription>
-            {role === "cleaner" ? "מצא עבודות בקרבתך" : "מצא את המנקה המושלם"}
+            {role === "cleaner" ? "מצא עבודות בקרבתך" : "מצא את ה-Service Specialist המושלם"}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -111,6 +164,13 @@ const Auth = () => {
                 <Button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-primary to-secondary">
                   התחבר
                 </Button>
+                <button
+                  type="button"
+                  onClick={() => setForgotMode(true)}
+                  className="w-full text-sm text-muted-foreground hover:text-primary underline text-center mt-2"
+                >
+                  שכחתי סיסמה
+                </button>
               </form>
             </TabsContent>
             <TabsContent value="signup">
@@ -134,6 +194,12 @@ const Auth = () => {
                 <Button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-primary to-secondary">
                   הרשמה
                 </Button>
+                <p className="text-xs text-muted-foreground text-center mt-3">
+                  בהרשמה אתה מסכים ל-
+                  <Link to="/terms" className="underline hover:text-primary">תנאי השימוש</Link>
+                  {" "}ול-
+                  <Link to="/privacy" className="underline hover:text-primary">מדיניות הפרטיות</Link>
+                </p>
               </form>
             </TabsContent>
           </Tabs>

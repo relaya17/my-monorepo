@@ -12,6 +12,8 @@ import Discover from "./pages/Discover";
 import Matches from "./pages/Matches";
 import Chat from "./pages/Chat";
 import NotFound from "./pages/NotFound";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +32,8 @@ const App = () => (
               <Route path="/app" element={<Discover />} />
               <Route path="/matches" element={<Matches />} />
               <Route path="/chat/:matchId" element={<Chat />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<TermsOfService />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </ErrorBoundary>

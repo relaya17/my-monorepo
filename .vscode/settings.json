@@ -1,6 +1,7 @@
 {
   "files.associations": {
-    "supabase/migrations/*.sql": "plaintext"
+    "supabase/migrations/*.sql": "plaintext",
+    "**/*.sql": "plaintext"
   },
   "mssql.connections": [],
   "mssql.enableIntellisense": false,

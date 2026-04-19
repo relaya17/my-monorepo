@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Heart, MapPin, MessageCircle, Loader2 } from "lucide-react";
+import MatchMap from "@/components/MatchMap";
 
 interface MatchedProfile {
   match_id: string;
@@ -15,6 +16,8 @@ interface MatchedProfile {
   hourly_rate: number | null;
   avatar_url: string | null;
   matched_at: string;
+  latitude: number | null;
+  longitude: number | null;
 }
 
 const Matches = () => {
@@ -44,7 +47,7 @@ const Matches = () => {
 
       const { data: profs } = await supabase
         .from("profiles")
-        .select("user_id, display_name, city, role, hourly_rate, avatar_url")
+        .select("user_id, display_name, city, role, hourly_rate, avatar_url, latitude, longitude")
         .in("user_id", otherIds);
 
       const profMap = new Map(profs?.map((p) => [p.user_id, p]));
@@ -69,7 +72,7 @@ const Matches = () => {
         <div className="w-10" />
       </header>
 
-      <div className="max-w-md mx-auto space-y-3">
+      <main className="max-w-md mx-auto space-y-3">
         {loadingMatches ? (
           <div className="flex justify-center py-20">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -83,48 +86,56 @@ const Matches = () => {
         ) : (
           matches.map((m) => {
             return (
-              <Card
-                key={m.match_id}
-                className="p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer"
-                onClick={() => navigate(`/chat/${m.match_id}`)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && navigate(`/chat/${m.match_id}`)}
-                aria-label={`פתח שיחה עם ${m.display_name}`}
-              >
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0 overflow-hidden">
-                  <img
-                    src={m.avatar_url || "/cleaner-placeholder.svg"}
-                    alt={m.display_name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-bold truncate">{m.display_name}</h3>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    {m.city && (
-                      <span className="flex items-center gap-1">
-                        <MapPin className="w-3 h-3" /> {m.city}
-                      </span>
-                    )}
-                    {m.hourly_rate && <span>• ₪{m.hourly_rate}/שעה</span>}
-                  </div>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-primary shrink-0"
-                  aria-label={`שלח הודעה ל${m.display_name}`}
-                  title="שלח הודעה"
-                  onClick={(e) => { e.stopPropagation(); navigate(`/chat/${m.match_id}`); }}
+              <Card key={m.match_id} className="overflow-hidden hover:shadow-md transition-shadow">
+                {/* Header row */}
+                <div
+                  className="p-4 flex items-center gap-4 cursor-pointer"
+                  onClick={() => navigate(`/chat/${m.match_id}`)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === "Enter" && navigate(`/chat/${m.match_id}`)}
+                  aria-label={`פתח שיחה עם ${m.display_name}`}
                 >
-                  <MessageCircle className="w-5 h-5" />
-                </Button>
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0 overflow-hidden">
+                    <img
+                      src={m.avatar_url || "/cleaner-placeholder.svg"}
+                      alt={m.display_name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold truncate">{m.display_name}</h3>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      {m.city && (
+                        <span className="flex items-center gap-1">
+                          <MapPin className="w-3 h-3" /> {m.city}
+                        </span>
+                      )}
+                      {m.hourly_rate && <span>• ₪{m.hourly_rate}/שעה</span>}
+                    </div>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-primary shrink-0"
+                    aria-label={`שלח הודעה ל${m.display_name}`}
+                    title="שלח הודעה"
+                    onClick={(e) => { e.stopPropagation(); navigate(`/chat/${m.match_id}`); }}
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                  </Button>
+                </div>
+                {/* Map — only if coordinates exist */}
+                {m.latitude && m.longitude && (
+                  <div className="px-4 pb-4">
+                    <MatchMap lat={m.latitude} lng={m.longitude} label={m.city || m.display_name} />
+                  </div>
+                )}
               </Card>
             );
           })
         )}
-      </div>
+      </main>
     </div>
   );
 };

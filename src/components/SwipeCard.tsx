@@ -57,6 +57,16 @@ const SwipeCard = ({ profile, onSwipe }: Props) => {
     }
   };
 
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowRight" || e.key === "l" || e.key === "L") {
+      setExiting("right");
+      setTimeout(() => onSwipe(true), 200);
+    } else if (e.key === "ArrowLeft" || e.key === "n" || e.key === "N") {
+      setExiting("left");
+      setTimeout(() => onSwipe(false), 200);
+    }
+  };
+
   const rotation = drag.x * 0.08;
   const transform = exiting
     ? `translate(${exiting === "right" ? 800 : -800}px, ${drag.y}px) rotate(${exiting === "right" ? 30 : -30}deg)`
@@ -76,6 +86,9 @@ const SwipeCard = ({ profile, onSwipe }: Props) => {
   return (
     <Card
       className="absolute inset-0 cursor-grab active:cursor-grabbing select-none overflow-hidden shadow-[var(--shadow-card)] border-0"
+      role="article"
+      aria-label={`פרופיל של ${profile.display_name}. לחץ חץ ימינה ללייק, חץ שמאלה לדלג`}
+      tabIndex={0}
       style={{
         transform,
         transition: exiting ? "transform 0.2s ease-out" : dragging.current ? "none" : "transform 0.3s",
@@ -85,16 +98,17 @@ const SwipeCard = ({ profile, onSwipe }: Props) => {
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
+      onKeyDown={onKeyDown}
     >
       {/* Like / Nope overlays */}
       {drag.x > 40 && (
-        <div className="absolute top-8 left-8 z-20 px-4 py-2 border-4 border-accent rounded-xl rotate-[-15deg] bg-background/30 backdrop-blur">
-          <span className="text-3xl font-bold text-accent">לייק</span>
+        <div className="absolute top-8 left-8 z-20 px-5 py-2 border-[3px] border-emerald-400 rounded-2xl rotate-[-12deg] bg-black/20 backdrop-blur-sm shadow-lg">
+          <span className="text-2xl font-black text-emerald-400 tracking-wider drop-shadow">LIKE ❤️</span>
         </div>
       )}
       {drag.x < -40 && (
-        <div className="absolute top-8 right-8 z-20 px-4 py-2 border-4 border-destructive rounded-xl rotate-[15deg] bg-background/30 backdrop-blur">
-          <span className="text-3xl font-bold text-destructive">דלג</span>
+        <div className="absolute top-8 right-8 z-20 px-5 py-2 border-[3px] border-rose-500 rounded-2xl rotate-[12deg] bg-black/20 backdrop-blur-sm shadow-lg">
+          <span className="text-2xl font-black text-rose-400 tracking-wider drop-shadow">NOPE ✕</span>
         </div>
       )}
 
@@ -139,15 +153,15 @@ const SwipeCard = ({ profile, onSwipe }: Props) => {
       )}
 
       {/* Info overlay */}
-      <div className="absolute bottom-0 inset-x-0 p-5 text-white space-y-2 z-10">
+      <div className="absolute bottom-0 inset-x-0 p-5 text-white space-y-2 z-10 bg-gradient-to-t from-black/85 via-black/40 to-transparent">
         <div className="flex items-baseline justify-between">
           <h3 className="text-3xl font-bold drop-shadow">
             {profile.display_name}
             {profile.age && <span className="font-normal mr-2">, {profile.age}</span>}
           </h3>
           {profile.hourly_rate && (
-            <div className="bg-primary px-3 py-1 rounded-full text-sm font-bold shadow">
-              ₪{profile.hourly_rate}/ש
+            <div className="bg-gradient-to-r from-primary to-pink-400 px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+              ₪{profile.hourly_rate}/ש'
             </div>
           )}
         </div>
