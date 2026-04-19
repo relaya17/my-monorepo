@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import ROUTES from '../routs/routes';
 import { useTranslation } from '../i18n/useTranslation';
 import type { LangCode } from '../i18n/translations';
+import './Footer.css';
 
 const LANG_OPTIONS: { code: LangCode; labelKey: string }[] = [
   { code: 'he', labelKey: 'lang_he' },
@@ -47,7 +48,7 @@ const Footer: React.FC = () => {
           </div>
           <div className="col-12 col-md-auto mb-2 mb-md-0">
             <span className="text-muted small d-block mb-1">{t('footer_legal')}</span>
-            <p className="small text-muted mb-0" style={{ maxWidth: '320px', margin: '0 auto' }}>{t('legal_notice')}</p>
+            <p className="small text-muted mb-0 footer-legal-text">{t('legal_notice')}</p>
           </div>
           <div className="col-12 col-md-auto">
             <div className="d-flex flex-wrap align-items-center justify-content-center gap-1" role="group" aria-label="Language selection">
@@ -57,7 +58,7 @@ const Footer: React.FC = () => {
                   type="button"
                   className={`btn btn-sm ${lang === code ? 'btn-light' : 'btn-outline-light'}`}
                   onClick={() => setLang(code)}
-                  aria-pressed={lang === code}
+                  aria-pressed={lang === code ? 'true' : 'false'}
                   aria-label={t(labelKey)}
                 >
                   {t(labelKey)}
