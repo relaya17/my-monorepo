@@ -1,7 +1,7 @@
 [build]
 base = "."
-command = "corepack enable pnpm && pnpm install && pnpm turbo run build --filter=web"
-publish = "apps/web/dist"
+command = "corepack enable pnpm && pnpm install && pnpm vite build"
+publish = "dist"
 # Force rebuild on every push (Netlify skip-build can miss monorepo changes)
 ignore = "exit 1"
 
