@@ -1,0 +1,42 @@
+{
+  "name": "CleanMatch — מצא מנקה מושלם",
+  "short_name": "CleanMatch",
+  "description": "מצא את המנקה המושלם קרוב אליך. כמו טינדר לניקיון.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#e8356d",
+  "orientation": "portrait-primary",
+  "lang": "he",
+  "dir": "rtl",
+  "categories": ["lifestyle", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/cleaner-placeholder.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "גלה מנקות",
+      "short_name": "גלה",
+      "description": "חזור לכרטיסי הגילוי",
+      "url": "/discover",
+      "icons": [{ "src": "/favicon.ico", "sizes": "48x48" }]
+    },
+    {
+      "name": "ההתאמות שלי",
+      "short_name": "מאצ'ים",
+      "description": "ראה את ההתאמות שלך",
+      "url": "/matches",
+      "icons": [{ "src": "/favicon.ico", "sizes": "48x48" }]
+    }
+  ]
+}

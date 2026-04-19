@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" fill="none">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="400" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#e8356d"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="skinGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FDDBB4"/>
+      <stop offset="100%" stop-color="#F5C592"/>
+    </linearGradient>
+    <linearGradient id="uniformGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5B9BD5"/>
+      <stop offset="100%" stop-color="#3A7DBF"/>
+    </linearGradient>
+    <clipPath id="circle">
+      <circle cx="200" cy="250" r="200"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="500" fill="url(#bgGrad)"/>
+
+  <!-- Body / Uniform -->
+  <ellipse cx="200" cy="420" rx="110" ry="130" fill="url(#uniformGrad)"/>
+
+  <!-- Apron -->
+  <path d="M155 320 Q200 360 245 320 L255 430 Q200 460 145 430 Z" fill="white" opacity="0.85"/>
+  <rect x="183" y="310" width="34" height="20" rx="4" fill="white" opacity="0.85"/>
+
+  <!-- Arms -->
+  <ellipse cx="120" cy="360" rx="28" ry="70" fill="url(#uniformGrad)" transform="rotate(-15 120 360)"/>
+  <ellipse cx="280" cy="350" rx="28" ry="70" fill="url(#uniformGrad)" transform="rotate(15 280 350)"/>
+
+  <!-- Hands -->
+  <ellipse cx="103" cy="418" rx="18" ry="16" fill="url(#skinGrad)"/>
+  <ellipse cx="297" cy="408" rx="18" ry="16" fill="url(#skinGrad)"/>
+
+  <!-- Mop / Cleaning tool in right hand -->
+  <rect x="300" y="350" width="6" height="120" rx="3" fill="#8B6914" transform="rotate(10 300 350)"/>
+  <ellipse cx="318" cy="465" rx="22" ry="8" fill="#bbb" opacity="0.9"/>
+  <line x1="300" y1="462" x2="335" y2="468" stroke="#ccc" stroke-width="2"/>
+  <line x1="303" y1="458" x2="330" y2="464" stroke="#ccc" stroke-width="2"/>
+  <line x1="306" y1="454" x2="332" y2="460" stroke="#ccc" stroke-width="2"/>
+
+  <!-- Bucket in left hand -->
+  <rect x="80" y="415" width="38" height="28" rx="4" fill="#FFD700" stroke="#E5B800" stroke-width="2"/>
+  <path d="M82 415 Q99 400 116 415" stroke="#E5B800" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <rect x="84" y="420" width="30" height="6" rx="2" fill="#E5B800" opacity="0.5"/>
+
+  <!-- Neck -->
+  <rect x="185" y="265" width="30" height="35" rx="10" fill="url(#skinGrad)"/>
+
+  <!-- Head -->
+  <ellipse cx="200" cy="200" rx="72" ry="80" fill="url(#skinGrad)"/>
+
+  <!-- Hair -->
+  <ellipse cx="200" cy="155" rx="75" ry="48" fill="#4A2C0A"/>
+  <ellipse cx="140" cy="195" rx="22" ry="50" fill="#4A2C0A"/>
+  <ellipse cx="260" cy="195" rx="22" ry="50" fill="#4A2C0A"/>
+  <!-- Bun -->
+  <circle cx="200" cy="128" r="28" fill="#4A2C0A"/>
+  <!-- Hair tie -->
+  <circle cx="200" cy="128" r="10" fill="#e8356d" opacity="0.9"/>
+
+  <!-- Eyes -->
+  <ellipse cx="175" cy="205" rx="11" ry="13" fill="white"/>
+  <ellipse cx="225" cy="205" rx="11" ry="13" fill="white"/>
+  <circle cx="177" cy="207" r="7" fill="#3D2B1F"/>
+  <circle cx="227" cy="207" r="7" fill="#3D2B1F"/>
+  <circle cx="180" cy="204" r="2.5" fill="white"/>
+  <circle cx="230" cy="204" r="2.5" fill="white"/>
+
+  <!-- Eyebrows -->
+  <path d="M163 192 Q176 186 188 191" stroke="#4A2C0A" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M212 191 Q224 186 237 192" stroke="#4A2C0A" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+  <!-- Nose -->
+  <path d="M197 215 Q195 225 200 228 Q205 225 203 215" stroke="#D4956A" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Smile -->
+  <path d="M182 242 Q200 258 218 242" stroke="#D4956A" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Cheeks -->
+  <ellipse cx="163" cy="238" rx="14" ry="8" fill="#FF9EB5" opacity="0.45"/>
+  <ellipse cx="237" cy="238" rx="14" ry="8" fill="#FF9EB5" opacity="0.45"/>
+
+  <!-- Headband / cap -->
+  <path d="M128 178 Q200 148 272 178 Q272 165 200 155 Q128 165 128 178Z" fill="white" opacity="0.9"/>
+  <rect x="168" y="150" width="64" height="12" rx="6" fill="white" opacity="0.9"/>
+
+  <!-- Stars sparkle -->
+  <text x="45" y="100" font-size="28" fill="white" opacity="0.7">✨</text>
+  <text x="320" y="130" font-size="22" fill="white" opacity="0.6">⭐</text>
+  <text x="60" y="280" font-size="18" fill="white" opacity="0.5">✦</text>
+</svg>
