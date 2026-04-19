@@ -1,0 +1,43 @@
+.user-dashboard {
+  direction: rtl;
+  background-color: #f8f9fa;
+}
+
+.user-dashboard-title {
+  margin: 0;
+  font-weight: 700;
+  color: #374151;
+}
+
+.user-dashboard-card {
+  background-color: #fff;
+}
+
+.user-dashboard-card-title,
+.user-dashboard-stats-title {
+  color: #374151;
+}
+
+.user-dashboard-icon-green {
+  color: #27ae60;
+}
+
+.user-dashboard-icon-purple {
+  color: #9b59b6;
+}
+
+.user-dashboard-icon-amber {
+  color: #f39c12;
+}
+
+.user-dashboard-icon-red {
+  color: #e74c3c;
+}
+
+.user-dashboard-stat-grey {
+  color: #6b7280;
+}
+
+.user-dashboard-stat-amber {
+  color: #f59e0b;
+}

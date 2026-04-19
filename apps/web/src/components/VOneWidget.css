@@ -1,0 +1,322 @@
+/* V-One – העוזר האישי של Vantera */
+.vone-fab {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 9998;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  color: #fff;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.45);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.vone-fab:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+}
+.vone-fab:focus-visible {
+  outline: 2px solid #06b6d4;
+  outline-offset: 2px;
+}
+.vone-fab-pulse {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: rgba(6, 182, 212, 0.3);
+  animation: vone-pulse-ring 2s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes vone-pulse-ring {
+  0% { transform: scale(0.9); opacity: 1; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.vone-panel {
+  position: fixed;
+  bottom: 5rem;
+  left: 1.5rem;
+  z-index: 9999;
+  width: min(360px, calc(100vw - 2rem));
+  max-height: 75vh;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: vone-panel-in 0.25s ease;
+}
+@keyframes vone-panel-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.vone-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1rem 0.75rem;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #fff;
+}
+.vone-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  position: relative;
+}
+.vone-pulse {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 2px solid rgba(6, 182, 212, 0.8);
+  animation: vone-heartbeat 1s ease-in-out infinite;
+}
+@keyframes vone-heartbeat {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.08); opacity: 0.6; }
+}
+.vone-title {
+  flex: 1;
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+.vone-close {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: inherit;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vone-close:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.vone-body {
+  padding: 1rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.vone-message {
+  white-space: pre-wrap;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #374151;
+  margin-bottom: 1rem;
+}
+.vone-message pre {
+  margin: 0;
+  font-family: inherit;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.vone-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: #06b6d4;
+  vertical-align: -0.15em;
+  margin-right: 2px;
+  animation: vone-blink 0.8s step-end infinite;
+}
+@keyframes vone-blink {
+  50% { opacity: 0; }
+}
+
+.vone-quick-replies {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.vone-quick-btn {
+  padding: 0.6rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #f9fafb;
+  color: #374151;
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-align: right;
+  transition: background 0.2s, border-color 0.2s;
+}
+.vone-quick-btn:hover {
+  background: #f3f4f6;
+  border-color: #06b6d4;
+  color: #0891b2;
+}
+
+.vone-voice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.vone-voice-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid #06b6d4;
+  border-radius: 8px;
+  background: rgba(6, 182, 212, 0.1);
+  color: #06b6d4;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.vone-voice-btn:hover {
+  background: rgba(6, 182, 212, 0.2);
+}
+.vone-voice-btn.vone-mic.active {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #fff;
+}
+.vone-transcript {
+  margin: 0.75rem 0 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+  padding: 0.5rem;
+  background: #f3f4f6;
+  border-radius: 8px;
+}
+.vone-chat-input-wrap {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.vone-chat-input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
+.vone-chat-send {
+  padding: 0.5rem 1rem;
+  background: #06b6d4;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+.vone-chat-send:disabled {
+  opacity: 0.6;
+}
+.vone-replies {
+  margin-top: 1rem;
+}
+.vone-reply-bubble {
+  padding: 0.6rem 0.75rem;
+  background: rgba(6, 182, 212, 0.15);
+  border-radius: 10px;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  border-right: 3px solid #06b6d4;
+}
+
+/* דירוג כוכבים */
+.vone-feedback-card {
+  background: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 100%);
+  border: 1px solid #99f6e4;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.vone-feedback-title {
+  margin: 0 0 0.75rem;
+  font-size: 0.9375rem;
+  color: #374151;
+}
+.vone-feedback-text {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+  resize: none;
+}
+.vone-stars {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+.vone-star {
+  font-size: 1.75rem;
+  color: #d1d5db;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s, transform 0.15s;
+}
+.vone-star:hover,
+.vone-star.active {
+  color: #06b6d4;
+}
+.vone-star.active {
+  text-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
+}
+.vone-star:hover {
+  transform: scale(1.15);
+}
+.vone-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.vone-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.vone-btn-primary {
+  background: #06b6d4;
+  color: #fff;
+}
+.vone-btn-primary:hover:not(:disabled) {
+  background: #0891b2;
+}
+.vone-success {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #d1fae5;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+.vone-success i {
+  font-size: 1.5rem;
+  color: #059669;
+  flex-shrink: 0;
+}
+.vone-success p {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: #065f46;
+}

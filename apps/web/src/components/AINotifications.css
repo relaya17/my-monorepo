@@ -1,0 +1,4 @@
+.ai-notifications-card { width: min(92vw, 520px); }
+.ai-notifications-body { max-height: 400px; overflow-y: auto; }
+.ai-notifications-badge { position: absolute; top: -5px; right: -5px; font-size: 0.65rem; }
+.ai-notifications-backdrop { z-index: 999; }

@@ -1,0 +1,186 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { apiRequestJson } from '../api';
+import './ChangePassword.css';
+
+const ChangePassword: React.FC = () => {
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // בדיקה אם המשתמש מחובר כאדמין
+    const isLoggedIn = localStorage.getItem('isAdminLoggedIn');
+    if (!isLoggedIn) {
+      navigate('/admin-login');
+    }
+  }, [navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    setIsLoading(true);
+
+    // בדיקות תקינות
+    if (newPassword.length < 6) {
+      setError('הסיסמה החדשה חייבת להכיל לפחות 6 תווים');
+      setIsLoading(false);
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setError('הסיסמה החדשה והאישור אינם תואמים');
+      setIsLoading(false);
+      return;
+    }
+
+    // קריאה ל-API לשינוי סיסמה – אין לאמת סיסמה בצד הלקוח
+    try {
+      const { response, data } = await apiRequestJson<{ message?: string }>('admin/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      if (!response.ok) {
+        setError((data?.message) || 'שינוי הסיסמה נכשל');
+        setIsLoading(false);
+        return;
+      }
+      setSuccess('הסיסמה שונתה בהצלחה!');
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+    } catch {
+      setError('שגיאת תקשורת. נסה שוב מאוחר יותר.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleBack = () => {
+    navigate('/admin-dashboard');
+  };
+
+  return (
+    <div className="container-fluid d-flex justify-content-center align-items-center change-password-page">
+      <div className="card shadow-lg change-password-card">
+        <div className="card-body p-5 change-password-card-body">
+          <div className="text-center mb-4">
+            <i className="fas fa-key fa-3x mb-3 change-password-icon"></i>
+            <h2 className="card-title change-password-title">
+              שינוי סיסמה
+            </h2>
+            <p className="text-muted">הזן את הסיסמה הנוכחית והסיסמה החדשה</p>
+          </div>
+
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="currentPassword" className="form-label">
+                <i className="fas fa-lock ms-2"></i>
+                סיסמה נוכחית
+              </label>
+              <input
+                type="password"
+                className="form-control change-password-input"
+                id="currentPassword"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                placeholder="הזן סיסמה נוכחית"
+                required
+              />
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="newPassword" className="form-label">
+                <i className="fas fa-key ms-2"></i>
+                סיסמה חדשה
+              </label>
+              <input
+                type="password"
+                className="form-control change-password-input"
+                id="newPassword"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="הזן סיסמה חדשה (לפחות 6 תווים)"
+                required
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="confirmPassword" className="form-label">
+                <i className="fas fa-check ms-2"></i>
+                אישור סיסמה חדשה
+              </label>
+              <input
+                type="password"
+                className="form-control change-password-input"
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="הזן שוב את הסיסמה החדשה"
+                required
+              />
+            </div>
+
+            {error && (
+              <div className="alert alert-danger" role="alert">
+                <i className="fas fa-exclamation-triangle ms-2"></i>
+                {error}
+              </div>
+            )}
+
+            {success && (
+              <div className="alert alert-success" role="alert">
+                <i className="fas fa-check-circle ms-2"></i>
+                {success}
+              </div>
+            )}
+
+            <div className="d-grid gap-2">
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <span className="spinner-border spinner-border-sm ms-2" role="status"></span>
+                    משנה סיסמה...
+                  </>
+                ) : (
+                  <>
+                    <i className="fas fa-save ms-2"></i>
+                    שמור סיסמה חדשה
+                  </>
+                )}
+              </button>
+              
+              <button
+                type="button"
+                className="btn btn-outline-secondary"
+                onClick={handleBack}
+              >
+                <i className="fas fa-arrow-right ms-2"></i>
+                חזרה ללוח הבקרה
+              </button>
+            </div>
+          </form>
+
+          <div className="text-center mt-4">
+            <small className="text-muted">
+              <i className="fas fa-info-circle ms-1"></i>
+              הסיסמה חייבת להכיל לפחות 6 תווים
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ChangePassword; 

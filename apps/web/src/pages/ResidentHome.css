@@ -1,0 +1,92 @@
+.resident-home-title {
+  font-weight: bold;
+  color: #374151;
+}
+.resident-home-subtitle {
+  color: #6b7280;
+}
+.resident-home-quick-header {
+  background-color: #6b7280;
+  color: white;
+}
+.resident-home-btn-payment {
+  min-width: 150px;
+  background-color: #6b7280;
+  border-color: #6b7280;
+  color: white;
+}
+.resident-home-btn-approval {
+  min-width: 150px;
+  background-color: #fef3c7;
+  border-color: #fef3c7;
+  color: #92400e;
+}
+.resident-home-btn-sale {
+  min-width: 150px;
+  background-color: #fecaca;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+.resident-home-btn-rent {
+  min-width: 150px;
+  background-color: #d1d5db;
+  border-color: #d1d5db;
+  color: #374151;
+}
+.resident-home-btn-services {
+  min-width: 150px;
+  background-color: #a7f3d0;
+  border-color: #a7f3d0;
+  color: #166534;
+}
+.resident-home-btn-community {
+  min-width: 150px;
+  background-color: #dbeafe;
+  border-color: #dbeafe;
+  color: #1e40af;
+}
+.resident-home-btn-safezone {
+  min-width: 150px;
+  background-color: #00d4aa;
+  border-color: #00d4aa;
+  color: #0f172a;
+}
+.resident-home-polls-header {
+  background-color: #a7f3d0;
+  color: #166534;
+}
+.resident-home-icon-polls { color: #a7f3d0; }
+.resident-home-icon-clock { color: #dbeafe; }
+.resident-home-icon-calendar { color: #9ca3af; }
+.resident-home-btn-vote {
+  background-color: #a7f3d0;
+  border-color: #a7f3d0;
+  color: #166534;
+}
+.resident-home-yad2-header {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+.resident-home-btn-yad2 {
+  background-color: #fef3c7;
+  border-color: #fef3c7;
+  color: #92400e;
+}
+.resident-home-sale-header {
+  background-color: #fecaca;
+  color: #991b1b;
+}
+.resident-home-btn-sale-card {
+  background-color: #fecaca;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+.resident-home-rent-header {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+.resident-home-btn-rent-card {
+  background-color: #dbeafe;
+  border-color: #dbeafe;
+  color: #1e40af;
+}

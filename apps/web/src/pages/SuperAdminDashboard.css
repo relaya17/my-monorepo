@@ -1,0 +1,40 @@
+.super-admin-dashboard {
+  min-height: 100vh;
+  direction: rtl;
+  padding: clamp(1rem, 4vw, 2rem);
+  background-color: #f8f9fa;
+}
+
+.super-admin-toast {
+  z-index: 1050;
+  animation: re-blink 1.5s ease-in-out 2;
+}
+
+.super-admin-partner-card {
+  border-width: 2px;
+}
+
+.super-admin-thumbnail,
+.super-admin-thumbnail-placeholder {
+  width: 64px;
+  height: 48px;
+}
+
+.super-admin-thumbnail {
+  object-fit: cover;
+}
+
+.super-admin-alert {
+  animation: re-blink 1.5s ease-in-out infinite;
+}
+
+@keyframes re-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.35;
+  }
+}

@@ -1,0 +1,21 @@
+.apartment-page-offset {
+  padding-top: 80px;
+}
+
+.apartment-page-title {
+  color: #374151;
+}
+
+.apartment-thumbnail {
+  object-fit: cover;
+}
+
+.apartment-thumbnail-placeholder,
+.apartment-thumbnail-counter {
+  width: 40px;
+  height: 40px;
+}
+
+.apartment-hidden-file-input {
+  display: none;
+}

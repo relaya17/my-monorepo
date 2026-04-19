@@ -1,0 +1,106 @@
+/**
+ * דף חוקים – עיצוב מלכותי, Dark Mode
+ */
+.legal-hub-page {
+  min-height: 100vh;
+  padding: 4rem 1.5rem 3rem;
+  background: #0A0E17;
+  color: #F5F5F7;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.legal-hub-bg {
+  position: fixed;
+  inset: 0;
+  background: url('https://res.cloudinary.com/dora8sxcb/image/upload/v1770849678/ideogram-v3.0.mp4_wrev6l.png') center/cover no-repeat;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.legal-hub-content {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 6.5rem;
+  text-align: center;
+  padding: 2.5rem;
+  background: rgba(10, 14, 23, 0.35);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.legal-hub-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 0.75rem;
+}
+
+.legal-hub-subtitle {
+  font-size: 1rem;
+  color: #86868B;
+  margin-bottom: 2.5rem;
+  line-height: 1.5;
+}
+
+.legal-hub-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.legal-hub-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: #F5F5F7;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.legal-hub-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(0, 122, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 122, 255, 0.1);
+}
+
+.legal-hub-card-label {
+  font-weight: 500;
+}
+
+.legal-hub-card-arrow {
+  font-size: 0.75rem;
+  color: #007AFF;
+  opacity: 0.8;
+}
+
+.legal-hub-back {
+  display: inline-block;
+  margin-top: 2rem;
+  color: #86868B;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.legal-hub-back:hover {
+  color: #007AFF;
+}
+
+.legal-hub-country-switch {
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
