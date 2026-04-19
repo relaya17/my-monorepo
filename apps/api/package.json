@@ -33,6 +33,7 @@
     "resend": "^6.9.2",
     "shared": "workspace:*",
     "stripe": "^20.3.1",
+    "socket.io": "^4.8.1",
     "winston": "^3.19.0",
     "zod": "^4.3.6"
   },

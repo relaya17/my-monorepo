@@ -1,4 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
+import { createServer } from 'http';
+import { Server as SocketIOServer } from 'socket.io';
 import cors from 'cors';
 import compression from 'compression';
 import mongoose from 'mongoose';
@@ -22,6 +24,7 @@ import { sanitizationMiddleware } from './middleware/sanitizationMiddleware.js';
 import { requestIdMiddleware } from './middleware/requestIdMiddleware.js';
 import { errorAlertMiddleware } from './middleware/errorAlertMiddleware.js';
 import { logger } from './utils/logger.js';
+import { isAppError } from './utils/errors.js';
 import cron from 'node-cron';
 import { runPipeline } from './services/aiPipelineService.js';
 import { config } from './config/env.js';
@@ -29,6 +32,36 @@ import { config } from './config/env.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
+const httpServer = createServer(app);
+const io = new SocketIOServer(httpServer, {
+  cors: {
+    origin: config.nodeEnv === 'production'
+      ? parseCorsOrigins([config.corsOrigin, config.landingPageOrigin].filter(Boolean).join(','))
+      : true,
+    credentials: true,
+  },
+  transports: ['websocket', 'polling'],
+});
+
+// Attach Socket.io instance globally so services can broadcast without circular imports
+(globalThis as { __io?: SocketIOServer }).__io = io;
+
+io.on('connection', (socket) => {
+  const buildingId = socket.handshake.query.buildingId as string | undefined;
+  const floor = socket.handshake.query.floor as string | undefined;
+
+  if (buildingId) {
+    void socket.join(`building_${buildingId}`);
+    if (floor) {
+      void socket.join(`building_${buildingId}_floor_${floor}`);
+    }
+  }
+
+  socket.on('disconnect', () => {
+    // cleanup handled automatically by Socket.io
+  });
+});
+
 const port = config.port;
 
 function parseCorsOrigins(v?: string): string[] {
@@ -46,7 +79,7 @@ app.use(helmet({
       styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
       imgSrc: ["'self'", 'data:', 'https:'],
       fontSrc: ["'self'", 'https://fonts.gstatic.com'],
-      connectSrc: ["'self'"],
+      connectSrc: ["'self'", 'wss:', 'ws:'],
       frameSrc: ["'none'"],
       objectSrc: ["'none'"],
       baseUri: ["'self'"],
@@ -98,6 +131,19 @@ if (process.env.NODE_ENV === 'production' && fs.existsSync(path.join(clientPath,
 
 app.use(errorAlertMiddleware);
 app.use((err: Error & { status?: number }, req: Request, res: Response, _next: NextFunction) => {
+  if (isAppError(err)) {
+    // Operational error — known, structured response
+    if (err.statusCode >= 500) {
+      logger.error(`[AppError] ${err.code}: ${err.message}`, { path: req.path, traceId: req.id });
+    }
+    return res.status(err.statusCode).json({
+      error: err.message,
+      code: err.code,
+      ...(err.statusCode === 400 && 'fields' in err ? { fields: (err as { fields?: unknown }).fields } : {}),
+      traceId: req.id,
+    });
+  }
+  // Unexpected error — log fully
   logger.error(`[Fatal Error] ${err.message}`, { stack: err.stack, path: req.path, traceId: req.id });
   res.status(err.status ?? 500).json({
     error: 'Internal Service Error',
@@ -174,8 +220,9 @@ mongoose.connect(config.mongoUri)
             logger.info('AI pipeline cron scheduled (daily 02:00)');
         }
 
-        app.listen(port, () => {
-            logger.info(`[Server Started] Server is running on http://localhost:${port}`);
+        httpServer.listen(port, () => {
+            logger.info(`[Server Started] Server + Socket.io running on http://localhost:${port}`);
+        });
         });
     })
     .catch(err => logger.error('MongoDB connection error', { message: (err as Error).message }));

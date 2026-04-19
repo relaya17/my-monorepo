@@ -129,8 +129,23 @@ export default function TechWorkOrder() {
 
   if (pageState === 'loading') {
     return (
-      <div className="vow-screen vow-dark d-flex align-items-center justify-content-center">
-        <div className="spinner-border text-primary vow-spinner-lg" />
+      <div
+        data-testid="security-handshake"
+        className="vow-screen vow-dark d-flex flex-column align-items-center justify-content-center"
+      >
+        <div
+          className="spinner-grow text-primary mb-4"
+          role="status"
+          style={{ width: '3.5rem', height: '3.5rem' }}
+          aria-hidden="true"
+        />
+        <h4 className="text-primary fw-semibold mb-1" style={{ letterSpacing: '0.03em' }}>
+          מבצע אימות קריפטוגרפי...
+        </h4>
+        <p className="text-secondary small mb-0">Vantera Secure Gateway</p>
+        <p className="text-muted" style={{ fontSize: '0.7rem', marginTop: '0.5rem', opacity: 0.5 }}>
+          V.One Security Handshake
+        </p>
       </div>
     );
   }
@@ -138,7 +153,7 @@ export default function TechWorkOrder() {
   if (pageState === 'expired' || pageState === 'error') {
     return (
       <div className="vow-screen vow-dark d-flex align-items-center justify-content-center">
-        <div className="text-center p-4">
+        <div className="text-center p-4" data-testid="work-order-error">
           <div className="mb-3 vow-icon-xl">🔒</div>
           <h2 className="text-danger fw-bold">קישור לא תקין</h2>
           <p className="text-secondary">{errorMsg}</p>
@@ -164,7 +179,7 @@ export default function TechWorkOrder() {
   const floorDisplay = access.floorLabel ?? `קומה ${access.floor}`;
 
   return (
-    <div className="vow-screen vow-dark p-3" dir="rtl">
+    <div className="vow-screen vow-dark p-3" dir="rtl" data-testid="work-order-content">
       {/* Header */}
       <div className="d-flex align-items-center gap-2 mb-4">
         <span className="vow-icon-lg">🔑</span>

@@ -2,6 +2,7 @@
  * Public API for landing page – global impact metrics + Demo/Lead capture. No auth, no tenant.
  */
 import { Request, Response, Router } from 'express';
+import rateLimit from 'express-rate-limit';
 import BuildingStats from '../models/buildingStatsModel.js';
 import Lead from '../models/leadModel.js';
 import { logger } from '../utils/logger.js';
@@ -39,7 +40,15 @@ router.get('/global-impact', getGlobalImpact);
 router.get('/stats', getGlobalImpact);
 
 /** POST Demo request – CRM lead. Saves to DB; optional: notify CEO (webhook/log). */
-router.post('/demo-request', async (req: Request, res: Response) => {
+const demoRequestLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'יותר מדי בקשות — נסה שוב בעוד שעה' },
+  keyGenerator: (req) => (req.ip ?? 'unknown') + (String((req.body as Record<string, unknown>)?.phone ?? '')).slice(-4),
+});
+router.post('/demo-request', demoRequestLimiter, async (req: Request, res: Response) => {
   try {
     const body = req.body as Record<string, unknown>;
     const contactName = String(body.contactName ?? '').trim();
