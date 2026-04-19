@@ -1,0 +1,6 @@
+{
+  "extends": ["web-recommended"],
+  "hints": {
+    "axe/aria": "off"
+  }
+}

@@ -58,7 +58,7 @@ const Footer: React.FC = () => {
                   type="button"
                   className={`btn btn-sm ${lang === code ? 'btn-light' : 'btn-outline-light'}`}
                   onClick={() => setLang(code)}
-                  aria-pressed={lang === code ? 'true' : 'false'}
+                  aria-pressed={lang === code ? "true" : "false"}
                   aria-label={t(labelKey)}
                 >
                   {t(labelKey)}

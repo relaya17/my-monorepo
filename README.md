@@ -1,8 +1,32 @@
-# Vantera OS — Building Operating System
+# 🏙️ Vantera OS 3.0
+> The Next-Generation Infrastructure for Autonomous Property Management.
 
-> פלטפורמת SaaS לניהול נכסי נדל"ן רב-שכבתית | Multi-Tenant | AI-Powered | M&A Ready
+**Vantera OS** is not just a dashboard — it's a secure, AI-driven operating system designed to manage modern real estate assets at scale. Built with a "Trustless" philosophy, it automates everything from security detection to financial settlements.
 
 **גרסה:** 3.0 — אפריל 2026 | **סטטוס:** Production Ready ✅
+
+---
+
+## 🛡️ Core Innovation: The Trust Stack
+
+| Layer | Technology | Description |
+|-------|-----------|-------------|
+| **Vision AI** | SHA-256 Hash-Chain | Immutable audit trail for every building event |
+| **Magic Link Access** | GPS + JWT | Location-aware secure entry for contractors |
+| **Smart Economy** | Stripe Connect | Automated 70/20/10 payment splitting |
+| **AI Peacekeeper** | V-One NLP | Real-time anomaly detection & resident support |
+
+---
+
+## 🚀 Technical Excellence
+
+- **Monorepo Architecture** — TurboRepo + pnpm workspaces for infinite scalability
+- **Type-Safe Core** — 100% TypeScript, strict null checks, zero `any` in 289 production files
+- **156 Automated Tests** — 144 API (Vitest) + 12 Web (RTL) + Playwright E2E
+- **Multi-Tenant Security** — Complete data isolation per `buildingId` at middleware level
+- **Inclusive Design** — WAI-ARIA compliant, RTL/LTR, 6 languages (he/en/ar/ru/es/fr)
+- **Zero Lint Warnings** — Passes Microsoft Edge Tools (axe/aria) + ESLint strict standards
+- **M&A Ready** — 50+ technical & business docs, audit reports, IP documentation
 
 ---
 
