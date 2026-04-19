@@ -297,6 +297,262 @@ function SalesPitchSection({
   );
 }
 
+// ─── Pricing Section ──────────────────────────────────────────────
+
+interface PricingTier {
+  name: string;
+  price: string;
+  period: string;
+  highlight: boolean;
+  badge?: string;
+  features: string[];
+  cta: string;
+  ctaLink: string;
+}
+
+const PRICING_TIERS_HE: PricingTier[] = [
+  {
+    name: 'Starter',
+    price: 'חינם',
+    period: 'לתמיד',
+    highlight: false,
+    features: [
+      'עד 20 דיירים',
+      'קריאות תיקון בסיסיות',
+      'הצבעות ועד',
+      'קיר קהילתי',
+    ],
+    cta: 'התחל חינם',
+    ctaLink: '/sign-up',
+  },
+  {
+    name: 'Professional',
+    price: '₪490',
+    period: 'לחודש / בניין',
+    highlight: true,
+    badge: 'הכי פופולרי',
+    features: [
+      'דיירים ללא הגבלה',
+      'AI אבחון וניבוי תקלות',
+      'Escrow + פיצול 70/20/10',
+      'Pro-Radar GPS קבלנים',
+      'מפתח דיגיטלי + ליווי בטוח',
+      'Vision Feed – מצלמות חכמות',
+      'White Label (לוגו + צבעים)',
+    ],
+    cta: 'בקש דמו',
+    ctaLink: '#demo',
+  },
+  {
+    name: 'Enterprise',
+    price: 'מותאם',
+    period: 'מחיר לפי צי',
+    highlight: false,
+    features: [
+      'ניהול מרוכז רב-בניינים',
+      'API מלא + Webhooks',
+      'SLA 99.9% + תמיכה 24/7',
+      'V.One AI Chat מותאם',
+      'הדרכות ו-onboarding',
+      'חוזה מסגרת + חשבונית',
+    ],
+    cta: 'צור קשר',
+    ctaLink: '/companies-management',
+  },
+];
+
+const PRICING_TIERS_EN: PricingTier[] = [
+  {
+    name: 'Starter',
+    price: 'Free',
+    period: 'forever',
+    highlight: false,
+    features: [
+      'Up to 20 residents',
+      'Basic maintenance requests',
+      'Committee voting',
+      'Community wall',
+    ],
+    cta: 'Start free',
+    ctaLink: '/sign-up',
+  },
+  {
+    name: 'Professional',
+    price: '$129',
+    period: 'per month / building',
+    highlight: true,
+    badge: 'Most popular',
+    features: [
+      'Unlimited residents',
+      'AI fault prediction',
+      'Escrow + 70/20/10 split',
+      'Pro-Radar GPS contractors',
+      'Digital key + Safe-Zone escort',
+      'Vision Feed – smart cameras',
+      'White Label (logo + colors)',
+    ],
+    cta: 'Request demo',
+    ctaLink: '#demo',
+  },
+  {
+    name: 'Enterprise',
+    price: 'Custom',
+    period: 'fleet pricing',
+    highlight: false,
+    features: [
+      'Multi-building central management',
+      'Full API + Webhooks',
+      'SLA 99.9% + 24/7 support',
+      'Custom V.One AI Chat',
+      'Training & onboarding',
+      'Framework agreement + invoicing',
+    ],
+    cta: 'Contact us',
+    ctaLink: '/companies-management',
+  },
+];
+
+function PricingSection({ lang }: { lang: LangKey }) {
+  const isHe = lang === 'he';
+  const tiers = isHe ? PRICING_TIERS_HE : PRICING_TIERS_EN;
+  const title = isHe ? 'מחירים פשוטים. ערך אמיתי.' : lang === 'fr' ? 'Tarification simple. Valeur réelle.' : 'Simple pricing. Real value.';
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+
+  return (
+    <section className="landing-pricing" ref={ref} aria-labelledby="pricing-heading" dir={isHe ? 'rtl' : 'ltr'}>
+      <h2 id="pricing-heading" className="landing-pricing-title">{title}</h2>
+      <div className="landing-pricing-grid">
+        {tiers.map((tier, i) => (
+          <motion.article
+            key={tier.name}
+            className={`glass-card landing-pricing-card${tier.highlight ? ' landing-pricing-card--highlight' : ''}`}
+            initial={{ opacity: 0, y: 28 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
+            transition={{ duration: 0.45, delay: i * 0.12 }}
+          >
+            {tier.badge && <span className="landing-pricing-badge">{tier.badge}</span>}
+            <h3 className="landing-pricing-tier-name">{tier.name}</h3>
+            <div className="landing-pricing-price">
+              <span className="landing-pricing-amount">{tier.price}</span>
+              <span className="landing-pricing-period"> / {tier.period}</span>
+            </div>
+            <ul className="landing-pricing-features" role="list">
+              {tier.features.map((f) => (
+                <li key={f} className="landing-pricing-feature">
+                  <span className="landing-pricing-check" aria-hidden="true">✓</span>
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <Link
+              to={tier.ctaLink === '#demo' ? '/landing' : tier.ctaLink}
+              className={`landing-cta${tier.highlight ? '' : ' secondary'}`}
+            >
+              {tier.cta}
+            </Link>
+          </motion.article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── Testimonials Section ─────────────────────────────────────────
+
+interface Testimonial {
+  quote: string;
+  name: string;
+  role: string;
+  building: string;
+  rating: number;
+}
+
+const TESTIMONIALS_HE: Testimonial[] = [
+  {
+    quote: 'לפני Vantera הייתי מקבלת 15 מיילים ביום על תקלות. היום? הכל בדשבורד, סגורות לפני שידעתי שקיימות.',
+    name: 'מיכל א.',
+    role: 'מנהלת נכסים',
+    building: 'מגדל כרמל, חיפה',
+    rating: 5,
+  },
+  {
+    quote: 'אני קבלן אינסטלציה. Pro-Radar הכפיל לי את הקריאות תוך חודש. אפס שיווק, אפס בינוניות.',
+    name: 'יוסי מ.',
+    role: 'קבלן אינסטלציה',
+    building: 'מבוסס ברמת גן',
+    rating: 5,
+  },
+  {
+    quote: 'ועד הבית שלנו הצביע על שיפוץ המעלית דרך האפליקציה. הכסף היה ב-Escrow, הקבלן סיים, שחרורו אוטומטי. לא האמנו.',
+    name: 'רחל ב.',
+    role: 'יו"ר ועד בית',
+    building: 'בניין 40 יח״ד, תל אביב',
+    rating: 5,
+  },
+];
+
+const TESTIMONIALS_EN: Testimonial[] = [
+  {
+    quote: 'Before Vantera I got 15 emails a day about faults. Now? All in the dashboard, closed before I even knew they existed.',
+    name: 'Michal A.',
+    role: 'Property Manager',
+    building: 'Carmel Tower, Haifa',
+    rating: 5,
+  },
+  {
+    quote: "I'm a plumbing contractor. Pro-Radar doubled my calls in a month. Zero marketing, zero middlemen.",
+    name: 'Yossi M.',
+    role: 'Plumbing Contractor',
+    building: 'Based in Ramat Gan',
+    rating: 5,
+  },
+  {
+    quote: 'Our building committee voted on the elevator refurb via the app. Money held in Escrow, contractor finished, auto-released. We were amazed.',
+    name: 'Rachel B.',
+    role: 'Building Committee Chair',
+    building: '40-unit building, Tel Aviv',
+    rating: 5,
+  },
+];
+
+function TestimonialsSection({ lang }: { lang: LangKey }) {
+  const isHe = lang === 'he';
+  const items = isHe ? TESTIMONIALS_HE : TESTIMONIALS_EN;
+  const title = isHe ? 'מה הם אומרים עלינו' : lang === 'fr' ? 'Ce qu\'ils disent de nous' : 'What they say about us';
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+
+  return (
+    <section className="landing-testimonials" ref={ref} aria-labelledby="testimonials-heading" dir={isHe ? 'rtl' : 'ltr'}>
+      <h2 id="testimonials-heading" className="landing-testimonials-title">{title}</h2>
+      <div className="landing-testimonials-grid">
+        {items.map((t, i) => (
+          <motion.article
+            key={t.name}
+            className="glass-card landing-testimonial-card"
+            initial={{ opacity: 0, y: 24 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+            transition={{ duration: 0.4, delay: i * 0.12 }}
+          >
+            <div className="landing-testimonial-stars" aria-label={`דירוג ${t.rating} כוכבים`}>
+              {'★'.repeat(t.rating)}
+            </div>
+            <blockquote className="landing-testimonial-quote">
+              &ldquo;{t.quote}&rdquo;
+            </blockquote>
+            <footer className="landing-testimonial-footer">
+              <strong>{t.name}</strong>
+              <span className="landing-testimonial-role">{t.role}</span>
+              <span className="landing-testimonial-building">{t.building}</span>
+            </footer>
+          </motion.article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 /** 5 שקופיות הפיץ׳ דק – למשקיעים וועדי בית */
 function PitchDeckSection({
   data,
@@ -1767,6 +2023,10 @@ const Landing: React.FC = () => {
           items={content.salesPitch}
         />
       )}
+
+      <TestimonialsSection lang={lang} />
+
+      <PricingSection lang={lang} />
 
       <section className="landing-insights-cta">
         <Link to={ROUTES.LANDING_INSIGHTS} className="glass-card landing-insights-link">

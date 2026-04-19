@@ -10,6 +10,7 @@ import {
   createConnectAccountLink,
   createConnectLoginLink,
   getConnectAccountStatus,
+  splitPayment,
 } from '../services/stripeService.js';
 
 const router = Router();
@@ -176,6 +177,50 @@ router.post('/checkout-session', authMiddleware, async (req: Request, res: Respo
   } catch (error) {
     console.error('Stripe checkout error:', error);
     res.status(500).json({ error: 'Payment initialization failed' });
+  }
+});
+
+/**
+ * POST /api/stripe/split-payment
+ * חלוקת תשלום 70/20/10: 70% קבלן, 20% ועד בית, 10% Vantera.
+ * נקרא לאחר שה-PaymentIntent הושלם (מ-webhook או מאשרור ידני).
+ */
+router.post('/split-payment', authMiddleware, async (req: Request, res: Response) => {
+  try {
+    const auth = req.auth;
+    if (!auth || auth.type !== 'admin') {
+      res.status(403).json({ error: 'גישה לאדמינים בלבד' });
+      return;
+    }
+    const { paymentIntentId, amountIls, contractorAccountId, buildingAccountId } =
+      req.body as {
+        paymentIntentId?: string;
+        amountIls?: number;
+        contractorAccountId?: string;
+        buildingAccountId?: string;
+      };
+
+    if (!paymentIntentId || !amountIls || !contractorAccountId || !buildingAccountId) {
+      res.status(400).json({ error: 'חסרים: paymentIntentId, amountIls, contractorAccountId, buildingAccountId' });
+      return;
+    }
+    if (!Number.isFinite(amountIls) || amountIls <= 0) {
+      res.status(400).json({ error: 'amountIls חייב להיות מספר חיובי' });
+      return;
+    }
+
+    const result = await splitPayment({ paymentIntentId, amountIls, contractorAccountId, buildingAccountId });
+    res.json({
+      message: 'החלוקה בוצעה בהצלחה',
+      splits: {
+        contractor: { percent: 70, amountIls: +(amountIls * 0.7).toFixed(2), transferId: result.contractorTransferId },
+        building: { percent: 20, amountIls: +(amountIls * 0.2).toFixed(2), transferId: result.buildingTransferId },
+        platform: { percent: 10, amountIls: +(amountIls * 0.1).toFixed(2) },
+      },
+    });
+  } catch (err) {
+    console.error('Split payment error:', err);
+    res.status(500).json({ error: 'שגיאה בביצוע חלוקת התשלום' });
   }
 });
 

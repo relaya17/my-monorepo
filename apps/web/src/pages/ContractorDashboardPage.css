@@ -1,0 +1,22 @@
+.contractor-dashboard-container {
+  max-width: 900px;
+}
+
+.contractor-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f6c90e, #e0a800);
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.contractor-toggle-btn {
+  min-width: 110px;
+  font-weight: 600;
+}

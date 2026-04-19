@@ -420,6 +420,167 @@
   left: var(--ba-pos, 50%);
 }
 
+/* ─── Testimonials ─────────────────────────────── */
+.landing-testimonials {
+  padding: 5rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.landing-testimonials-title {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  margin-bottom: 3rem;
+}
+
+.landing-testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.landing-testimonial-card {
+  padding: 2rem 1.75rem;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.landing-testimonial-stars {
+  color: #f6c90e;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+}
+
+.landing-testimonial-quote {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  font-style: italic;
+  margin: 0;
+  flex: 1;
+}
+
+.landing-testimonial-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 0.75rem;
+}
+
+.landing-testimonial-footer strong {
+  font-size: 0.95rem;
+}
+
+.landing-testimonial-role,
+.landing-testimonial-building {
+  font-size: 0.78rem;
+  opacity: 0.55;
+}
+
+/* ─── Pricing ──────────────────────────────────── */
+.landing-pricing {
+  padding: 5rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.landing-pricing-title {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  margin-bottom: 3rem;
+}
+
+.landing-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.landing-pricing-card {
+  padding: 2.25rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  text-align: right;
+}
+
+.landing-pricing-card--highlight {
+  border: 2px solid rgba(0, 242, 255, 0.45);
+  background: rgba(0, 242, 255, 0.06);
+  transform: scale(1.02);
+}
+
+.landing-pricing-badge {
+  position: absolute;
+  top: -0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #00f2ff;
+  color: #0a0a1a;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.8rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.landing-pricing-tier-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.landing-pricing-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.landing-pricing-amount {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #00f2ff;
+}
+
+.landing-pricing-period {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+.landing-pricing-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.landing-pricing-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  text-align: right;
+}
+
+.landing-pricing-check {
+  color: #22c55e;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
 /* רשימת הפיצ'רים למכירה – 4 הנקודות */
 .landing-insights-cta {
   padding: 2rem 1.5rem 4rem;
@@ -2638,6 +2799,11 @@
   width: 16px;
   height: 16px;
 }
+.xray-node-0 { left: 18%; top: 35%; }
+.xray-node-1 { left: 48%; top: 25%; }
+.xray-node-2 { left: 78%; top: 20%; }
+.xray-node-3 { left: 25%; top: 60%; }
+.xray-node-4 { left: 65%; top: 55%; }
 .xray-node-pulse {
   position: absolute;
   inset: -4px;

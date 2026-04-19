@@ -1,6 +1,7 @@
 import React from 'react';
 import { useBuilding } from '../context/BuildingContext';
 import ResidentFeedAdBanner from './AdBanner';
+import './ResidentFeed.css';
 
 const ResidentFeed: React.FC = () => {
   const { buildingName, pulse, feed, emergencyDetected, loading, error } = useBuilding();
@@ -43,7 +44,7 @@ const ResidentFeed: React.FC = () => {
       </h5>
 
       {pulse && (
-        <div className="d-flex flex-wrap gap-3 mt-3 p-3 rounded" style={{ backgroundColor: 'rgba(0,242,255,0.08)', border: '1px solid rgba(0,242,255,0.2)' }}>
+        <div className="d-flex flex-wrap gap-3 mt-3 p-3 rounded resident-feed-pulse">
           <div><span className="me-1" aria-hidden>💧</span> מים: {pulse.water ?? '—'}</div>
           <div><span className="me-1" aria-hidden>⚡</span> חשמל: {pulse.electricity ?? '—'}</div>
           <div><span className="me-1" aria-hidden>🛗</span> מעליות: {pulse.elevators ?? '—'}</div>
@@ -59,7 +60,7 @@ const ResidentFeed: React.FC = () => {
           <ul className="list-unstyled mb-0">
             {feed.map((item) => (
               <li key={item.id} className="d-flex align-items-start mb-3">
-                <i className="fas fa-info-circle me-2 mt-1" style={{ color: '#9ca3af' }} aria-hidden="true" />
+                <i className="fas fa-info-circle me-2 mt-1 resident-feed-icon" aria-hidden="true" />
                 <div>
                   <strong>{item.title}</strong>
                   {item.body && <p className="mb-0 small text-muted">{item.body}</p>}

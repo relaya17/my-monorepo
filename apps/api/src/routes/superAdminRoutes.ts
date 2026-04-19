@@ -2,7 +2,7 @@
  * Routes for super-admin (CEO) – activity stream, global stats, global search, vision logs (Anomaly Feed). Protected by verifySuperAdmin.
  */
 import express, { Request, Response } from 'express';
-import { AuditLog } from '../models/auditLogModel.js';
+import { AuditLog, verifyChain } from '../models/auditLogModel.js';
 import Payment from '../models/paymentModel.js';
 import Building from '../models/buildingModel.js';
 import BuildingStats from '../models/buildingStatsModel.js';
@@ -310,6 +310,33 @@ router.get('/resident-adoption', verifySuperAdmin, async (_req: Request, res: Re
     res.json({ items, total });
   } catch (err) {
     res.status(500).json({ error: 'שגיאה בשליפת מעקב הורדות אפליקציה' });
+  }
+});
+
+/**
+ * GET /api/super-admin/transparency
+ * Verify audit hash-chain integrity and return real AAA transparency score.
+ * Score: A (chain valid) or F (chain broken = tamper detected).
+ */
+router.get('/transparency', verifySuperAdmin, async (req: Request, res: Response) => {
+  try {
+    const limit = Math.min(Number(req.query.limit) || 500, 5000);
+    const result = await verifyChain(limit);
+    const totalLogs = await AuditLog.countDocuments();
+
+    res.json({
+      transparencyScore: result.valid ? 'AAA' : 'F',
+      chainValid: result.valid,
+      checkedCount: result.checkedCount,
+      totalLogs,
+      brokenAt: result.brokenAt ?? null,
+      verifiedAt: new Date().toISOString(),
+      description: result.valid
+        ? 'Hash-chain integra – all audit entries are tamper-free'
+        : `Chain broken at entry ${result.brokenAt?.id ?? 'unknown'} – possible tampering detected`,
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'שגיאה בבדיקת שרשרת הביקורת' });
   }
 });
 

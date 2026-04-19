@@ -1,5 +1,4 @@
-הפרוייקט מלא // LanguageSwitcher.tsx
-import React from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../redux/store";
 import { setLanguage } from "../redux/slice/settingsSlice";
@@ -16,19 +15,30 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ variant = "default"
   const dispatch = useDispatch();
   const language = useSelector((state: RootState) => state.settings.language);
   const { t } = useTranslation();
+  const btnRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
-  const changeLanguage = (lang: LangOption) => {
+  const changeLanguage = useCallback((lang: LangOption) => {
     dispatch(setLanguage(lang));
-  };
+  }, [dispatch]);
+
+  useEffect(() => {
+    Object.entries(btnRefs.current).forEach(([code, el]) => {
+      el?.setAttribute("aria-pressed", String(language === code));
+    });
+  }, [language]);
+
+  const setRef = useCallback((lang: string) => (el: HTMLButtonElement | null) => {
+    btnRefs.current[lang] = el;
+  }, []);
 
   const btn = (lang: LangOption, label: string, ariaLabel: string) => (
     <button
       key={lang}
+      ref={setRef(lang)}
       type="button"
       className={`btn btn-sm me-1 ${language === lang ? "btn-primary" : "btn-outline-secondary"}`}
       onClick={() => changeLanguage(lang)}
       aria-label={ariaLabel}
-      aria-pressed={language === lang}
       aria-current={language === lang ? "true" : undefined}
     >
       {label}
@@ -43,21 +53,21 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ variant = "default"
         aria-label="Switch language"
       >
         <button
+          ref={setRef("en")}
           type="button"
           className={`lang-btn lang-btn--landing ${language === "en" ? "lang-btn--active" : ""}`}
           onClick={() => changeLanguage("en")}
           aria-label="Switch to English"
-          aria-pressed={language === "en"}
         >
           EN
         </button>
         <span className="lang-sep" aria-hidden>|</span>
         <button
+          ref={setRef("he")}
           type="button"
           className={`lang-btn lang-btn--landing ${language === "he" ? "lang-btn--active" : ""}`}
           onClick={() => changeLanguage("he")}
           aria-label="החלף לעברית"
-          aria-pressed={language === "he"}
         >
           עברית
         </button>

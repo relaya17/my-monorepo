@@ -113,3 +113,54 @@ export async function getConnectAccountStatus(accountId: string): Promise<{
     detailsSubmitted: account.details_submitted ?? false,
   };
 }
+
+/**
+ * Revenue split: 70% contractor, 20% building committee, 10% Vantera platform.
+ * Steps:
+ *   1. Charge the full amount on the platform's Stripe account.
+ *   2. Transfer 70% to the contractor's Connect account.
+ *   3. Transfer 20% to the building committee's Connect account.
+ *   The remaining 10% stays on the platform automatically.
+ *
+ * @param params.paymentIntentId – completed PaymentIntent ID (charge must be captured).
+ * @param params.amountIls       – total amount in ILS (float, e.g. 1000.00).
+ * @param params.contractorAccountId – Stripe Connect acct_ of the contractor.
+ * @param params.buildingAccountId   – Stripe Connect acct_ of the building committee.
+ * @returns transfer IDs for audit.
+ */
+export async function splitPayment(params: {
+  paymentIntentId: string;
+  amountIls: number;
+  contractorAccountId: string;
+  buildingAccountId: string;
+}): Promise<{ contractorTransferId: string; buildingTransferId: string }> {
+  const stripe = getStripeClient();
+  const { paymentIntentId, amountIls, contractorAccountId, buildingAccountId } = params;
+
+  const totalCents = Math.round(amountIls * 100);
+  const contractorCents = Math.round(totalCents * 0.70);
+  const buildingCents = Math.round(totalCents * 0.20);
+  // 10% stays on platform: totalCents - contractorCents - buildingCents
+
+  const [contractorTransfer, buildingTransfer] = await Promise.all([
+    stripe.transfers.create({
+      amount: contractorCents,
+      currency: 'ils',
+      destination: contractorAccountId,
+      source_transaction: paymentIntentId,
+      metadata: { split: '70pct_contractor', paymentIntentId },
+    }),
+    stripe.transfers.create({
+      amount: buildingCents,
+      currency: 'ils',
+      destination: buildingAccountId,
+      source_transaction: paymentIntentId,
+      metadata: { split: '20pct_building', paymentIntentId },
+    }),
+  ]);
+
+  return {
+    contractorTransferId: contractorTransfer.id,
+    buildingTransferId: buildingTransfer.id,
+  };
+}

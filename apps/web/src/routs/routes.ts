@@ -73,6 +73,20 @@ const ROUTES = {
   LEGAL_COUNTRY: "/legal/:country",
   /** צ'קליסט CEO לפני עלייה – SSL, פרטיות, מהירות */
   CEO_PRE_LAUNCH: "/ceo-pre-launch",
+  /** מכ"ם בעלי מקצוע זמינים GPS */
+  PRO_RADAR: "/pro-radar",
+  /** קול לתובנה – ניתוח AI מתוך מיקרופון */
+  VOICE_INSIGHT: "/voice-insight",
+  /** מפתח דיגיטלי – קוד גישה חד-פעמי */
+  DIGITAL_KEY: "/digital-key",
+  /** תוכניות בניין */
+  BLUEPRINT: "/blueprint",
+  /** White Label – הגדרות מיתוג בניין (אדמין) */
+  WHITE_LABEL: "/white-label",
+  /** Vision Feed – יומן מצלמות (אדמין) */
+  VISION_LOGS: "/vision-logs",
+  /** לוח בקרה קבלן – סטטוס, GPS */
+  CONTRACTOR_DASHBOARD: "/contractor-dashboard",
 };
 
 export default ROUTES;

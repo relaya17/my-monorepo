@@ -33,8 +33,7 @@ const XRayBuilding: React.FC = () => {
           {NODES.map((node, i) => (
             <div
               key={i}
-              className="xray-node"
-              style={{ left: node.left, top: node.top }}
+              className={`xray-node xray-node-${i}`}
               title={node.label}
             >
               <span className="xray-node-pulse" />

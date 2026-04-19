@@ -1,136 +1,94 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, Button, Form, Modal, Badge, Spinner, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { getApiUrl, getApiHeaders } from '../api';
 import './CommunityWall.css';
 
 interface Post {
-  id: string;
-  author: string;
+  _id: string;
+  authorId: string;
+  authorName: string;
   content: string;
-  image?: string;
-  timestamp: Date;
+  imageUrl?: string;
+  createdAt: string;
   status: 'pending' | 'approved' | 'rejected';
-  likes: number;
+  likes: string[];
   comments: Comment[];
 }
 
 interface Comment {
-  id: string;
-  author: string;
+  _id: string;
+  authorId: string;
+  authorName: string;
   content: string;
-  timestamp: Date;
+  createdAt: string;
 }
 
 const CommunityWall: React.FC = () => {
   const navigate = useNavigate();
   
-  // בדיקה אם המשתמש מחובר
   const isLoggedIn = localStorage.getItem('userToken') || localStorage.getItem('adminToken');
   
   const [posts, setPosts] = useState<Post[]>([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string>('');
-  const [newPost, setNewPost] = useState({
-    content: '',
-    image: null as File | null
-  });
+  const [newPost, setNewPost] = useState({ content: '', authorName: '', image: null as File | null });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [filter, setFilter] = useState<'all' | 'pending' | 'approved'>('all');
   const [isAdmin, setIsAdmin] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
 
-  // אם המשתמש לא מחובר, הפניה לדף התחברות
   useEffect(() => {
     if (!isLoggedIn) {
       navigate('/login', { replace: true });
-      return;
     }
   }, [isLoggedIn, navigate]);
   
-  // בדיקה אם המשתמש הוא מנהל
   useEffect(() => {
-    const adminToken = localStorage.getItem('adminToken');
-    setIsAdmin(!!adminToken);
+    setIsAdmin(!!localStorage.getItem('adminToken'));
   }, []);
 
-  // דוגמה לפוסטים
+  const loadPosts = useCallback(async () => {
+    try {
+      const status = filter === 'all' ? 'approved' : filter;
+      const res = await fetch(getApiUrl(`community?status=${status}`), { headers: getApiHeaders() });
+      if (!res.ok) throw new Error('שגיאה בטעינת הפוסטים');
+      const data = (await res.json()) as Post[];
+      setPosts(data);
+      setApiError(null);
+    } catch {
+      setApiError('לא ניתן לטעון פוסטים. בדוק חיבור לשרת.');
+    }
+  }, [filter]);
+
   useEffect(() => {
-    const samplePosts: Post[] = [
-      {
-        id: '1',
-        author: 'דוד כהן',
-        content: 'היום היה יום נהדר בגינה! הגינה נקייה והמתקנים במצב מעולה. תודה לכל מי שתורם לתחזוקה! 🌟',
-        image: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=500',
-        timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-        status: 'approved',
-        likes: 12,
-        comments: [
-          {
-            id: '1',
-            author: 'שרה לוי',
-            content: 'מסכימה איתך! הגינה נראית נהדר',
-            timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000)
-          }
-        ]
-      },
-      {
-        id: '2',
-        author: 'מיכל רוזן',
-        content: 'הצעה: אולי נוכל לארגן מסיבת קיץ משותפת? מה דעתכם? 🎉',
-        timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000),
-        status: 'pending',
-        likes: 8,
-        comments: []
-      },
-      {
-        id: '3',
-        author: 'יוסי גולדברג',
-        content: 'תזכורת: ישיבת ועד דיירים ביום שלישי הקרוב בשעה 19:00. כולם מוזמנים! 📅',
-        timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000),
-        status: 'approved',
-        likes: 15,
-        comments: [
-          {
-            id: '2',
-            author: 'רחל כהן',
-            content: 'אני אגיע! יש נושאים חשובים לדון בהם',
-            timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000)
-          },
-          {
-            id: '3',
-            author: 'דן אברהם',
-            content: 'גם אני אגיע. חשוב להיות מעורבים',
-            timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000)
-          }
-        ]
-      }
-    ];
-    setPosts(samplePosts);
-  }, []);
+    if (isLoggedIn) loadPosts();
+  }, [isLoggedIn, loadPosts]);
 
   const handleCreatePost = async () => {
-    if (!newPost.content.trim()) return;
+    if (!newPost.content.trim() || !newPost.authorName.trim()) return;
     
     setIsSubmitting(true);
-    
-    // סימולציה של שליחה לשרת
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    const post: Post = {
-      id: Date.now().toString(),
-      author: 'משתמש נוכחי',
-      content: newPost.content,
-      image: newPost.image ? URL.createObjectURL(newPost.image) : undefined,
-      timestamp: new Date(),
-      status: 'pending',
-      likes: 0,
-      comments: []
-    };
-    
-    setPosts(prev => [post, ...prev]);
-    setNewPost({ content: '', image: null });
-    setShowCreateModal(false);
-    setIsSubmitting(false);
+    try {
+      const res = await fetch(getApiUrl('community'), {
+        method: 'POST',
+        headers: { ...getApiHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: newPost.content.trim(), authorName: newPost.authorName.trim() }),
+      });
+      if (!res.ok) {
+        const err = (await res.json()) as { error?: string };
+        throw new Error(err.error ?? 'שגיאה ביצירת הפוסט');
+      }
+      const created = (await res.json()) as Post;
+      setPosts(prev => [created, ...prev]);
+      setNewPost({ content: '', authorName: '', image: null });
+      setShowCreateModal(false);
+    } catch (e) {
+      setApiError((e as Error).message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -140,22 +98,46 @@ const CommunityWall: React.FC = () => {
     }
   };
 
-  const handleLike = (postId: string) => {
-    setPosts(prev => prev.map(post => 
-      post.id === postId ? { ...post, likes: post.likes + 1 } : post
-    ));
+  const handleLike = async (postId: string) => {
+    try {
+      const res = await fetch(getApiUrl(`community/${postId}/like`), {
+        method: 'POST',
+        headers: getApiHeaders(),
+      });
+      if (!res.ok) return;
+      const result = (await res.json()) as { likes: number; liked: boolean };
+      setPosts(prev => prev.map(p =>
+        p._id === postId
+          ? { ...p, likes: Array(result.likes).fill('') }
+          : p
+      ));
+    } catch {
+      // silent fail for like
+    }
   };
 
-  const handleApprovePost = (postId: string) => {
-    setPosts(prev => prev.map(post => 
-      post.id === postId ? { ...post, status: 'approved' as const } : post
-    ));
+  const handleApprovePost = async (postId: string) => {
+    try {
+      const res = await fetch(getApiUrl(`community/${postId}/status`), {
+        method: 'PATCH',
+        headers: { ...getApiHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'approved' }),
+      });
+      if (!res.ok) return;
+      setPosts(prev => prev.map(p => p._id === postId ? { ...p, status: 'approved' as const } : p));
+    } catch { /* silent */ }
   };
 
-  const handleRejectPost = (postId: string) => {
-    setPosts(prev => prev.map(post => 
-      post.id === postId ? { ...post, status: 'rejected' as const } : post
-    ));
+  const handleRejectPost = async (postId: string) => {
+    try {
+      const res = await fetch(getApiUrl(`community/${postId}/status`), {
+        method: 'PATCH',
+        headers: { ...getApiHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'rejected' }),
+      });
+      if (!res.ok) return;
+      setPosts(prev => prev.filter(p => p._id !== postId));
+    } catch { /* silent */ }
   };
 
   const filteredPosts = posts.filter(post => {
@@ -163,7 +145,8 @@ const CommunityWall: React.FC = () => {
     return post.status === filter;
   });
 
-  const formatTime = (date: Date) => {
+  const formatTime = (dateStr: string) => {
+    const date = new Date(dateStr);
     const now = new Date();
     const diff = now.getTime() - date.getTime();
     const minutes = Math.floor(diff / (1000 * 60));
@@ -300,16 +283,16 @@ const CommunityWall: React.FC = () => {
               </div>
             ) : (
               filteredPosts.map(post => (
-                <Card key={post.id} className="shadow-lg mb-4 post-card">
+                <Card key={post._id} className="shadow-lg mb-4 post-card">
                   <Card.Header className="d-flex justify-content-between align-items-center">
                     <div className="d-flex align-items-center">
                       <div className="avatar me-3">
                         <i className="fas fa-user-circle fa-2x community-wall-avatar-icon" aria-hidden="true"></i>
                       </div>
                       <div>
-                        <h6 className="mb-0 fw-bold">{post.author}</h6>
+                        <h6 className="mb-0 fw-bold">{post.authorName}</h6>
                         <small className="text-muted">
-                          {formatTime(post.timestamp)}
+                          {formatTime(post.createdAt)}
                           {getStatusBadge(post.status)}
                         </small>
                       </div>
@@ -319,7 +302,7 @@ const CommunityWall: React.FC = () => {
                         <Button
                           variant="success"
                           size="sm"
-                          onClick={() => handleApprovePost(post.id)}
+                          onClick={() => handleApprovePost(post._id)}
                           aria-label="אשר פוסט"
                         >
                           <i className="fas fa-check" aria-hidden="true"></i>
@@ -327,7 +310,7 @@ const CommunityWall: React.FC = () => {
                         <Button
                           variant="danger"
                           size="sm"
-                          onClick={() => handleRejectPost(post.id)}
+                          onClick={() => handleRejectPost(post._id)}
                           aria-label="דחה פוסט"
                         >
                           <i className="fas fa-times" aria-hidden="true"></i>
@@ -339,21 +322,21 @@ const CommunityWall: React.FC = () => {
                   <Card.Body>
                     <Card.Text className="mb-3">{post.content}</Card.Text>
                     
-                    {post.image && (
+                    {post.imageUrl && (
                       <div className="mb-3">
                         <img
-                          src={post.image}
+                          src={post.imageUrl}
                           alt="תמונה בפוסט – קיר קהילה Vantera"
                           className="img-fluid rounded cursor-pointer community-wall-post-image"
                           onClick={() => {
-                            setSelectedImage(post.image!);
+                            setSelectedImage(post.imageUrl!);
                             setShowImageModal(true);
                           }}
                           role="button"
                           tabIndex={0}
                           onKeyDown={(e) => {
                             if (e.key === 'Enter' || e.key === ' ') {
-                              setSelectedImage(post.image!);
+                              setSelectedImage(post.imageUrl!);
                               setShowImageModal(true);
                             }
                           }}
@@ -366,11 +349,11 @@ const CommunityWall: React.FC = () => {
                       <Button
                         variant="outline-primary"
                         size="sm"
-                        onClick={() => handleLike(post.id)}
-                        aria-label={`סמן לייק (${post.likes} לייקים)`}
+                        onClick={() => handleLike(post._id)}
+                        aria-label={`סמן לייק (${post.likes.length} לייקים)`}
                       >
                         <i className="fas fa-heart me-1" aria-hidden="true"></i>
-                        {post.likes} לייקים
+                        {post.likes.length} לייקים
                       </Button>
                       
                       <small className="text-muted">
@@ -388,15 +371,15 @@ const CommunityWall: React.FC = () => {
                         תגובות
                       </h6>
                       {post.comments.map(comment => (
-                        <div key={comment.id} className="d-flex mb-2">
+                        <div key={comment._id} className="d-flex mb-2">
                           <div className="avatar me-2">
                             <i className="fas fa-user-circle text-secondary" aria-hidden="true"></i>
                           </div>
                           <div className="flex-grow-1">
                             <div className="bg-white p-2 rounded">
-                              <strong className="community-wall-comment-author">{comment.author}</strong>
+                              <strong className="community-wall-comment-author">{comment.authorName}</strong>
                               <p className="mb-1">{comment.content}</p>
-                              <small className="text-muted">{formatTime(comment.timestamp)}</small>
+                              <small className="text-muted">{formatTime(comment.createdAt)}</small>
                             </div>
                           </div>
                         </div>
@@ -420,6 +403,16 @@ const CommunityWall: React.FC = () => {
         </Modal.Header>
         <Modal.Body>
           <Form>
+            <Form.Group className="mb-3">
+              <Form.Label>שם מלא</Form.Label>
+              <Form.Control
+                type="text"
+                value={newPost.authorName}
+                onChange={(e) => setNewPost(prev => ({ ...prev, authorName: e.target.value }))}
+                placeholder="הכנס שם להצגה..."
+                aria-label="שם המחבר"
+              />
+            </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>מה קורה אצלך?</Form.Label>
               <Form.Control
@@ -466,7 +459,7 @@ const CommunityWall: React.FC = () => {
           <Button 
             variant="primary" 
             onClick={handleCreatePost}
-            disabled={!newPost.content.trim() || isSubmitting}
+            disabled={!newPost.content.trim() || !newPost.authorName.trim() || isSubmitting}
           >
             {isSubmitting ? (
               <>
@@ -496,6 +489,14 @@ const CommunityWall: React.FC = () => {
           />
         </Modal.Body>
       </Modal>
+
+      {/* הודעת שגיאה */}
+      {apiError && (
+        <Alert variant="danger" className="position-fixed bottom-0 end-0 m-3" dismissible onClose={() => setApiError(null)}>
+          <i className="fas fa-exclamation-circle me-2" aria-hidden="true"></i>
+          {apiError}
+        </Alert>
+      )}
 
       {/* הודעה על אישור מנהל */}
       <Alert variant="info" className="position-fixed bottom-0 start-0 m-3 community-wall-info-alert">

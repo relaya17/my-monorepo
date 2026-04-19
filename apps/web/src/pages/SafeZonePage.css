@@ -1,0 +1,22 @@
+.safe-zone-page {
+  direction: rtl;
+  max-width: 560px;
+}
+
+.safe-zone-header {
+  background-color: #00d4aa;
+  color: #0f172a;
+}
+
+.safe-zone-btn {
+  background-color: #00d4aa;
+  border-color: #00d4aa;
+  color: #0f172a;
+}
+
+.safe-zone-btn:hover,
+.safe-zone-btn:focus {
+  background-color: #00bfaa;
+  border-color: #00bfaa;
+  color: #0f172a;
+}

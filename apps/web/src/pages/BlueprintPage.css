@@ -1,0 +1,15 @@
+.blueprint-viewer-body {
+  min-height: 500px;
+}
+
+.blueprint-iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+}
+
+.blueprint-img {
+  object-fit: contain;
+  max-height: 600px;
+  width: 100%;
+}

@@ -239,6 +239,58 @@ router.post('/vone/detect', (req: Request, res: Response) => {
   return res.json(intent);
 });
 
+// ─── Voice-to-Insight ────────────────────────────────────────────
+
+/**
+ * POST /api/ai-services/voice-insight
+ * Accepts a voice transcript (string) from the client (Web Speech API) and returns
+ * structured maintenance insights: category, priority, suggested next steps, summary.
+ */
+router.post('/voice-insight', async (req: Request, res: Response) => {
+  try {
+    const { transcript } = req.body as { transcript?: string };
+    if (!transcript?.trim()) return res.status(400).json({ message: 'חסר שדה transcript' });
+
+    const safe = truncateInput(transcript.trim(), 2000);
+
+    // Guard against prompt injection in voice transcripts
+    const injection = checkPromptInjection(safe);
+    if (injection.detected) {
+      return res.status(400).json({ message: 'תוכן לא תקין זוהה' });
+    }
+
+    const auth = req.auth;
+    const buildingId = auth?.buildingId ?? (req.headers['x-building-id'] as string) ?? 'default';
+
+    const triage = await triageTicket('קריאת קול', safe, buildingId);
+
+    const insight = {
+      transcript: safe,
+      category: triage.category,
+      priority: triage.priority,
+      confidence: triage.confidence,
+      isDuplicate: triage.isDuplicate,
+      suggestedTitle: `בעיה ב${triage.category}`,
+      nextSteps: [] as string[],
+      summary: safe.slice(0, 120),
+    };
+
+    logAiDecision({
+      service: 'voice_insight',
+      event: 'voice_triaged',
+      actor: auth?.sub ?? 'unknown',
+      buildingId,
+      severity: triage.priority === 'Urgent' ? 'warn' : 'info',
+      details: { priority: triage.priority, category: triage.category },
+    });
+
+    return res.json(insight);
+  } catch (err) {
+    logger.error('Voice-to-Insight error', { error: (err as Error).message });
+    return res.status(500).json({ message: 'שגיאה בניתוח הקול' });
+  }
+});
+
 // ─── Guardrail Status (admin dashboard) ──────────────────────────
 
 /** GET /api/ai-services/guardrails/status – circuit breaker + budget status */

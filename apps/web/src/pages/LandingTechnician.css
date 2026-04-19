@@ -1,0 +1,231 @@
+/* LandingTechnician — contractor-specific styles */
+
+.lt-page {
+  min-height: 100vh;
+}
+
+/* Nav */
+.lt-back {
+  font-size: 0.9rem;
+}
+
+.lt-nav-cta {
+  margin-right: auto;
+}
+
+/* Hero */
+.lt-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 6rem 1.5rem 4rem;
+  text-align: center;
+}
+
+.lt-eyebrow {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f6c90e;
+  margin-bottom: 0.5rem;
+}
+
+.lt-hero-title {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.lt-hero-subtitle {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.lt-hero-ctas {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+/* Earning badge */
+.lt-earning-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 2.5rem;
+  border: 1px solid rgba(246, 201, 14, 0.35);
+  background: rgba(246, 201, 14, 0.08);
+}
+
+.lt-earning-label {
+  font-size: 0.8rem;
+  opacity: 0.75;
+  margin-bottom: 0.25rem;
+}
+
+.lt-earning-amount {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #f6c90e;
+}
+
+.lt-earning-note {
+  font-size: 0.78rem;
+  opacity: 0.6;
+  margin-top: 0.25rem;
+}
+
+/* Section title */
+.lt-section-title {
+  text-align: center;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+}
+
+/* How it works */
+.lt-how-section {
+  padding: 4rem 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.lt-how-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.lt-how-card {
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.lt-step-number {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #f6c90e;
+  opacity: 0.8;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+/* Features */
+.lt-features-section {
+  padding: 4rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.lt-features-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.lt-feature-card {
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lt-feature-icon {
+  font-size: 2rem;
+}
+
+.lt-feature-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.lt-feature-body {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  flex: 1;
+}
+
+.lt-feature-cta {
+  align-self: flex-start;
+  font-size: 0.85rem;
+  padding: 0.4rem 1rem;
+}
+
+/* Earnings table */
+.lt-earnings-section {
+  padding: 4rem 1.5rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.lt-earnings-table-wrapper {
+  overflow-x: auto;
+}
+
+.lt-earnings-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.lt-earnings-table th,
+.lt-earnings-table td {
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
+}
+
+.lt-earnings-table th {
+  background: rgba(255,255,255,0.06);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+}
+
+.lt-row-you td {
+  color: #f6c90e;
+  font-weight: 700;
+}
+
+.lt-earnings-note {
+  font-size: 0.78rem;
+  opacity: 0.55;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* Final CTA */
+.lt-final-cta {
+  padding: 4rem 1.5rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.lt-cta-card {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.lt-cta-card h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+/* Accessibility */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}

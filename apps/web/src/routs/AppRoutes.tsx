@@ -78,6 +78,13 @@ const SuperAdminDashboard = lazy(() => import("../pages/SuperAdminDashboard"));
 const CEOPreLaunchChecklistPage = lazy(() => import("../pages/CEOPreLaunchChecklistPage"));
 const MarketingBlogPage = lazy(() => import("../pages/MarketingBlogPage"));
 const BlogArticlePage = lazy(() => import("../pages/BlogArticlePage"));
+const ProRadarPage = lazy(() => import("../pages/ProRadarPage"));
+const VoiceInsightPage = lazy(() => import("../pages/VoiceInsightPage"));
+const DigitalKeyPage = lazy(() => import("../pages/DigitalKeyPage"));
+const BlueprintPage = lazy(() => import("../pages/BlueprintPage"));
+const WhiteLabelSettingsPage = lazy(() => import("../pages/WhiteLabelSettingsPage"));
+const VisionLogsPage = lazy(() => import("../pages/VisionLogsPage"));
+const ContractorDashboardPage = lazy(() => import("../pages/ContractorDashboardPage"));
 
 // קומפוננטת עזר - עטיפת טופס דייר
 const ResidentFormWrapper: React.FC = () => {
@@ -206,6 +213,13 @@ const AppRoutes: React.FC = () => {
         <Route path={ROUTES.SYSTEM_SETTINGS} element={<SystemSettings />} />
         <Route path={ROUTES.CONTRACTS_AND_LETTERS} element={<ContractsAndLetters />} />
         <Route path={ROUTES.SAFE_ZONE} element={<SafeZonePage />} />
+        <Route path={ROUTES.PRO_RADAR} element={<ProRadarPage />} />
+        <Route path={ROUTES.VOICE_INSIGHT} element={<VoiceInsightPage />} />
+        <Route path={ROUTES.DIGITAL_KEY} element={<DigitalKeyPage />} />
+        <Route path={ROUTES.BLUEPRINT} element={<BlueprintPage />} />
+        <Route path={ROUTES.WHITE_LABEL} element={<WhiteLabelSettingsPage />} />
+        <Route path={ROUTES.VISION_LOGS} element={<VisionLogsPage />} />
+        <Route path={ROUTES.CONTRACTOR_DASHBOARD} element={<ContractorDashboardPage />} />
         <Route path={ROUTES.B2B_REGISTER} element={<EnterpriseRegisterPage />} />
         <Route path={ROUTES.COMPANIES_MANAGEMENT} element={<EnterpriseRegisterPage />} />
         <Route path={ROUTES.CONTRACTORS_JOIN} element={<LandingTechnician />} />
