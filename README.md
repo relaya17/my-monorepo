@@ -1,4 +1,4 @@
-# 🏙️ Vantera OS 3.0
+# 🏙️ Vantera AI 3.0
 > The Next-Generation Infrastructure for Autonomous Property Management.
 
 **Vantera OS** is not just a dashboard — it's a secure, AI-driven operating system designed to manage modern real estate assets at scale. Built with a "Trustless" philosophy, it automates everything from security detection to financial settlements.
