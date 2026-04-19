@@ -13,6 +13,7 @@ import { recordMaintenanceClosed } from '../services/buildingStatsService.js';
 import { ContractorAccessService } from '../services/contractorAccessService.js';
 import { createAuditEntry } from '../models/auditLogModel.js';
 import { authMiddleware, verifySuperAdmin } from '../middleware/authMiddleware.js';
+import { notifyFloorResidents } from '../services/notificationService.js';
 
 const router = express.Router();
 
@@ -37,17 +38,6 @@ function haversineMeters(lat1: number, lon1: number, lat2: number, lon2: number)
     Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
     Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
-
-/** Socket.io broadcast to floor room (non-fatal) */
-function broadcastFloorNotification(buildingId: string, floor: number, messageHe: string): void {
-  try {
-    const io = (globalThis as { __io?: { to: (r: string) => { emit: (e: string, d: unknown) => void } } }).__io;
-    if (!io) return;
-    const payload = { text: messageHe, type: 'maintenance', timestamp: new Date().toISOString() };
-    io.to(`building_${buildingId}_floor_${floor}`).emit('vone_update', payload);
-    io.to(`building_${buildingId}`).emit('vone_update', payload);
-  } catch { /* non-fatal */ }
 }
 
 // ─── Magic Link — GET (validate + return task payload) ───────────
@@ -96,11 +86,15 @@ router.post('/magic/:token/unlock', magicLinkLimiter, async (req: Request, res: 
 
     // Proactive notification to residents
     const floorDisplay = access.floorLabel ?? `קומה ${access.floor}`;
-    broadcastFloorNotification(
-      access.buildingId,
-      access.floor,
-      `עדכון V.One: הטכנאי נכנס לבניין לטיפול בתקלה ב${floorDisplay}.`
-    );
+    notifyFloorResidents({
+      buildingId: access.buildingId,
+      floor: access.floor,
+      message: {
+        he: `עדכון V.One: הטכנאי נכנס לבניין לטיפול בתקלה ב${floorDisplay}.`,
+        en: `V.One Update: Technician entered the building for ${floorDisplay} maintenance.`,
+      },
+      type: 'maintenance',
+    });
 
     res.json({ success: true, message: 'גישה אושרה. הודעה נשלחה לדיירי הקומה.' });
   } catch {
