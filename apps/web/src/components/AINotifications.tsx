@@ -103,7 +103,7 @@ const AINotifications: React.FC = () => {
     return `${days} ימים`;
   };
 
-  const handleAction = (action: string, data: Record<string, unknown> | null) => {
+  const handleAction = (action: string, _data: Record<string, unknown> | null) => {
     // כאן אפשר להוסיף לוגיקה לביצוע פעולות
     switch (action) {
       case 'review_overdue_payments':

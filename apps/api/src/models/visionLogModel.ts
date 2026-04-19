@@ -13,7 +13,8 @@ export type VisionLogEventType =
   | 'UNAUTHORIZED_ENTRY'
   | 'CHILD_ARRIVAL'
   | 'PACKAGE_DELIVERY'
-  | 'LOITERING';
+  | 'LOITERING'
+  | 'MOTION_DETECTED';
 
 export enum SecurityLevel {
   LOW = 'LOW',

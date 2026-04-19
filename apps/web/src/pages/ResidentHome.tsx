@@ -42,18 +42,16 @@ const ResidentHome: React.FC = () => {
               <div className="card-body">
                 <div className="d-flex flex-wrap justify-content-center gap-3">
                   <button 
-                    className="btn btn-lg" 
-                    onClick={() => navigate('/payment-page')}
                     className="btn btn-lg resident-home-btn-payment"
+                    onClick={() => navigate('/payment-page')}
                     aria-label="עבור לדף תשלום"
                   >
                     <i className="fas fa-credit-card me-2" aria-hidden="true"></i>
                     דף תשלום
                   </button>
                   <button 
-                    className="btn btn-lg" 
-                    onClick={() => navigate('/new-resident-approval')}
                     className="btn btn-lg resident-home-btn-approval"
+                    onClick={() => navigate('/new-resident-approval')}
                     aria-label="עבור לאישור דיירים חדשים"
                   >
                     <i className="fas fa-user-plus me-2" aria-hidden="true"></i>
@@ -61,27 +59,24 @@ const ResidentHome: React.FC = () => {
                   </button>
 
                   <button 
-                    className="btn btn-lg" 
-                    onClick={() => navigate('/for-sale')}
                     className="btn btn-lg resident-home-btn-sale"
+                    onClick={() => navigate('/for-sale')}
                     aria-label="עבור לדירות למכירה"
                   >
                     <i className="fas fa-home me-2" aria-hidden="true"></i>
                     דירות למכירה
                   </button>
                   <button 
-                    className="btn btn-lg" 
-                    onClick={() => navigate('/for-rent')}
                     className="btn btn-lg resident-home-btn-rent"
+                    onClick={() => navigate('/for-rent')}
                     aria-label="עבור לדירות להשכרה"
                   >
                     <i className="fas fa-key me-2" aria-hidden="true"></i>
                     דירות להשכרה
                   </button>
                   <button 
-                    className="btn btn-lg" 
-                    onClick={() => navigate('/employee-management')}
                     className="btn btn-lg resident-home-btn-services"
+                    onClick={() => navigate('/employee-management')}
                     aria-label="עבור לשירותים מקצועיים"
                   >
                     <i className="fas fa-tools me-2" aria-hidden="true"></i>
@@ -90,18 +85,16 @@ const ResidentHome: React.FC = () => {
                   {isLoggedIn && (
                     <>
                       <button 
-                        className="btn btn-lg" 
-                        onClick={() => navigate('/community-wall')}
                         className="btn btn-lg resident-home-btn-community"
+                        onClick={() => navigate('/community-wall')}
                         aria-label="עבור לקיר הקהילה"
                       >
                         <i className="fas fa-users me-2" aria-hidden="true"></i>
                         קיר הקהילה
                       </button>
                       <button 
-                        className="btn btn-lg" 
-                        onClick={() => navigate('/safe-zone')}
                         className="btn btn-lg resident-home-btn-safezone"
+                        onClick={() => navigate('/safe-zone')}
                         aria-label="Safe-Zone – ליווי מצלמות"
                       >
                         <i className="fas fa-shield-alt me-2" aria-hidden="true"></i>

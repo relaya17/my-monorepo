@@ -89,8 +89,7 @@ const UserLogin: React.FC = () => {
   };
 
   return (
-    <div className="container-fluid d-flex justify-content-center align-items-center"
-         className="user-login-page">
+    <div className="container-fluid d-flex justify-content-center align-items-center user-login-page">
       <div className="card shadow-lg user-login-card">
         <div className="card-body p-5 user-login-card-body">
           <div className="text-center mb-4">

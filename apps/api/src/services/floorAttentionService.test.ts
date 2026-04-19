@@ -15,13 +15,13 @@ const baseInput = {
 const unknownPerson = {
   objectClass: DetectedObjectClass.PERSON_UNKNOWN,
   confidence: 0.85,
-  boundingBox: { x: 0, y: 0, width: 50, height: 100 },
+  boundingBox: [0, 0, 50, 100] as [number, number, number, number],
 };
 
 const child = {
   objectClass: DetectedObjectClass.PERSON_CHILD,
   confidence: 0.75,
-  boundingBox: { x: 0, y: 0, width: 40, height: 80 },
+  boundingBox: [0, 0, 40, 80] as [number, number, number, number],
 };
 
 const sensitiveFloor = {

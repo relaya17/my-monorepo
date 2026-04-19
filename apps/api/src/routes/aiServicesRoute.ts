@@ -255,7 +255,7 @@ router.post('/voice-insight', async (req: Request, res: Response) => {
 
     // Guard against prompt injection in voice transcripts
     const injection = checkPromptInjection(safe);
-    if (injection.detected) {
+    if (!injection.safe) {
       return res.status(400).json({ message: 'תוכן לא תקין זוהה' });
     }
 
@@ -276,7 +276,7 @@ router.post('/voice-insight', async (req: Request, res: Response) => {
     };
 
     logAiDecision({
-      service: 'voice_insight',
+      service: 'insights',
       event: 'voice_triaged',
       actor: auth?.sub ?? 'unknown',
       buildingId,

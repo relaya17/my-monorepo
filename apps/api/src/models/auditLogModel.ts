@@ -56,12 +56,25 @@ export function computeChainHash(
   return crypto.createHash('sha256').update(payload).digest('hex');
 }
 
+/** Plain-object input accepted by createAuditEntry (no Mongoose Document methods required) */
+export interface AuditEntryInput {
+  action: string;
+  category: string;
+  level?: string;
+  metadata: Record<string, unknown>;
+  timestamp?: Date;
+  buildingId?: string;
+  userId?: string;
+  ip?: string;
+  userAgent?: string;
+}
+
 /**
  * Create an audit log entry with chain continuity.
  * Always use this instead of AuditLog.create() directly.
  */
 export async function createAuditEntry(
-  entry: Omit<IAuditLog, '_id' | 'id' | 'previousHash' | 'chainHash' | 'createdAt' | 'updatedAt'>
+  entry: AuditEntryInput
 ): Promise<IAuditLog> {
   // Get the hash of the most recent entry (or genesis hash if first)
   const last = await AuditLog.findOne().sort({ timestamp: -1 }).select('chainHash').lean();

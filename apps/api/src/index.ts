@@ -223,6 +223,5 @@ mongoose.connect(config.mongoUri)
         httpServer.listen(port, () => {
             logger.info(`[Server Started] Server + Socket.io running on http://localhost:${port}`);
         });
-        });
     })
     .catch(err => logger.error('MongoDB connection error', { message: (err as Error).message }));

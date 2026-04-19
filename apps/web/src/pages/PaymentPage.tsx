@@ -33,7 +33,7 @@ const PaymentPage: React.FC = () => {
     }
     setLoading(true);
     try {
-      const data = await apiRequestJson<{ url: string }>('stripe/checkout-session', {
+      const { data } = await apiRequestJson<{ url: string }>('stripe/checkout-session', {
         method: 'POST',
         body: JSON.stringify({
           payer,
@@ -43,7 +43,7 @@ const PaymentPage: React.FC = () => {
         }),
       });
       // Redirect to Stripe Checkout – card data stays on Stripe (PCI-compliant)
-      window.location.href = data.url;
+      if (data?.url) window.location.href = data.url;
     } catch {
       setError('שגיאה ביצירת עמוד תשלום. נסה שוב.');
     } finally {

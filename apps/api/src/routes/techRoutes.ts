@@ -79,9 +79,11 @@ router.post('/magic/:token/unlock', magicLinkLimiter, async (req: Request, res: 
     // Audit trail
     await createAuditEntry({
       action: 'TECHNICIAN_UNLOCK',
+      category: 'access',
       buildingId: access.buildingId,
-      performedBy: access.contractorId ?? 'technician',
-      details: { floor: access.floor, floorLabel: access.floorLabel ?? null, location: userLocation ?? null },
+      userId: access.contractorId ?? 'technician',
+      metadata: { floor: access.floor, floorLabel: access.floorLabel ?? null, location: userLocation ?? null },
+      timestamp: new Date(),
     });
 
     // Proactive notification to residents
@@ -117,9 +119,11 @@ router.post('/magic/:token/complete', magicLinkLimiter, async (req: Request, res
     await ContractorAccessService.revokeToken(token);
     await createAuditEntry({
       action: 'TECHNICIAN_JOB_COMPLETE',
+      category: 'access',
       buildingId: access.buildingId,
-      performedBy: access.contractorId ?? 'technician',
-      details: { floor: access.floor, notes: notes?.trim() ?? null },
+      userId: access.contractorId ?? 'technician',
+      metadata: { floor: access.floor, notes: notes?.trim() ?? null },
+      timestamp: new Date(),
     });
 
     res.json({ success: true, message: 'המשימה הושלמה. הקישור בוטל.' });
@@ -139,7 +143,7 @@ interface GenerateBody {
 router.post('/magic/generate', authMiddleware, async (req: Request, res: Response) => {
   try {
     const auth = req.auth;
-    if (!auth || (auth.type !== 'admin' && auth.type !== 'super-admin')) {
+    if (!auth || (auth.type !== 'admin' && auth.role !== 'super-admin')) {
       return res.status(403).json({ error: 'גישה לאדמינים בלבד' });
     }
     const body = req.body as GenerateBody;

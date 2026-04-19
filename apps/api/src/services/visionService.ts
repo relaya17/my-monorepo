@@ -105,7 +105,7 @@ export async function saveAnomalyToVisionLog(anomaly: VisionAnomaly): Promise<{ 
       .select('_id')
       .lean();
 
-    if (openDuplicate) return { visionLogId, ticketCreated: false };
+    if (openDuplicate) return { visionLogId, ticketCreated: false, securityLevel };
 
     await Maintenance.create({
       title: desc,
