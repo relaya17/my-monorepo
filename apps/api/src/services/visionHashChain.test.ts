@@ -4,7 +4,7 @@
  * Tests verify that `computeVisionHash` and `getLastVisionHash` produce
  * a valid, tamper-evident ledger (Blockchain-style Genesis → link chain).
  */
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { computeVisionHash, SecurityLevel } from '../models/visionLogModel.js';
 
 // ─── Fixtures ─────────────────────────────────────────────────────

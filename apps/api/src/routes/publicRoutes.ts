@@ -30,7 +30,7 @@ async function getGlobalImpact(_req: Request, res: Response) {
       averageHappiness,
       transparencyScore: 'AAA' as const,
     });
-  } catch (err) {
+  } catch {
     res.status(500).json({ message: 'Error fetching global impact' });
   }
 }

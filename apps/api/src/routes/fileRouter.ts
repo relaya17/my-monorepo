@@ -26,7 +26,7 @@ router.post('/upload', uploadSingle, async (req: Request, res: JsonResponse) => 
             publicId: result.publicId,
             originalname: file.originalname,
         });
-    } catch (err) {
+    } catch {
         return res.status(500).json({ error: 'שגיאה בהעלאה ל-Cloudinary' });
     }
 });

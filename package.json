@@ -1,1 +1,44 @@
-{"name":"my-monorepo-app","version":"1.0.0","private":true,"workspaces":["apps/*","packages/*"],"scripts":{"install:all":"pnpm install --recursive","dev":"pnpm --filter web run dev","dev:full":"turbo run dev --parallel","dev:web":"pnpm --filter web run dev","dev:api":"pnpm --filter api run dev","build":"turbo run build","start":"pnpm --filter api run start","lint":"turbo run lint","format":"turbo run format","type-check":"turbo run type-check","clean":"turbo run clean"},"devDependencies":{"turbo":"^2.8.3"},"pnpm":{"overrides":{"react":"^18.2.0","react-dom":"^18.2.0","@types/express":"4.17.23"}},"packageManager":"pnpm@10.28.2"}
+{
+  "name": "vantera",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "dev:web": "pnpm --filter web run dev",
+    "dev:api": "pnpm --filter api run dev",
+    "dev:native": "pnpm --filter native run start",
+    "build": "turbo run build",
+    "build:native:ios": "pnpm --filter native run build:ios",
+    "build:native:android": "pnpm --filter native run build:android",
+    "start": "pnpm --filter api run start",
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "type-check": "turbo run type-check",
+    "clean": "turbo run clean",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "turbo": "^2.8.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "react": "18.3.1",
+      "react-dom": "18.3.1",
+      "@types/express": "4.17.23"
+    },
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "@expo/ngrok",
+      "better-sqlite3",
+      "canvas",
+      "sharp",
+      "bcrypt",
+      "sodium-native"
+    ]
+  },
+  "packageManager": "pnpm@10.28.2"
+}

@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 
 // Performance metrics storage
 interface PerformanceMetric {
@@ -80,8 +80,8 @@ class SecurityMonitor {
         });
 
         return Array.from(ipCounts.entries())
-            .filter(([_, count]) => count > 5)
-            .map(([ip, _]) => ip);
+            .filter(([_ip, count]) => count > 5)
+            .map(([ip]) => ip);
     }
 
     getRecentEvents(minutes: number = 60): SecurityEvent[] {
@@ -171,7 +171,6 @@ export const formatDuration = (ms: number): string => {
 // Health check utilities
 export const checkDatabaseHealth = async (): Promise<{ healthy: boolean; details: Record<string, unknown> }> => {
     try {
-        const mongoose = require('mongoose');
         const isConnected = mongoose.connection.readyState === 1;
 
         if (!isConnected) {
@@ -183,7 +182,7 @@ export const checkDatabaseHealth = async (): Promise<{ healthy: boolean; details
 
         // Test a simple query
         const start = Date.now();
-        await mongoose.connection.db.admin().ping();
+        await mongoose.connection.db?.admin().ping();
         const pingTime = Date.now() - start;
 
         return {

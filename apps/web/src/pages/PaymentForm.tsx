@@ -47,7 +47,7 @@ const PaymentForm: React.FC = () => {
       link.download = 'receipt.pdf'; // הגדרת שם הקובץ
       link.click(); // מתחילים את הורדת ה-PDF
 
-    } catch (error) {
+    } catch {
       // שגיאה בשליחת הבקשה
       setError('שגיאה בשליחת הבקשה');
     }

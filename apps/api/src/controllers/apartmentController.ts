@@ -10,7 +10,7 @@ interface Apartment {
     image: string;
 }
 
-let apartmentsForSale: Apartment[] = [
+const apartmentsForSale: Apartment[] = [
     {
         id: 1,
         address: 'רחוב דוגמה 1, תל אביב',
@@ -27,7 +27,7 @@ let apartmentsForSale: Apartment[] = [
     },
 ];
 
-let apartmentsForRent: Apartment[] = [
+const apartmentsForRent: Apartment[] = [
     {
         id: 1,
         address: 'רחוב דוגמה 1, תל אביב',

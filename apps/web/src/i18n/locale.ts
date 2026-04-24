@@ -78,14 +78,14 @@ export function getStoredCountry(): CountryCode | null {
   try {
     const v = localStorage.getItem(STORAGE_KEY);
     if (v && (v === 'IL' || v === 'US' || v === 'GB' || v === 'default')) return v as CountryCode;
-  } catch {}
+  } catch { /* localStorage may be restricted in private browsing mode */ }
   return null;
 }
 
 export function setStoredCountry(code: CountryCode): void {
   try {
     localStorage.setItem(STORAGE_KEY, code);
-  } catch {}
+  } catch { /* localStorage may be restricted in private browsing mode */ }
 }
 
 /** Infer country from env (VITE_REGION) or timezone heuristic */
@@ -98,7 +98,7 @@ export function inferCountry(): CountryCode {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
     if (tz?.startsWith('America/')) return 'US';
     if (tz?.startsWith('Europe/London')) return 'GB';
-  } catch {}
+  } catch { /* Intl may be unavailable in some environments */ }
   return 'default';
 }
 

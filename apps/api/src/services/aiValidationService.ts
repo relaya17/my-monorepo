@@ -69,7 +69,7 @@ const RULES: ValidationRule[] = [
   {
     id: 'NO_CROSS_TENANT_DATA',
     type: 'CROSS_TENANT_LEAK',
-    test: (_response: string, ctx: ValidationContext) => {
+    test: (_response: string, _ctx: ValidationContext) => {
       // If response mentions another building's ID that isn't the user's
       // Simplified check – in production, compare against known buildingId list
       return false; // Placeholder: implemented via embedding comparison in prod
@@ -128,7 +128,7 @@ export function validateAiResponse(
   const lang = context.lang?.startsWith('he') || context.lang?.startsWith('ar') ? 'he' : 'en';
 
   for (const rule of RULES) {
-    let triggered = false;
+    let triggered: boolean;
     if (rule.test instanceof RegExp) {
       triggered = rule.test.test(aiResponse);
     } else {

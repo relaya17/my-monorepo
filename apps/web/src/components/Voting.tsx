@@ -1,4 +1,4 @@
-﻿// components/Voting.tsx
+ // components/Voting.tsx
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../redux/store';
@@ -30,7 +30,7 @@ const Voting: React.FC = () => {
             ׳”׳¦׳‘׳¢׳•׳× ׳“׳™׳™׳¨׳™׳
           </h1>
           <p className="text-white-50 fs-5">
-            ׳”׳©׳×׳×׳£ ׳‘׳”׳—׳׳˜׳•׳× ׳”׳§׳”׳™׳׳” - ׳”׳¦׳‘׳¢ ׳¢׳ ׳”׳ ׳•׳©׳׳™׳ ׳”׳—׳©׳•׳‘׳™׳ ׳׳
+            ׳”׳©׳×׳×׳£ ׳‘׳”׳—׳׳˜׳•׳× ׳”׳§׳”׳™׳׳” - ׳”׳¦׳‘׳¢ ׳¢׳ ׳”׳ ׳•׳©׳׳™׳ ׳”׳—׳©׳•׳‘׳™׳ ׳׳
           </p>
         </div>
 
@@ -52,7 +52,7 @@ const Voting: React.FC = () => {
               <div className="card-body p-5">
                 <i className="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
                 <h3 className="text-muted">׳׳™׳ ׳”׳¦׳‘׳¢׳•׳× ׳₪׳×׳•׳—׳•׳× ׳›׳¨׳’׳¢</h3>
-                <p className="text-muted">׳‘׳“׳•׳§ ׳©׳•׳‘ ׳׳׳•׳—׳¨ ׳™׳•׳×׳¨ ׳׳• ׳₪׳ ׳” ׳׳׳ ׳”׳ ׳”׳׳¢׳¨׳›׳×</p>
+                <p className="text-muted">׳‘׳“׳•׳§ ׳©׳•׳‘ ׳׳׳•׳—׳¨ ׳™׳•׳×׳¨ ׳׳• ׳₪׳ ׳” ׳׳׳ ׳”׳ ׳”׳׳¢׳¨׳›׳×</p>
               </div>
             </div>
           </div>

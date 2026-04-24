@@ -16,7 +16,7 @@ router.get('/', authMiddleware, async (req: Request, res: Response) => {
       AuditReport.find().sort({ 'period.end': -1 }).lean()
     );
     res.json(list);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בשליפת דוחות' });
   }
 });
@@ -29,7 +29,7 @@ router.get('/:id', authMiddleware, async (req: Request, res: Response) => {
     );
     if (!doc) return res.status(404).json({ error: 'דוח לא נמצא' });
     res.json(doc);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה' });
   }
 });
@@ -51,7 +51,7 @@ router.post('/', authMiddleware, async (req: Request, res: Response) => {
       })
     );
     res.status(201).json(doc);
-  } catch (err) {
+  } catch {
     res.status(400).json({ error: 'שגיאה ביצירת דוח' });
   }
 });
@@ -84,7 +84,7 @@ router.patch('/:id', authMiddleware, async (req: Request, res: Response) => {
       AuditReport.findByIdAndUpdate(req.params.id, { $set: update }, { new: true }).lean()
     );
     res.json(updated);
-  } catch (err) {
+  } catch {
     res.status(400).json({ error: 'שגיאה בעדכון דוח' });
   }
 });

@@ -30,7 +30,7 @@ router.get('/', async (_req: Request, res: Response) => {
   try {
     const list = await Maintenance.find().sort({ createdAt: -1 }).lean();
     res.json(list);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בשליפת תקלות' });
   }
 });
@@ -44,7 +44,7 @@ router.get('/patterns', async (_req: Request, res: Response) => {
       PATTERNS_TTL
     );
     res.json({ insights });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בניתוח דפוסים' });
   }
 });
@@ -58,7 +58,7 @@ router.get('/predictions', async (_req: Request, res: Response) => {
       PREDICTIONS_TTL
     );
     res.json({ warnings });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בחיזוי' });
   }
 });
@@ -68,7 +68,7 @@ router.get('/:id', async (req: Request, res: Response) => {
     const doc = await Maintenance.findById(req.params.id).lean();
     if (!doc) return res.status(404).json({ error: 'תקלה לא נמצאה' });
     res.json(doc);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה' });
   }
 });
@@ -122,7 +122,7 @@ router.post('/', authMiddleware, async (req: Request, res: Response) => {
       })
     );
     res.status(201).json(doc);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה ביצירת תקלה' });
   }
 });
@@ -134,7 +134,7 @@ router.post('/:id/send-technician', authMiddleware, async (req: Request, res: Re
     const phoneNumber = (req.body as { phoneNumber?: string }).phoneNumber;
     const link = await generateTechnicianLink(maintenanceId, buildingId, phoneNumber);
     res.json({ link, message: 'לינק נשלח לטכנאי' });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה ביצירת לינק לטכנאי' });
   }
 });

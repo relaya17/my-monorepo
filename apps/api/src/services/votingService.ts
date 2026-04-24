@@ -118,7 +118,6 @@ export async function closeVote(buildingId: string, voteId: string): Promise<IVo
     const now = new Date();
     const expired = now > vote.deadline;
     const eligible = vote.eligibleVoterCount ?? vote.votes.length;
-    const totalWeight = vote.votes.reduce((s, v) => s + (v.voteWeight ?? 1), 0);
     const participationPercent = eligible > 0 ? (vote.votes.length / eligible) * 100 : 0;
     const quorumMet = participationPercent >= vote.requiredQuorum;
 

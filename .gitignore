@@ -35,8 +35,9 @@ Thumbs.db
 # VS Code
 .vscode/
 
-# Expo / React Native specific
+# Expo / React Native
 .expo/
+**/.expo/
 *.jks
 *.p12
 *.key
@@ -44,8 +45,14 @@ Thumbs.db
 android/
 ios/
 web-build/
-# eas-build/ # אם אתה משתמש ב-EAS Build, זה ייווצר בענן
-# local-build/ # אם אתה בונה מקומית (לא מומלץ בווינדוס)
+.metro-cache/
+**/.metro-cache/
+
+# EAS
+eas-build-local-nodejs/
+
+# Expo generated
+apps/native/expo-env.d.ts
 
 # Netlify
 .netlify/

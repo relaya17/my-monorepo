@@ -55,7 +55,7 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction) =
     const timestamp = new Date().toISOString();
     const method = req.method;
     const url = req.url;
-    const ip = req.ip || req.connection.remoteAddress;
+    const ip = req.ip ?? req.socket.remoteAddress;
 
     logger.info(`[${timestamp}] ${method} ${url} - IP: ${ip}`);
 
@@ -63,7 +63,7 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction) =
 };
 
 // Error handling middleware
-export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
+export const errorHandler = (err: Error, req: Request, res: Response, _next: NextFunction) => {
     console.error('Error:', err);
 
     res.status(500).json({

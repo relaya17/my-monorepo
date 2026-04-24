@@ -71,7 +71,7 @@ const AdminLogin: React.FC = () => {
       } else {
         setError(data?.message || 'שם משתמש או סיסמה שגויים');
       }
-    } catch (error) {
+    } catch {
       // Admin login error
       setError('שגיאה בהתחברות לשרת');
     }

@@ -61,7 +61,7 @@ const NewResidentApproval: React.FC = () => {
         }));
         setSuccessMessage("הקובץ הועלה בהצלחה!");
         setFileInput(null);
-      } catch (error) {
+      } catch {
         setErrorMessage("אירעה שגיאה בהעלאת הקובץ.");
       } finally {
         setUploadLoading(false);

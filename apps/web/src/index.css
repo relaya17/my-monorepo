@@ -1298,3 +1298,132 @@ body, html, .home-bg {
   0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
   50% { opacity: 0.95; box-shadow: 0 0 12px 4px rgba(220, 53, 69, 0.5); }
 }
+
+/* ===== Accessibility – Skip Navigation ===== */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  background: #0A0E17;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 0 0 0.5rem 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.15s ease;
+  white-space: nowrap;
+}
+.skip-to-content:focus {
+  top: 0;
+  outline: 3px solid #007AFF;
+  outline-offset: 2px;
+}
+
+/* ===== Accessibility – Visually hidden but focusable ===== */
+.visually-hidden-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* ===== Accessibility – High contrast focus rings ===== */
+:focus-visible {
+  outline: 3px solid var(--brand-primary, #007AFF);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ===== Accessibility – Reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ===== Responsive – Fluid typography ===== */
+@media (max-width: 576px) {
+  html {
+    font-size: 15px;
+  }
+  /* Ensure touch targets are at least 44×44px (WCAG 2.5.5) */
+  button,
+  [role="button"],
+  a,
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+  }
+  /* Stack tables on mobile */
+  .table-responsive-stack thead {
+    display: none;
+  }
+  .table-responsive-stack tr {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+  }
+  .table-responsive-stack td {
+    display: flex;
+    justify-content: space-between;
+    border: none;
+    padding: 0.25rem 0.5rem;
+  }
+  .table-responsive-stack td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #6b7280;
+    margin-inline-end: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Cards stack vertically on mobile */
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  /* Charts fit full width */
+  .chart-container {
+    width: 100% !important;
+    max-width: 100%;
+  }
+}
+
+/* ===== Accessibility – Print ===== */
+@media print {
+  .skip-to-content,
+  .navbar,
+  .VOneWidget,
+  .AccessibilityPanel,
+  .CookieBanner {
+    display: none !important;
+  }
+  body {
+    font-size: 12pt;
+    color: #000;
+    background: #fff;
+  }
+  a[href]::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.8em;
+    color: #666;
+  }
+}

@@ -43,7 +43,7 @@ const CheckoutPage: React.FC = () => {
       alert('ההזמנה הושלמה בהצלחה!');
       dispatch(clearPaymentDetails());
       navigate('/receipt');
-    } catch (error) {
+    } catch {
       setError('אירעה שגיאה בתהליך התשלום, אנא נסה שנית.');
     } finally {
       setIsSubmitting(false);

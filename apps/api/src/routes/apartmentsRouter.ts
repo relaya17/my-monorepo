@@ -13,7 +13,7 @@ interface Apartment {
 }
 
 // דוגמת נתונים לזמן פיתוח
-let apartmentsForSale = [
+const apartmentsForSale: Apartment[] = [
     {
         id: 1,
         address: 'רחוב דוגמה 1, תל אביב',
@@ -30,7 +30,7 @@ let apartmentsForSale = [
     },
 ];
 
-let apartmentsForRent = [
+const apartmentsForRent: Apartment[] = [
     {
         id: 1,
         address: 'רחוב דוגמה 1, תל אביב',

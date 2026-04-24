@@ -4,7 +4,7 @@ import { authMiddleware } from '../middleware/authMiddleware.js';
 const router = Router();
 
 // נתונים לדוגמה
-let blogPosts = [
+const blogPosts: { id: number; title: string; content: string; author: string; date: string }[] = [
     {
         id: 1,
         title: 'ברוכים הבאים למצפה נוף',

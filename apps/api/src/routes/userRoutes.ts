@@ -24,7 +24,7 @@ router.post('/reset-password', authMiddleware, async (req: Request, res: Respons
         user.password = await bcrypt.hash(newPassword, salt);
         await user.save();
         res.json({ message: 'הסיסמה אופסה בהצלחה' });
-    } catch (error) {
+    } catch {
         res.status(500).json({ message: 'שגיאה באיפוס הסיסמה' });
     }
 });

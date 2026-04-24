@@ -56,7 +56,7 @@ export async function anonymizeUserAndDeleteSessions(
     });
 
     // RefreshToken has no tenant scope – delete globally by subject
-    const { deletedCount } = await RefreshToken.deleteMany({ subject: userId, type: 'user' });
+    await RefreshToken.deleteMany({ subject: userId, type: 'user' });
 
     return {
       success: true,

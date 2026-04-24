@@ -28,8 +28,12 @@ function AppContent() {
 
   return (
     <div className="App">
+      {/* Skip to main content – keyboard navigation and screen readers */}
+      <a href="#main-content" className="skip-to-content visually-hidden-focusable">
+        {language === 'he' || language === 'ar' ? 'דלג לתוכן הראשי' : 'Skip to main content'}
+      </a>
       <Navbar />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <AppRoutes />
       </main>
       <Footer />

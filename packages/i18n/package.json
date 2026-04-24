@@ -4,8 +4,14 @@
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "source": "src/index.ts",
   "exports": {
-    ".": "./dist/index.js",
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "source": "./src/index.ts"
+    },
     "./locales/*": "./locales/*.json"
   },
   "scripts": {

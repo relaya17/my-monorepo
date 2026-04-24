@@ -17,7 +17,7 @@ interface Resident {
 }
 
 // דוגמת נתונים לזמן פיתוח
-let residents: Resident[] = [
+const residents: Resident[] = [
     {
         id: '1',
         name: 'יוסי כהן',

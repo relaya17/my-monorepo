@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/aria-proptypes */
 // Navbar.tsx – נאב יחיד. כפתור שפה אחד: אייקון עולם + קוד שפה, דרופדאון עם כל השפות
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -80,28 +79,37 @@ const Navbar: React.FC = () => {
           <div className="position-relative" ref={langRef}>
             <button
               ref={langBtnRef}
+              id="lang-menu-btn"
               type="button"
               className="navbar-lang-btn-single d-flex align-items-center gap-1"
               onClick={() => setLangOpen((o) => !o)}
-              aria-haspopup="true"
-              aria-label="שפות"
+              aria-haspopup="listbox"
+              aria-expanded={langOpen}
+              aria-label="בחירת שפה"
             >
-              <i className="fas fa-globe" aria-hidden />
-              <span>{(LANG_OPTIONS.find((l) => l.code === language)?.label ?? language?.toUpperCase?.() ?? 'EN')}</span>
+              <i className="fas fa-globe" aria-hidden="true" />
+              <span aria-hidden="true">{(LANG_OPTIONS.find((l) => l.code === language)?.label ?? language?.toUpperCase?.() ?? 'EN')}</span>
             </button>
             {langOpen && (
-              <div className="navbar-lang-dropdown show">
+              <ul
+                role="listbox"
+                aria-labelledby="lang-menu-btn"
+                aria-label="שפות זמינות"
+                className="navbar-lang-dropdown show list-unstyled mb-0"
+              >
                 {LANG_OPTIONS.map((l) => (
-                  <button
-                    key={l.code}
-                    type="button"
-                    className={`navbar-lang-dropdown-item ${language === l.code ? 'active' : ''}`}
-                    onClick={() => handleSetLang(l.code)}
-                  >
-                    {l.label}
-                  </button>
+                  <li key={l.code} role="option" aria-selected={language === l.code}>
+                    <button
+                      type="button"
+                      className={`navbar-lang-dropdown-item ${language === l.code ? 'active' : ''}`}
+                      onClick={() => handleSetLang(l.code)}
+                      lang={l.code}
+                    >
+                      {l.label}
+                    </button>
+                  </li>
                 ))}
-              </div>
+              </ul>
             )}
           </div>
           {isLanding && (

@@ -33,7 +33,7 @@ router.get('/activity-stream', verifySuperAdmin, async (req: Request, res: Respo
 
     const total = await AuditLog.countDocuments();
     res.json({ logs, total, page, limit, totalPages: Math.ceil(total / limit) });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בשליפת יומן הפעילות' });
   }
 });
@@ -61,7 +61,7 @@ router.get('/global-stats', verifySuperAdmin, async (_req: Request, res: Respons
       GLOBAL_STATS_TTL
     );
     res.json(data);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בשליפת סטטיסטיקות גלובליות' });
   }
 });
@@ -86,7 +86,7 @@ router.get('/vision-logs', verifySuperAdmin, async (req: Request, res: Response)
       thumbnailUrl: d.thumbnailUrl,
     }));
     res.json({ items: list });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בשליפת לוגי Vision' });
   }
 });
@@ -133,7 +133,7 @@ router.get('/search', verifySuperAdmin, async (req: Request, res: Response) => {
     ]);
 
     res.json({ users, buildings, payments });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בחיפוש' });
   }
 });
@@ -147,7 +147,7 @@ router.get('/reconcile', verifySuperAdmin, async (req: Request, res: Response) =
     if (month !== undefined && Number.isNaN(month.getTime())) return res.status(400).json({ error: 'תאריך חודש לא תקין (YYYY-MM)' });
     const result = await runMonthlyReconciliation(buildingId, month);
     res.json(result);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בפיוס' });
   }
 });
@@ -192,7 +192,7 @@ router.get('/global-ledger', verifySuperAdmin, async (req: Request, res: Respons
       {} as Record<string, { buildingId: string; buildingName: string; totalIncome: number; totalExpense: number; transactionCount: number }>
     );
     res.json({ items: Object.values(byBuilding) });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בשליפת דוח תנועות' });
   }
 });
@@ -210,7 +210,7 @@ router.get('/vendor-alerts', verifySuperAdmin, async (_req: Request, res: Respon
       ])
     );
     res.json({ alerts: raw, threshold: THRESHOLD });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בשליפת התראות קבלנים' });
   }
 });
@@ -256,8 +256,7 @@ router.get('/real-estate-leads', verifySuperAdmin, async (req: Request, res: Res
       return RealEstateLead.countDocuments({ createdAt: { $gte: start } });
     });
     res.json({ items, countThisMonth });
-  } catch (err) {
-    console.error('Real estate leads error:', err);
+  } catch {
     res.status(500).json({ error: 'שגיאה בשליפת לידים נדל"ן' });
   }
 });
@@ -275,7 +274,7 @@ router.patch('/real-estate-leads/:id', verifySuperAdmin, async (req: Request, re
     );
     if (!updated) return res.status(404).json({ error: 'ליד לא נמצא' });
     res.json(updated);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בעדכון ליד' });
   }
 });
@@ -308,7 +307,7 @@ router.get('/resident-adoption', verifySuperAdmin, async (_req: Request, res: Re
 
     const total = items.reduce((s, i) => s + i.appDownloadedCount, 0);
     res.json({ items, total });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בשליפת מעקב הורדות אפליקציה' });
   }
 });
@@ -335,7 +334,7 @@ router.get('/transparency', verifySuperAdmin, async (req: Request, res: Response
         ? 'Hash-chain integra – all audit entries are tamper-free'
         : `Chain broken at entry ${result.brokenAt?.id ?? 'unknown'} – possible tampering detected`,
     });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בבדיקת שרשרת הביקורת' });
   }
 });
@@ -448,7 +447,7 @@ router.get('/global-security-pulse', verifySuperAdmin, async (_req: Request, res
       },
       recentCriticalEvents,
     });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בשליפת סטטיסטיקות אבטחה גלובליות' });
   }
 });

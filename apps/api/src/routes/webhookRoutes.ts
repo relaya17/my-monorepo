@@ -29,7 +29,7 @@ router.post('/subscribe', verifySuperAdmin, async (req: Request, res: Response) 
       active: true,
     });
     res.status(201).json({ id: doc._id, url: doc.url, events: doc.events });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה ברישום webhook' });
   }
 });
@@ -42,7 +42,7 @@ router.get('/list', verifySuperAdmin, async (_req: Request, res: Response) => {
       .sort({ createdAt: -1 })
       .lean();
     res.json({ items: list });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בשליפת מנויים' });
   }
 });

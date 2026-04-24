@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/lang */
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';

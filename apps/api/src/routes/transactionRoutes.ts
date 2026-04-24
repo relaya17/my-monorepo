@@ -19,7 +19,7 @@ router.get('/', authMiddleware, async (req: Request, res: Response) => {
       return Transaction.find(q).sort({ createdAt: -1 }).limit(limit).lean();
     });
     res.json(list);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'שגיאה בשליפת תנועות' });
   }
 });

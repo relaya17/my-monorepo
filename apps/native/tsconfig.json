@@ -1,0 +1,51 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+      "@vantera/shared": [
+        "../../packages/shared/src/index.ts"
+      ],
+      "@vantera/shared/*": [
+        "../../packages/shared/src/*"
+      ],
+      "@vantera/config": [
+        "../../packages/config/src/index.ts"
+      ],
+      "@vantera/config/*": [
+        "../../packages/config/src/*"
+      ],
+      "@vantera/i18n": [
+        "../../packages/i18n/src/index.ts"
+      ],
+      "@vantera/i18n/*": [
+        "../../packages/i18n/src/*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.d.ts",
+    "expo-env.d.ts",
+    ".expo/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "android",
+    "ios",
+    ".expo",
+    ".metro-cache"
+  ]
+}

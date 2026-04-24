@@ -60,7 +60,7 @@ const ReceiptPage: React.FC = () => {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-    } catch (error) {
+    } catch {
       // Error downloading receipt
       alert('שגיאה בהורדת הקבלה');
     } finally {
