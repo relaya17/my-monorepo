@@ -15,9 +15,7 @@ test.describe('Contractor Work Order — GPS unlock guard', () => {
     // Navigate to the work order page with a fake token
     await page.goto('/tech/work-order/demo-token-playwright');
 
-    // Should see the security handshake spinner while the token is being verified
-    const spinner = page.locator('[data-testid="security-handshake"]');
-    // Either spinner is visible OR the page has loaded (fast CI)
+    // Security handshake (spinner) may show briefly, or the page may load first in fast CI
     const handshakeOrContent = page.locator(
       '[data-testid="security-handshake"], [data-testid="work-order-content"], [data-testid="work-order-error"]'
     );

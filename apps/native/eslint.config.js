@@ -4,7 +4,18 @@ import tseslint from 'typescript-eslint';
 import reactHooks from 'eslint-plugin-react-hooks';
 
 export default tseslint.config(
-  { ignores: ['.expo/**', 'node_modules/**', 'android/**', 'ios/**', 'web-build/**'] },
+  {
+    ignores: [
+      '.expo/**',
+      'node_modules/**',
+      'android/**',
+      'ios/**',
+      'web-build/**',
+      'babel.config.js',
+      'metro.config.js',
+      'eslint.config.js',
+    ],
+  },
 
   js.configs.recommended,
   ...tseslint.configs.recommended,
